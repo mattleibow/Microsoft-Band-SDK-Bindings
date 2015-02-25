@@ -1,0 +1,61 @@
+<metadata>
+  <!--
+  This sample removes the class: android.support.v4.content.AsyncTaskLoader.LoadTask:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='AsyncTaskLoader.LoadTask']" />
+  
+  This sample removes the method: android.support.v4.content.CursorLoader.loadInBackground:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='CursorLoader']/method[@name='loadInBackground']" />
+  -->
+
+  <remove-node path="/api/package[@name='com.microsoft.band.a']" />
+  <remove-node path="/api/package[@name='com.microsoft.band.internal']" />
+  <remove-node path="/api/package[@name='com.microsoft.band.internal.device']" />
+  <remove-node path="/api/package[@name='com.microsoft.band.internal.device.subscription']" />
+  
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='a']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='b']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='c']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='d']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='e']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='f']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='g']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='h']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='i']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='j']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='k']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='l']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='m']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='n']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='o']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='p']" />
+  <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='q']" />
+
+  <attr path="/api/package[@name='com.microsoft.band.notification']" name="managedName">Microsoft.Band.Notification</attr>
+  <attr path="/api/package[@name='com.microsoft.band.personalization']" name="managedName">Microsoft.Band.Personalization</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']" name="managedName">Microsoft.Band.Sensors</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles']" name="managedName">Microsoft.Band.Tiles</attr>
+  <attr path="/api/package[@name='com.microsoft.band']" name="managedName">Microsoft.Band</attr>
+  
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerAccelerometerEventListener']" name="managedName">RegisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerContactEventListener']" name="managedName">RegisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerDistanceEventListener']" name="managedName">RegisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerGyroscopeEventListener']" name="managedName">RegisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerHeartRateEventListener']" name="managedName">RegisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerPedometerEventListener']" name="managedName">RegisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerSkinTemperatureEventListener']" name="managedName">RegisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerUVEventListener']" name="managedName">RegisterListener</attr>
+  
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterAccelerometerEventListener']" name="managedName">UnregisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterContactEventListener']" name="managedName">UnregisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterDistanceEventListener']" name="managedName">UnregisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterGyroscopeEventListener']" name="managedName">UnregisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterHeartRateEventListener']" name="managedName">UnregisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterPedometerEventListener']" name="managedName">UnregisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterSkinTemperatureEventListener']" name="managedName">UnregisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterUVEventListener']" name="managedName">UnregisterListener</attr>
+
+
+  <!-- This should be fixed properly -->
+  <remove-node path="/api/package[@name='com.microsoft.band']/interface[@name='DeviceConnectionStateListener']" />
+  
+</metadata>
