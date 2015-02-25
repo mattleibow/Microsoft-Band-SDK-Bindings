@@ -104,12 +104,13 @@ namespace Microsoft.Band.Sample
             {
                 if (Model.Instance.Connected)
                 {
-                    Model.Instance.Client.Disconnect().Await();
+                    Model.Instance.Client.Disconnect().AsTask().Wait();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // ignore failures here
+                Console.WriteLine("Error disconnecting: " + ex);
             }
             finally
             {

@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.App;
@@ -68,7 +69,7 @@ namespace Microsoft.Band.Sample
 
             mTextRemainingCapacity = header.FindViewById<TextView>(Resource.Id.textAvailableCapacity);
             mButtonAddTile = header.FindViewById<Button>(Resource.Id.buttonAddTile);
-            mButtonAddTile.Click += delegate
+            mButtonAddTile.Click += async delegate
             {
                 try
                 {
@@ -86,31 +87,26 @@ namespace Microsoft.Band.Sample
                         .SetTheme(mCheckboxCustomTheme.Checked ? mThemeView.Theme : null)
                         .Build();
 
-                    IBandPendingResult addpendingResult = Model.Instance.Client.TileManager.AddTile(Activity, tile);
-
-                    addpendingResult.RegisterResultCallback((result, failure) =>
+                    try
                     {
+                        var result = await Model.Instance.Client.TileManager.AddTile(Activity, tile).AsTask();
                         if (result != null)
                         {
-                            Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Tile added", ToastLength.Short).Show());
+                            Toast.MakeText(Activity, "Tile added", ToastLength.Short).Show();
                         }
                         else
                         {
-                            Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Unable to add tile", ToastLength.Short).Show());
+                            Toast.MakeText(Activity, "Unable to add tile", ToastLength.Short).Show();
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Util.ShowExceptionAlert(Activity, "Add tile", ex);
+                    }
 
-                        if (failure != null)
-                        {
-                            Activity.RunOnUiThread(() => Util.ShowExceptionAlert(Activity, "Add tile", failure));
-                        }
-
-                        // Refresh our tile list and count
-                        Activity.RunOnUiThread(() =>
-                        {
-                            RefreshData();
-                            RefreshControls();
-                        });
-                    });
+                    // Refresh our tile list and count
+                    await RefreshData();
+                    RefreshControls();
                 }
                 catch (Exception e)
                 {
@@ -118,14 +114,14 @@ namespace Microsoft.Band.Sample
                 }
             };
             mButtonRemoveTile = header.FindViewById<Button>(Resource.Id.buttonRemoveTile);
-            mButtonRemoveTile.Click += delegate
+            mButtonRemoveTile.Click += async delegate
             {
                 try
                 {
-                    Model.Instance.Client.TileManager.RemoveTile(mSelectedTile.TileId).Await();
+                    await Model.Instance.Client.TileManager.RemoveTile(mSelectedTile.TileId).AsTask();
                     mSelectedTile = null;
                     Toast.MakeText(Activity, "Tile removed", ToastLength.Short).Show();
-                    RefreshData();
+                    await RefreshData();
                     RefreshControls();
                 }
                 catch (Exception e)
@@ -153,16 +149,16 @@ namespace Microsoft.Band.Sample
             mCheckboxWithDialog = footer.FindViewById<CheckBox>(Resource.Id.cbWithDialog);
 
             mButtonSendMessage = footer.FindViewById<Button>(Resource.Id.buttonSendMessage);
-            mButtonSendMessage.Click += delegate
+            mButtonSendMessage.Click += async delegate
             {
                 try
                 {
-                    Model.Instance.Client.NotificationManager.SendMessage(
+                    await Model.Instance.Client.NotificationManager.SendMessage(
                         mSelectedTile.TileId,
                         mEditTitle.Text,
                         mEditBody.Text,
                         new Date(DateTime.Now.Date.Year, DateTime.Now.Date.Month, DateTime.Now.Date.Day), 
-                        mCheckboxWithDialog.Checked ? MessageFlags.ShowDialog : MessageFlags.None).Await();
+                        mCheckboxWithDialog.Checked ? MessageFlags.ShowDialog : MessageFlags.None).AsTask();
                 }
                 catch (Exception e)
                 {
@@ -171,11 +167,11 @@ namespace Microsoft.Band.Sample
             };
 
             mButtonSendDialog = footer.FindViewById<Button>(Resource.Id.buttonSendDialog);
-            mButtonSendDialog.Click += delegate
+            mButtonSendDialog.Click += async delegate
             {
                 try
                 {
-                    Model.Instance.Client.NotificationManager.ShowDialog(mSelectedTile.TileId, mEditTitle.Text, mEditBody.Text).Await();
+                    await Model.Instance.Client.NotificationManager.ShowDialog(mSelectedTile.TileId, mEditTitle.Text, mEditBody.Text).AsTask();
                 }
                 catch (Exception e)
                 {
@@ -209,7 +205,7 @@ namespace Microsoft.Band.Sample
                 return;
             }
 
-            RefreshData();
+            RefreshData().Wait();
             RefreshControls();
         }
 
@@ -217,13 +213,13 @@ namespace Microsoft.Band.Sample
         // Helper methods
         //
 
-        private void RefreshData()
+        private async Task RefreshData()
         {
             if (Model.Instance.Connected)
             {
                 try
                 {
-                    mRemainingCapacity = (int)Model.Instance.Client.TileManager.RemainingTileCapacity.Await();
+                    mRemainingCapacity = (int)await Model.Instance.Client.TileManager.RemainingTileCapacity.AsTask();
                 }
                 catch (Exception e)
                 {
@@ -233,7 +229,7 @@ namespace Microsoft.Band.Sample
 
                 try
                 {
-                    mTiles = Model.Instance.Client.TileManager.Tiles.Await().ToArray<BandTile>();
+                    mTiles = (await Model.Instance.Client.TileManager.Tiles.AsTask()).ToArray<BandTile>();
 
                     if (!mTiles.Contains(mSelectedTile))
                     {

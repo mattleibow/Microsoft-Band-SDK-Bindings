@@ -91,7 +91,7 @@ namespace Microsoft.Band.Sample
             {
                 try
                 {
-                    Model.Instance.Client.Disconnect().Await(2, TimeUnit.Seconds);
+                    await Model.Instance.Client.Disconnect().AsTask(2000);
                     RefreshControls();
                 }
                 catch (Exception ex)
@@ -109,21 +109,19 @@ namespace Microsoft.Band.Sample
                 mButtonConnect.Enabled = false;
 
                 // Connect must be called on a background thread.
-                ConnectionResult result = await Task.Run(() =>
+                ConnectionResult result;
+                try
                 {
-                    try
-                    {
-                        return (ConnectionResult)Model.Instance.Client.Connect().Await();
-                    }
-                    catch (Java.Lang.InterruptedException)
-                    {
-                        return ConnectionResult.Timeout;
-                    }
-                    catch (BandException)
-                    {
-                        return ConnectionResult.InternalError;
-                    }
-                });
+                    result = (ConnectionResult)await Model.Instance.Client.Connect().AsTask();
+                }
+                catch (Java.Lang.InterruptedException)
+                {
+                    result= ConnectionResult.Timeout;
+                }
+                catch (BandException)
+                {
+                    result= ConnectionResult.InternalError;
+                }
 
                 // callback that must be handled on the UI thread
                 if (result != ConnectionResult.Ok)
@@ -180,7 +178,7 @@ namespace Microsoft.Band.Sample
             {
                 mTextFwVersion.Text = "";
                 var result = Model.Instance.Client.FirmwareVersion;
-                string fwVersion = (string)result.Await(2, TimeUnit.Seconds);
+                string fwVersion = (string)await result.AsTask(2000);
                 mTextFwVersion.Text = fwVersion;
             }
             catch (Java.Util.Concurrent.TimeoutException)
@@ -199,7 +197,7 @@ namespace Microsoft.Band.Sample
             {
                 mTextHwVersion.Text = "";
                 var result = Model.Instance.Client.HardwareVersion;
-                string hwVersion = (string)result.Await(2, TimeUnit.Seconds);
+                string hwVersion = (string)await result.AsTask(2000);
                 mTextHwVersion.Text = hwVersion;
             }
             catch (Java.Util.Concurrent.TimeoutException)
@@ -216,7 +214,7 @@ namespace Microsoft.Band.Sample
         {
             try
             {
-                Model.Instance.Client.NotificationManager.Vibrate(mSelectedVibrationType).Await();
+                await Model.Instance.Client.NotificationManager.Vibrate(mSelectedVibrationType).AsTask();
             }
             catch (Exception ex)
             {

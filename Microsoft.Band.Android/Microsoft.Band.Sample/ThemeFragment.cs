@@ -85,11 +85,11 @@ namespace Microsoft.Band.Sample
             return mRootView;
         }
 
-        private void OnGetBackgroundClick(object sender, EventArgs e)
+        private async void OnGetBackgroundClick(object sender, EventArgs e)
         {
             try
             {
-                mSelectedImage = (Bitmap)Model.Instance.Client.PersonalizationManager.MeTileImage.Await();
+                mSelectedImage = (Bitmap)await Model.Instance.Client.PersonalizationManager.MeTileImage.AsTask();
 
                 mImageBackground.SetImageBitmap(mSelectedImage);
                 RefreshControls();
@@ -100,11 +100,11 @@ namespace Microsoft.Band.Sample
             }
         }
 
-        private void OnSetBackgroundClick(object sender, EventArgs e)
+        private async void OnSetBackgroundClick(object sender, EventArgs e)
         {
             try
             {
-                Model.Instance.Client.PersonalizationManager.SetMeTileImage(mSelectedImage).Await();
+                await Model.Instance.Client.PersonalizationManager.SetMeTileImage(mSelectedImage).AsTask();
             }
             catch (Exception ex)
             {
@@ -148,11 +148,11 @@ namespace Microsoft.Band.Sample
             return cursor.GetString(column_index);
         }
 
-        private void OnGetThemeClick(object sender, EventArgs e)
+        private async void OnGetThemeClick(object sender, EventArgs e)
         {
             try
             {
-                BandTheme theme = (BandTheme)Model.Instance.Client.PersonalizationManager.Theme.Await();
+                BandTheme theme = (BandTheme)await Model.Instance.Client.PersonalizationManager.Theme.AsTask();
 
                 mViewTheme.Theme = theme;
                 RefreshControls();
@@ -164,11 +164,11 @@ namespace Microsoft.Band.Sample
         }
 
 
-        private void OnSetThemeClick(object sender, EventArgs e)
+        private async void OnSetThemeClick(object sender, EventArgs e)
         {
             try
             {
-                Model.Instance.Client.PersonalizationManager.SetTheme(mViewTheme.Theme).Await();
+                await Model.Instance.Client.PersonalizationManager.SetTheme(mViewTheme.Theme).AsTask();
 
                 RefreshControls();
             }
