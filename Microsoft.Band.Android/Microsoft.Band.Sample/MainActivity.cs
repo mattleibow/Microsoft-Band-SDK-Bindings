@@ -40,7 +40,7 @@ using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
 
 namespace Microsoft.Band.Sample
 {
-    [Activity(Label = "@string/app_name", ScreenOrientation = ScreenOrientation.Portrait, MainLauncher = true)]
+    [Activity(Label = "@string/app_name", ScreenOrientation = ScreenOrientation.Portrait, MainLauncher = true, Theme = "@style/Theme.AppCompat")]
     public class MainActivity : ActionBarActivity, ActionBar.ITabListener
     {
         /// <summary>
@@ -60,6 +60,7 @@ namespace Microsoft.Band.Sample
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
             SetContentView(Resource.Layout.activity_main);
 
             // Set up the action bar.
