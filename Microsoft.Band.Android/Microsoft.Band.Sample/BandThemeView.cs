@@ -104,8 +104,7 @@ namespace Microsoft.Band.Sample
 
         private void ShowColorPicker(string key)
         {
-            using (var dialog = new ColorPickerDialog(Context))
-            {
+            var dialog = new ColorPickerDialog(Context);
                 dialog.SetInitialColor(GetColorForThemeElement(key));
                 dialog.ColorSelected += (sender, e) =>
                 {
@@ -137,7 +136,6 @@ namespace Microsoft.Band.Sample
                     SetColorForThemeElement(key, e.Color);
                 };
                 dialog.Show();
-            }
         }
 
         // Get the background color for the named theme element (Base, Highlight, etc.)
