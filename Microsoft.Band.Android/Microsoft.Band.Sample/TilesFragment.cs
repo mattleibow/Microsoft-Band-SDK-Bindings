@@ -18,6 +18,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Android.Graphics;
 using Android.OS;
@@ -219,7 +221,8 @@ namespace Microsoft.Band.Sample
             {
                 try
                 {
-                    mRemainingCapacity = (int)await Model.Instance.Client.TileManager.RemainingTileCapacity.AsTask();
+                    var m = Model.Instance.Client.TileManager.RemainingTileCapacity.Await();
+                    mRemainingCapacity = (int)m;
                 }
                 catch (Exception e)
                 {
@@ -229,14 +232,17 @@ namespace Microsoft.Band.Sample
 
                 try
                 {
-                    mTiles = (await Model.Instance.Client.TileManager.Tiles.AsTask()).ToArray<BandTile>();
+                    var t = Model.Instance.Client.TileManager.Tiles.Await();
+                    var al = ((Java.Util.ArrayList)t);
 
-                    if (!mTiles.Contains(mSelectedTile))
+                    if (!al.Contains(mSelectedTile))
                     {
                         mSelectedTile = null;
                     }
 
-                    mTileListAdapter.TileList = mTiles;
+                    var a = al.ToArray();
+                    var tl = a.Select(t1 => t1 as BandTile).ToList();
+                    mTileListAdapter.TileList = tl;
                 }
                 catch (Exception e)
                 {
