@@ -37,15 +37,15 @@ namespace RotatingHandAndroid
 				try {
 					// connect to one
 					var bandClient = BandClientManager.Instance.Create (this, pairedBands [0]);
-					await bandClient.Connect().AsTask();
+					await bandClient.ConnectTaskAsync();
 
 					// get hold of the accelerometer
 					var accelerometer = bandClient.SensorManager.CreateAccelerometerSensor();
 
-					// handle incomming updates
+					// handle incoming updates
 					accelerometer.ReadingChanged += (o, args) => {
 						// get the rotation in degrees
-						var yReading = args.P0.AccelerationY;
+						var yReading = args.SensorReading.AccelerationY;
 						var rotation = yReading*90;
 
 						// update the image
