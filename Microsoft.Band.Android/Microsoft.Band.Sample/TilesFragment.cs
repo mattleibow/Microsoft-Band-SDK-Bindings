@@ -27,7 +27,7 @@ using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using Java.Sql;
-using Microsoft.Band.Notification;
+using Microsoft.Band.Notifications;
 using Microsoft.Band.Tiles;
 
 namespace Microsoft.Band.Sample
@@ -91,8 +91,8 @@ namespace Microsoft.Band.Sample
 
                     try
                     {
-                        var result = await Model.Instance.Client.TileManager.AddTile(Activity, tile).AsTask();
-                        if (result != null)
+                        var result = await Model.Instance.Client.TileManager.AddTileTaskAsync(Activity, tile);
+                        if (result)
                         {
                             Toast.MakeText(Activity, "Tile added", ToastLength.Short).Show();
                         }
@@ -120,7 +120,7 @@ namespace Microsoft.Band.Sample
             {
                 try
                 {
-                    await Model.Instance.Client.TileManager.RemoveTile(mSelectedTile.TileId).AsTask();
+                    await Model.Instance.Client.TileManager.RemoveTileTaskAsync(mSelectedTile.TileId);
                     mSelectedTile = null;
                     Toast.MakeText(Activity, "Tile removed", ToastLength.Short).Show();
                     await RefreshData();
@@ -155,12 +155,12 @@ namespace Microsoft.Band.Sample
             {
                 try
                 {
-                    await Model.Instance.Client.NotificationManager.SendMessage(
+                    await Model.Instance.Client.NotificationManager.SendMessageTaskAsync(
                         mSelectedTile.TileId,
                         mEditTitle.Text,
                         mEditBody.Text,
-                        new Date(DateTime.Now.Date.Year, DateTime.Now.Date.Month, DateTime.Now.Date.Day), 
-                        mCheckboxWithDialog.Checked ? MessageFlags.ShowDialog : MessageFlags.None).AsTask();
+                        DateTime.Now,
+                        mCheckboxWithDialog.Checked);
                 }
                 catch (Exception e)
                 {
@@ -173,7 +173,7 @@ namespace Microsoft.Band.Sample
             {
                 try
                 {
-                    await Model.Instance.Client.NotificationManager.ShowDialog(mSelectedTile.TileId, mEditTitle.Text, mEditBody.Text).AsTask();
+                    await Model.Instance.Client.NotificationManager.ShowDialogTaskAsync(mSelectedTile.TileId, mEditTitle.Text, mEditBody.Text);
                 }
                 catch (Exception e)
                 {
@@ -200,14 +200,14 @@ namespace Microsoft.Band.Sample
             return rootView;
         }
 
-        public virtual void OnFragmentSelected()
+        public async void OnFragmentSelected()
         {
             if (!IsVisible)
             {
                 return;
             }
 
-            RefreshData().Wait();
+            await RefreshData();
             RefreshControls();
         }
 
@@ -221,8 +221,8 @@ namespace Microsoft.Band.Sample
             {
                 try
                 {
-                    var m = Model.Instance.Client.TileManager.RemainingTileCapacity.Await();
-                    mRemainingCapacity = (int)m;
+                    var capacity = await Model.Instance.Client.TileManager.GetRemainingTileCapacityTaskAsync();
+                    mRemainingCapacity = capacity;
                 }
                 catch (Exception e)
                 {
@@ -232,17 +232,8 @@ namespace Microsoft.Band.Sample
 
                 try
                 {
-                    var t = Model.Instance.Client.TileManager.Tiles.Await();
-                    var al = ((Java.Util.ArrayList)t);
-
-                    if (!al.Contains(mSelectedTile))
-                    {
-                        mSelectedTile = null;
-                    }
-
-                    var a = al.ToArray();
-                    var tl = a.Select(t1 => t1 as BandTile).ToList();
-                    mTileListAdapter.TileList = tl;
+                    var tiles = await Model.Instance.Client.TileManager.GetTilesTaskAsync();
+                    mTileListAdapter.TileList = tiles.ToList();
                 }
                 catch (Exception e)
                 {

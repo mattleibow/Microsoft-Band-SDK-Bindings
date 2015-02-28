@@ -42,25 +42,6 @@
             android:text="2"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/labelTileName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/buttonRemoveTile"
-            android:layout_marginTop="6dp"
-            android:gravity="bottom"
-            android:text="Tile name:"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <Button
-            android:id="@+id/buttonAddTile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/separator1"
-            android:layout_marginTop="4dp"
-            android:layout_toLeftOf="@id/buttonRemoveTile"
-            android:text="Add" />
-
         <Button
             android:id="@+id/buttonRemoveTile"
             android:layout_width="wrap_content"
@@ -71,11 +52,21 @@
             android:layout_marginTop="4dp"
             android:text="Remove" />
 
+        <Button
+            android:id="@+id/buttonAddTile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/separator1"
+            android:layout_marginTop="4dp"
+            android:layout_toLeftOf="@id/buttonRemoveTile"
+            android:text="Add" />
+
         <EditText
             android:id="@+id/editTileName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/buttonRemoveTile"
+            android:hint="Tile name"
             android:ems="10" >
 
         </EditText>

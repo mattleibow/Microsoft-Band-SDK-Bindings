@@ -35,6 +35,6 @@ namespace Microsoft.Band.Sensors
     public interface IBandSensorEventEventArgs<T>
         where T : IBandSensorEvent
     {
-        T P0 { get; }
+        T SensorReading { get; }
     }
 }

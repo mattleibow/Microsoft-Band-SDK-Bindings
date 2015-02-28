@@ -17,6 +17,8 @@
 //IN THE SOFTWARE.
 
 using System;
+using System.Linq;
+using System.Reflection;
 using Android.App;
 using Android.Content;
 using Android.Database;
@@ -26,6 +28,7 @@ using Android.OS;
 using Android.Provider;
 using Android.Views;
 using Android.Widget;
+using Microsoft.Band.Personalization;
 using Microsoft.Band.Tiles;
 using Fragment = Android.Support.V4.App.Fragment;
 
@@ -39,6 +42,8 @@ namespace Microsoft.Band.Sample
         private BandThemeView mViewTheme;
 
         private Button mButtonSelectBackground;
+
+        private Button mButtonChooseTheme;
 
         private Button mButtonGetTheme;
         private Button mButtonSetTheme;
@@ -68,6 +73,9 @@ namespace Microsoft.Band.Sample
             mButtonGetTheme = mRootView.FindViewById<Button>(Resource.Id.buttonGetTheme);
             mButtonGetTheme.Click += OnGetThemeClick;
 
+            mButtonChooseTheme = mRootView.FindViewById<Button>(Resource.Id.buttonChooseTheme);
+            mButtonChooseTheme.Click += OnChooseThemeClick;
+
             mButtonSetTheme = mRootView.FindViewById<Button>(Resource.Id.buttonSetTheme);
             mButtonSetTheme.Click += OnSetThemeClick;
 
@@ -89,7 +97,7 @@ namespace Microsoft.Band.Sample
         {
             try
             {
-                mSelectedImage = (Bitmap)await Model.Instance.Client.PersonalizationManager.MeTileImage.AsTask();
+                mSelectedImage = await Model.Instance.Client.PersonalizationManager.GetMeTileImageTaskAsync();
 
                 mImageBackground.SetImageBitmap(mSelectedImage);
                 RefreshControls();
@@ -104,7 +112,7 @@ namespace Microsoft.Band.Sample
         {
             try
             {
-                await Model.Instance.Client.PersonalizationManager.SetMeTileImage(mSelectedImage).AsTask();
+                await Model.Instance.Client.PersonalizationManager.SetMeTileImageTaskAsync(mSelectedImage);
             }
             catch (Exception ex)
             {
@@ -148,11 +156,29 @@ namespace Microsoft.Band.Sample
             return cursor.GetString(column_index);
         }
 
+        private async void OnChooseThemeClick(object sender, EventArgs e)
+        {
+            using (var builder = new AlertDialog.Builder(Activity))
+            {
+                PropertyInfo[] themes = typeof(BandTheme).GetProperties().Where(p => p.Name.EndsWith("Theme")).ToArray();
+
+                builder.SetItems(themes.Select(x => x.Name).ToArray(), (dialog, args) =>
+                {
+                    mViewTheme.Theme = (BandTheme) themes[args.Which].GetValue(null);
+                    ((Dialog) dialog).Dismiss();
+                    RefreshControls();
+                });
+
+                builder.SetTitle("Select theme:");
+                builder.Show();
+            }
+        }
+
         private async void OnGetThemeClick(object sender, EventArgs e)
         {
             try
             {
-                BandTheme theme = (BandTheme)await Model.Instance.Client.PersonalizationManager.Theme.AsTask();
+                BandTheme theme = await Model.Instance.Client.PersonalizationManager.GetThemeTaskAsync();
 
                 mViewTheme.Theme = theme;
                 RefreshControls();
@@ -163,12 +189,11 @@ namespace Microsoft.Band.Sample
             }
         }
 
-
         private async void OnSetThemeClick(object sender, EventArgs e)
         {
             try
             {
-                await Model.Instance.Client.PersonalizationManager.SetTheme(mViewTheme.Theme).AsTask();
+                await Model.Instance.Client.PersonalizationManager.SetThemeTaskAsync(mViewTheme.Theme);
 
                 RefreshControls();
             }

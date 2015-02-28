@@ -104,7 +104,7 @@ namespace Microsoft.Band.Sample
             {
                 if (Model.Instance.Connected)
                 {
-                    Model.Instance.Client.Disconnect().AsTask().Wait();
+                    Model.Instance.Client.DisconnectTaskAsync();
                 }
             }
             catch (Exception ex)

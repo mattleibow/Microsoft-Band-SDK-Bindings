@@ -36,38 +36,38 @@ namespace Microsoft.Band
             return Task.Run(() => result.Await(timeoutMilliseconds, TimeUnit.Milliseconds));
         }
 
-        public static Task<Java.Lang.Object> AsTask2(this IBandPendingResult result)
-        {
-            var t = new TaskCompletionSource<Java.Lang.Object>();
-            result.RegisterResultCallback((r, f) =>
-            {
-                if (f != null)
-                    t.SetException(f);
-                else
-                    t.SetResult(r);
-            });
-            return t.Task;
-        }
+    //    public static Task<Java.Lang.Object> AsTask2(this IBandPendingResult result)
+    //    {
+    //        var t = new TaskCompletionSource<Java.Lang.Object>();
+    //        result.RegisterResultCallback((r, f) =>
+    //        {
+    //            if (f != null)
+    //                t.SetException(f);
+    //            else
+    //                t.SetResult(r);
+    //        });
+    //        return t.Task;
+    //    }
 
-        public static Task<Java.Lang.Object> AsTask2(this IBandPendingResult result, long timeoutMilliseconds)
-        {
-            var t = new TaskCompletionSource<Java.Lang.Object>();
-            result.RegisterResultCallback((r, f) =>
-            {
-                if (f != null)
-                {
-                    if (f is Java.Util.Concurrent.TimeoutException)
-                        t.SetCanceled();
-                    else
-                        t.SetException(f);
-                }
-                else
-                {
-                    t.SetResult(r);
-                }
-            }, timeoutMilliseconds, TimeUnit.Milliseconds);
-            return t.Task;
-        }
+    //    public static Task<Java.Lang.Object> AsTask2(this IBandPendingResult result, long timeoutMilliseconds)
+    //    {
+    //        var t = new TaskCompletionSource<Java.Lang.Object>();
+    //        result.RegisterResultCallback((r, f) =>
+    //        {
+    //            if (f != null)
+    //            {
+    //                if (f is Java.Util.Concurrent.TimeoutException)
+    //                    t.SetCanceled();
+    //                else
+    //                    t.SetException(f);
+    //            }
+    //            else
+    //            {
+    //                t.SetResult(r);
+    //            }
+    //        }, timeoutMilliseconds, TimeUnit.Milliseconds);
+    //        return t.Task;
+    //    }
     }
 
     internal class BandResultCallback : Java.Lang.Object, IBandResultCallback

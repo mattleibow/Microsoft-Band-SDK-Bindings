@@ -23,7 +23,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Java.Util.Concurrent;
-using Microsoft.Band.Notification;
+using Microsoft.Band.Notifications;
 using Fragment = Android.Support.V4.App.Fragment;
 
 namespace Microsoft.Band.Sample
@@ -91,7 +91,7 @@ namespace Microsoft.Band.Sample
             {
                 try
                 {
-                    await Model.Instance.Client.Disconnect().AsTask(2000);
+                    await Model.Instance.Client.DisconnectTaskAsync();
                     RefreshControls();
                 }
                 catch (Exception ex)
@@ -112,7 +112,7 @@ namespace Microsoft.Band.Sample
                 ConnectionResult result;
                 try
                 {
-                    result = (ConnectionResult)await Model.Instance.Client.Connect().AsTask();
+                    result = await Model.Instance.Client.ConnectTaskAsync();
                 }
                 catch (Java.Lang.InterruptedException)
                 {
@@ -177,9 +177,8 @@ namespace Microsoft.Band.Sample
             try
             {
                 mTextFwVersion.Text = "";
-                var result = Model.Instance.Client.FirmwareVersion;
-                string fwVersion = (string)await result.AsTask(2000);
-                mTextFwVersion.Text = fwVersion;
+                var version = await Model.Instance.Client.GetFirmwareVersionTaskAsync();
+                mTextFwVersion.Text = version;
             }
             catch (Java.Util.Concurrent.TimeoutException)
             {
@@ -196,9 +195,8 @@ namespace Microsoft.Band.Sample
             try
             {
                 mTextHwVersion.Text = "";
-                var result = Model.Instance.Client.HardwareVersion;
-                string hwVersion = (string)await result.AsTask(2000);
-                mTextHwVersion.Text = hwVersion;
+                var version = await Model.Instance.Client.GetHardwareVersionTaskAsync();
+                mTextHwVersion.Text = version;
             }
             catch (Java.Util.Concurrent.TimeoutException)
             {
@@ -214,7 +212,7 @@ namespace Microsoft.Band.Sample
         {
             try
             {
-                await Model.Instance.Client.NotificationManager.Vibrate(mSelectedVibrationType).AsTask();
+                await Model.Instance.Client.NotificationManager.VibrateTaskAsync(mSelectedVibrationType);
             }
             catch (Exception ex)
             {

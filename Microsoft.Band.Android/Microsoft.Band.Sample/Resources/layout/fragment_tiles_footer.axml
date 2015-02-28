@@ -24,35 +24,20 @@
             android:layout_marginTop="4dp"
             android:background="@android:color/darker_gray" />
 
-        <TextView
-            android:id="@+id/labelTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/separator2"
-            android:layout_marginTop="8dp"
-            android:text="Title:"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
         <EditText
             android:id="@+id/editTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/labelTitle"
+            android:layout_below="@id/separator2"
+            android:hint="Title"
             android:ems="10" />
-
-        <TextView
-            android:id="@+id/labelBody"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editTitle"
-            android:text="Body:"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
             android:id="@+id/editBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/labelBody"
+            android:layout_below="@id/editTitle"
+            android:hint="Body"
             android:ems="10"
             android:lines="2" />
 

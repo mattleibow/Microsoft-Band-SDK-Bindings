@@ -119,6 +119,20 @@
         </TableRow>
 
         <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal" >
+
+            <Button
+                android:id="@+id/buttonChooseTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_label" />
+
+        </TableRow>
+
+        <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
 

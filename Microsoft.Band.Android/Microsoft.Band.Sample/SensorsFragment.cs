@@ -236,7 +236,7 @@ namespace Microsoft.Band.Sample
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        var accelerometerEvent = e.P0;
+                        var accelerometerEvent = e.SensorReading;
                         mTextAccX.Text = string.Format("{0:F3}", accelerometerEvent.AccelerationX);
                         mTextAccY.Text = string.Format("{0:F3}", accelerometerEvent.AccelerationY);
                         mTextAccZ.Text = string.Format("{0:F3}", accelerometerEvent.AccelerationZ);
@@ -251,7 +251,7 @@ namespace Microsoft.Band.Sample
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        var contactEvent = e.P0;
+                        var contactEvent = e.SensorReading;
                         mTextContact.Text = contactEvent.ContactStatus.ToString();
                     });
                 };
@@ -264,7 +264,7 @@ namespace Microsoft.Band.Sample
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        var distanceEvent = e.P0;
+                        var distanceEvent = e.SensorReading;
                         mTextTotalDistance.Text = string.Format("{0:D} cm", distanceEvent.TotalDistance);
                         mTextSpeed.Text = string.Format("{0:F2} cm/s", distanceEvent.Speed);
                         mTextPace.Text = string.Format("{0:F2} ms/m", distanceEvent.Pace);
@@ -280,7 +280,7 @@ namespace Microsoft.Band.Sample
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        var gyroscopeEvent = e.P0;
+                        var gyroscopeEvent = e.SensorReading;
                         mTextGyroAccX.Text = string.Format("{0:F3}", gyroscopeEvent.AccelerationX);
                         mTextGyroAccY.Text = string.Format("{0:F3}", gyroscopeEvent.AccelerationY);
                         mTextGyroAccZ.Text = string.Format("{0:F3}", gyroscopeEvent.AccelerationZ);
@@ -298,7 +298,7 @@ namespace Microsoft.Band.Sample
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        var heartRateEvent = e.P0;
+                        var heartRateEvent = e.SensorReading;
                         mTextHeartRate.Text = Convert.ToString(heartRateEvent.HeartRate);
                         mTextHeartRateQuality.Text = heartRateEvent.Quality.ToString();
                     });
@@ -312,7 +312,7 @@ namespace Microsoft.Band.Sample
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        var pedometerEvent = e.P0;
+                        var pedometerEvent = e.SensorReading;
                         mTextTotalSteps.Text = string.Format("{0:D}", pedometerEvent.TotalSteps);
                     });
                 };
@@ -325,7 +325,7 @@ namespace Microsoft.Band.Sample
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        var skinTemperatureEvent = e.P0;
+                        var skinTemperatureEvent = e.SensorReading;
                         mTextSkinTemperature.Text = string.Format("{0:F1}", skinTemperatureEvent.Temperature);
                     });
                 };
@@ -338,7 +338,7 @@ namespace Microsoft.Band.Sample
                 {
                     Activity.RunOnUiThread(() =>
                     {
-                        var uvEvent = e.P0;
+                        var uvEvent = e.SensorReading;
                         mTextUltraviolet.Text = uvEvent.UVIndexLevel.ToString();
                     });
                 };
