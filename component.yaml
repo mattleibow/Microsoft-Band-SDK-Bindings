@@ -24,5 +24,6 @@ icons:
 
 samples: 
   Android Feature Sample: Microsoft.Band.Android/Microsoft.Band.Android.sln
-  Android Sample: Demos/RotatingHand/RotatingHand.sln
+  Android Sample: Demos/RotatingHand/RotatingHandAndroid.sln
+  Windows Phone Sample: Demos/RotatingHand/RotatingHandWPA.sln
   
