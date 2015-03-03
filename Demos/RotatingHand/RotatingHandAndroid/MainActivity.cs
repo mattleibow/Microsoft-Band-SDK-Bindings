@@ -12,7 +12,6 @@ using Android.OS;
 using Android.App;
 
 [assembly: UsesPermission(Android.Manifest.Permission.Bluetooth)]
-[assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]
 [assembly: UsesPermission(Microsoft.Band.BandClientManager.BindBandService)]
 
 namespace RotatingHandAndroid
@@ -55,7 +54,7 @@ namespace RotatingHandAndroid
 					};
 
 					// start listening for updates
-					await accelerometer.StartReadings(SampleRate.Ms16).AsTask();
+					await accelerometer.StartReadingsTaskAsync(SampleRate.Ms16);
 				} catch (Exception ex) {
 					System.Diagnostics.Debug.WriteLine (ex.Message);
 				}

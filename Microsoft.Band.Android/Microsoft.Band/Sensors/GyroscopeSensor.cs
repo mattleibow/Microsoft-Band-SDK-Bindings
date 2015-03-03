@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Microsoft.Band.Sensors
 {
     public sealed class GyroscopeSensor : BandSensorBase<IBandGyroscopeEvent>
@@ -16,14 +18,14 @@ namespace Microsoft.Band.Sensors
             get { return listener; }
         }
 
-        public IBandPendingResult StartReadings(SampleRate sampleRate)
+		public Task StartReadingsTaskAsync(SampleRate sampleRate)
         {
-            return SensorManager.RegisterListener(listener, sampleRate);
+			return SensorManager.RegisterListener(listener, sampleRate).AsTask();
         }
 
-        public IBandPendingResult StopReadings()
+		public Task StopReadingsTaskAsync()
         {
-            return SensorManager.UnregisterListener(listener);
+			return SensorManager.UnregisterListener(listener).AsTask();
         }
     }
 

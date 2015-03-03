@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Microsoft.Band.Sensors
 {
     public sealed class PedometerSensor : BandSensorBase<IBandPedometerEvent>
@@ -16,14 +18,14 @@ namespace Microsoft.Band.Sensors
             get { return listener; }
         }
 
-        public IBandPendingResult StartReadings()
+		public Task StartReadingsTaskAsync()
         {
-            return SensorManager.RegisterListener(listener);
+			return SensorManager.RegisterListener(listener).AsTask();
         }
 
-        public IBandPendingResult StopReadings()
+		public Task StopReadingsTaskAsync()
         {
-            return SensorManager.UnregisterListener(listener);
+			return SensorManager.UnregisterListener(listener).AsTask();
         }
     }
 
