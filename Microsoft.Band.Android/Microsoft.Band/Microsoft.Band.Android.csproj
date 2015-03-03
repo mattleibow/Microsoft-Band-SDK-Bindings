@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Band</RootNamespace>
-    <AssemblyName>Microsoft.Band</AssemblyName>
+    <AssemblyName>Microsoft.Band.Android</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidUseLatestPlatformSdk>
     </AndroidUseLatestPlatformSdk>

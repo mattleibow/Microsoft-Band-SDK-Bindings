@@ -144,9 +144,9 @@
     <AndroidResource Include="Resources\values-w820dp\dimens.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Band\Microsoft.Band.csproj">
+    <ProjectReference Include="..\Microsoft.Band\Microsoft.Band.Android.csproj">
       <Project>{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}</Project>
-      <Name>Microsoft.Band</Name>
+      <Name>Microsoft.Band.Android</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
