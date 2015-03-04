@@ -144,13 +144,13 @@
     <AndroidResource Include="Resources\values-w820dp\dimens.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Band\Microsoft.Band.Android.csproj">
-      <Project>{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}</Project>
-      <Name>Microsoft.Band.Android</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\..\..\Microsoft.Band\Microsoft.Band.Android\Microsoft.Band.Android.csproj">
+      <Project>{d06a37db-36de-4d8c-9cb8-0763f485b1c7}</Project>
+      <Name>Microsoft.Band.Android</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

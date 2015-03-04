@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -70,12 +70,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Microsoft.Band.Android\Microsoft.Band\Microsoft.Band.Android.csproj">
-      <Project>{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}</Project>
+    <ProjectReference Include="..\..\..\Microsoft.Band\Microsoft.Band.Android\Microsoft.Band.Android.csproj">
+      <Project>{d06a37db-36de-4d8c-9cb8-0763f485b1c7}</Project>
       <Name>Microsoft.Band.Android</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\layout\" />
   </ItemGroup>
 </Project>
