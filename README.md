@@ -51,7 +51,6 @@ More advanced documentation can be found on the [Microsoft Band Developers Page]
    `[assembly: UsesPermission(Android.Manifest.Permission.Bluetooth)]`
 2. Permission to access the Band service:  
    `[assembly: UsesPermission(Microsoft.Band.BandClientManager.BindBandService)]`
-3. Get a list of the bands:
 
 #### Windows Phone 8.1+ & Windows 8.1+ (Windows Runtime)
 1. You will also need to add the Proximity capability:  
@@ -68,6 +67,11 @@ More advanced documentation can be found on the [Microsoft Band Developers Page]
   </Device>
 </m2:DeviceCapability>
 ```
+
+#### iOS 7+
+
+1. Automatically adds the CoreBluetooth framework.
+2. In order for the app to communicate with the Band in the background, "Use Bluetooth LE Accessories" must be enabled in Background Modes.
 
 ### Connecting to a Band
 
