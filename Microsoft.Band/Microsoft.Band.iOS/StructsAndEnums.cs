@@ -4,7 +4,7 @@ using ObjCRuntime;
 namespace Microsoft.Band
 {
 	[Native]
-	public enum VibrationType : ulong
+	public enum BandVibrationType : ulong
 	{
 		NotificationOneTone = 7uL,
 		NotificationTwoTone = 16uL,
@@ -16,19 +16,19 @@ namespace Microsoft.Band
 		RampUp = 5uL,
 		RampDown = 4uL
 	}
-	public enum NotificationMessageFlags : byte
+	public enum BandNotificationMessageFlags : byte
 	{
 		None = (byte)0uL,
 		ShowDialog = (byte)1uL
 	}
 	[Native]
-	public enum HeartRateQuality : ulong
+	public enum BandHeartRateQuality : ulong
 	{
 		Acquiring,
 		Locked
 	}
 	[Native]
-	public enum PedometerMode : ulong
+	public enum BandPedometerMode : ulong
 	{
 		Unknown,
 		Idle,
@@ -37,7 +37,7 @@ namespace Microsoft.Band
 		Running
 	}
 	[Native]
-	public enum UVIndexLevel : ulong
+	public enum BandUVIndexLevel : ulong
 	{
 		None,
 		Low,
@@ -45,14 +45,14 @@ namespace Microsoft.Band
 		High,
 		VeryHigh
 	}
-	public enum SensorBandContactState : uint
+	public enum BandSensorBandContactState : uint
 	{
 		NotWorn,
 		Worn,
 		Unknown
 	}
 	[Native]
-	public enum NSErrorCodes : long
+	public enum BandNSErrorCodes : long
 	{
 		BandNotConnected = 100L,
 		BandError,
@@ -72,7 +72,7 @@ namespace Microsoft.Band
 		Unknown = 900L
 	}
 	[Native]
-	public enum PageElementHorizontalAlignment : ulong
+	public enum BandPageElementHorizontalAlignment : ulong
 	{
 		None = 0uL,
 		Left,
@@ -80,7 +80,7 @@ namespace Microsoft.Band
 		Right
 	}
 	[Native]
-	public enum PageElementVerticalAlignment : ulong
+	public enum BandPageElementVerticalAlignment : ulong
 	{
 		None = 100uL,
 		Top,
@@ -88,25 +88,25 @@ namespace Microsoft.Band
 		Bottom
 	}
 	[Native]
-	public enum PageElementVisibility : ulong
+	public enum BandPageElementVisibility : ulong
 	{
 		Hidden = 200uL,
 		Visible
 	}
 	[Native]
-	public enum FlowListOrientation : ulong
+	public enum BandFlowListOrientation : ulong
 	{
 		Horizontal = 300uL,
 		Vertical
 	}
 	[Native]
-	public enum TextBlockBaselineAlignment : ulong
+	public enum BandTextBlockBaselineAlignment : ulong
 	{
 		Absolute = 400uL,
 		Relative
 	}
 	[Native]
-	public enum TextBlockFont : ulong
+	public enum BandTextBlockFont : ulong
 	{
 		Small = 500uL,
 		Medium,
@@ -114,17 +114,17 @@ namespace Microsoft.Band
 		ExtraLargeNumbers,
 		ExtraLargeNumbersBold
 	}
-	public enum WrappedTextBlockFont : uint
+	public enum BandWrappedTextBlockFont : uint
 	{
 		Small = 600u,
 		Medium
 	}
-	public enum TextBlockLayoutElementWidth : uint
+	public enum BandTextBlockLayoutElementWidth : uint
 	{
 		Fixed = 700u,
 		Auto
 	}
-	public enum BarcodeType : ushort
+	public enum BandBarcodeType : ushort
 	{
 		PDF417 = (ushort)800u,
 		CODE39

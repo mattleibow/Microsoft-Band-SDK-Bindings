@@ -1,47 +1,42 @@
 ﻿using System;
-using System.Drawing;
-
-using ObjCRuntime;
-using Foundation;
-using UIKit;
 using CoreGraphics;
+using Foundation;
+using ObjCRuntime;
+using UIKit;
 
 namespace Microsoft.Band
 {
-	interface IClientManagerDelegate
-	{
-
-	}
+	interface IBandClientManagerDelegate {}
 
 	// @protocol MSBClientManagerDelegate <NSObject>
 	[Protocol, Model]
 	[BaseType (typeof(NSObject), Name = "MSBClientManagerDelegate")]
-	interface ClientManagerDelegate
+	interface BandClientManagerDelegate
 	{
 		// @required -(void)clientManager:(MSBClientManager *)clientManager clientDidConnect:(MSBClient *)client;
 		[Abstract]
 		[Export ("clientManager:clientDidConnect:"), EventArgs ("ClientManagerConnected")]
-		void Connected (ClientManager clientManager, Client client);
+		void Connected (BandClientManager clientManager, BandClient client);
 
 		// @required -(void)clientManager:(MSBClientManager *)clientManager clientDidDisconnect:(MSBClient *)client;
 		[Abstract]
 		[Export ("clientManager:clientDidDisconnect:"), EventArgs ("ClientManagerDisconnected")]
-		void Disconnected (ClientManager clientManager, Client client);
+		void Disconnected (BandClientManager clientManager, BandClient client);
 
 		// @required -(void)clientManager:(MSBClientManager *)clientManager client:(MSBClient *)client didFailToConnectWithError:(NSError *)error;
 		[Abstract]
 		[Export ("clientManager:client:didFailToConnectWithError:"), EventArgs ("ClientManagerFailedToConnect")]
-		void FailedToConnect (ClientManager clientManager, Client client, NSError error);
+		void FailedToConnect (BandClientManager clientManager, BandClient client, NSError error);
 	}
 
 	// @interface MSBClientManager : NSObject
-	[BaseType (typeof(NSObject), Name = "MSBClientManager", Delegates = new string [] { "Delegate" }, 
-		Events = new Type [] { typeof(ClientManagerDelegate) })]
-	interface ClientManager
+	[BaseType (typeof(NSObject), Name = "MSBClientManager", Delegates=new string [] { "Delegate" }, 
+		Events=new Type [] {typeof(BandClientManagerDelegate)})]
+	interface BandClientManager
 	{
 		// @property (nonatomic, weak) id<MSBClientManagerDelegate> delegate;
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
-		IClientManagerDelegate Delegate { get; set; }
+		IBandClientManagerDelegate Delegate { get; set; }
 
 		// @property (readonly) BOOL isPowerOn;
 		[Export ("isPowerOn")]
@@ -50,28 +45,28 @@ namespace Microsoft.Band
 		// +(MSBClientManager *)sharedManager;
 		[Static]
 		[Export ("sharedManager")]
-		ClientManager SharedManager { get; }
+		BandClientManager SharedManager { get; }
 
 		// -(MSBClient *)clientWithConnectionIdentifier:(NSUUID *)identifer;
 		[Export ("clientWithConnectionIdentifier:")]
-		Client ClientWithConnectionIdentifier (NSUuid identifer);
+		BandClient FindClient (NSUuid identifer);
 
 		// -(NSArray *)attachedClients;
 		[Export ("attachedClients")]
-		Client[] AttachedClients { get; }
+		BandClient[] AttachedClients { get; }
 
 		// -(void)connectClient:(MSBClient *)client;
 		[Export ("connectClient:")]
-		void ConnectClient (Client client);
+		void Connect (BandClient client);
 
 		// -(void)cancelClientConnection:(MSBClient *)client;
 		[Export ("cancelClientConnection:")]
-		void CancelClientConnection (Client client);
+		void CancelConnection (BandClient client);
 	}
 
 	// @interface MSBClient : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBClient")]
-	interface Client
+	interface BandClient
 	{
 		// @property (readonly) NSString * name;
 		[Export ("name")]
@@ -87,32 +82,32 @@ namespace Microsoft.Band
 
 		// @property (readonly, nonatomic) id<MSBTileManagerProtocol> tileManager;
 		[Export ("tileManager")]
-		ITileManagerProtocol TileManager { get; }
+		IBandTileManagerProtocol TileManager { get; }
 
 		// @property (readonly, nonatomic) id<MSBPersonalizationManagerProtocol> personalizationManager;
 		[Export ("personalizationManager")]
-		IPersonalizationManagerProtocol PersonalizationManager { get; }
+		IBandPersonalizationManagerProtocol PersonalizationManager { get; }
 
 		// @property (readonly, nonatomic) id<MSBNotificationManagerProtocol> notificationManager;
 		[Export ("notificationManager")]
-		INotificationManagerProtocol NotificationManager { get; }
+		IBandNotificationManagerProtocol NotificationManager { get; }
 
 		// @property (readonly, nonatomic) id<MSBSensorManagerProtocol> sensorManager;
 		[Export ("sensorManager")]
-		ISensorManagerProtocol SensorManager { get; }
+		IBandSensorManagerProtocol SensorManager { get; }
 
 		// -(void)firmwareVersionWithCompletionHandler:(void (^)(NSString *, NSError *))completionHandler;
-		[Export ("firmwareVersionWithCompletionHandler:")]
-		void FirmwareVersionWithCompletionHandler (Action<NSString, NSError> completionHandler);
+		[Export ("firmwareVersionWithCompletionHandler:"), Async]
+		void FirmwareVersion (Action<NSString, NSError> completionHandler);
 
 		// -(void)hardwareVersionWithCompletionHandler:(void (^)(NSString *, NSError *))completionHandler;
-		[Export ("hardwareVersionWithCompletionHandler:")]
-		void HardwareVersionWithCompletionHandler (Action<NSString, NSError> completionHandler);
+		[Export ("hardwareVersionWithCompletionHandler:"), Async]
+		void HardwareVersion (Action<NSString, NSError> completionHandler);
 	}
 
 	// @interface MSBTile : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBTile")]
-	interface Tile
+	interface BandTile
 	{
 		// @property (readonly, nonatomic) NSString * name;
 		[Export ("name")]
@@ -124,15 +119,15 @@ namespace Microsoft.Band
 
 		// @property (readonly, nonatomic) MSBIcon * smallIcon;
 		[Export ("smallIcon")]
-		Icon SmallIcon { get; }
+		BandIcon SmallIcon { get; }
 
 		// @property (readonly, nonatomic) MSBIcon * tileIcon;
 		[Export ("tileIcon")]
-		Icon TileIcon { get; }
+		BandIcon TileIcon { get; }
 
 		// @property (nonatomic, strong) MSBTheme * theme;
 		[Export ("theme", ArgumentSemantic.Retain)]
-		Theme Theme { get; set; }
+		BandTheme Theme { get; set; }
 
 		// @property (getter = isBadgingEnabled, assign, nonatomic) BOOL badgingEnabled;
 		[Export ("badgingEnabled")]
@@ -149,7 +144,7 @@ namespace Microsoft.Band
 		// +(MSBTile *)tileWithId:(NSUUID *)tileId name:(NSString *)tileName tileIcon:(MSBIcon *)tileIcon smallIcon:(MSBIcon *)smallIcon error:(NSError **)pError;
 		[Static]
 		[Export ("tileWithId:name:tileIcon:smallIcon:error:")]
-		Tile TileWithId (NSUuid tileId, string tileName, Icon tileIcon, Icon smallIcon, out NSError pError);
+		BandTile Create (NSUuid tileId, string tileName, BandIcon tileIcon, BandIcon smallIcon, out NSError pError);
 
 		// -(BOOL)setName:(NSString *)tileName error:(NSError **)pError;
 		[Export ("setName:error:")]
@@ -157,47 +152,44 @@ namespace Microsoft.Band
 
 		// -(BOOL)setTileIcon:(MSBIcon *)tileIcon error:(NSError **)pError;
 		[Export ("setTileIcon:error:")]
-		bool SetTileIcon (Icon tileIcon, out NSError pError);
+		bool SetTileIcon (BandIcon tileIcon, out NSError pError);
 
 		// -(BOOL)setSmallIcon:(MSBIcon *)smallIcon error:(NSError **)pError;
 		[Export ("setSmallIcon:error:")]
-		bool SetSmallIcon (Icon smallIcon, out NSError pError);
+		bool SetSmallIcon (BandIcon smallIcon, out NSError pError);
 	}
 
-	interface ITileManagerProtocol
-	{
-
-	}
+	interface IBandTileManagerProtocol {}
 
 	// @protocol MSBTileManagerProtocol <NSObject>
 	[Protocol, Model]
 	[BaseType (typeof(NSObject), Name = "MSBTileManagerProtocol")]
-	interface TileManagerProtocol
+	interface BandTileManagerProtocol
 	{
-		// @required -(void)tilesWithCompletionHandler:(void (^)(NSArray *, NSError *))completionHandler;
+		// @required -(void)tilesWithCompletionHandler:(void (^)(NSArray *, NSError *))completionHandler; 
 		[Abstract]
 		[Export ("tilesWithCompletionHandler:")]
-		void TilesWithCompletionHandler (Action<NSArray, NSError> completionHandler);
+		void Tiles (Action<NSArray, NSError> completionHandler);
 
 		// @required -(void)addTile:(MSBTile *)tile completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("addTile:completionHandler:")]
-		void AddTile (Tile tile, Action<NSError> completionHandler);
+		void AddTile (BandTile tile, Action<NSError> completionHandler);
 
 		// @required -(void)removeTile:(MSBTile *)tile completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("removeTile:completionHandler:")]
-		void RemoveTile (Tile tile, Action<NSError> completionHandler);
+		void RemoveTile (BandTile tile, Action<NSError> completionHandler);
 
 		// @required -(void)removeTileWithId:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("removeTileWithId:completionHandler:")]
-		void RemoveTileWithId (NSUuid tileId, Action<NSError> completionHandler);
+		void RemoveTile (NSUuid tileId, Action<NSError> completionHandler);
 
 		// @required -(void)remainingTileCapacityWithCompletionHandler:(void (^)(NSUInteger, NSError *))completionHandler;
 		[Abstract]
 		[Export ("remainingTileCapacityWithCompletionHandler:")]
-		void RemainingTileCapacityWithCompletionHandler (Action<nuint, NSError> completionHandler);
+		void RemainingTileCapacity (Action<nuint, NSError> completionHandler);
 
 		// @required -(void)setPages:(NSArray *)pageData tileId:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
@@ -210,46 +202,43 @@ namespace Microsoft.Band
 		void RemovePagesInTile (NSUuid tileId, Action<NSError> completionHandler);
 	}
 
-	interface IPersonalizationManagerProtocol
-	{
-
-	}
+	interface IBandPersonalizationManagerProtocol {}
 
 	// @protocol MSBPersonalizationManagerProtocol <NSObject>
 	[Protocol, Model]
 	[BaseType (typeof(NSObject), Name = "MSBPersonalizationManagerProtocol")]
-	interface PersonalizationManagerProtocol
+	interface BandPersonalizationManagerProtocol
 	{
 		// @required -(void)updateMeTileImage:(MSBImage *)image completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("updateMeTileImage:completionHandler:")]
-		void UpdateMeTileImage (Image image, Action<NSError> completionHandler);
+		void UpdateMeTileImage (BandImage image, Action<NSError> completionHandler);
 
 		// @required -(void)meTileImageWithCompletionHandler:(void (^)(MSBImage *, NSError *))completionHandler;
 		[Abstract]
 		[Export ("meTileImageWithCompletionHandler:")]
-		void MeTileImageWithCompletionHandler (Action<Image, NSError> completionHandler);
+		void MeTileImage (Action<BandImage, NSError> completionHandler);
 
 		// @required -(void)updateTheme:(MSBTheme *)theme completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("updateTheme:completionHandler:")]
-		void UpdateTheme (Theme theme, Action<NSError> completionHandler);
+		void UpdateTheme (BandTheme theme, Action<NSError> completionHandler);
 
 		// @required -(void)themeWithCompletionHandler:(void (^)(MSBTheme *, NSError *))completionHandler;
 		[Abstract]
 		[Export ("themeWithCompletionHandler:")]
-		void ThemeWithCompletionHandler (Action<Theme, NSError> completionHandler);
+		void Theme (Action<BandTheme, NSError> completionHandler);
 	}
 
 	// @interface MSBSensorData : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBSensorData")]
-	interface SensorData
+	interface BandSensorData
 	{
 	}
 
 	// @interface MSBSensorAccelData : MSBSensorData
-	[BaseType (typeof(SensorData), Name = "MSBSensorAccelData")]
-	interface SensorAccelData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorAccelData")]
+	interface BandSensorAccelData
 	{
 		// @property (readonly, nonatomic) double x;
 		[Export ("x")]
@@ -265,8 +254,8 @@ namespace Microsoft.Band
 	}
 
 	// @interface MSBSensorGyroData : MSBSensorData
-	[BaseType (typeof(SensorData), Name = "MSBSensorGyroData")]
-	interface SensorGyroData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorGyroData")]
+	interface BandSensorGyroData
 	{
 		// @property (readonly, nonatomic) double x;
 		[Export ("x")]
@@ -282,21 +271,21 @@ namespace Microsoft.Band
 	}
 
 	// @interface MSBSensorAccelGyroData : MSBSensorData
-	[BaseType (typeof(SensorData), Name = "MSBSensorAccelGyroData")]
-	interface SensorAccelGyroData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorAccelGyroData")]
+	interface BandSensorAccelGyroData
 	{
 		// @property (readonly, nonatomic) MSBSensorAccelData * accel;
 		[Export ("accel")]
-		SensorAccelData Accel { get; }
+		BandSensorAccelData Accel { get; }
 
 		// @property (readonly, nonatomic) MSBSensorGyroData * gyro;
 		[Export ("gyro")]
-		SensorGyroData Gyro { get; }
+		BandSensorGyroData Gyro { get; }
 	}
 
 	// @interface MSBSensorHeartRateData : MSBSensorData
-	[BaseType (typeof(SensorData), Name = "MSBSensorHeartRateData")]
-	interface SensorHeartRateData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorHeartRateData")]
+	interface BandSensorHeartRateData
 	{
 		// @property (readonly, nonatomic) NSUInteger heartRate;
 		[Export ("heartRate")]
@@ -304,12 +293,12 @@ namespace Microsoft.Band
 
 		// @property (readonly, nonatomic) MSBHeartRateQuality quality;
 		[Export ("quality")]
-		HeartRateQuality Quality { get; }
+		BandHeartRateQuality Quality { get; }
 	}
 
 	// @interface MSBSensorCaloriesData : MSBSensorData
-	[BaseType (typeof(SensorData), Name = "MSBSensorCaloriesData")]
-	interface SensorCaloriesData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorCaloriesData")]
+	interface BandSensorCaloriesData
 	{
 		// @property (readonly, nonatomic) NSUInteger calories;
 		[Export ("calories")]
@@ -317,8 +306,8 @@ namespace Microsoft.Band
 	}
 
 	// @interface MSBSensorDistanceData : MSBSensorData
-	[BaseType (typeof(SensorData), Name = "MSBSensorDistanceData")]
-	interface SensorDistanceData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorDistanceData")]
+	interface BandSensorDistanceData
 	{
 		// @property (readonly, nonatomic) NSUInteger totalDistance;
 		[Export ("totalDistance")]
@@ -334,12 +323,12 @@ namespace Microsoft.Band
 
 		// @property (readonly, nonatomic) MSBPedometerMode pedometerMode;
 		[Export ("pedometerMode")]
-		PedometerMode PedometerMode { get; }
+		BandPedometerMode PedometerMode { get; }
 	}
 
 	// @interface MSBSensorPedometerData : MSBSensorData
-	[BaseType (typeof(SensorData), Name = "MSBSensorPedometerData")]
-	interface SensorPedometerData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorPedometerData")]
+	interface BandSensorPedometerData
 	{
 		// @property (readonly, nonatomic) int totalSteps;
 		[Export ("totalSteps")]
@@ -363,8 +352,8 @@ namespace Microsoft.Band
 	}
 
 	// @interface MSBSensorSkinTempData : MSBSensorData
-	[BaseType (typeof(SensorData), Name = "MSBSensorSkinTempData")]
-	interface SensorSkinTempData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorSkinTempData")]
+	interface BandSensorSkinTempData
 	{
 		// @property (readonly, nonatomic) double temperature;
 		[Export ("temperature")]
@@ -372,127 +361,124 @@ namespace Microsoft.Band
 	}
 
 	// @interface MSBSensorUVData : MSBSensorData
-	[BaseType (typeof(SensorData), Name = "MSBSensorUVData")]
-	interface SensorUVData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorUVData")]
+	interface BandSensorUVData
 	{
 		// @property (readonly, nonatomic) MSBUVIndexLevel uvIndexLevel;
 		[Export ("uvIndexLevel")]
-		UVIndexLevel UvIndexLevel { get; }
+		BandUVIndexLevel UVIndexLevel { get; }
 	}
 
 	// @interface MSBSensorBandContactData : MSBSensorData
-	[BaseType (typeof(SensorData), Name = "MSBSensorBandContactData")]
-	interface SensorBandContactData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorBandContactData")]
+	interface BandSensorBandContactData
 	{
 		// @property (readonly, nonatomic) MSBSensorBandContactState wornState;
 		[Export ("wornState")]
-		SensorBandContactState WornState { get; }
+		BandSensorBandContactState WornState { get; }
 	}
 
-	interface ISensorManagerProtocol
-	{
-
-	}
+	interface IBandSensorManagerProtocol {}
 
 	// @protocol MSBSensorManagerProtocol <NSObject>
 	[Protocol, Model]
 	[BaseType (typeof(NSObject), Name = "MSBSensorManagerProtocol")]
-	interface SensorManagerProtocol
+	interface BandSensorManagerProtocol
 	{
 		// @required -(BOOL)startAccelerometerUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorAccelData *, NSError *))handler;
 		[Abstract]
 		[Export ("startAccelerometerUpdatesToQueue:errorRef:withHandler:")]
-		bool StartAccelerometerUpdatesToQueue ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<SensorAccelData, NSError> handler);
+		bool StartAccelerometerUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorAccelData, NSError> handler);
 
 		// @required -(BOOL)stopAccelerometerUpdatesErrorRef:(NSError **)pError;
 		[Abstract]
 		[Export ("stopAccelerometerUpdatesErrorRef:")]
-		bool StopAccelerometerUpdatesErrorRef (out NSError pError);
+		bool StopAccelerometerUpdates (out NSError pError);
 
 		// @required -(BOOL)startGyroscopeUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorGyroData *, NSError *))handler;
 		[Abstract]
 		[Export ("startGyroscopeUpdatesToQueue:errorRef:withHandler:")]
-		bool StartGyroscopeUpdatesToQueue ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<SensorGyroData, NSError> handler);
+		bool StartGyroscopeUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorGyroData, NSError> handler);
 
 		// @required -(BOOL)stopGyroscopeUpdatesErrorRef:(NSError **)pError;
 		[Abstract]
 		[Export ("stopGyroscopeUpdatesErrorRef:")]
-		bool StopGyroscopeUpdatesErrorRef (out NSError pError);
+		bool StopGyroscopeUpdates (out NSError pError);
 
 		// @required -(BOOL)startHearRateUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorHeartRateData *, NSError *))handler;
 		[Abstract]
 		[Export ("startHearRateUpdatesToQueue:errorRef:withHandler:")]
-		bool StartHearRateUpdatesToQueue ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<SensorHeartRateData, NSError> handler);
+		bool StartHearRateUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorHeartRateData, NSError> handler);
 
 		// @required -(BOOL)stopHeartRateUpdatesErrorRef:(NSError **)pError;
 		[Abstract]
 		[Export ("stopHeartRateUpdatesErrorRef:")]
-		bool StopHeartRateUpdatesErrorRef (out NSError pError);
+		bool StopHeartRateUpdates (out NSError pError);
 
 		// @required -(BOOL)startCaloriesUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorCaloriesData *, NSError *))handler;
 		[Abstract]
 		[Export ("startCaloriesUpdatesToQueue:errorRef:withHandler:")]
-		bool StartCaloriesUpdatesToQueue ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<SensorCaloriesData, NSError> handler);
+		bool StartCaloriesUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorCaloriesData, NSError> handler);
 
 		// @required -(BOOL)stopCaloriesUpdatesErrorRef:(NSError **)pError;
 		[Abstract]
 		[Export ("stopCaloriesUpdatesErrorRef:")]
-		bool StopCaloriesUpdatesErrorRef (out NSError pError);
+		bool StopCaloriesUpdates (out NSError pError);
 
 		// @required -(BOOL)startDistanceUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorDistanceData *, NSError *))handler;
 		[Abstract]
 		[Export ("startDistanceUpdatesToQueue:errorRef:withHandler:")]
-		bool StartDistanceUpdatesToQueue ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<SensorDistanceData, NSError> handler);
+		bool StartDistanceUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorDistanceData, NSError> handler);
 
 		// @required -(BOOL)stopDistanceUpdatesErrorRef:(NSError **)pError;
 		[Abstract]
 		[Export ("stopDistanceUpdatesErrorRef:")]
-		bool StopDistanceUpdatesErrorRef (out NSError pError);
+		bool StopDistanceUpdates (out NSError pError);
 
 		// @required -(BOOL)startPedometerUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorPedometerData *, NSError *))handler;
 		[Abstract]
 		[Export ("startPedometerUpdatesToQueue:errorRef:withHandler:")]
-		bool StartPedometerUpdatesToQueue ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<SensorPedometerData, NSError> handler);
+		bool StartPedometerUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorPedometerData, NSError> handler);
 
 		// @required -(BOOL)stopPedometerUpdatesErrorRef:(NSError **)pError;
 		[Abstract]
 		[Export ("stopPedometerUpdatesErrorRef:")]
-		bool StopPedometerUpdatesErrorRef (out NSError pError);
+		bool StopPedometerUpdates (out NSError pError);
 
 		// @required -(BOOL)startSkinTempUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorSkinTempData *, NSError *))handler;
 		[Abstract]
 		[Export ("startSkinTempUpdatesToQueue:errorRef:withHandler:")]
-		bool StartSkinTempUpdatesToQueue ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<SensorSkinTempData, NSError> handler);
+		bool StartSkinTempUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorSkinTempData, NSError> handler);
 
 		// @required -(BOOL)stopSkinTempUpdatesErrorRef:(NSError **)pError;
 		[Abstract]
 		[Export ("stopSkinTempUpdatesErrorRef:")]
-		bool StopSkinTempUpdatesErrorRef (out NSError pError);
+		bool StopSkinTempUpdates (out NSError pError);
 
 		// @required -(BOOL)startUVUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorUVData *, NSError *))handler;
 		[Abstract]
 		[Export ("startUVUpdatesToQueue:errorRef:withHandler:")]
-		bool StartUVUpdatesToQueue ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<SensorUVData, NSError> handler);
+		bool StartUVUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorUVData, NSError> handler);
 
 		// @required -(BOOL)stopUVUpdatesErrorRef:(NSError **)pError;
 		[Abstract]
 		[Export ("stopUVUpdatesErrorRef:")]
-		bool StopUVUpdatesErrorRef (out NSError pError);
+		bool StopUVUpdates (out NSError pError);
 
 		// @required -(BOOL)startBandContactUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorBandContactData *, NSError *))handler;
 		[Abstract]
 		[Export ("startBandContactUpdatesToQueue:errorRef:withHandler:")]
-		bool StartBandContactUpdatesToQueue ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<SensorBandContactData, NSError> handler);
+		bool StartBandContactUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorBandContactData, NSError> handler);
 
 		// @required -(BOOL)stopBandContactUpdatesErrorRef:(NSError **)pError;
 		[Abstract]
 		[Export ("stopBandContactUpdatesErrorRef:")]
-		bool StopBandContactUpdatesErrorRef (out NSError pError);
+		bool StopBandContactUpdates (out NSError pError);
 	}
 
 	// @interface MSBIcon : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBIcon")]
-	interface Icon
+	interface BandIcon
 	{
 		// @property (readonly, assign, nonatomic) CGSize size;
 		[Export ("size", ArgumentSemantic.UnsafeUnretained)]
@@ -501,12 +487,12 @@ namespace Microsoft.Band
 		// +(MSBIcon *)iconWithMSBImage:(MSBImage *)image error:(NSError **)pError;
 		[Static]
 		[Export ("iconWithMSBImage:error:")]
-		Icon IconWithMSBImage (Image image, out NSError pError);
+		BandIcon FromImage (BandImage image, out NSError pError);
 
 		// +(MSBIcon *)iconWithUIImage:(UIImage *)image error:(NSError **)pError;
 		[Static]
 		[Export ("iconWithUIImage:error:")]
-		Icon IconWithUIImage (UIImage image, out NSError pError);
+		BandIcon FromUIImage (UIImage image, out NSError pError);
 
 		// -(UIImage *)UIImage;
 		[Export ("UIImage")]
@@ -515,7 +501,7 @@ namespace Microsoft.Band
 
 	// @interface MSBImage : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBImage")]
-	interface Image
+	interface BandImage
 	{
 		// @property (readonly, nonatomic) CGSize size;
 		[Export ("size")]
@@ -536,12 +522,12 @@ namespace Microsoft.Band
 
 	// @interface MSBColor : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBColor")]
-	interface Color
+	interface BandColor
 	{
 		// +(id)colorWithUIColor:(UIColor *)color error:(NSError **)pError;
 		[Static]
 		[Export ("colorWithUIColor:error:")]
-		NSObject ColorWithUIColor (UIColor color, out NSError pError);
+		NSObject FromUIColor (UIColor color, out NSError pError);
 
 		// -(UIColor *)UIColor;
 		[Export ("UIColor")]
@@ -550,90 +536,87 @@ namespace Microsoft.Band
 		// +(MSBColor *)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue;
 		[Static]
 		[Export ("colorWithRed:green:blue:")]
-		Color ColorWithRed (nuint red, nuint green, nuint blue);
+		BandColor ColorWithRed (nuint red, nuint green, nuint blue);
 	}
 
 	// @interface MSBTheme : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBTheme")]
-	interface Theme
+	interface BandTheme
 	{
 		// @property (nonatomic, strong) MSBColor * baseColor;
 		[Export ("baseColor", ArgumentSemantic.Retain)]
-		Color BaseColor { get; set; }
+		BandColor BaseColor { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * highLightColor;
 		[Export ("highLightColor", ArgumentSemantic.Retain)]
-		Color HighLightColor { get; set; }
+		BandColor HighLightColor { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * lowLightColor;
 		[Export ("lowLightColor", ArgumentSemantic.Retain)]
-		Color LowLightColor { get; set; }
+		BandColor LowLightColor { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * secondaryTextColor;
 		[Export ("secondaryTextColor", ArgumentSemantic.Retain)]
-		Color SecondaryTextColor { get; set; }
+		BandColor SecondaryTextColor { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * highContrastColor;
 		[Export ("highContrastColor", ArgumentSemantic.Retain)]
-		Color HighContrastColor { get; set; }
+		BandColor HighContrastColor { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * mutedColor;
 		[Export ("mutedColor", ArgumentSemantic.Retain)]
-		Color MutedColor { get; set; }
+		BandColor MutedColor { get; set; }
 
 		// +(MSBTheme *)themeWithBaseColor:(MSBColor *)baseColor highLightColor:(MSBColor *)highLightColor lowLightColor:(MSBColor *)lowLightColor secondaryTextColor:(MSBColor *)secondaryTextColor highContrastColor:(MSBColor *)highContrastColor mutedColor:(MSBColor *)mutedColor;
 		[Static]
 		[Export ("themeWithBaseColor:highLightColor:lowLightColor:secondaryTextColor:highContrastColor:mutedColor:")]
-		Theme ThemeWithBaseColor (Color baseColor, Color highLightColor, Color lowLightColor, Color secondaryTextColor, Color highContrastColor, Color mutedColor);
+		BandTheme Create (BandColor baseColor, BandColor highLightColor, BandColor lowLightColor, BandColor secondaryTextColor, BandColor highContrastColor, BandColor mutedColor);
 	}
 
-	interface INotificationManagerProtocol
-	{
-
-	}
+	interface IBandNotificationManagerProtocol {}
 
 	// @protocol MSBNotificationManagerProtocol <NSObject>
 	[Protocol, Model]
 	[BaseType (typeof(NSObject), Name = "MSBNotificationManagerProtocol")]
-	interface NotificationManagerProtocol
+	interface BandNotificationManagerProtocol
 	{
 		// @required -(void)vibrateWithType:(MSBVibrationType)vibrationType completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("vibrateWithType:completionHandler:")]
-		void VibrateWithType (VibrationType vibrationType, Action<NSError> completionHandler);
+		void Vibrate (BandVibrationType vibrationType, Action<NSError> completionHandler);
 
 		// @required -(void)showDialogWithTileID:(NSUUID *)tileID title:(NSString *)title body:(NSString *)body completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("showDialogWithTileID:title:body:completionHandler:")]
-		void ShowDialogWithTileID (NSUuid tileID, string title, string body, Action<NSError> completionHandler);
+		void ShowDialog (NSUuid tileID, string title, string body, Action<NSError> completionHandler);
 
 		// @required -(void)sendMessageWithTileID:(NSUUID *)tileID title:(NSString *)title body:(NSString *)body timeStamp:(NSDate *)timeStamp flags:(MSBNotificationMessageFlags)flags completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("sendMessageWithTileID:title:body:timeStamp:flags:completionHandler:")]
-		void SendMessageWithTileID (NSUuid tileID, string title, string body, NSDate timeStamp, NotificationMessageFlags flags, Action<NSError> completionHandler);
+		void SendMessage (NSUuid tileID, string title, string body, NSDate timeStamp, BandNotificationMessageFlags flags, Action<NSError> completionHandler);
 
 		// @required -(void)registerNotificationWithTileID:(NSUUID *)tileID completionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
-		[iOS (7, 0)]
+		[iOS (7,0)]
 		[Abstract]
 		[Export ("registerNotificationWithTileID:completionHandler:")]
-		void RegisterNotificationWithTileID (NSUuid tileID, Action<NSError> completionHandler);
+		void RegisterNotification (NSUuid tileID, Action<NSError> completionHandler);
 
 		// @required -(void)registerNotificationWithCompletionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
-		[iOS (7, 0)]
+		[iOS (7,0)]
 		[Abstract]
 		[Export ("registerNotificationWithCompletionHandler:")]
-		void RegisterNotificationWithCompletionHandler (Action<NSError> completionHandler);
+		void RegisterNotification (Action<NSError> completionHandler);
 
 		// @required -(void)unregisterNotificationWithCompletionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
-		[iOS (7, 0)]
+		[iOS (7,0)]
 		[Abstract]
 		[Export ("unregisterNotificationWithCompletionHandler:")]
-		void UnregisterNotificationWithCompletionHandler (Action<NSError> completionHandler);
+		void UnregisterNotification (Action<NSError> completionHandler);
 	}
 
 	// @interface MSBPageElement : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBPageElement")]
-	interface PageElement
+	interface BandPageElement
 	{
 		// @property (assign, nonatomic) MSBPageElementIdentifier elementId;
 		[Export ("elementId")]
@@ -641,32 +624,32 @@ namespace Microsoft.Band
 
 		// @property (nonatomic, strong) MSBRect * rect;
 		[Export ("rect", ArgumentSemantic.Retain)]
-		Rect Rect { get; set; }
+		BandRect Rect { get; set; }
 
 		// @property (nonatomic, strong) MSBMargins * margins;
 		[Export ("margins", ArgumentSemantic.Retain)]
-		Margins Margins { get; set; }
+		BandMargins Margins { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * color;
 		[Export ("color", ArgumentSemantic.Retain)]
-		Color Color { get; set; }
+		BandColor Color { get; set; }
 
 		// @property (assign, nonatomic) MSBPageElementHorizontalAlignment horizontalAlignment;
 		[Export ("horizontalAlignment", ArgumentSemantic.UnsafeUnretained)]
-		PageElementHorizontalAlignment HorizontalAlignment { get; set; }
+		BandPageElementHorizontalAlignment HorizontalAlignment { get; set; }
 
 		// @property (assign, nonatomic) MSBPageElementVerticalAlignment verticalAlignment;
 		[Export ("verticalAlignment", ArgumentSemantic.UnsafeUnretained)]
-		PageElementVerticalAlignment VerticalAlignment { get; set; }
+		BandPageElementVerticalAlignment VerticalAlignment { get; set; }
 
 		// @property (assign, nonatomic) MSBPageElementVisibility visibility;
 		[Export ("visibility", ArgumentSemantic.UnsafeUnretained)]
-		PageElementVisibility Visibility { get; set; }
+		BandPageElementVisibility Visibility { get; set; }
 	}
 
 	// @interface MSBPageElementData : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBPageElementData")]
-	interface PageElementData
+	interface BandPageElementData
 	{
 		// @property (readonly, nonatomic) MSBPageElementIdentifier elementId;
 		[Export ("elementId")]
@@ -674,8 +657,8 @@ namespace Microsoft.Band
 	}
 
 	// @interface MSBPageTextData : MSBPageElementData
-	[BaseType (typeof(PageElementData), Name = "MSBPageTextData")]
-	interface PageTextData
+	[BaseType (typeof(BandPageElementData), Name = "MSBPageTextData")]
+	interface BandPageTextData
 	{
 		// @property (readonly, nonatomic) NSString * text;
 		[Export ("text")]
@@ -684,12 +667,12 @@ namespace Microsoft.Band
 		// +(MSBPageTextData *)pageTextDataWithElementId:(MSBPageElementIdentifier)elementId text:(NSString *)text error:(NSError **)pError;
 		[Static]
 		[Export ("pageTextDataWithElementId:text:error:")]
-		PageTextData PageTextDataWithElementId (ushort elementId, string text, out NSError pError);
+		BandPageTextData Create (ushort elementId, string text, out NSError pError);
 	}
 
 	// @interface MSBPageWrappedTextData : MSBPageElementData
-	[BaseType (typeof(PageElementData), Name = "MSBPageWrappedTextData")]
-	interface PageWrappedTextData
+	[BaseType (typeof(BandPageElementData), Name = "MSBPageWrappedTextData")]
+	interface BandPageWrappedTextData
 	{
 		// @property (readonly, nonatomic) NSString * text;
 		[Export ("text")]
@@ -698,12 +681,12 @@ namespace Microsoft.Band
 		// +(MSBPageWrappedTextData *)pageWrappedTextDataWithElementId:(MSBPageElementIdentifier)elementId text:(NSString *)text error:(NSError **)pError;
 		[Static]
 		[Export ("pageWrappedTextDataWithElementId:text:error:")]
-		PageWrappedTextData PageWrappedTextDataWithElementId (ushort elementId, string text, out NSError pError);
+		BandPageWrappedTextData Create (ushort elementId, string text, out NSError pError);
 	}
 
 	// @interface MSBPageIconData : MSBPageElementData
-	[BaseType (typeof(PageElementData), Name = "MSBPageIconData")]
-	interface PageIconData
+	[BaseType (typeof(BandPageElementData), Name = "MSBPageIconData")]
+	interface BandPageIconData
 	{
 		// @property (readonly, nonatomic) NSUInteger iconIndex;
 		[Export ("iconIndex")]
@@ -712,12 +695,12 @@ namespace Microsoft.Band
 		// +(MSBPageIconData *)pageIconDataWithElementId:(MSBPageElementIdentifier)elementId iconIndex:(NSUInteger)iconIndex error:(NSError **)pError;
 		[Static]
 		[Export ("pageIconDataWithElementId:iconIndex:error:")]
-		PageIconData PageIconDataWithElementId (ushort elementId, nuint iconIndex, out NSError pError);
+		BandPageIconData Create (ushort elementId, nuint iconIndex, out NSError pError);
 	}
 
 	// @interface MSBPageData : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBPageData")]
-	interface PageData
+	interface BandPageData
 	{
 		// @property (readonly, nonatomic) NSUUID * pageId;
 		[Export ("pageId")]
@@ -734,12 +717,12 @@ namespace Microsoft.Band
 		// +(MSBPageData *)pageDataWithId:(NSUUID *)pageId templateIndex:(NSUInteger)templateIndex value:(NSArray *)values;
 		[Static]
 		[Export ("pageDataWithId:templateIndex:value:")]
-		PageData PageDataWithId (NSUuid pageId, nuint templateIndex, NSObject[] values);
+		BandPageData Create (NSUuid pageId, nuint templateIndex, NSObject[] values);
 	}
 
 	// @interface MSBPageBarcodePDF417Data : MSBPageElementData
-	[BaseType (typeof(PageElementData), Name = "MSBPageBarcodePDF417Data")]
-	interface PageBarcodePDF417Data
+	[BaseType (typeof(BandPageElementData), Name = "MSBPageBarcodePDF417Data")]
+	interface BandPageBarcodePDF417Data
 	{
 		// @property (readonly, nonatomic) NSString * value;
 		[Export ("value")]
@@ -748,12 +731,12 @@ namespace Microsoft.Band
 		// +(MSBPageBarcodePDF417Data *)pageBarcodePDF417DataWithElementId:(MSBPageElementIdentifier)elementId value:(NSString *)value error:(NSError **)pError;
 		[Static]
 		[Export ("pageBarcodePDF417DataWithElementId:value:error:")]
-		PageBarcodePDF417Data PageBarcodePDF417DataWithElementId (ushort elementId, string value, out NSError pError);
+		BandPageBarcodePDF417Data Create (ushort elementId, string value, out NSError pError);
 	}
 
 	// @interface MSBPageBarcodeCode39Data : MSBPageElementData
-	[BaseType (typeof(PageElementData), Name = "MSBPageBarcodeCode39Data")]
-	interface PageBarcodeCode39Data
+	[BaseType (typeof(BandPageElementData), Name = "MSBPageBarcodeCode39Data")]
+	interface BandPageBarcodeCode39Data
 	{
 		// @property (readonly, nonatomic) NSString * value;
 		[Export ("value")]
@@ -762,12 +745,12 @@ namespace Microsoft.Band
 		// +(MSBPageBarcodeCode39Data *)pageBarcodeCode39DataWithElementId:(MSBPageElementIdentifier)elementId value:(NSString *)value error:(NSError **)pError;
 		[Static]
 		[Export ("pageBarcodeCode39DataWithElementId:value:error:")]
-		PageBarcodeCode39Data PageBarcodeCode39DataWithElementId (ushort elementId, string value, out NSError pError);
+		BandPageBarcodeCode39Data Create (ushort elementId, string value, out NSError pError);
 	}
 
 	// @interface MSBPagePanel : MSBPageElement
-	[BaseType (typeof(PageElement), Name = "MSBPagePanel")]
-	interface PagePanel
+	[BaseType (typeof(BandPageElement), Name = "MSBPagePanel")]
+	interface BandPagePanel
 	{
 		// @property (nonatomic, strong) NSMutableArray * children;
 		[Export ("children", ArgumentSemantic.Retain)]
@@ -775,17 +758,17 @@ namespace Microsoft.Band
 	}
 
 	// @interface MSBTextElement : MSBPageElement
-	[BaseType (typeof(PageElement), Name = "MSBTextElement")]
-	interface TextElement
+	[BaseType (typeof(BandPageElement), Name = "MSBTextElement")]
+	interface BandTextElement
 	{
 		// @property (assign, nonatomic) MSBTextBlockLayoutElementWidth width;
 		[Export ("width", ArgumentSemantic.UnsafeUnretained)]
-		TextBlockLayoutElementWidth Width { get; set; }
+		BandTextBlockLayoutElementWidth Width { get; set; }
 	}
 
 	// @interface MSBRect : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBRect")]
-	interface Rect
+	interface BandRect
 	{
 		// @property (assign, nonatomic) UInt16 x;
 		[Export ("x")]
@@ -806,12 +789,12 @@ namespace Microsoft.Band
 		// +(MSBRect *)rectwithX:(UInt16)x y:(UInt16)y width:(UInt16)width height:(UInt16)height;
 		[Static]
 		[Export ("rectwithX:y:width:height:")]
-		Rect RectwithX (ushort x, ushort y, ushort width, ushort height);
+		BandRect Create (ushort x, ushort y, ushort width, ushort height);
 	}
 
 	// @interface MSBMargins : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBMargins")]
-	interface Margins
+	interface BandMargins
 	{
 		// @property (assign, nonatomic) UInt16 left;
 		[Export ("left")]
@@ -832,62 +815,62 @@ namespace Microsoft.Band
 		// +(MSBMargins *)marginsWithLeft:(UInt16)left top:(UInt16)top right:(UInt16)right bottom:(UInt16)bottom;
 		[Static]
 		[Export ("marginsWithLeft:top:right:bottom:")]
-		Margins MarginsWithLeft (ushort left, ushort top, ushort right, ushort bottom);
+		BandMargins Create (ushort left, ushort top, ushort right, ushort bottom);
 	}
 
 	// @interface MSBFilledQuad : MSBPagePanel
-	[BaseType (typeof(PagePanel), Name = "MSBFilledQuad")]
-	interface FilledQuad
+	[BaseType (typeof(BandPagePanel), Name = "MSBFilledQuad")]
+	interface BandFilledQuad
 	{
 		// -(id)initWithRect:(MSBRect *)rect;
 		[Export ("initWithRect:")]
-		IntPtr Constructor (Rect rect);
+		IntPtr Constructor (BandRect rect);
 	}
 
 	// @interface MSBFlowList : MSBPagePanel
-	[BaseType (typeof(PagePanel), Name = "MSBFlowList")]
-	interface FlowList
+	[BaseType (typeof(BandPagePanel), Name = "MSBFlowList")]
+	interface BandFlowList
 	{
 		// @property (assign, nonatomic) MSBFlowListOrientation orientation;
 		[Export ("orientation", ArgumentSemantic.UnsafeUnretained)]
-		FlowListOrientation Orientation { get; set; }
+		BandFlowListOrientation Orientation { get; set; }
 
 		// -(id)initWithRect:(MSBRect *)rect orientation:(MSBFlowListOrientation)orientation;
 		[Export ("initWithRect:orientation:")]
-		IntPtr Constructor (Rect rect, FlowListOrientation orientation);
+		IntPtr Constructor (BandRect rect, BandFlowListOrientation orientation);
 	}
 
 	// @interface MSBGlyph : MSBPageElement
-	[BaseType (typeof(PageElement), Name = "MSBGlyph")]
-	interface Glyph
+	[BaseType (typeof(BandPageElement), Name = "MSBGlyph")]
+	interface BandGlyph
 	{
 		// -(id)initWithRect:(MSBRect *)rect;
 		[Export ("initWithRect:")]
-		IntPtr Constructor (Rect rect);
+		IntPtr Constructor (BandRect rect);
 	}
 
 	// @interface MSBPageLayout : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBPageLayout")]
-	interface PageLayout
+	interface BandPageLayout
 	{
 		// @property (nonatomic, strong) MSBPagePanel * root;
 		[Export ("root", ArgumentSemantic.Retain)]
-		PagePanel Root { get; set; }
+		BandPagePanel Root { get; set; }
 	}
 
 	// @interface MSBScrollFlowList : MSBFlowList
-	[BaseType (typeof(FlowList), Name = "MSBScrollFlowList")]
-	interface ScrollFlowList
+	[BaseType (typeof(BandFlowList), Name = "MSBScrollFlowList")]
+	interface BandScrollFlowList
 	{
 	}
 
 	// @interface MSBTextBlock : MSBTextElement
-	[BaseType (typeof(TextElement), Name = "MSBTextBlock")]
-	interface TextBlock
+	[BaseType (typeof(BandTextElement), Name = "MSBTextBlock")]
+	interface BandTextBlock
 	{
 		// @property (assign, nonatomic) MSBTextBlockFont font;
 		[Export ("font", ArgumentSemantic.UnsafeUnretained)]
-		TextBlockFont Font { get; set; }
+		BandTextBlockFont Font { get; set; }
 
 		// @property (assign, nonatomic) MSBTextBlockBaseline baseline;
 		[Export ("baseline")]
@@ -895,39 +878,38 @@ namespace Microsoft.Band
 
 		// @property (assign, nonatomic) MSBTextBlockBaselineAlignment baselineAlignment;
 		[Export ("baselineAlignment", ArgumentSemantic.UnsafeUnretained)]
-		TextBlockBaselineAlignment BaselineAlignment { get; set; }
+		BandTextBlockBaselineAlignment BaselineAlignment { get; set; }
 
 		// -(id)initWithRect:(MSBRect *)rect font:(MSBTextBlockFont)font baseline:(MSBTextBlockBaseline)baseline;
 		[Export ("initWithRect:font:baseline:")]
-		IntPtr Constructor (Rect rect, TextBlockFont font, ushort baseline);
+		IntPtr Constructor (BandRect rect, BandTextBlockFont font, ushort baseline);
 	}
 
 	// @interface MSBWrappedTextBlock : MSBTextElement
-	[BaseType (typeof(TextElement), Name = "MSBWrappedTextBlock")]
-	interface WrappedTextBlock
+	[BaseType (typeof(BandTextElement), Name = "MSBWrappedTextBlock")]
+	interface BandWrappedTextBlock
 	{
 		// @property (assign, nonatomic) MSBWrappedTextBlockFont font;
 		[Export ("font", ArgumentSemantic.UnsafeUnretained)]
-		WrappedTextBlockFont Font { get; set; }
+		BandWrappedTextBlockFont Font { get; set; }
 
 		// -(id)initWithRect:(MSBRect *)rect font:(MSBWrappedTextBlockFont)font;
 		[Export ("initWithRect:font:")]
-		IntPtr Constructor (Rect rect, WrappedTextBlockFont font);
+		IntPtr Constructor (BandRect rect, BandWrappedTextBlockFont font);
 	}
 
 	// @interface MSBBarcode : MSBPageElement
-	[BaseType (typeof(PageElement), Name = "MSBBarcode")]
-	interface MSBBarcode
+	[BaseType (typeof(BandPageElement), Name = "MSBBarcode")]
+	interface BandBarcode
 	{
 		// @property (assign, nonatomic) MSBBarcodeType barcodeType;
 		[Export ("barcodeType", ArgumentSemantic.UnsafeUnretained)]
-		BarcodeType BarcodeType { get; set; }
+		BandBarcodeType BarcodeType { get; set; }
 
 		// -(id)initWithRect:(MSBRect *)rect barcodeType:(MSBBarcodeType)type;
 		[Export ("initWithRect:barcodeType:")]
-		IntPtr Constructor (Rect rect, BarcodeType type);
+		IntPtr Constructor (BandRect rect, BandBarcodeType type);
 	}
 
 }
-
 
