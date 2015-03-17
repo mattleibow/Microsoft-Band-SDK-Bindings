@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Microsoft Band iOS Sample View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="MainViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="r5c-6u-2HA"/>
+                        <viewControllerLayoutGuide type="bottom" id="kXA-hb-hsm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Microsoft Band!!!" translatesAutoresizingMaskIntoConstraints="NO" id="b98-Gy-XIf">
+                                <rect key="frame" x="16" y="151" width="382" height="566"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.0079773027569999995" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ep-fQ-TEL">
+                                <rect key="frame" x="16" y="28" width="382" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="RUN">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="OnRunClick:" destination="vXZ-lx-hvc" id="34" eventType="touchUpInside"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accel Data" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xOz-tK-FAl">
+                                <rect key="frame" x="16" y="96" width="382" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <constraints>
+                                    <constraint id="15" firstAttribute="height" constant="21"/>
+                                </constraints>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint id="9" constant="16" firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="7ep-fQ-TEL" secondAttribute="trailing"/>
+                            <constraint id="10" constant="28" firstItem="7ep-fQ-TEL" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top"/>
+                            <constraint id="12" firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="xOz-tK-FAl" secondAttribute="trailing" constant="16"/>
+                            <constraint id="16" firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="b98-Gy-XIf" secondAttribute="trailing" constant="16"/>
+                            <constraint id="17" constant="19" firstItem="kh9-bI-dsS" firstAttribute="bottom" secondItem="b98-Gy-XIf" secondAttribute="bottom"/>
+                            <constraint firstItem="7ep-fQ-TEL" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="25"/>
+                            <constraint firstItem="xOz-tK-FAl" firstAttribute="top" secondItem="7ep-fQ-TEL" secondAttribute="bottom" constant="38" id="27"/>
+                            <constraint firstItem="b98-Gy-XIf" firstAttribute="top" secondItem="xOz-tK-FAl" secondAttribute="bottom" constant="34" id="28"/>
+                            <constraint firstItem="b98-Gy-XIf" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="29"/>
+                            <constraint firstItem="xOz-tK-FAl" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="30"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="OutputText" destination="b98-Gy-XIf" id="name-outlet-b98-Gy-XIf"/>
+                        <outlet property="AccelerometerDataText" destination="xOz-tK-FAl" id="name-outlet-xOz-tK-FAl"/>
+                        <outlet property="RunButton" destination="7ep-fQ-TEL" id="name-outlet-7ep-fQ-TEL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
