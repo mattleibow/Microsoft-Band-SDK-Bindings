@@ -22,13 +22,17 @@ namespace Microsoft.Band.iOS.Sample
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextView OutputText { get; set; }
 
-		[Outlet]
+		[Action ("SendMessageClick:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton RunButton { get; set; }
+		partial void SendMessageClick (UIButton sender);
 
-		[Action ("OnRunClick:")]
+		[Action ("StartAccelerometerClick:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void OnRunClick (UIButton sender);
+		partial void StartAccelerometerClick (UIButton sender);
+
+		[Action ("ToggleAppTileClick:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void ToggleAppTileClick (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -39,10 +43,6 @@ namespace Microsoft.Band.iOS.Sample
 			if (OutputText != null) {
 				OutputText.Dispose ();
 				OutputText = null;
-			}
-			if (RunButton != null) {
-				RunButton.Dispose ();
-				RunButton = null;
 			}
 		}
 	}

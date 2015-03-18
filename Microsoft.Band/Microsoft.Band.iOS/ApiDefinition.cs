@@ -169,7 +169,7 @@ namespace Microsoft.Band
 		// @required -(void)tilesWithCompletionHandler:(void (^)(NSArray *, NSError *))completionHandler; 
 		[Abstract]
 		[Export ("tilesWithCompletionHandler:")]
-		void Tiles (Action<NSArray, NSError> completionHandler);
+		void GetTiles (Action<BandTile[], NSError> completionHandler);
 
 		// @required -(void)addTile:(MSBTile *)tile completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]

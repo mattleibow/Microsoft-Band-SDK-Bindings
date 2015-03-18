@@ -91,6 +91,18 @@ var pairedBands = await BandClientManager.Instance.GetBandsAsync();
 var bandClient = await BandClientManager.Instance.ConnectAsync(pairedBands[0]);
 ```
 
+#### iOS
+
+```
+var manager = BandClientManager.SharedManager;
+var client = manager.AttachedClients.FirstOrDefault ();
+if (client == null) {
+  // error: No Bands attached.
+} else {
+  manager.Connect(client);
+}
+```
+
 ### Connecting the a Sensor
 
 
@@ -124,6 +136,16 @@ accelerometer.ReadingChanged += (o, args) => {
 await accelerometer.StartReadingsAsync();
 // stop reading
 await accelerometer.StopReadingsAsync();
+```
+
+#### iOS
+
+```
+// start listening to the sensor with a callback
+NSError queueError;
+client.SensorManager.StartAccelerometerUpdates(null, out queueError, (data, error) => {
+  var yReading = data.Y;
+});
 ```
 
 ### Working with Tiles
@@ -166,6 +188,30 @@ await bandClient.TileManager.AddTileAsync(tile);
 await bandClient.TileManager.RemoveTileAsync(tile);
 ```
 
+#### iOS
+
+```
+// get the tiles
+client.TileManager.GetTiles ((tiles, tileError) => {
+  // tiles contains the collection of app tiles
+});
+client.TileManager.RemainingTileCapacity((capacity, error) => {
+  // capacity contains the value of the remaining spaces
+});
+// create the tile
+NSError operationError;
+var tile = BandTile.Create(
+  new NSUuid ("DCBABA9F-12FD-47A5-83A9-E7270A4399BB",
+  "B tile",
+  BandIcon.FromUIImage (UIImage.FromBundle ("B.png"), out operationError), 
+  BandIcon.FromUIImage (UIImage.FromBundle ("Bb.png"), out operationError), 
+  out operationError);
+// add the tile
+client.TileManager.AddTile(tile, error => { });
+// remove the tile
+client.TileManager.RemoveTile (tileId, error => { });
+```
+
 ### Send a Message
 
 #### Android
@@ -188,6 +234,18 @@ await bandClient.NotificationManager.SendMessageAsync(
   "Message body", 
   DateTimeOffset.Now, 
   MessageFlags.ShowDialog);
+```
+
+#### iOS
+
+```
+client.NotificationManager.SendMessage(
+  tileId, 
+  "Message title", 
+  "Message body", 
+  NSDate.Now, 
+  BandNotificationMessageFlags.ShowDialog, 
+  error => { });
 ```
 
 

@@ -98,4 +98,8 @@
       <Name>Microsoft.Band.iOS</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\B.png" />
+    <BundleResource Include="Resources\Bb.png" />
+  </ItemGroup>
 </Project>
