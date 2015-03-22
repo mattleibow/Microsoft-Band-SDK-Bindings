@@ -74,6 +74,7 @@ namespace Microsoft.Band.iOS.Sample
 					Output ("Stopping Accelerometer updates...");
 					try {
 						accelerometer.StopReadings ();
+						sensorStarted = false;
 					} catch (BandException ex) {
 						Output ("Error: " + ex.Message);
 					}
@@ -81,6 +82,7 @@ namespace Microsoft.Band.iOS.Sample
 					Output ("Starting Accelerometer updates...");
 					try {
 						accelerometer.StartReadings ();
+						sensorStarted = true;
 					} catch (BandException ex) {
 						Output ("Error: " + ex.Message);
 					}
