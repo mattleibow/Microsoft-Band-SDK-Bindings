@@ -18,14 +18,14 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Microsoft Band!!!" translatesAutoresizingMaskIntoConstraints="NO" id="b98-Gy-XIf">
-                                <rect key="frame" x="16" y="183" width="382" height="534"/>
+                                <rect key="frame" x="16" y="221" width="382" height="495"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" red="0.0079773027569999995" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ep-fQ-TEL">
-                                <rect key="frame" x="16" y="28" width="382" height="30"/>
+                                <rect key="frame" x="16" y="66" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Start Accelerometer">
@@ -37,7 +37,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap &quot;Start Accelerometer&quot; to get data..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xOz-tK-FAl">
-                                <rect key="frame" x="16" y="148" width="382" height="21"/>
+                                <rect key="frame" x="16" y="186" width="382" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -46,7 +46,7 @@
                                 </constraints>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38">
-                                <rect key="frame" x="16" y="66" width="382" height="30"/>
+                                <rect key="frame" x="16" y="104" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Toggle App Tile">
@@ -59,7 +59,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="44">
-                                <rect key="frame" x="16" y="104" width="382" height="30"/>
+                                <rect key="frame" x="16" y="142" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Send Message">
@@ -71,14 +71,25 @@
                                     <action selector="SendMessageClick:" destination="vXZ-lx-hvc" id="56" eventType="touchUpInside"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="60">
+                                <rect key="frame" x="16" y="28" width="382" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Connect to Band">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="StartAccelerometerClick:" destination="62" id="61" eventType="touchUpInside"/>
+                                    <action selector="ConnectToBandClick:" destination="vXZ-lx-hvc" id="69" eventType="touchUpInside"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint id="9" constant="16" firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="7ep-fQ-TEL" secondAttribute="trailing"/>
-                            <constraint id="10" constant="28" firstItem="7ep-fQ-TEL" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top"/>
                             <constraint id="12" firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="xOz-tK-FAl" secondAttribute="trailing" constant="16"/>
                             <constraint id="16" firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="b98-Gy-XIf" secondAttribute="trailing" constant="16"/>
-                            <constraint id="17" constant="19" firstItem="kh9-bI-dsS" firstAttribute="bottom" secondItem="b98-Gy-XIf" secondAttribute="bottom"/>
                             <constraint firstItem="7ep-fQ-TEL" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="25"/>
                             <constraint firstItem="b98-Gy-XIf" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="29"/>
                             <constraint firstItem="xOz-tK-FAl" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="30"/>
@@ -90,6 +101,11 @@
                             <constraint firstItem="44" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="50"/>
                             <constraint firstItem="xOz-tK-FAl" firstAttribute="top" secondItem="44" secondAttribute="bottom" constant="14" id="51"/>
                             <constraint firstItem="b98-Gy-XIf" firstAttribute="top" secondItem="xOz-tK-FAl" secondAttribute="bottom" constant="14" id="53"/>
+                            <constraint firstItem="60" firstAttribute="top" secondItem="r5c-6u-2HA" secondAttribute="bottom" constant="8" id="63"/>
+                            <constraint firstItem="60" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="64"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="60" secondAttribute="trailing" constant="16" id="65"/>
+                            <constraint firstItem="7ep-fQ-TEL" firstAttribute="top" secondItem="60" secondAttribute="bottom" constant="8" id="67"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="bottom" secondItem="b98-Gy-XIf" secondAttribute="bottom" constant="20" id="68"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>

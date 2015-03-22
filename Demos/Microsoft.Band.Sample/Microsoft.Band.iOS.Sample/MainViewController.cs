@@ -1,5 +1,4 @@
 using System;
-using System.CodeDom.Compiler;
 using System.Linq;
 
 using Foundation;
@@ -7,6 +6,9 @@ using UIKit;
 using CoreGraphics;
 
 using Microsoft.Band;
+using Microsoft.Band.Notifications;
+using Microsoft.Band.Tiles;
+using Microsoft.Band.Sensors;
 
 namespace Microsoft.Band.iOS.Sample
 {
@@ -14,6 +16,8 @@ namespace Microsoft.Band.iOS.Sample
 	{
 		private BandClientManager manager;
 		private BandClient client;
+		private AccelerometerSensor accelerometer;
+		private bool sensorStarted;
 
 		private static NSUuid tileId = new NSUuid ("DCBABA9F-12FD-47A5-83A9-E7270A4399BB");
 
@@ -28,66 +32,72 @@ namespace Microsoft.Band.iOS.Sample
 
 			// Do any additional setup after loading the view, typically from a nib.
 
-			// create the delgate events
-			manager = BandClientManager.SharedManager;
-			manager.Connected += (sender, e) => {
-				Output ("Band connected.");
-			};
-			manager.Disconnected += (sender, e) => {
-				Output ("Band disconnected.");
-			};
-			manager.FailedToConnect += (sender, e) => {
-				Output ("Failed to connect to Band.");
-				Output (e.Error.Description);
-			};
-
-			// get the client
-			client = manager.AttachedClients.FirstOrDefault ();
-			if (client == null) {
-				Output ("Failed! No Bands attached.");
-			} else {
-				manager.Connect (client);
-				Output ("Please wait. Connecting to Band...");
-			}
+			manager = BandClientManager.Instance;
 		}
 
-		public override void ViewWillUnload ()
+		async partial void ConnectToBandClick (UIButton sender)
 		{
-			Output ("Stopping Accelerometer updates...");
-			NSError error;
-			client.SensorManager.StopAccelerometerUpdates (out error);
-			if (error != null) {
-				Output ("Error: " + error.Description);
+			if (client == null) {
+				// get the client
+				client = manager.AttachedClients.FirstOrDefault ();
+				if (client == null) {
+					Output ("Failed! No Bands attached.");
+				} else {
+					try {
+						Output ("Please wait. Connecting to Band...");
+						await manager.ConnectTaskAsync (client);
+						Output ("Band connected.");
+					} catch (BandException ex) {
+						Output ("Failed to connect to Band:");
+						Output (ex.Message);
+					}
+				}
+			} else {
+				Output ("Please wait. Disconnecting from Band...");
+				await manager.DisconnectTaskAsync (client);
+				Output ("Band disconnected.");
 			}
-
-			base.ViewWillUnload ();
 		}
 
 		partial void StartAccelerometerClick (UIButton sender)
 		{
 			if (client != null && client.IsDeviceConnected) {
-				Output ("Starting Accelerometer updates...");
-				NSError queueError;
-				client.SensorManager.StartAccelerometerUpdates (null, out queueError, (data, error) => {
-					AccelerometerDataText.Text = string.Format ("Accel Data: X={0:+0.00} Y={0:+0.00} Z={0:+0.00}", data.X, data.Y, data.Z);
-				});
-				if (queueError != null) {
-					Output ("Error: " + queueError.Description);
+				// create the sensor once
+				if (accelerometer == null) {
+					accelerometer = client.SensorManager.CreateAccelerometerSensor ();
+					accelerometer.ReadingChanged += (_, e) => {
+						var data = e.SensorReading;
+						AccelerometerDataText.Text = string.Format ("Accel Data: X={0:+0.00} Y={0:+0.00} Z={0:+0.00}", data.X, data.Y, data.Z);
+					};
+				}
+				if (sensorStarted) {
+					Output ("Stopping Accelerometer updates...");
+					try {
+						accelerometer.StopReadings ();
+					} catch (BandException ex) {
+						Output ("Error: " + ex.Message);
+					}
+				} else {
+					Output ("Starting Accelerometer updates...");
+					try {
+						accelerometer.StartReadings ();
+					} catch (BandException ex) {
+						Output ("Error: " + ex.Message);
+					}
 				}
 			} else {
 				Output ("Band is not connected. Please wait....");
 			}
 		}
 
-		partial void ToggleAppTileClick (UIButton sender)
+		async partial void ToggleAppTileClick (UIButton sender)
 		{
 			if (client != null && client.IsDeviceConnected) {
 				Output ("Creating tile...");
 
 				// the number of tile spaces left
-				client.TileManager.RemainingTileCapacity ((capacity, error) => {
-					Output ("Remaning tile space: " + capacity);
-				});
+				var capacity = await client.TileManager.RemainingTileCapacityTaskAsync ();
+				Output ("Remaning tile space: " + capacity);
 
 				// create the tile
 				NSError operationError;
@@ -97,45 +107,38 @@ namespace Microsoft.Band.iOS.Sample
 				var tile = BandTile.Create (tileId, tileName, tileIcon, smallIcon, out operationError);
 
 				// get the tiles
-				client.TileManager.GetTiles ((tiles, tileError) => {
+				try {
+					var tiles = await client.TileManager.GetTilesTaskAsync ();
 					if (tiles.Any (x => x.TileId.AsString () == tileId.AsString ())) {
 						// a tile exists, so remove it
-						client.TileManager.RemoveTile (tileId, removeError => {
-							if (removeError == null) {
-								Output ("Removed tile!");
-							} else {
-								Output ("Error: " + removeError.Description);
-							}
-						});
+						await client.TileManager.RemoveTileTaskAsync (tileId);
+						Output ("Removed tile!");
 					} else {
 						// the tile does not exist, so add it
-						client.TileManager.AddTile (tile, addError => {
-							if (addError == null) {
-								Output ("Added tile!");
-							} else {
-								Output ("Error: " + addError.Description);
-							}
-						});
+						await client.TileManager.AddTileTaskAsync (tile);
+						Output ("Added tile!");
 					}
-				});
+				} catch (BandException ex) {
+					Output ("Error: " + ex.Message);
+				}
 			} else {
 				Output ("Band is not connected. Please wait....");
 			}
 		}
 
-		partial void SendMessageClick (UIButton sender)
+		async partial void SendMessageClick (UIButton sender)
 		{
 			if (client != null && client.IsDeviceConnected) {
 				Output ("Sending notification...");
 
 				// send a message with a dialog
-				client.NotificationManager.SendMessage (tileId, "Hello", "Hello World!", NSDate.Now, BandNotificationMessageFlags.ShowDialog, error => {
-					if (error == null) {
-						Output ("Sent the message!!");
-					} else {
-						Output ("Error: " + error.Description);
-					}
-				});
+				try {
+					await client.NotificationManager.SendMessageTaskAsync (tileId, "Hello", "Hello World!", DateTime.Now, true);
+					Output ("Sent the message!!");
+				} catch (BandException ex) {
+					Output ("Failed to send the message:");
+					Output (ex.Message);
+				}
 			} else {
 				Output ("Band is not connected. Please wait....");
 			}

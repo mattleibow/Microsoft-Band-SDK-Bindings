@@ -22,6 +22,10 @@ namespace Microsoft.Band.iOS.Sample
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextView OutputText { get; set; }
 
+		[Action ("ConnectToBandClick:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void ConnectToBandClick (UIButton sender);
+
 		[Action ("SendMessageClick:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void SendMessageClick (UIButton sender);

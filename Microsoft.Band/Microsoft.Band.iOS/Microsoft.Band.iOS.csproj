@@ -36,12 +36,29 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Notifications\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MicrosoftBandKit_iOS.linkwith.cs">
       <DependentUpon>MicrosoftBandKit_iOS.a</DependentUpon>
     </Compile>
+    <Compile Include="BandClientManagerExtensions.cs" />
+    <Compile Include="BandException.cs" />
+    <Compile Include="Notifications\BandNotificationManagerExtensions.cs" />
+    <Compile Include="Personalization\BandPersonalizationManagerExtensions.cs" />
+    <Compile Include="Sensors\AccelerometerSensor.cs" />
+    <Compile Include="Sensors\BandSensorBase.cs" />
+    <Compile Include="Sensors\BandSensorManagerExtensions.cs" />
+    <Compile Include="Sensors\ContactSensor.cs" />
+    <Compile Include="Sensors\DistanceSensor.cs" />
+    <Compile Include="Sensors\GyroscopeSensor.cs" />
+    <Compile Include="Sensors\HeartRateSensor.cs" />
+    <Compile Include="Sensors\PedometerSensor.cs" />
+    <Compile Include="Sensors\SkinTemperatureSensor.cs" />
+    <Compile Include="Sensors\UVSensor.cs" />
+    <Compile Include="AsyncHelpers.cs" />
+    <Compile Include="Tiles\BandTileManagerExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />

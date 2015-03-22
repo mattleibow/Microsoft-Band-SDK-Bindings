@@ -1,12 +1,22 @@
 ﻿using System;
+
 using CoreGraphics;
 using Foundation;
 using ObjCRuntime;
 using UIKit;
 
+using Microsoft.Band;
+using Microsoft.Band.Notifications;
+using Microsoft.Band.Personalization;
+using Microsoft.Band.Sensors;
+using Microsoft.Band.Tiles;
+
 namespace Microsoft.Band
 {
-	interface IBandClientManagerDelegate {}
+	interface IBandClientManagerDelegate
+	{
+
+	}
 
 	// @protocol MSBClientManagerDelegate <NSObject>
 	[Protocol, Model]
@@ -26,12 +36,11 @@ namespace Microsoft.Band
 		// @required -(void)clientManager:(MSBClientManager *)clientManager client:(MSBClient *)client didFailToConnectWithError:(NSError *)error;
 		[Abstract]
 		[Export ("clientManager:client:didFailToConnectWithError:"), EventArgs ("ClientManagerFailedToConnect")]
-		void FailedToConnect (BandClientManager clientManager, BandClient client, NSError error);
+		void ConnectionFailed (BandClientManager clientManager, BandClient client, NSError error);
 	}
 
 	// @interface MSBClientManager : NSObject
-	[BaseType (typeof(NSObject), Name = "MSBClientManager", Delegates=new string [] { "Delegate" }, 
-		Events=new Type [] {typeof(BandClientManagerDelegate)})]
+	[BaseType (typeof(NSObject), Name = "MSBClientManager", Delegates = new string [] { "Delegate" }, Events = new Type [] { typeof(BandClientManagerDelegate) })]
 	interface BandClientManager
 	{
 		// @property (nonatomic, weak) id<MSBClientManagerDelegate> delegate;
@@ -45,7 +54,7 @@ namespace Microsoft.Band
 		// +(MSBClientManager *)sharedManager;
 		[Static]
 		[Export ("sharedManager")]
-		BandClientManager SharedManager { get; }
+		BandClientManager Instance { get; }
 
 		// -(MSBClient *)clientWithConnectionIdentifier:(NSUUID *)identifer;
 		[Export ("clientWithConnectionIdentifier:")]
@@ -57,11 +66,11 @@ namespace Microsoft.Band
 
 		// -(void)connectClient:(MSBClient *)client;
 		[Export ("connectClient:")]
-		void Connect (BandClient client);
+		void ConnectAsync (BandClient client);
 
 		// -(void)cancelClientConnection:(MSBClient *)client;
 		[Export ("cancelClientConnection:")]
-		void CancelConnection (BandClient client);
+		void DisconnectAsync (BandClient client);
 	}
 
 	// @interface MSBClient : NSObject
@@ -82,538 +91,32 @@ namespace Microsoft.Band
 
 		// @property (readonly, nonatomic) id<MSBTileManagerProtocol> tileManager;
 		[Export ("tileManager")]
-		IBandTileManagerProtocol TileManager { get; }
+		IBandTileManager TileManager { get; }
 
 		// @property (readonly, nonatomic) id<MSBPersonalizationManagerProtocol> personalizationManager;
 		[Export ("personalizationManager")]
-		IBandPersonalizationManagerProtocol PersonalizationManager { get; }
+		IBandPersonalizationManager PersonalizationManager { get; }
 
 		// @property (readonly, nonatomic) id<MSBNotificationManagerProtocol> notificationManager;
 		[Export ("notificationManager")]
-		IBandNotificationManagerProtocol NotificationManager { get; }
+		IBandNotificationManager NotificationManager { get; }
 
 		// @property (readonly, nonatomic) id<MSBSensorManagerProtocol> sensorManager;
 		[Export ("sensorManager")]
-		IBandSensorManagerProtocol SensorManager { get; }
+		IBandSensorManager SensorManager { get; }
 
 		// -(void)firmwareVersionWithCompletionHandler:(void (^)(NSString *, NSError *))completionHandler;
 		[Export ("firmwareVersionWithCompletionHandler:"), Async]
-		void FirmwareVersion (Action<NSString, NSError> completionHandler);
+		void GetFirmwareVersionAsync (Action<NSString, NSError> completionHandler);
 
 		// -(void)hardwareVersionWithCompletionHandler:(void (^)(NSString *, NSError *))completionHandler;
 		[Export ("hardwareVersionWithCompletionHandler:"), Async]
-		void HardwareVersion (Action<NSString, NSError> completionHandler);
+		void GetHardwareVersionAsyc (Action<NSString, NSError> completionHandler);
 	}
+}
 
-	// @interface MSBTile : NSObject
-	[BaseType (typeof(NSObject), Name = "MSBTile")]
-	interface BandTile
-	{
-		// @property (readonly, nonatomic) NSString * name;
-		[Export ("name")]
-		string Name { get; }
-
-		// @property (readonly, nonatomic) NSUUID * tileId;
-		[Export ("tileId")]
-		NSUuid TileId { get; }
-
-		// @property (readonly, nonatomic) MSBIcon * smallIcon;
-		[Export ("smallIcon")]
-		BandIcon SmallIcon { get; }
-
-		// @property (readonly, nonatomic) MSBIcon * tileIcon;
-		[Export ("tileIcon")]
-		BandIcon TileIcon { get; }
-
-		// @property (nonatomic, strong) MSBTheme * theme;
-		[Export ("theme", ArgumentSemantic.Retain)]
-		BandTheme Theme { get; set; }
-
-		// @property (getter = isBadgingEnabled, assign, nonatomic) BOOL badgingEnabled;
-		[Export ("badgingEnabled")]
-		bool BadgingEnabled { [Bind ("isBadgingEnabled")] get; set; }
-
-		// @property (readonly, nonatomic) NSMutableArray * pageIcons;
-		[Export ("pageIcons")]
-		NSMutableArray PageIcons { get; }
-
-		// @property (readonly, nonatomic) NSMutableArray * pageLayouts;
-		[Export ("pageLayouts")]
-		NSMutableArray PageLayouts { get; }
-
-		// +(MSBTile *)tileWithId:(NSUUID *)tileId name:(NSString *)tileName tileIcon:(MSBIcon *)tileIcon smallIcon:(MSBIcon *)smallIcon error:(NSError **)pError;
-		[Static]
-		[Export ("tileWithId:name:tileIcon:smallIcon:error:")]
-		BandTile Create (NSUuid tileId, string tileName, BandIcon tileIcon, BandIcon smallIcon, out NSError pError);
-
-		// -(BOOL)setName:(NSString *)tileName error:(NSError **)pError;
-		[Export ("setName:error:")]
-		bool SetName (string tileName, out NSError pError);
-
-		// -(BOOL)setTileIcon:(MSBIcon *)tileIcon error:(NSError **)pError;
-		[Export ("setTileIcon:error:")]
-		bool SetTileIcon (BandIcon tileIcon, out NSError pError);
-
-		// -(BOOL)setSmallIcon:(MSBIcon *)smallIcon error:(NSError **)pError;
-		[Export ("setSmallIcon:error:")]
-		bool SetSmallIcon (BandIcon smallIcon, out NSError pError);
-	}
-
-	interface IBandTileManagerProtocol {}
-
-	// @protocol MSBTileManagerProtocol <NSObject>
-	[Protocol, Model]
-	[BaseType (typeof(NSObject), Name = "MSBTileManagerProtocol")]
-	interface BandTileManagerProtocol
-	{
-		// @required -(void)tilesWithCompletionHandler:(void (^)(NSArray *, NSError *))completionHandler; 
-		[Abstract]
-		[Export ("tilesWithCompletionHandler:")]
-		void GetTiles (Action<BandTile[], NSError> completionHandler);
-
-		// @required -(void)addTile:(MSBTile *)tile completionHandler:(void (^)(NSError *))completionHandler;
-		[Abstract]
-		[Export ("addTile:completionHandler:")]
-		void AddTile (BandTile tile, Action<NSError> completionHandler);
-
-		// @required -(void)removeTile:(MSBTile *)tile completionHandler:(void (^)(NSError *))completionHandler;
-		[Abstract]
-		[Export ("removeTile:completionHandler:")]
-		void RemoveTile (BandTile tile, Action<NSError> completionHandler);
-
-		// @required -(void)removeTileWithId:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
-		[Abstract]
-		[Export ("removeTileWithId:completionHandler:")]
-		void RemoveTile (NSUuid tileId, Action<NSError> completionHandler);
-
-		// @required -(void)remainingTileCapacityWithCompletionHandler:(void (^)(NSUInteger, NSError *))completionHandler;
-		[Abstract]
-		[Export ("remainingTileCapacityWithCompletionHandler:")]
-		void RemainingTileCapacity (Action<nuint, NSError> completionHandler);
-
-		// @required -(void)setPages:(NSArray *)pageData tileId:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
-		[Abstract]
-		[Export ("setPages:tileId:completionHandler:")]
-		void SetPages (NSObject[] pageData, NSUuid tileId, Action<NSError> completionHandler);
-
-		// @required -(void)removePagesInTile:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
-		[Abstract]
-		[Export ("removePagesInTile:completionHandler:")]
-		void RemovePagesInTile (NSUuid tileId, Action<NSError> completionHandler);
-	}
-
-	interface IBandPersonalizationManagerProtocol {}
-
-	// @protocol MSBPersonalizationManagerProtocol <NSObject>
-	[Protocol, Model]
-	[BaseType (typeof(NSObject), Name = "MSBPersonalizationManagerProtocol")]
-	interface BandPersonalizationManagerProtocol
-	{
-		// @required -(void)updateMeTileImage:(MSBImage *)image completionHandler:(void (^)(NSError *))completionHandler;
-		[Abstract]
-		[Export ("updateMeTileImage:completionHandler:")]
-		void UpdateMeTileImage (BandImage image, Action<NSError> completionHandler);
-
-		// @required -(void)meTileImageWithCompletionHandler:(void (^)(MSBImage *, NSError *))completionHandler;
-		[Abstract]
-		[Export ("meTileImageWithCompletionHandler:")]
-		void MeTileImage (Action<BandImage, NSError> completionHandler);
-
-		// @required -(void)updateTheme:(MSBTheme *)theme completionHandler:(void (^)(NSError *))completionHandler;
-		[Abstract]
-		[Export ("updateTheme:completionHandler:")]
-		void UpdateTheme (BandTheme theme, Action<NSError> completionHandler);
-
-		// @required -(void)themeWithCompletionHandler:(void (^)(MSBTheme *, NSError *))completionHandler;
-		[Abstract]
-		[Export ("themeWithCompletionHandler:")]
-		void Theme (Action<BandTheme, NSError> completionHandler);
-	}
-
-	// @interface MSBSensorData : NSObject
-	[BaseType (typeof(NSObject), Name = "MSBSensorData")]
-	interface BandSensorData
-	{
-	}
-
-	// @interface MSBSensorAccelData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorAccelData")]
-	interface BandSensorAccelData
-	{
-		// @property (readonly, nonatomic) double x;
-		[Export ("x")]
-		double X { get; }
-
-		// @property (readonly, nonatomic) double y;
-		[Export ("y")]
-		double Y { get; }
-
-		// @property (readonly, nonatomic) double z;
-		[Export ("z")]
-		double Z { get; }
-	}
-
-	// @interface MSBSensorGyroData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorGyroData")]
-	interface BandSensorGyroData
-	{
-		// @property (readonly, nonatomic) double x;
-		[Export ("x")]
-		double X { get; }
-
-		// @property (readonly, nonatomic) double y;
-		[Export ("y")]
-		double Y { get; }
-
-		// @property (readonly, nonatomic) double z;
-		[Export ("z")]
-		double Z { get; }
-	}
-
-	// @interface MSBSensorAccelGyroData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorAccelGyroData")]
-	interface BandSensorAccelGyroData
-	{
-		// @property (readonly, nonatomic) MSBSensorAccelData * accel;
-		[Export ("accel")]
-		BandSensorAccelData Accel { get; }
-
-		// @property (readonly, nonatomic) MSBSensorGyroData * gyro;
-		[Export ("gyro")]
-		BandSensorGyroData Gyro { get; }
-	}
-
-	// @interface MSBSensorHeartRateData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorHeartRateData")]
-	interface BandSensorHeartRateData
-	{
-		// @property (readonly, nonatomic) NSUInteger heartRate;
-		[Export ("heartRate")]
-		nuint HeartRate { get; }
-
-		// @property (readonly, nonatomic) MSBHeartRateQuality quality;
-		[Export ("quality")]
-		BandHeartRateQuality Quality { get; }
-	}
-
-	// @interface MSBSensorCaloriesData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorCaloriesData")]
-	interface BandSensorCaloriesData
-	{
-		// @property (readonly, nonatomic) NSUInteger calories;
-		[Export ("calories")]
-		nuint Calories { get; }
-	}
-
-	// @interface MSBSensorDistanceData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorDistanceData")]
-	interface BandSensorDistanceData
-	{
-		// @property (readonly, nonatomic) NSUInteger totalDistance;
-		[Export ("totalDistance")]
-		nuint TotalDistance { get; }
-
-		// @property (readonly, nonatomic) double speed;
-		[Export ("speed")]
-		double Speed { get; }
-
-		// @property (readonly, nonatomic) double pace;
-		[Export ("pace")]
-		double Pace { get; }
-
-		// @property (readonly, nonatomic) MSBPedometerMode pedometerMode;
-		[Export ("pedometerMode")]
-		BandPedometerMode PedometerMode { get; }
-	}
-
-	// @interface MSBSensorPedometerData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorPedometerData")]
-	interface BandSensorPedometerData
-	{
-		// @property (readonly, nonatomic) int totalSteps;
-		[Export ("totalSteps")]
-		int TotalSteps { get; }
-
-		// @property (readonly, nonatomic) int stepRate;
-		[Export ("stepRate")]
-		int StepRate { get; }
-
-		// @property (readonly, nonatomic) int movementRate;
-		[Export ("movementRate")]
-		int MovementRate { get; }
-
-		// @property (readonly, nonatomic) int totalMovements;
-		[Export ("totalMovements")]
-		int TotalMovements { get; }
-
-		// @property (readonly, nonatomic) int movementMode;
-		[Export ("movementMode")]
-		int MovementMode { get; }
-	}
-
-	// @interface MSBSensorSkinTempData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorSkinTempData")]
-	interface BandSensorSkinTempData
-	{
-		// @property (readonly, nonatomic) double temperature;
-		[Export ("temperature")]
-		double Temperature { get; }
-	}
-
-	// @interface MSBSensorUVData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorUVData")]
-	interface BandSensorUVData
-	{
-		// @property (readonly, nonatomic) MSBUVIndexLevel uvIndexLevel;
-		[Export ("uvIndexLevel")]
-		BandUVIndexLevel UVIndexLevel { get; }
-	}
-
-	// @interface MSBSensorBandContactData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorBandContactData")]
-	interface BandSensorBandContactData
-	{
-		// @property (readonly, nonatomic) MSBSensorBandContactState wornState;
-		[Export ("wornState")]
-		BandSensorBandContactState WornState { get; }
-	}
-
-	interface IBandSensorManagerProtocol {}
-
-	// @protocol MSBSensorManagerProtocol <NSObject>
-	[Protocol, Model]
-	[BaseType (typeof(NSObject), Name = "MSBSensorManagerProtocol")]
-	interface BandSensorManagerProtocol
-	{
-		// @required -(BOOL)startAccelerometerUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorAccelData *, NSError *))handler;
-		[Abstract]
-		[Export ("startAccelerometerUpdatesToQueue:errorRef:withHandler:")]
-		bool StartAccelerometerUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorAccelData, NSError> handler);
-
-		// @required -(BOOL)stopAccelerometerUpdatesErrorRef:(NSError **)pError;
-		[Abstract]
-		[Export ("stopAccelerometerUpdatesErrorRef:")]
-		bool StopAccelerometerUpdates (out NSError pError);
-
-		// @required -(BOOL)startGyroscopeUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorGyroData *, NSError *))handler;
-		[Abstract]
-		[Export ("startGyroscopeUpdatesToQueue:errorRef:withHandler:")]
-		bool StartGyroscopeUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorGyroData, NSError> handler);
-
-		// @required -(BOOL)stopGyroscopeUpdatesErrorRef:(NSError **)pError;
-		[Abstract]
-		[Export ("stopGyroscopeUpdatesErrorRef:")]
-		bool StopGyroscopeUpdates (out NSError pError);
-
-		// @required -(BOOL)startHearRateUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorHeartRateData *, NSError *))handler;
-		[Abstract]
-		[Export ("startHearRateUpdatesToQueue:errorRef:withHandler:")]
-		bool StartHearRateUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorHeartRateData, NSError> handler);
-
-		// @required -(BOOL)stopHeartRateUpdatesErrorRef:(NSError **)pError;
-		[Abstract]
-		[Export ("stopHeartRateUpdatesErrorRef:")]
-		bool StopHeartRateUpdates (out NSError pError);
-
-		// @required -(BOOL)startCaloriesUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorCaloriesData *, NSError *))handler;
-		[Abstract]
-		[Export ("startCaloriesUpdatesToQueue:errorRef:withHandler:")]
-		bool StartCaloriesUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorCaloriesData, NSError> handler);
-
-		// @required -(BOOL)stopCaloriesUpdatesErrorRef:(NSError **)pError;
-		[Abstract]
-		[Export ("stopCaloriesUpdatesErrorRef:")]
-		bool StopCaloriesUpdates (out NSError pError);
-
-		// @required -(BOOL)startDistanceUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorDistanceData *, NSError *))handler;
-		[Abstract]
-		[Export ("startDistanceUpdatesToQueue:errorRef:withHandler:")]
-		bool StartDistanceUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorDistanceData, NSError> handler);
-
-		// @required -(BOOL)stopDistanceUpdatesErrorRef:(NSError **)pError;
-		[Abstract]
-		[Export ("stopDistanceUpdatesErrorRef:")]
-		bool StopDistanceUpdates (out NSError pError);
-
-		// @required -(BOOL)startPedometerUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorPedometerData *, NSError *))handler;
-		[Abstract]
-		[Export ("startPedometerUpdatesToQueue:errorRef:withHandler:")]
-		bool StartPedometerUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorPedometerData, NSError> handler);
-
-		// @required -(BOOL)stopPedometerUpdatesErrorRef:(NSError **)pError;
-		[Abstract]
-		[Export ("stopPedometerUpdatesErrorRef:")]
-		bool StopPedometerUpdates (out NSError pError);
-
-		// @required -(BOOL)startSkinTempUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorSkinTempData *, NSError *))handler;
-		[Abstract]
-		[Export ("startSkinTempUpdatesToQueue:errorRef:withHandler:")]
-		bool StartSkinTempUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorSkinTempData, NSError> handler);
-
-		// @required -(BOOL)stopSkinTempUpdatesErrorRef:(NSError **)pError;
-		[Abstract]
-		[Export ("stopSkinTempUpdatesErrorRef:")]
-		bool StopSkinTempUpdates (out NSError pError);
-
-		// @required -(BOOL)startUVUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorUVData *, NSError *))handler;
-		[Abstract]
-		[Export ("startUVUpdatesToQueue:errorRef:withHandler:")]
-		bool StartUVUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorUVData, NSError> handler);
-
-		// @required -(BOOL)stopUVUpdatesErrorRef:(NSError **)pError;
-		[Abstract]
-		[Export ("stopUVUpdatesErrorRef:")]
-		bool StopUVUpdates (out NSError pError);
-
-		// @required -(BOOL)startBandContactUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorBandContactData *, NSError *))handler;
-		[Abstract]
-		[Export ("startBandContactUpdatesToQueue:errorRef:withHandler:")]
-		bool StartBandContactUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorBandContactData, NSError> handler);
-
-		// @required -(BOOL)stopBandContactUpdatesErrorRef:(NSError **)pError;
-		[Abstract]
-		[Export ("stopBandContactUpdatesErrorRef:")]
-		bool StopBandContactUpdates (out NSError pError);
-	}
-
-	// @interface MSBIcon : NSObject
-	[BaseType (typeof(NSObject), Name = "MSBIcon")]
-	interface BandIcon
-	{
-		// @property (readonly, assign, nonatomic) CGSize size;
-		[Export ("size", ArgumentSemantic.UnsafeUnretained)]
-		CGSize Size { get; }
-
-		// +(MSBIcon *)iconWithMSBImage:(MSBImage *)image error:(NSError **)pError;
-		[Static]
-		[Export ("iconWithMSBImage:error:")]
-		BandIcon FromImage (BandImage image, out NSError pError);
-
-		// +(MSBIcon *)iconWithUIImage:(UIImage *)image error:(NSError **)pError;
-		[Static]
-		[Export ("iconWithUIImage:error:")]
-		BandIcon FromUIImage (UIImage image, out NSError pError);
-
-		// -(UIImage *)UIImage;
-		[Export ("UIImage")]
-		UIImage UIImage { get; }
-	}
-
-	// @interface MSBImage : NSObject
-	[BaseType (typeof(NSObject), Name = "MSBImage")]
-	interface BandImage
-	{
-		// @property (readonly, nonatomic) CGSize size;
-		[Export ("size")]
-		CGSize Size { get; }
-
-		// -(instancetype)initWithContentsOfFile:(NSString *)path;
-		[Export ("initWithContentsOfFile:")]
-		IntPtr Constructor (string path);
-
-		// -(instancetype)initWithUIImage:(UIImage *)image;
-		[Export ("initWithUIImage:")]
-		IntPtr Constructor (UIImage image);
-
-		// -(UIImage *)UIImage;
-		[Export ("UIImage")]
-		UIImage UIImage { get; }
-	}
-
-	// @interface MSBColor : NSObject
-	[BaseType (typeof(NSObject), Name = "MSBColor")]
-	interface BandColor
-	{
-		// +(id)colorWithUIColor:(UIColor *)color error:(NSError **)pError;
-		[Static]
-		[Export ("colorWithUIColor:error:")]
-		NSObject FromUIColor (UIColor color, out NSError pError);
-
-		// -(UIColor *)UIColor;
-		[Export ("UIColor")]
-		UIColor UIColor { get; }
-
-		// +(MSBColor *)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue;
-		[Static]
-		[Export ("colorWithRed:green:blue:")]
-		BandColor ColorWithRed (nuint red, nuint green, nuint blue);
-	}
-
-	// @interface MSBTheme : NSObject
-	[BaseType (typeof(NSObject), Name = "MSBTheme")]
-	interface BandTheme
-	{
-		// @property (nonatomic, strong) MSBColor * baseColor;
-		[Export ("baseColor", ArgumentSemantic.Retain)]
-		BandColor BaseColor { get; set; }
-
-		// @property (nonatomic, strong) MSBColor * highLightColor;
-		[Export ("highLightColor", ArgumentSemantic.Retain)]
-		BandColor HighLightColor { get; set; }
-
-		// @property (nonatomic, strong) MSBColor * lowLightColor;
-		[Export ("lowLightColor", ArgumentSemantic.Retain)]
-		BandColor LowLightColor { get; set; }
-
-		// @property (nonatomic, strong) MSBColor * secondaryTextColor;
-		[Export ("secondaryTextColor", ArgumentSemantic.Retain)]
-		BandColor SecondaryTextColor { get; set; }
-
-		// @property (nonatomic, strong) MSBColor * highContrastColor;
-		[Export ("highContrastColor", ArgumentSemantic.Retain)]
-		BandColor HighContrastColor { get; set; }
-
-		// @property (nonatomic, strong) MSBColor * mutedColor;
-		[Export ("mutedColor", ArgumentSemantic.Retain)]
-		BandColor MutedColor { get; set; }
-
-		// +(MSBTheme *)themeWithBaseColor:(MSBColor *)baseColor highLightColor:(MSBColor *)highLightColor lowLightColor:(MSBColor *)lowLightColor secondaryTextColor:(MSBColor *)secondaryTextColor highContrastColor:(MSBColor *)highContrastColor mutedColor:(MSBColor *)mutedColor;
-		[Static]
-		[Export ("themeWithBaseColor:highLightColor:lowLightColor:secondaryTextColor:highContrastColor:mutedColor:")]
-		BandTheme Create (BandColor baseColor, BandColor highLightColor, BandColor lowLightColor, BandColor secondaryTextColor, BandColor highContrastColor, BandColor mutedColor);
-	}
-
-	interface IBandNotificationManagerProtocol {}
-
-	// @protocol MSBNotificationManagerProtocol <NSObject>
-	[Protocol, Model]
-	[BaseType (typeof(NSObject), Name = "MSBNotificationManagerProtocol")]
-	interface BandNotificationManagerProtocol
-	{
-		// @required -(void)vibrateWithType:(MSBVibrationType)vibrationType completionHandler:(void (^)(NSError *))completionHandler;
-		[Abstract]
-		[Export ("vibrateWithType:completionHandler:")]
-		void Vibrate (BandVibrationType vibrationType, Action<NSError> completionHandler);
-
-		// @required -(void)showDialogWithTileID:(NSUUID *)tileID title:(NSString *)title body:(NSString *)body completionHandler:(void (^)(NSError *))completionHandler;
-		[Abstract]
-		[Export ("showDialogWithTileID:title:body:completionHandler:")]
-		void ShowDialog (NSUuid tileID, string title, string body, Action<NSError> completionHandler);
-
-		// @required -(void)sendMessageWithTileID:(NSUUID *)tileID title:(NSString *)title body:(NSString *)body timeStamp:(NSDate *)timeStamp flags:(MSBNotificationMessageFlags)flags completionHandler:(void (^)(NSError *))completionHandler;
-		[Abstract]
-		[Export ("sendMessageWithTileID:title:body:timeStamp:flags:completionHandler:")]
-		void SendMessage (NSUuid tileID, string title, string body, NSDate timeStamp, BandNotificationMessageFlags flags, Action<NSError> completionHandler);
-
-		// @required -(void)registerNotificationWithTileID:(NSUUID *)tileID completionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
-		[iOS (7,0)]
-		[Abstract]
-		[Export ("registerNotificationWithTileID:completionHandler:")]
-		void RegisterNotification (NSUuid tileID, Action<NSError> completionHandler);
-
-		// @required -(void)registerNotificationWithCompletionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
-		[iOS (7,0)]
-		[Abstract]
-		[Export ("registerNotificationWithCompletionHandler:")]
-		void RegisterNotification (Action<NSError> completionHandler);
-
-		// @required -(void)unregisterNotificationWithCompletionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
-		[iOS (7,0)]
-		[Abstract]
-		[Export ("unregisterNotificationWithCompletionHandler:")]
-		void UnregisterNotification (Action<NSError> completionHandler);
-	}
-
+namespace Microsoft.Band.Pages
+{
 	// @interface MSBPageElement : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBPageElement")]
 	interface BandPageElement
@@ -910,6 +413,538 @@ namespace Microsoft.Band
 		[Export ("initWithRect:barcodeType:")]
 		IntPtr Constructor (BandRect rect, BandBarcodeType type);
 	}
-
 }
 
+namespace Microsoft.Band.Notifications
+{
+	interface IBandNotificationManager
+	{
+
+	}
+
+	// @protocol MSBNotificationManagerProtocol <NSObject>
+	[Protocol, Model]
+	[BaseType (typeof(NSObject), Name = "MSBNotificationManagerProtocol")]
+	interface BandNotificationManager
+	{
+		// @required -(void)vibrateWithType:(MSBVibrationType)vibrationType completionHandler:(void (^)(NSError *))completionHandler;
+		[Abstract]
+		[Export ("vibrateWithType:completionHandler:")]
+		void VibrateAsync (VibrationType vibrationType, Action<NSError> completionHandler);
+
+		// @required -(void)showDialogWithTileID:(NSUUID *)tileID title:(NSString *)title body:(NSString *)body completionHandler:(void (^)(NSError *))completionHandler;
+		[Abstract]
+		[Export ("showDialogWithTileID:title:body:completionHandler:")]
+		void ShowDialogAsync (NSUuid tileID, string title, string body, Action<NSError> completionHandler);
+
+		// @required -(void)sendMessageWithTileID:(NSUUID *)tileID title:(NSString *)title body:(NSString *)body timeStamp:(NSDate *)timeStamp flags:(MSBNotificationMessageFlags)flags completionHandler:(void (^)(NSError *))completionHandler;
+		[Abstract]
+		[Export ("sendMessageWithTileID:title:body:timeStamp:flags:completionHandler:")]
+		void SendMessageAsync (NSUuid tileID, string title, string body, NSDate timeStamp, MessageFlags flags, Action<NSError> completionHandler);
+
+		// @required -(void)registerNotificationWithTileID:(NSUUID *)tileID completionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
+		[iOS (7, 0)]
+		[Abstract]
+		[Export ("registerNotificationWithTileID:completionHandler:")]
+		void RegisterPushNotificationAsync (NSUuid tileID, Action<NSError> completionHandler);
+
+		// @required -(void)registerNotificationWithCompletionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
+		[iOS (7, 0)]
+		[Abstract]
+		[Export ("registerNotificationWithCompletionHandler:")]
+		void RegisterPushNotificationAsync (Action<NSError> completionHandler);
+
+		// @required -(void)unregisterNotificationWithCompletionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
+		[iOS (7, 0)]
+		[Abstract]
+		[Export ("unregisterNotificationWithCompletionHandler:")]
+		void UnregisterPushNotificationAsync (Action<NSError> completionHandler);
+	}
+}
+
+namespace Microsoft.Band.Personalization
+{
+	interface IBandPersonalizationManager
+	{
+
+	}
+
+	// @protocol MSBPersonalizationManagerProtocol <NSObject>
+	[Protocol, Model]
+	[BaseType (typeof(NSObject), Name = "MSBPersonalizationManagerProtocol")]
+	interface BandPersonalizationManager
+	{
+		// @required -(void)updateMeTileImage:(MSBImage *)image completionHandler:(void (^)(NSError *))completionHandler;
+		[Abstract]
+		[Export ("updateMeTileImage:completionHandler:")]
+		void UpdateMeTileImageAsync (BandImage image, Action<NSError> completionHandler);
+
+		// @required -(void)meTileImageWithCompletionHandler:(void (^)(MSBImage *, NSError *))completionHandler;
+		[Abstract]
+		[Export ("meTileImageWithCompletionHandler:")]
+		void GetMeTileImageAsync (Action<BandImage, NSError> completionHandler);
+
+		// @required -(void)updateTheme:(MSBTheme *)theme completionHandler:(void (^)(NSError *))completionHandler;
+		[Abstract]
+		[Export ("updateTheme:completionHandler:")]
+		void UpdateThemeAsync (BandTheme theme, Action<NSError> completionHandler);
+
+		// @required -(void)themeWithCompletionHandler:(void (^)(MSBTheme *, NSError *))completionHandler;
+		[Abstract]
+		[Export ("themeWithCompletionHandler:")]
+		void GetThemeAsync (Action<BandTheme, NSError> completionHandler);
+	}
+}
+
+namespace Microsoft.Band.Sensors
+{
+	// @interface MSBSensorData : NSObject
+	[BaseType (typeof(NSObject), Name = "MSBSensorData")]
+	interface BandSensorData
+	{
+	}
+
+	// @interface MSBSensorAccelData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorAccelData")]
+	interface BandSensorAccelerometerData
+	{
+		// @property (readonly, nonatomic) double x;
+		[Export ("x")]
+		double X { get; }
+
+		// @property (readonly, nonatomic) double y;
+		[Export ("y")]
+		double Y { get; }
+
+		// @property (readonly, nonatomic) double z;
+		[Export ("z")]
+		double Z { get; }
+	}
+
+	// @interface MSBSensorGyroData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorGyroData")]
+	interface BandSensorGyroscopeData
+	{
+		// @property (readonly, nonatomic) double x;
+		[Export ("x")]
+		double X { get; }
+
+		// @property (readonly, nonatomic) double y;
+		[Export ("y")]
+		double Y { get; }
+
+		// @property (readonly, nonatomic) double z;
+		[Export ("z")]
+		double Z { get; }
+	}
+
+	// @interface MSBSensorAccelGyroData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorAccelGyroData")]
+	interface BandSensorAccelerometerGyroscopeData
+	{
+		// @property (readonly, nonatomic) MSBSensorAccelData * accel;
+		[Export ("accel")]
+		BandSensorAccelerometerData Accel { get; }
+
+		// @property (readonly, nonatomic) MSBSensorGyroData * gyro;
+		[Export ("gyro")]
+		BandSensorGyroscopeData Gyro { get; }
+	}
+
+	// @interface MSBSensorHeartRateData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorHeartRateData")]
+	interface BandSensorHeartRateData
+	{
+		// @property (readonly, nonatomic) NSUInteger heartRate;
+		[Export ("heartRate")]
+		nuint HeartRate { get; }
+
+		// @property (readonly, nonatomic) MSBHeartRateQuality quality;
+		[Export ("quality")]
+		HeartRateQuality Quality { get; }
+	}
+
+	// @interface MSBSensorCaloriesData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorCaloriesData")]
+	interface BandSensorCaloriesData
+	{
+		// @property (readonly, nonatomic) NSUInteger calories;
+		[Export ("calories")]
+		nuint Calories { get; }
+	}
+
+	// @interface MSBSensorDistanceData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorDistanceData")]
+	interface BandSensorDistanceData
+	{
+		// @property (readonly, nonatomic) NSUInteger totalDistance;
+		[Export ("totalDistance")]
+		nuint TotalDistance { get; }
+
+		// @property (readonly, nonatomic) double speed;
+		[Export ("speed")]
+		double Speed { get; }
+
+		// @property (readonly, nonatomic) double pace;
+		[Export ("pace")]
+		double Pace { get; }
+
+		// @property (readonly, nonatomic) MSBPedometerMode pedometerMode;
+		[Export ("pedometerMode")]
+		PedometerMode PedometerMode { get; }
+	}
+
+	// @interface MSBSensorPedometerData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorPedometerData")]
+	interface BandSensorPedometerData
+	{
+		// @property (readonly, nonatomic) int totalSteps;
+		[Export ("totalSteps")]
+		int TotalSteps { get; }
+
+		// @property (readonly, nonatomic) int stepRate;
+		[Export ("stepRate")]
+		int StepRate { get; }
+
+		// @property (readonly, nonatomic) int movementRate;
+		[Export ("movementRate")]
+		int MovementRate { get; }
+
+		// @property (readonly, nonatomic) int totalMovements;
+		[Export ("totalMovements")]
+		int TotalMovements { get; }
+
+		// @property (readonly, nonatomic) int movementMode;
+		[Export ("movementMode")]
+		int MovementMode { get; }
+	}
+
+	// @interface MSBSensorSkinTempData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorSkinTempData")]
+	interface BandSensorSkinTemperatureData
+	{
+		// @property (readonly, nonatomic) double temperature;
+		[Export ("temperature")]
+		double Temperature { get; }
+	}
+
+	// @interface MSBSensorUVData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorUVData")]
+	interface BandSensorUVData
+	{
+		// @property (readonly, nonatomic) MSBUVIndexLevel uvIndexLevel;
+		[Export ("uvIndexLevel")]
+		UVIndexLevel UVIndexLevel { get; }
+	}
+
+	// @interface MSBSensorBandContactData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorBandContactData")]
+	interface BandSensorContactData
+	{
+		// @property (readonly, nonatomic) MSBSensorBandContactState wornState;
+		[Export ("wornState")]
+		BandContactStatus WornState { get; }
+	}
+
+	interface IBandSensorManager
+	{
+
+	}
+
+	// @protocol MSBSensorManagerProtocol <NSObject>
+	[Protocol, Model]
+	[BaseType (typeof(NSObject), Name = "MSBSensorManagerProtocol")]
+	interface BandSensorManager
+	{
+		// @required -(BOOL)startAccelerometerUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorAccelData *, NSError *))handler;
+		[Abstract]
+		[Export ("startAccelerometerUpdatesToQueue:errorRef:withHandler:")]
+		bool StartAccelerometerUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorAccelerometerData, NSError> handler);
+
+		// @required -(BOOL)stopAccelerometerUpdatesErrorRef:(NSError **)pError;
+		[Abstract]
+		[Export ("stopAccelerometerUpdatesErrorRef:")]
+		bool StopAccelerometerUpdates (out NSError pError);
+
+		// @required -(BOOL)startGyroscopeUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorGyroData *, NSError *))handler;
+		[Abstract]
+		[Export ("startGyroscopeUpdatesToQueue:errorRef:withHandler:")]
+		bool StartGyroscopeUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorGyroscopeData, NSError> handler);
+
+		// @required -(BOOL)stopGyroscopeUpdatesErrorRef:(NSError **)pError;
+		[Abstract]
+		[Export ("stopGyroscopeUpdatesErrorRef:")]
+		bool StopGyroscopeUpdates (out NSError pError);
+
+		// @required -(BOOL)startHearRateUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorHeartRateData *, NSError *))handler;
+		[Abstract]
+		[Export ("startHearRateUpdatesToQueue:errorRef:withHandler:")]
+		bool StartHeartRateUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorHeartRateData, NSError> handler);
+
+		// @required -(BOOL)stopHeartRateUpdatesErrorRef:(NSError **)pError;
+		[Abstract]
+		[Export ("stopHeartRateUpdatesErrorRef:")]
+		bool StopHeartRateUpdates (out NSError pError);
+
+		// @required -(BOOL)startCaloriesUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorCaloriesData *, NSError *))handler;
+		[Abstract]
+		[Export ("startCaloriesUpdatesToQueue:errorRef:withHandler:")]
+		bool StartCaloriesUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorCaloriesData, NSError> handler);
+
+		// @required -(BOOL)stopCaloriesUpdatesErrorRef:(NSError **)pError;
+		[Abstract]
+		[Export ("stopCaloriesUpdatesErrorRef:")]
+		bool StopCaloriesUpdates (out NSError pError);
+
+		// @required -(BOOL)startDistanceUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorDistanceData *, NSError *))handler;
+		[Abstract]
+		[Export ("startDistanceUpdatesToQueue:errorRef:withHandler:")]
+		bool StartDistanceUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorDistanceData, NSError> handler);
+
+		// @required -(BOOL)stopDistanceUpdatesErrorRef:(NSError **)pError;
+		[Abstract]
+		[Export ("stopDistanceUpdatesErrorRef:")]
+		bool StopDistanceUpdates (out NSError pError);
+
+		// @required -(BOOL)startPedometerUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorPedometerData *, NSError *))handler;
+		[Abstract]
+		[Export ("startPedometerUpdatesToQueue:errorRef:withHandler:")]
+		bool StartPedometerUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorPedometerData, NSError> handler);
+
+		// @required -(BOOL)stopPedometerUpdatesErrorRef:(NSError **)pError;
+		[Abstract]
+		[Export ("stopPedometerUpdatesErrorRef:")]
+		bool StopPedometerUpdates (out NSError pError);
+
+		// @required -(BOOL)startSkinTempUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorSkinTempData *, NSError *))handler;
+		[Abstract]
+		[Export ("startSkinTempUpdatesToQueue:errorRef:withHandler:")]
+		bool StartSkinTemperatureUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorSkinTemperatureData, NSError> handler);
+
+		// @required -(BOOL)stopSkinTempUpdatesErrorRef:(NSError **)pError;
+		[Abstract]
+		[Export ("stopSkinTempUpdatesErrorRef:")]
+		bool StopSkinTemperatureUpdates (out NSError pError);
+
+		// @required -(BOOL)startUVUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorUVData *, NSError *))handler;
+		[Abstract]
+		[Export ("startUVUpdatesToQueue:errorRef:withHandler:")]
+		bool StartUVUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorUVData, NSError> handler);
+
+		// @required -(BOOL)stopUVUpdatesErrorRef:(NSError **)pError;
+		[Abstract]
+		[Export ("stopUVUpdatesErrorRef:")]
+		bool StopUVUpdates (out NSError pError);
+
+		// @required -(BOOL)startBandContactUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorBandContactData *, NSError *))handler;
+		[Abstract]
+		[Export ("startBandContactUpdatesToQueue:errorRef:withHandler:")]
+		bool StartBandContactUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorContactData, NSError> handler);
+
+		// @required -(BOOL)stopBandContactUpdatesErrorRef:(NSError **)pError;
+		[Abstract]
+		[Export ("stopBandContactUpdatesErrorRef:")]
+		bool StopBandContactUpdates (out NSError pError);
+	}
+}
+
+namespace Microsoft.Band.Tiles
+{
+	// @interface MSBTile : NSObject
+	[BaseType (typeof(NSObject), Name = "MSBTile")]
+	interface BandTile
+	{
+		// @property (readonly, nonatomic) NSString * name;
+		[Export ("name")]
+		string Name { get; }
+
+		// @property (readonly, nonatomic) NSUUID * tileId;
+		[Export ("tileId")]
+		NSUuid TileId { get; }
+
+		// @property (readonly, nonatomic) MSBIcon * smallIcon;
+		[Export ("smallIcon")]
+		BandIcon SmallIcon { get; }
+
+		// @property (readonly, nonatomic) MSBIcon * tileIcon;
+		[Export ("tileIcon")]
+		BandIcon TileIcon { get; }
+
+		// @property (nonatomic, strong) MSBTheme * theme;
+		[Export ("theme", ArgumentSemantic.Retain)]
+		BandTheme Theme { get; set; }
+
+		// @property (getter = isBadgingEnabled, assign, nonatomic) BOOL badgingEnabled;
+		[Export ("badgingEnabled")]
+		bool BadgingEnabled { [Bind ("isBadgingEnabled")] get; set; }
+
+		// @property (readonly, nonatomic) NSMutableArray * pageIcons;
+		[Export ("pageIcons")]
+		NSMutableArray PageIcons { get; }
+
+		// @property (readonly, nonatomic) NSMutableArray * pageLayouts;
+		[Export ("pageLayouts")]
+		NSMutableArray PageLayouts { get; }
+
+		// +(MSBTile *)tileWithId:(NSUUID *)tileId name:(NSString *)tileName tileIcon:(MSBIcon *)tileIcon smallIcon:(MSBIcon *)smallIcon error:(NSError **)pError;
+		[Static]
+		[Export ("tileWithId:name:tileIcon:smallIcon:error:")]
+		BandTile Create (NSUuid tileId, string tileName, BandIcon tileIcon, BandIcon smallIcon, out NSError pError);
+
+		// -(BOOL)setName:(NSString *)tileName error:(NSError **)pError;
+		[Export ("setName:error:")]
+		bool SetName (string tileName, out NSError pError);
+
+		// -(BOOL)setTileIcon:(MSBIcon *)tileIcon error:(NSError **)pError;
+		[Export ("setTileIcon:error:")]
+		bool SetTileIcon (BandIcon tileIcon, out NSError pError);
+
+		// -(BOOL)setSmallIcon:(MSBIcon *)smallIcon error:(NSError **)pError;
+		[Export ("setSmallIcon:error:")]
+		bool SetSmallIcon (BandIcon smallIcon, out NSError pError);
+	}
+
+	interface IBandTileManager
+	{
+
+	}
+
+	// @protocol MSBTileManagerProtocol <NSObject>
+	[Protocol, Model]
+	[BaseType (typeof(NSObject), Name = "MSBTileManagerProtocol")]
+	interface BandTileManager
+	{
+		// @required -(void)tilesWithCompletionHandler:(void (^)(NSArray *, NSError *))completionHandler;
+		[Abstract]
+		[Export ("tilesWithCompletionHandler:")]
+		void GetTilesAsync (Action<BandTile[], NSError> completionHandler);
+
+		// @required -(void)addTile:(MSBTile *)tile completionHandler:(void (^)(NSError *))completionHandler;
+		[Abstract]
+		[Export ("addTile:completionHandler:")]
+		void AddTileAsync (BandTile tile, Action<NSError> completionHandler);
+
+		// @required -(void)removeTile:(MSBTile *)tile completionHandler:(void (^)(NSError *))completionHandler;
+		[Abstract]
+		[Export ("removeTile:completionHandler:")]
+		void RemoveTileAsync (BandTile tile, Action<NSError> completionHandler);
+
+		// @required -(void)removeTileWithId:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
+		[Abstract]
+		[Export ("removeTileWithId:completionHandler:")]
+		void RemoveTileAsync (NSUuid tileId, Action<NSError> completionHandler);
+
+		// @required -(void)remainingTileCapacityWithCompletionHandler:(void (^)(NSUInteger, NSError *))completionHandler;
+		[Abstract]
+		[Export ("remainingTileCapacityWithCompletionHandler:")]
+		void RemainingTileCapacityAsync (Action<nuint, NSError> completionHandler);
+
+		// @required -(void)setPages:(NSArray *)pageData tileId:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
+		[Abstract]
+		[Export ("setPages:tileId:completionHandler:")]
+		void SetPagesAsync (NSObject[] pageData, NSUuid tileId, Action<NSError> completionHandler);
+
+		// @required -(void)removePagesInTile:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
+		[Abstract]
+		[Export ("removePagesInTile:completionHandler:")]
+		void RemovePagesAsync (NSUuid tileId, Action<NSError> completionHandler);
+	}
+
+	// @interface MSBIcon : NSObject
+	[BaseType (typeof(NSObject), Name = "MSBIcon")]
+	interface BandIcon
+	{
+		// @property (readonly, assign, nonatomic) CGSize size;
+		[Export ("size", ArgumentSemantic.UnsafeUnretained)]
+		CGSize Size { get; }
+
+		// +(MSBIcon *)iconWithMSBImage:(MSBImage *)image error:(NSError **)pError;
+		[Static]
+		[Export ("iconWithMSBImage:error:")]
+		BandIcon FromImage (BandImage image, out NSError pError);
+
+		// +(MSBIcon *)iconWithUIImage:(UIImage *)image error:(NSError **)pError;
+		[Static]
+		[Export ("iconWithUIImage:error:")]
+		BandIcon FromUIImage (UIImage image, out NSError pError);
+
+		// -(UIImage *)UIImage;
+		[Export ("UIImage")]
+		UIImage UIImage { get; }
+	}
+
+	// @interface MSBImage : NSObject
+	[BaseType (typeof(NSObject), Name = "MSBImage")]
+	interface BandImage
+	{
+		// @property (readonly, nonatomic) CGSize size;
+		[Export ("size")]
+		CGSize Size { get; }
+
+		// -(instancetype)initWithContentsOfFile:(NSString *)path;
+		[Export ("initWithContentsOfFile:")]
+		IntPtr Constructor (string path);
+
+		// -(instancetype)initWithUIImage:(UIImage *)image;
+		[Export ("initWithUIImage:")]
+		IntPtr Constructor (UIImage image);
+
+		// -(UIImage *)UIImage;
+		[Export ("UIImage")]
+		UIImage UIImage { get; }
+	}
+
+	// @interface MSBColor : NSObject
+	[BaseType (typeof(NSObject), Name = "MSBColor")]
+	interface BandColor
+	{
+		// +(id)colorWithUIColor:(UIColor *)color error:(NSError **)pError;
+		[Static]
+		[Export ("colorWithUIColor:error:")]
+		BandColor FromUIColor (UIColor color, out NSError pError);
+
+		// -(UIColor *)UIColor;
+		[Export ("UIColor")]
+		UIColor UIColor { get; }
+
+		// +(MSBColor *)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue;
+		[Static]
+		[Export ("colorWithRed:green:blue:")]
+		BandColor ColorWithRed (nuint red, nuint green, nuint blue);
+	}
+
+	// @interface MSBTheme : NSObject
+	[BaseType (typeof(NSObject), Name = "MSBTheme")]
+	interface BandTheme
+	{
+		// @property (nonatomic, strong) MSBColor * baseColor;
+		[Export ("baseColor", ArgumentSemantic.Retain)]
+		BandColor BaseColor { get; set; }
+
+		// @property (nonatomic, strong) MSBColor * highLightColor;
+		[Export ("highLightColor", ArgumentSemantic.Retain)]
+		BandColor HighLightColor { get; set; }
+
+		// @property (nonatomic, strong) MSBColor * lowLightColor;
+		[Export ("lowLightColor", ArgumentSemantic.Retain)]
+		BandColor LowLightColor { get; set; }
+
+		// @property (nonatomic, strong) MSBColor * secondaryTextColor;
+		[Export ("secondaryTextColor", ArgumentSemantic.Retain)]
+		BandColor SecondaryTextColor { get; set; }
+
+		// @property (nonatomic, strong) MSBColor * highContrastColor;
+		[Export ("highContrastColor", ArgumentSemantic.Retain)]
+		BandColor HighContrastColor { get; set; }
+
+		// @property (nonatomic, strong) MSBColor * mutedColor;
+		[Export ("mutedColor", ArgumentSemantic.Retain)]
+		BandColor MutedColor { get; set; }
+
+		// +(MSBTheme *)themeWithBaseColor:(MSBColor *)baseColor highLightColor:(MSBColor *)highLightColor lowLightColor:(MSBColor *)lowLightColor secondaryTextColor:(MSBColor *)secondaryTextColor highContrastColor:(MSBColor *)highContrastColor mutedColor:(MSBColor *)mutedColor;
+		[Static]
+		[Export ("themeWithBaseColor:highLightColor:lowLightColor:secondaryTextColor:highContrastColor:mutedColor:")]
+		BandTheme Create (BandColor baseColor, BandColor highLightColor, BandColor lowLightColor, BandColor secondaryTextColor, BandColor highContrastColor, BandColor mutedColor);
+	}
+}
+	
