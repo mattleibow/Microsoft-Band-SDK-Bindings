@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>DotNetDevAddict.Microsoft.Band.Xamarin</id>
@@ -18,7 +18,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="Microsoft.Band\Microsoft.Band.Android\bin\Release\Microsoft.Band.Android.dll" target="lib\MonoAndroid\Microsoft.Band.Android.dll" />
-        <file src="Microsoft.Band\Microsoft.Band.iOS\bin\Release\Microsoft.Band.iOS.dll" target="lib\XamariniOS\Microsoft.Band.iOS.dll" />
+        <file src="Microsoft.Band/Microsoft.Band.Android/bin/Release/Microsoft.Band.Android.dll" target="lib/MonoAndroid/Microsoft.Band.Android.dll" />
+        <file src="Microsoft.Band/Microsoft.Band.iOS/bin/Release/Microsoft.Band.iOS.dll" target="lib/XamariniOS/Microsoft.Band.iOS.dll" />
     </files>
 </package>
