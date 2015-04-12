@@ -31,16 +31,33 @@ namespace Microsoft.Band.Portable.Tiles
         }
 #endif
         
-        public async Task AddTileAsync(BandTile tile)
+        public async Task<bool> AddTileAsync(BandTile tile)
         {
+            bool result = false;
 #if __ANDROID__
             // TODO: Android - find a way to get hold of the Activity
-            await Native.AddTileTaskAsync(null, tile.ToNative());
+            result = await Native.AddTileTaskAsync(null, tile.ToNative());
 #elif __IOS__
-            await Native.AddTileTaskAsync(tile.ToNative());
+            try
+            {
+                await Native.AddTileTaskAsync(tile.ToNative());
+                result = true;
+            }
+            catch (BandException ex)
+            {
+                if (ex.Code == (int)BandNSErrorCodes.UserDeclinedTile)
+                {
+                    result = false;
+                }
+                else 
+                {
+                    throw;
+                }
+            }
 #elif WINDOWS_PHONE_APP
-            await Native.AddTileAsync(tile.ToNative());
+            result = await Native.AddTileAsync(tile.ToNative());
 #endif
+            return result;
         }
 
         public async Task<int> GetRemainingTileCapacityAsync()
