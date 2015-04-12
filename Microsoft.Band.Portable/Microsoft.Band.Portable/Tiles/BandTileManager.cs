@@ -35,8 +35,7 @@ namespace Microsoft.Band.Portable.Tiles
         {
             bool result = false;
 #if __ANDROID__
-            // TODO: Android - find a way to get hold of the Activity
-            result = await Native.AddTileTaskAsync(null, tile.ToNative());
+            result = await Native.AddTileAsync(tile);
 #elif __IOS__
             try
             {
