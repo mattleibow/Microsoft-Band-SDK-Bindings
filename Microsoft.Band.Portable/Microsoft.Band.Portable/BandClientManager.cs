@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 #if __ANDROID__
 using Android.App;
+using Android.Content;
 #endif
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
@@ -38,13 +39,18 @@ namespace Microsoft.Band.Portable
 #else
             return null;
 #endif
-
         }
 
         public async Task<BandClient> ConnectAsync(BandDeviceInfo info)
         {
 #if __ANDROID__
-            var nativeClient = NativeBandClientManager.Instance.Create(Application.Context, info.Native);
+            // create a custom context
+            if (bandContextWrapper == null)
+            {
+                bandContextWrapper = new BandContextWrapper(Application.Context);
+            }
+            // continue normally
+            var nativeClient = NativeBandClientManager.Instance.Create(bandContextWrapper, info.Native);
             var result = await nativeClient.ConnectTaskAsync();
             return new BandClient(nativeClient);
 #elif __IOS__
@@ -57,5 +63,28 @@ namespace Microsoft.Band.Portable
             return null;
 #endif
         }
+
+#if __ANDROID__
+        private static BandContextWrapper bandContextWrapper;
+
+        private class BandContextWrapper : ContextWrapper
+        {
+            public BandContextWrapper(Context baseContext)
+                : base (baseContext)
+            {
+            }
+
+            // make the intent explicit
+            public override bool BindService(Intent service, IServiceConnection conn, Bind flags)
+            {
+                var action = service.Action;
+                if (!string.IsNullOrEmpty(action) && action.StartsWith("com.microsoft.band"))
+                {
+                    service.SetPackage("com.microsoft.kapp");
+                }
+                return base.BindService(service, conn, flags);
+            }
+        }
+#endif
     }
 }
