@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BaseClientContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Microsoft.Band.Portable.Sample.SensorsPage"
+             Title="{Binding BandName, StringFormat='Sensors - {0}'}">
+
+  <Grid>
+
+    <ListView ItemsSource="{Binding Sensors}" HasUnevenRows="true">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <ViewCell.View>
+              
+              <StackLayout Orientation="Vertical"
+                           HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand">
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                  <Label Text="{Binding Type}" FontSize="Medium"
+                         HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                  <Switch IsToggled="{Binding IsSensorEnabled}"
+                          HorizontalOptions="End" VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+
+                <Label Text="{Binding ReadingString}" FontSize="Small" LineBreakMode="WordWrap"
+                       HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"
+                       IsVisible="{Binding IsSensorEnabled}" />
+              </StackLayout>
+              
+            </ViewCell.View>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+
+  </Grid>
+
+</BaseClientContentPage>

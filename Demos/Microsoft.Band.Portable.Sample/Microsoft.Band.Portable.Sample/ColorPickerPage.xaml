@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
+                 x:Class="Microsoft.Band.Portable.Sample.ColorPickerPage"
+                 Title="Pick Color">
+
+  <BaseContentPage.Resources>
+    <ResourceDictionary>
+      <converters:BandColorToColorConverter x:Key="BandColorConverter" />
+    </ResourceDictionary>
+  </BaseContentPage.Resources>
+
+  <Grid>
+    <ScrollView>
+      <StackLayout Orientation="Vertical">
+
+        <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+          <Label Text="Red"
+                 VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+          <Entry Text="{Binding Red}"
+                 VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+          <Label Text="Green"
+                 VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+          <Entry Text="{Binding Green}"
+                 VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+          <Label Text="Blue"
+                 VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+          <Entry Text="{Binding Blue}"
+                 VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+          <BoxView Color="{Binding Color, Converter={StaticResource BandColorConverter}}"
+                   HeightRequest="25" HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+
+        <Button Text="Pick" Clicked="PickButtonClicked"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+        <Button Text="Cancel" Clicked="CancelButtonClicked"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+      </StackLayout>
+    </ScrollView>
+  </Grid>
+
+</BaseContentPage>

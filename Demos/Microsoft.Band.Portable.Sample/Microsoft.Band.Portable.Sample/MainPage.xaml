@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Microsoft.Band.Portable.Sample.MainPage"
+             Title="Microsoft Band Sample">
+
+  <StackLayout Orientation="Vertical">
+    <Label Text="Paired Bands:" FontSize="Medium"
+           VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
+    
+    <ListView ItemsSource="{Binding Bands}" ItemSelected="BandItemSelected"
+              VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <TextCell Text="{Binding Name}" CommandParameter="{Binding}" />
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+
+  </StackLayout>
+  
+</BaseContentPage>

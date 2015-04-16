@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BaseClientContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
+                       x:Class="Microsoft.Band.Portable.Sample.PersonalizationPage"
+                       Title="{Binding BandName, StringFormat='Tile Details - {0}'}">
+
+  <BaseClientContentPage.Resources>
+    <ResourceDictionary>
+      <converters:BandImageToImageSourceConverter x:Key="BandImageConverter" />
+      <converters:BandThemeToItemsConverter x:Key="BandThemeConverter" />
+      <converters:BandColorToColorConverter x:Key="BandColorConverter" />
+    </ResourceDictionary>
+  </BaseClientContentPage.Resources>
+
+  <Grid>
+    <ScrollView>
+      <StackLayout Orientation="Vertical">
+
+        <Label Text="Me Tile Image:" FontSize="Medium"
+               VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+        <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+          <Button Text="Fetch" Command="{Binding GetMeTileImageCommand}"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+          <Button Text="Default" Command="{Binding DefaultMeTileImageCommand}"
+                  VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+          <Button Text="Select..." Command="{Binding SelectMeTileImageCommand}"
+                  VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+        
+        <Image Source="{Binding MeTileImage, Converter={StaticResource BandImageConverter}}"
+               VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand" />
+
+        <Button Text="Save" Command="{Binding SetMeTileImageCommand}"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+        <Label Text="Band Theme:" FontSize="Medium"
+               VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+        <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+          <Button Text="Fetch" Command="{Binding GetBandThemeCommand}"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+          <Button Text="Default" Command="{Binding DefaultBandThemeCommand}"
+                  VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal"
+                     VerticalOptions="Start" HorizontalOptions="StartAndExpand">
+          <ListView ItemsSource="{Binding BandTheme, Converter={StaticResource BandThemeConverter}}" HasUnevenRows="true"
+                    VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <ViewCell>
+                  <ViewCell.View>
+                    <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                      <Label Text="{Binding Name}"
+                             VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+                      <BoxView Color="{Binding Color, Converter={StaticResource BandColorConverter}}" HeightRequest="25" WidthRequest="25"
+                               VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
+                      <Button Text="..." CommandParameter="{Binding}" Clicked="ChangeColorButtonClicked"
+                              VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
+                    </StackLayout>
+                  </ViewCell.View>
+                </ViewCell>
+              </DataTemplate>
+            </ListView.ItemTemplate>
+          </ListView>
+        </StackLayout>
+
+        <Button Text="Save" Command="{Binding SetBandThemeCommand}"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+      </StackLayout>
+    </ScrollView>
+  </Grid>
+
+</BaseClientContentPage>

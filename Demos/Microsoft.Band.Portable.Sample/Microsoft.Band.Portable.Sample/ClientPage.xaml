@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 x:Class="Microsoft.Band.Portable.Sample.ClientPage"
+                 Title="{Binding BandName, StringFormat='Details - {0}'}">
+
+  <Grid>
+    <ScrollView>
+      <StackLayout Orientation="Vertical">
+
+        <Label Text="Band Name:" FontSize="Medium"
+               VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+        <Label Text="{Binding BandName}" FontSize="Small"
+               VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+
+        <Label Text="Is Connected:" FontSize="Medium"
+               VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+        <Label Text="{Binding IsConnected}" FontSize="Small"
+               VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+
+        <Label Text="Firmware Version:" FontSize="Medium"
+               VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+        <Label Text="{Binding FirmwareVersion}" FontSize="Small"
+               VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+
+        <Label Text="Hardware Version:" FontSize="Medium"
+               VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+        <Label Text="{Binding HardwareVersion}" FontSize="Small"
+               VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+
+        <Button Text="Sensors" Clicked="SensorsButtonClick"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+        <Button Text="Tiles" Clicked="TilesButtonClick"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+        <Button Text="Personalization" Clicked="PersonalizationButtonClick"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+      </StackLayout>
+    </ScrollView>
+
+  </Grid>
+
+</BaseContentPage>
