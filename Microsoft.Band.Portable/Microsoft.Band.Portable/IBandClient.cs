@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Band;
 using Microsoft.Band.Portable;
 using Microsoft.Band.Portable.Notifications;
+using Microsoft.Band.Portable.Personalization;
 using Microsoft.Band.Portable.Sensors;
 using Microsoft.Band.Portable.Tiles;
 
@@ -29,6 +30,7 @@ namespace Microsoft.Band.Portable
         private readonly Lazy<BandSensorManager> sensors;
         private readonly Lazy<BandTileManager> tiles;
         private readonly Lazy<BandNotificationManager> notifications;
+        private readonly Lazy<BandPersonalizationManager> personalization;
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
         internal NativeBandClient Native;
@@ -40,6 +42,7 @@ namespace Microsoft.Band.Portable
             this.sensors = new Lazy<BandSensorManager>(() => new BandSensorManager(this, Native.SensorManager));
             this.tiles = new Lazy<BandTileManager>(() => new BandTileManager(this, Native.TileManager));
             this.notifications = new Lazy<BandNotificationManager>(() => new BandNotificationManager(this, Native.NotificationManager));
+            this.personalization = new Lazy<BandPersonalizationManager>(() => new BandPersonalizationManager(this, Native.PersonalizationManager));
         }
 #endif
 
@@ -70,6 +73,16 @@ namespace Microsoft.Band.Portable
                 CheckDisposed();
 
                 return tiles.Value;
+            }
+        }
+
+        public BandPersonalizationManager PersonalizationManager
+        {
+            get
+            {
+                CheckDisposed();
+
+                return personalization.Value;
             }
         }
 

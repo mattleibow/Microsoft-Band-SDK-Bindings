@@ -1,17 +1,17 @@
-﻿#if __ANDROID__
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+
+#if __ANDROID__
 using Android.Graphics;
 using NativeBitmap = Android.Graphics.Bitmap;
 #elif __IOS__
 using Foundation;
 using NativeBitmap = UIKit.UIImage;
 #elif WINDOWS_PHONE_APP
-using Windows.UI.Xaml.Media.Imaging;
+using System.Runtime.InteropServices.WindowsRuntime;
 using NativeBitmap = Windows.UI.Xaml.Media.Imaging.WriteableBitmap;
 #endif
-
-using System;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Microsoft.Band.Portable.Personalization
 {
@@ -81,6 +81,25 @@ namespace Microsoft.Band.Portable.Personalization
                 await bitmap.SetSourceAsync(fileStream);
                 return FromWriteableBitmap(bitmap);
             }
+#else // PORTABLE
+            return null;
+#endif
+        }
+
+        public async Task<Stream> ToStreamAsync()
+        {
+#if __ANDROID__
+            var stream = new MemoryStream();
+            if (await ToNative().CompressAsync(NativeBitmap.CompressFormat.Png, 0, stream))
+            {
+                stream.Position = 0;
+                return stream;
+            }
+            return null;
+#elif __IOS__
+            return ToNative().AsPNG().AsStream();
+#elif WINDOWS_PHONE_APP
+            return ToNative().PixelBuffer.AsStream();
 #else // PORTABLE
             return null;
 #endif
