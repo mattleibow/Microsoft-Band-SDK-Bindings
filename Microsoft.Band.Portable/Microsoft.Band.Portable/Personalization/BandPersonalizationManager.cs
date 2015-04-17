@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 #if __ANDROID__
 using Microsoft.Band.Personalization;
@@ -33,16 +34,24 @@ namespace Microsoft.Band.Portable.Personalization
         {
 #if __ANDROID__
             var image = await Native.GetMeTileImageTaskAsync();
-            return new BandImage(image, image.Width, image.Height);
+			if (image != null)
+			{
+                return new BandImage(image, image.Width, image.Height);
+			}
 #elif __IOS__
             var image = await Native.GetMeTileImageTaskAsync();
-            return new BandImage(image.UIImage, (int)image.Size.Width, (int)image.Size.Height);
+			if (image != null)
+			{
+                return new BandImage(image.UIImage, (int)image.Size.Width, (int)image.Size.Height);
+			}
 #elif WINDOWS_PHONE_APP
             var image = await Native.GetMeTileImageAsync();
-            return new BandImage(image.ToWriteableBitmap(), image.Width, image.Height);
-#else // PORTABLE
-            return null;
+			if (image != null)
+			{
+			    return new BandImage(image.ToWriteableBitmap(), image.Width, image.Height);
+			}
 #endif
+            return null;
         }
 
         public async Task<BandTheme> GetThemeAsync()
