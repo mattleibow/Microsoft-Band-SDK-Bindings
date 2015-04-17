@@ -10,6 +10,8 @@ using Foundation;
 using NativeBitmap = UIKit.UIImage;
 #elif WINDOWS_PHONE_APP
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
 using NativeBitmap = Windows.UI.Xaml.Media.Imaging.WriteableBitmap;
 #endif
 
@@ -89,17 +91,34 @@ namespace Microsoft.Band.Portable.Personalization
         public async Task<Stream> ToStreamAsync()
         {
 #if __ANDROID__
+            var native = ToNative();
             var stream = new MemoryStream();
-            if (await ToNative().CompressAsync(NativeBitmap.CompressFormat.Png, 0, stream))
+            if (await native.CompressAsync(NativeBitmap.CompressFormat.Png, 0, stream))
             {
                 stream.Position = 0;
                 return stream;
             }
             return null;
 #elif __IOS__
-            return ToNative().AsPNG().AsStream();
+            var native = ToNative();
+            return native.AsPNG().AsStream();
 #elif WINDOWS_PHONE_APP
-            return ToNative().PixelBuffer.AsStream();
+            var native = ToNative();
+            var stream = new InMemoryRandomAccessStream();
+            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+            using (Stream pixelStream = native.PixelBuffer.AsStream())
+            {
+                byte[] pixels = new byte[pixelStream.Length];
+                await pixelStream.ReadAsync(pixels, 0, pixels.Length);
+                encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight,
+                                    (uint)native.PixelWidth,
+                                    (uint)native.PixelHeight,
+                                    96.0,
+                                    96.0,
+                                    pixels);
+                await encoder.FlushAsync();
+            }
+            return stream.AsStream();
 #else // PORTABLE
             return null;
 #endif
