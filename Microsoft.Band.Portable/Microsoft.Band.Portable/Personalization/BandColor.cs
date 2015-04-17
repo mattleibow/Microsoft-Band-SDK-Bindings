@@ -3,6 +3,7 @@
     public struct BandColor
     {
         public BandColor(byte r, byte g, byte b)
+			: this()
         {
             R = r;
             G = g;
