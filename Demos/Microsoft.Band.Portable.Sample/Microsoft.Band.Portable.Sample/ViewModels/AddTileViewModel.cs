@@ -19,7 +19,6 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
     public class AddTileViewModel : BaseClientViewModel
     {
         private BandTileManager tileManager;
-        private BandTile tile;
 
         private Guid tileId;
         private string tileName;
@@ -33,6 +32,7 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             : base(info, bandClient)
         {
             tileManager = bandClient.TileManager;
+			tileTheme = App.DefaultTheme;
 
             GenerateTileIdCommand = new Command(() =>
             {

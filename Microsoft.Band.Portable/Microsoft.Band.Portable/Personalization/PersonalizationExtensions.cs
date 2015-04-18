@@ -94,9 +94,9 @@ namespace Microsoft.Band.Portable
             System.nfloat red, green, blue, alpha;
             color.UIColor.GetRGBA(out red, out green, out blue, out alpha);
             return new BandColor {
-                R = (byte)red,
-                G = (byte)green,
-                B = (byte)blue
+                R = (byte)(red*255),
+                G = (byte)(green*255),
+                B = (byte)(blue*255)
             };
 #endif
         }

@@ -67,9 +67,9 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         {
             await base.Prepare();
 
-            GetBandThemeCommand.Execute(null);
+			BandTheme = await personalizationManager.GetThemeAsync();
 
-            GetMeTileImageCommand.Execute(null);
+			MeTileImage = await personalizationManager.GetMeTileImageAsync();
         }
         
         public BandImage MeTileImage
