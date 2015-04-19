@@ -33,7 +33,7 @@ namespace Microsoft.Band.Sensors
         where T : BandSensorData
 	{
 		protected BandSensorDataEventArgs (T data, NSError error)
-			: this (data, new BandException (error))
+			: this (data, error == null ? null : new BandException (error))
 		{
 		}
 
