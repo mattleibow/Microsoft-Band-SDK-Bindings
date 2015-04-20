@@ -49,7 +49,8 @@ namespace Microsoft.Band.Portable
             var icon = NativeBandIcon.FromUIImage(tile.Icon.ToNative(), out error);
             var smallIcon = tile.SmallIcon == null ? null : NativeBandIcon.FromUIImage(tile.SmallIcon.ToNative(), out error);
             var bandTile = NativeBandTile.Create(tile.Id.ToNative(), tile.Name, icon, smallIcon, out error);
-            if (tile.Theme != null)
+			bandTile.BadgingEnabled = smallIcon != null;
+			if (tile.Theme != default(BandTheme))
             {
                 bandTile.Theme = tile.Theme.ToNative();
             }
