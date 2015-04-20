@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
-                 x:Class="Microsoft.Band.Portable.Sample.ColorPickerPage"
-                 Title="Pick Color">
+<BasePickerPage xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
+                x:Class="Microsoft.Band.Portable.Sample.ColorPickerPage"
+                Title="Pick Color">
 
-  <BaseContentPage.Resources>
+  <BasePickerPage.Resources>
     <ResourceDictionary>
       <converters:BandColorToColorConverter x:Key="BandColorConverter" />
     </ResourceDictionary>
-  </BaseContentPage.Resources>
+  </BasePickerPage.Resources>
 
   <Grid>
     <ScrollView>
@@ -38,13 +38,8 @@
                    HeightRequest="25" HorizontalOptions="FillAndExpand" />
         </StackLayout>
 
-        <Button Text="Pick" Clicked="PickButtonClicked"
-                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
-        <Button Text="Cancel" Clicked="CancelButtonClicked"
-                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
-
       </StackLayout>
     </ScrollView>
   </Grid>
 
-</BaseContentPage>
+</BasePickerPage>

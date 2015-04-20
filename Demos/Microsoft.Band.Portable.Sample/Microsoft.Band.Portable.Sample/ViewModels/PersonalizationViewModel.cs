@@ -61,12 +61,12 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             {
                 await personalizationManager.SetMeTileImageAsync(MeTileImage);
             });
+
+			Init();
         }
 
-        public override async Task Prepare()
+        public async void Init()
         {
-            await base.Prepare();
-
 			BandTheme = await personalizationManager.GetThemeAsync();
 
 			MeTileImage = await personalizationManager.GetMeTileImageAsync();

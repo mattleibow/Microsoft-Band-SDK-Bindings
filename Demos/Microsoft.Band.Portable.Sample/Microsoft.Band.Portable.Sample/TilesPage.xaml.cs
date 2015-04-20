@@ -13,6 +13,13 @@ namespace Microsoft.Band.Portable.Sample
         {
             InitializeComponent();
 
+			var addTile = new ToolbarItem
+			{
+				Text = "Add",
+			};
+			addTile.Clicked += AddTileButtonClicked;
+			ToolbarItems.Add(addTile);
+
             ViewModel = new TilesViewModel(info, bandClient);
         }
 

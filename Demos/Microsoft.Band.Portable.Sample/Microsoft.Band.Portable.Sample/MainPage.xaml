@@ -6,7 +6,7 @@
 
   <StackLayout Orientation="Vertical">
     <Label Text="Paired Bands:" FontSize="Medium"
-           VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
+           VerticalOptions="Center" HorizontalOptions="Start" />
     
     <ListView ItemsSource="{Binding Bands}" ItemSelected="BandItemSelected"
               VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">

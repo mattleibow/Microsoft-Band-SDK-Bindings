@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <BaseClientContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:app="clr-namespace:Microsoft.Band.Portable.Sample;assembly=Microsoft.Band.Portable.Sample"
                        xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
                        x:Class="Microsoft.Band.Portable.Sample.AddTilePage"
-                       Title="{Binding BandName, StringFormat='Tile Details - {0}'}">
+                       Title="Tile Details">
 
   <BaseClientContentPage.Resources>
     <ResourceDictionary>
       <converters:BandImageToImageSourceConverter x:Key="BandImageConverter" />
-      <converters:BandThemeToItemsConverter x:Key="BandThemeConverter" />
       <converters:BandColorToColorConverter x:Key="BandColorConverter" />
     </ResourceDictionary>
   </BaseClientContentPage.Resources>
@@ -21,9 +21,9 @@
                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
         <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
           <Entry Text="{Binding TileId}"
-                 VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+                 VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
           <Button Text="Generate" Command="{Binding GenerateTileIdCommand}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
+                  VerticalOptions="Center" HorizontalOptions="End" />
         </StackLayout>
 
         <Label Text="Tile Name:" FontSize="Medium"
@@ -35,66 +35,52 @@
                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
         <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
           <Image Source="{Binding TileIcon, Converter={StaticResource BandImageConverter}}"
-                 VerticalOptions="CenterAndExpand" HorizontalOptions="Start" />
+                 BackgroundColor="Black" WidthRequest="48" HeightRequest="48"
+                 VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
           <Button Text="Default" Command="{Binding DefaultTileIconCommand}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
+                  VerticalOptions="Center" HorizontalOptions="End" />
           <Button Text="Select..." Command="{Binding SelectTileIconCommand}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
+                  VerticalOptions="Center" HorizontalOptions="End" />
         </StackLayout>
 
         <StackLayout Orientation="Horizontal"
                      VerticalOptions="Start" HorizontalOptions="FillAndExpand">
           <Label Text="Allow Badging:" FontSize="Medium"
-                 VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+                 VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
           <Switch IsToggled="{Binding AllowBadging}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
+                  VerticalOptions="Center" HorizontalOptions="End" />
         </StackLayout>
 
         <StackLayout Orientation="Horizontal" IsVisible="{Binding AllowBadging}"
                      VerticalOptions="Start" HorizontalOptions="FillAndExpand">
           <Image Source="{Binding TileBadge, Converter={StaticResource BandImageConverter}}"
-                 VerticalOptions="CenterAndExpand" HorizontalOptions="Start" />
+                 BackgroundColor="Black" WidthRequest="48" HeightRequest="48"
+                 VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
           <Button Text="Default" Command="{Binding DefaultTileBadgeCommand}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
+                  VerticalOptions="Center" HorizontalOptions="End" />
           <Button Text="Select..." Command="{Binding SelectTileBadgeCommand}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
+                  VerticalOptions="Center" HorizontalOptions="End" />
         </StackLayout>
 
         <StackLayout Orientation="Horizontal"
                      VerticalOptions="Start" HorizontalOptions="FillAndExpand">
           <Label Text="Custom Theme:" FontSize="Medium"
-                 VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+                 VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
           <Switch IsToggled="{Binding UseCustomTheme}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
-        </StackLayout>
-        <StackLayout Orientation="Horizontal" IsVisible="{Binding UseCustomTheme}"
-                     VerticalOptions="Start" HorizontalOptions="StartAndExpand">
-          <ListView ItemsSource="{Binding TileTheme, Converter={StaticResource BandThemeConverter}}" HasUnevenRows="true"
-                    VerticalOptions="Start" HorizontalOptions="FillAndExpand">
-            <ListView.ItemTemplate>
-              <DataTemplate>
-                <ViewCell>
-                  <ViewCell.View>
-                    <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
-                      <Label Text="{Binding Name}"
-                             VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
-                      <BoxView Color="{Binding Color, Converter={StaticResource BandColorConverter}}" HeightRequest="25" WidthRequest="25"
-                               VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
-                      <Button Text="..." CommandParameter="{Binding}" Clicked="ChangeColorButtonClicked"
-                              VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
-                    </StackLayout>
-                  </ViewCell.View>
-                </ViewCell>
-              </DataTemplate>
-            </ListView.ItemTemplate>
-          </ListView>
+                  VerticalOptions="Center" HorizontalOptions="End" />
         </StackLayout>
 
-        <Button Text="Add Tile" Command="{Binding AddTileCommand}"
-                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
-
-        <Button Text="Remove Tile" Command="{Binding RemoveTileCommand}"
-                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+        <StackLayout Orientation="Horizontal" IsVisible="{Binding UseCustomTheme}" 
+                     VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+          <Button Text="Default" Command="{Binding DefaultThemeCommand}" 
+                  VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+          <Button Text="Edit..." Clicked="ChangeThemeButtonClicked" 
+                  VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+        
+        <app:ThemeView Theme="{Binding TileTheme}" IsVisible="{Binding UseCustomTheme}"
+                       HeightRequest="48" WidthRequest="288"
+                       VerticalOptions="Start" HorizontalOptions="CenterAndExpand" />
 
       </StackLayout>
     </ScrollView>

@@ -1,49 +1,28 @@
 ﻿<BaseClientContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                       xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
                        x:Class="Microsoft.Band.Portable.Sample.NotificationsPage"
-                       Title="{Binding BandName, StringFormat='Notifications - {0}'}">
+                       Title="Notifications">
 
   <Grid>
     <ScrollView>
       <StackLayout Orientation="Vertical">
 
-        <Label Text="Send Vibration:" FontSize="Medium"
+        <Label Text="Title:" FontSize="Medium"
+               VerticalOptions="Start" HorizontalOptions="Start" />
+        <Entry Text="{Binding Title}"
                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
-        <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
-          <Picker x:Name="vibrationTypesPicker" Title="Vibration Type" SelectedIndex="{Binding VibrationIndex}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
-          <Button Text="Vibrate" Command="{Binding VibrateCommand}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
-        </StackLayout>
-
-        <Label Text="Notification:" FontSize="Medium"
+       
+        <Label Text="Body:" FontSize="Medium"
+               VerticalOptions="Start" HorizontalOptions="Start" />
+        <Entry Text="{Binding Body}"
                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
-        <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
-          <Label Text="Title:" FontSize="Medium"
-                 VerticalOptions="CenterAndExpand" HorizontalOptions="Start" />
-          <Entry Text="{Binding Title}"
-                 VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
-        </StackLayout>
-        
-        <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
-          <Label Text="Body:" FontSize="Medium"
-                 VerticalOptions="CenterAndExpand" HorizontalOptions="Start" />
-          <Entry Text="{Binding Body}"
-                 VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
-        </StackLayout>
 
-        <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
-          <Button Text="Send Message" Command="{Binding SendMessageCommand}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
-          <Button Text="Send Message Dialog" Command="{Binding SendMessageWithDialogCommand}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
-        </StackLayout>
-
-        <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
-          <Button Text="Show Dialog" Command="{Binding ShowDialogCommand}"
-                  VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
-        </StackLayout>
+        <Button Text="Send Message" Command="{Binding SendMessageCommand}"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+        <Button Text="Send Message + Dialog" Command="{Binding SendMessageWithDialogCommand}"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+        <Button Text="Show Dialog" Command="{Binding ShowDialogCommand}"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
 
       </StackLayout>
     </ScrollView>

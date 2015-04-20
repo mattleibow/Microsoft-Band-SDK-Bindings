@@ -3,7 +3,7 @@
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
                        x:Class="Microsoft.Band.Portable.Sample.TilesPage"
-                       Title="{Binding BandName, StringFormat='Tiles - {0}'}">
+                       Title="Tiles">
 
   <BaseClientContentPage.Resources>
     <ResourceDictionary>
@@ -11,45 +11,44 @@
     </ResourceDictionary>
   </BaseClientContentPage.Resources>
 
-  <Grid>
-    <ScrollView>
-      <StackLayout Orientation="Vertical">
+  <StackLayout Orientation="Vertical">
 
-        <Label Text="Remaining Tile Capacity:" FontSize="Medium"
-               VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
-        <Label Text="{Binding RemainingCapacity}" FontSize="Small"
-               VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+    <!-- Remaining Tile Capacity -->
+    <StackLayout Orientation="Horizontal"
+                 VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+      <Label Text="Remaining Tile Capacity:" FontSize="Medium"
+             VerticalOptions="Center" HorizontalOptions="Start" />
+      <Label Text="{Binding RemainingCapacity}" FontSize="Medium"
+             VerticalOptions="Center" HorizontalOptions="Start" />
+    </StackLayout>
 
-        <Button Text="Add Tile" Clicked="AddTileButtonClicked"
-                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+    <!-- Tile List -->
+    <Label Text="Tiles:" FontSize="Medium"
+           VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+    <ListView ItemsSource="{Binding Tiles}"
+              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <ViewCell.View>
+              <StackLayout Orientation="Horizontal"
+                           HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Image Source="{Binding Tile.Icon, Converter={StaticResource BandImageConverter}}" 
+                       BackgroundColor="Black" WidthRequest="48" HeightRequest="48"
+                       HorizontalOptions="Start" VerticalOptions="Center" />
+                <Label Text="{Binding Tile.Name}" FontSize="Medium" LineBreakMode="TailTruncation"
+                       HorizontalOptions="StartAndExpand" VerticalOptions="Center" />
+                <Button Text="Notify..." CommandParameter="{Binding}" Clicked="SendNotificationButtonClicked"
+                        HorizontalOptions="End" VerticalOptions="Center" />
+                <Button Text="Edit..." CommandParameter="{Binding}" Clicked="DetailsButtonClicked"
+                        HorizontalOptions="End" VerticalOptions="Center" />
+              </StackLayout>
+            </ViewCell.View>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
 
-        <Label Text="Tiles:" FontSize="Medium"
-               VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
-        <ListView ItemsSource="{Binding Tiles}"
-                  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-          <ListView.ItemTemplate>
-            <DataTemplate>
-              <ViewCell>
-                <ViewCell.View>
-                  <StackLayout Orientation="Horizontal"
-                               HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <Image Source="{Binding Tile.Icon, Converter={StaticResource BandImageConverter}}"
-                           HorizontalOptions="Start" VerticalOptions="CenterAndExpand" />
-                    <Label Text="{Binding Tile.Name}" FontSize="Medium"
-                           HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
-                    <Button Text="Notify..." CommandParameter="{Binding}" Clicked="SendNotificationButtonClicked"
-                            HorizontalOptions="End" VerticalOptions="CenterAndExpand" />
-                    <Button Text="..." CommandParameter="{Binding}" Clicked="DetailsButtonClicked"
-                            HorizontalOptions="End" VerticalOptions="CenterAndExpand" />
-                  </StackLayout>
-                </ViewCell.View>
-              </ViewCell>
-            </DataTemplate>
-          </ListView.ItemTemplate>
-        </ListView>
-
-      </StackLayout>
-    </ScrollView>
-  </Grid>
+  </StackLayout>
 
 </BaseClientContentPage>

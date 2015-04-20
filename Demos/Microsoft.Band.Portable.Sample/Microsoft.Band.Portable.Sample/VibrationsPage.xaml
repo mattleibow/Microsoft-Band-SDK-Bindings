@@ -1,0 +1,22 @@
+﻿<BaseClientContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       x:Class="Microsoft.Band.Portable.Sample.VibrationsPage"
+                       Title="Vibrations">
+
+  <Grid>
+    <ScrollView>
+      <StackLayout Orientation="Vertical">
+
+        <Label Text="Vibration Type:" FontSize="Medium"
+               VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+        <Picker x:Name="vibrationTypesPicker" Title="Vibration Type" SelectedIndex="{Binding VibrationIndex}"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+        <Button Text="Vibrate" Command="{Binding VibrateCommand}"
+                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+
+      </StackLayout>
+    </ScrollView>
+  </Grid>
+
+</BaseClientContentPage>

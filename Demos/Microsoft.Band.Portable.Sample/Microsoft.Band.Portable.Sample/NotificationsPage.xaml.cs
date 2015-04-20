@@ -14,11 +14,6 @@ namespace Microsoft.Band.Portable.Sample
             InitializeComponent();
 
             ViewModel = new NotificationsViewModel(info, bandClient, tile);
-
-            foreach (var type in NotificationsViewModel.GetVibrationTypes())
-            {
-                vibrationTypesPicker.Items.Add(type);
-            }
         }
     }
 }

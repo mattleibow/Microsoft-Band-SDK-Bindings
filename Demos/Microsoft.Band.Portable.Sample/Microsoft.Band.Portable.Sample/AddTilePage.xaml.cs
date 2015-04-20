@@ -10,12 +10,18 @@ namespace Microsoft.Band.Portable.Sample
 {
     public partial class AddTilePage : BaseClientContentPage
     {
+		private AddTileViewModel addTileViewModel;
+
         public AddTilePage(BandDeviceInfo info, BandClient bandClient)
             : base(info, bandClient)
         {
             InitializeComponent();
 
-            ViewModel = new AddTileViewModel(info, bandClient);
+			addTileViewModel = new AddTileViewModel(info, bandClient);
+
+			Init();
+
+			ViewModel = addTileViewModel;
         }
 
         public AddTilePage(BandDeviceInfo info, BandClient bandClient, BandTile tile)
@@ -23,18 +29,36 @@ namespace Microsoft.Band.Portable.Sample
         {
             InitializeComponent();
 
-            ViewModel = new AddTileViewModel(info, bandClient, tile);
+			addTileViewModel = new AddTileViewModel(info, bandClient, tile);
+
+			Init();
+
+			ViewModel = addTileViewModel;
         }
 
-        public async void ChangeColorButtonClicked(object sender, EventArgs e)
-        {
-            var button = (Button)sender;
-            var themeColor = (BandThemeColorViewModel)button.CommandParameter;
+		private void Init()
+		{
+			var addTile = new ToolbarItem
+			{
+				Text = "Add",
+			};
+			addTile.SetBinding(ToolbarItem.CommandProperty, new Binding("AddTileCommand"));
+			ToolbarItems.Add(addTile);
 
-            var picker = new ColorPickerPage { Color = themeColor.Color };
-            picker.Picked += delegate { themeColor.Color = picker.Color; };
+			var removeTile = new ToolbarItem
+			{
+				Text = "Remove",
+			};
+			removeTile.SetBinding(ToolbarItem.CommandProperty, new Binding("RemoveTileCommand"));
+			ToolbarItems.Add(removeTile);
+		}
 
-            await Navigation.PushModalAsync(picker);
-        }
+		public async void ChangeThemeButtonClicked(object sender, EventArgs e)
+		{
+			var picker = new ThemePickerPage { Theme = addTileViewModel.TileTheme };
+			picker.Picked += delegate { addTileViewModel.TileTheme = picker.Theme; };
+
+			await Navigation.PushAsync(picker);
+		}
     }
 }

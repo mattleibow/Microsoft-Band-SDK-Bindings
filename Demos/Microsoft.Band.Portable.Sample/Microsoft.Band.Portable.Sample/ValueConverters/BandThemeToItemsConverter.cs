@@ -13,9 +13,9 @@ namespace Microsoft.Band.Portable.Sample.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-			var theme = value as BandTheme;
-            if (theme != null)
+			if (value is BandTheme)
             {
+				var theme = (BandTheme)value;
                 return new[]
                 {
                     new BandThemeColorViewModel("Base", () => theme.Base, color => theme.Base = color),

@@ -12,23 +12,23 @@ namespace Microsoft.Band.Portable.Sample
 {
     public partial class PersonalizationPage : BaseClientContentPage
     {
+		private PersonalizationViewModel personalizationViewModel;
+
         public PersonalizationPage(BandDeviceInfo info, BandClient bandClient)
             : base(info, bandClient)
         {
             InitializeComponent();
 
-            ViewModel = new PersonalizationViewModel(info, bandClient);
-        }
+			personalizationViewModel = new PersonalizationViewModel(info, bandClient);
+			ViewModel = personalizationViewModel;
+		}
 
-        public async void ChangeColorButtonClicked(object sender, EventArgs e)
-        {
-            var button = (Button)sender;
-            var themeColor = (BandThemeColorViewModel)button.CommandParameter;
+		public async void ChangeThemeButtonClicked(object sender, EventArgs e)
+		{
+			var picker = new ThemePickerPage { Theme = personalizationViewModel.BandTheme };
+			picker.Picked += delegate { personalizationViewModel.BandTheme = picker.Theme; };
 
-            var picker = new ColorPickerPage { Color = themeColor.Color };
-            picker.Picked += delegate { themeColor.Color = picker.Color; };
-
-            await Navigation.PushModalAsync(picker);
-        }
+			await Navigation.PushAsync(picker);
+		}
     }
 }

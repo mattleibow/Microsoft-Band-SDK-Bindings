@@ -25,7 +25,12 @@ namespace Microsoft.Band.Portable.Sample
         private void TilesButtonClick(object sender, EventArgs e)
         {
             Navigation.PushAsync(new TilesPage(clientViewModel.BandInfo, clientViewModel.BandClient));
-        }
+		}
+
+		private void VibrationsButtonClick(object sender, EventArgs e)
+		{
+			Navigation.PushAsync(new VibrationsPage(clientViewModel.BandInfo, clientViewModel.BandClient));
+		}
 
         private void PersonalizationButtonClick(object sender, EventArgs e)
         {

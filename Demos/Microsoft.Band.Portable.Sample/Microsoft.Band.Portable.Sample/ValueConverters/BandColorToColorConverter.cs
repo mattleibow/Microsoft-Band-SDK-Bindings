@@ -13,8 +13,7 @@ namespace Microsoft.Band.Portable.Sample.ValueConverters
         {
             if (value is BandColor)
             {
-                var color = (BandColor)value;
-                return Color.FromRgb(color.R, color.G, color.B);
+				return Convert((BandColor)value);
             }
             return Color.Black;
         }
@@ -29,5 +28,10 @@ namespace Microsoft.Band.Portable.Sample.ValueConverters
             //}
             //return new BandColor();
         }
+
+		public static Color Convert(BandColor color)
+		{
+			return Color.FromRgb(color.R, color.G, color.B);
+		}
     }
 }

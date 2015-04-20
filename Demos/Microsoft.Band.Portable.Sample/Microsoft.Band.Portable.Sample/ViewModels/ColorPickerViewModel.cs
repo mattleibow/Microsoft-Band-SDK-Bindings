@@ -1,19 +1,10 @@
-﻿using System.Windows.Input;
-
-using Xamarin.Forms;
-
-using Microsoft.Band.Portable.Tiles;
-using Microsoft.Band.Portable.Personalization;
+﻿using Microsoft.Band.Portable.Personalization;
 
 namespace Microsoft.Band.Portable.Sample.ViewModels
 {
     public class ColorPickerViewModel : BaseViewModel
     {
         private BandColor color;
-
-        public ColorPickerViewModel()
-        {
-        }
 
         public byte Red
         {

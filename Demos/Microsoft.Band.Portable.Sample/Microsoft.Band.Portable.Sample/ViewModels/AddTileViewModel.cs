@@ -32,7 +32,9 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             : base(info, bandClient)
         {
             tileManager = bandClient.TileManager;
-			tileTheme = App.DefaultTheme;
+            tileTheme = App.DefaultTheme;
+            tileId = Guid.NewGuid();
+            tileName = "New Tile";
 
             GenerateTileIdCommand = new Command(() =>
             {
@@ -65,6 +67,11 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
                 }
             }, () => CrossMedia.Current.IsPickPhotoSupported);
 
+            DefaultThemeCommand = new Command(() => 
+            {
+                TileTheme = App.DefaultTheme;
+            });
+
             AddTileCommand = new Command(async () =>
             {
                 var tile = new BandTile(tileId)
@@ -93,11 +100,18 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         {
             TileId = tile.Id.ToString("D");
             TileName = tile.Name;
+            TileIcon = tile.Icon;
             AllowBadging = tile.SmallIcon != null;
-            TileIcon = tile.SmallIcon;
-            TileBadge = tile.Icon;
-            UseCustomTheme = tile.Theme != null;
-            TileTheme = tile.Theme;
+            TileBadge = tile.SmallIcon;
+            if (tile.Theme != default(BandTheme)) 
+            {
+                UseCustomTheme = true;
+                TileTheme = tile.Theme;
+            }
+            else
+            {
+                TileTheme = App.DefaultTheme;
+            }
         }
 
         public string TileId
@@ -193,6 +207,7 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         public ICommand SelectTileIconCommand { get; private set; }
         public ICommand DefaultTileBadgeCommand { get; private set; }
         public ICommand SelectTileBadgeCommand { get; private set; }
+        public ICommand DefaultThemeCommand { get; private set; }
         public ICommand AddTileCommand { get; private set; }
         public ICommand RemoveTileCommand { get; private set; }
     }

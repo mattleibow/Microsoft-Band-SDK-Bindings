@@ -22,7 +22,6 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         private BandNotificationManager notifiactionManager;
         private BandTile tile;
 
-        private int vibrationIndex;
         private string title;
         private string body;
 
@@ -32,10 +31,6 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             notifiactionManager = bandClient.NotificationManager;
             this.tile = tile;
 
-            VibrateCommand = new Command(async () =>
-            {
-                await notifiactionManager.VibrateAsync((VibrationType)vibrationIndex);
-            });
             SendMessageCommand = new Command(async () =>
             {
                 await notifiactionManager.SendMessageAsync(tile.Id, Title, Body, DateTime.Now);
@@ -76,31 +71,8 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             }
         }
 
-        public int VibrationIndex
-        {
-            get { return vibrationIndex; }
-            set
-            {
-                if (vibrationIndex != value)
-                {
-                    vibrationIndex = value;
-                    OnPropertyChanged("VibrationIndex");
-                }
-            }
-        }
-
-        public ICommand VibrateCommand { get; private set; }
         public ICommand SendMessageCommand { get; private set; }
         public ICommand SendMessageWithDialogCommand { get; private set; }
         public ICommand ShowDialogCommand { get; private set; }
-
-        public static ObservableCollection<string> GetVibrationTypes()
-        {
-            var names = Enum.GetNames(typeof(VibrationType));
-            var split = names.Select(n =>
-                string.Concat(n.ToCharArray().Select(c =>
-                    char.IsUpper(c) ? " " + c : c.ToString())));
-            return new ObservableCollection<string>(split.ToList());
-        }
     }
 }

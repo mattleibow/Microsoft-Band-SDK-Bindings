@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BasePickerPage xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
+                x:Class="Microsoft.Band.Portable.Sample.ThemePickerPage"
+                Title="Pick Color">
+
+  <BasePickerPage.Resources>
+    <ResourceDictionary>
+      <converters:BandColorToColorConverter x:Key="BandColorConverter" />
+      <converters:BandThemeToItemsConverter x:Key="BandThemeConverter" />
+    </ResourceDictionary>
+  </BasePickerPage.Resources>
+
+  <Grid>
+    <ListView ItemsSource="{Binding ThemeItems}" HasUnevenRows="true">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <ViewCell.View>
+              <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                <Label Text="{Binding Name}"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+                <BoxView Color="{Binding Color, Converter={StaticResource BandColorConverter}}" HeightRequest="48" WidthRequest="48"
+                         VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
+                <Button Text="Edit..." CommandParameter="{Binding}" Clicked="ChangeColorButtonClicked"
+                        VerticalOptions="CenterAndExpand" HorizontalOptions="End" />
+              </StackLayout>
+            </ViewCell.View>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </Grid>
+
+</BasePickerPage>

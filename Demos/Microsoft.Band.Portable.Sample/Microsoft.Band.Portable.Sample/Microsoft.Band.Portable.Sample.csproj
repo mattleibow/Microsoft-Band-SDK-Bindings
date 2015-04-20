@@ -63,7 +63,6 @@
     <Compile Include="TilesPage.xaml.cs">
       <DependentUpon>TilesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ValueConverters\BandThemeToItemsConverter.cs" />
     <Compile Include="ValueConverters\BandColorToColorConverter.cs" />
     <Compile Include="ValueConverters\BandImageToImageSourceConverter.cs" />
     <Compile Include="ViewModels\PersonalizationViewModel.cs" />
@@ -79,6 +78,19 @@
     <Compile Include="ViewModels\SensorViewModel.cs" />
     <Compile Include="ViewModels\ColorPickerViewModel.cs" />
     <Compile Include="ViewModels\TileViewModel.cs" />
+    <Compile Include="ThemeView.xaml.cs">
+      <DependentUpon>ThemeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ThemePickerPage.xaml.cs">
+      <DependentUpon>ThemePickerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BasePickerPage.cs" />
+    <Compile Include="ViewModels\ThemePickerViewModel.cs" />
+    <Compile Include="ValueConverters\BandThemeToItemsConverter.cs" />
+    <Compile Include="VibrationsPage.xaml.cs">
+      <DependentUpon>VibrationsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\VibrationsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">
@@ -91,6 +103,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TilesPage.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThemeView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThemePickerPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VibrationsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Microsoft.Band.Portable.Sample.ThemeView">
+  <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="0">
+    <BoxView HorizontalOptions="FillAndExpand" MinimumWidthRequest="24" MinimumHeightRequest="24" x:Name="Base" />
+    <BoxView HorizontalOptions="FillAndExpand" MinimumWidthRequest="24" MinimumHeightRequest="24" x:Name="HighContrast" />
+    <BoxView HorizontalOptions="FillAndExpand" MinimumWidthRequest="24" MinimumHeightRequest="24" x:Name="Highlight" />
+    <BoxView HorizontalOptions="FillAndExpand" MinimumWidthRequest="24" MinimumHeightRequest="24" x:Name="Lowlight" />
+    <BoxView HorizontalOptions="FillAndExpand" MinimumWidthRequest="24" MinimumHeightRequest="24" x:Name="Muted" />
+    <BoxView HorizontalOptions="FillAndExpand" MinimumWidthRequest="24" MinimumHeightRequest="24" x:Name="SecondaryText" />
+  </StackLayout>
+</ContentView>
