@@ -170,7 +170,6 @@
     <Compile Include="..\Microsoft.Band.Portable\Tiles\TileExtensions.cs">
       <Link>Tiles\TileExtensions.cs</Link>
     </Compile>
-    <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
