@@ -66,7 +66,7 @@ namespace Microsoft.Band.Portable.Personalization
             var theme = await Native.GetThemeAsync();
             return theme.FromNative();
 #else // PORTABLE
-            return null;
+			return default(BandTheme);
 #endif
         }
 

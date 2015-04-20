@@ -41,5 +41,10 @@
                 color1.G == color2.G && 
                 color1.B == color2.B;
         }
+
+		public override string ToString ()
+		{
+			return string.Format ("[R={0}, G={1}, B={2}]", R, G, B);
+		}
     }
 }
