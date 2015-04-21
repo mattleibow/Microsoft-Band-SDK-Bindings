@@ -31,10 +31,11 @@ namespace Microsoft.Band.Portable.Sample
 
         protected override bool OnBackButtonPressed()
         {
-            return base.OnBackButtonPressed();
-
             // we can't await
             ViewModel.Destroy();
+
+            return base.OnBackButtonPressed();
+        }
 
         public static T OnPlatform<T>(T iOS, T Android, T Windows)
         {
