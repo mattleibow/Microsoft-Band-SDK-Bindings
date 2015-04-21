@@ -16,7 +16,11 @@ namespace Microsoft.Band.Portable.Sample
 			var addTile = new ToolbarItem
 			{
 				Text = "Add",
-			};
+                Icon = OnPlatform(
+                    iOS: (FileImageSource)FileImageSource.FromFile("Icons/Add.png"),
+                    Android: (FileImageSource)FileImageSource.FromFile("Add.png"),
+                    Windows: (FileImageSource)FileImageSource.FromFile("Assets/Icons/Add.png"))
+            };
 			addTile.Clicked += AddTileButtonClicked;
 			ToolbarItems.Add(addTile);
 

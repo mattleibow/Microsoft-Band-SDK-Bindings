@@ -35,6 +35,18 @@ namespace Microsoft.Band.Portable.Sample
 
             // we can't await
             ViewModel.Destroy();
+
+        public static T OnPlatform<T>(T iOS, T Android, T Windows)
+        {
+            if (Device.OS == TargetPlatform.Windows)
+            {
+                return Windows;
+            }
+
+            return Device.OnPlatform(
+                iOS: iOS, 
+                Android: Android,
+                WinPhone: Windows);
         }
     }
 }

@@ -158,4 +158,10 @@
       <Name>Microsoft.Band.Portable.Sample</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Icons\Add.png" />
+    <BundleResource Include="Resources\Icons\Remove.png" />
+    <BundleResource Include="Resources\Icons\Cancel.png" />
+    <BundleResource Include="Resources\Icons\Done.png" />
+  </ItemGroup>
 </Project>

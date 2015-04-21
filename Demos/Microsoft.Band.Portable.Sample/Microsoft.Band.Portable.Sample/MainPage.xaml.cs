@@ -20,9 +20,12 @@ namespace Microsoft.Band.Portable.Sample
 
         private void BandItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var info = (BandDeviceInfo)e.SelectedItem;
+            if (e.SelectedItem != null)
+            {
+                var info = (BandDeviceInfo)e.SelectedItem;
 
-            Navigation.PushAsync(new ClientPage(info));
+                Navigation.PushAsync(new ClientPage(info));
+            }
         }
     }
 }

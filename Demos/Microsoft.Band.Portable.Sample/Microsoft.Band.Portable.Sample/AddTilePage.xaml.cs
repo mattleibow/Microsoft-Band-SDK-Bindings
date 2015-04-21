@@ -41,14 +41,22 @@ namespace Microsoft.Band.Portable.Sample
 			var addTile = new ToolbarItem
 			{
 				Text = "Add",
-			};
+                Icon = OnPlatform(
+                    iOS: (FileImageSource)FileImageSource.FromFile("Icons/Done.png"),
+                    Android: (FileImageSource)FileImageSource.FromFile("Done.png"),
+                    Windows: (FileImageSource)FileImageSource.FromFile("Assets/Icons/Done.png"))
+            };
 			addTile.SetBinding(ToolbarItem.CommandProperty, new Binding("AddTileCommand"));
 			ToolbarItems.Add(addTile);
 
 			var removeTile = new ToolbarItem
 			{
 				Text = "Remove",
-			};
+                Icon = OnPlatform(
+                    iOS: (FileImageSource)FileImageSource.FromFile("Icons/Remove.png"),
+                    Android: (FileImageSource)FileImageSource.FromFile("Remove.png"),
+                    Windows: (FileImageSource)FileImageSource.FromFile("Assets/Icons/Remove.png"))
+            };
 			removeTile.SetBinding(ToolbarItem.CommandProperty, new Binding("RemoveTileCommand"));
 			ToolbarItems.Add(removeTile);
 		}

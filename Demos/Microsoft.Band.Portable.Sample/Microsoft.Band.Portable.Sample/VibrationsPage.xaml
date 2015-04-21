@@ -9,7 +9,7 @@
 
         <Label Text="Vibration Type:" FontSize="Medium"
                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
-        <Picker x:Name="vibrationTypesPicker" Title="Vibration Type" SelectedIndex="{Binding VibrationIndex}"
+        <Picker x:Name="vibrationTypesPicker" SelectedIndex="{Binding VibrationIndex}"
                 VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
 
         <Button Text="Vibrate" Command="{Binding VibrateCommand}"

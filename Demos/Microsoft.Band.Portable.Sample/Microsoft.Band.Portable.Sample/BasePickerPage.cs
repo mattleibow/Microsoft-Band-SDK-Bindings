@@ -12,14 +12,22 @@ namespace Microsoft.Band.Portable.Sample
 			var doneButton = new ToolbarItem
 			{
 				Text = "Done",
-			};
+                Icon = OnPlatform(
+                    iOS: (FileImageSource)FileImageSource.FromFile("Icons/Done.png"),
+                    Android: (FileImageSource)FileImageSource.FromFile("Done.png"),
+                    Windows: (FileImageSource)FileImageSource.FromFile("Assets/Icons/Done.png"))
+            };
 			doneButton.Clicked += PickButtonClicked;
 			ToolbarItems.Add(doneButton);
 
 			var cancelButton = new ToolbarItem
 			{
 				Text = "Cancel",
-			};
+                Icon = OnPlatform(
+                    iOS: (FileImageSource)FileImageSource.FromFile("Icons/Cancel.png"),
+                    Android: (FileImageSource)FileImageSource.FromFile("Cancel.png"),
+                    Windows: (FileImageSource)FileImageSource.FromFile("Assets/Icons/Cancel.png"))
+            };
 			cancelButton.Clicked += CancelButtonClicked;
 			ToolbarItems.Add(cancelButton);
 		}

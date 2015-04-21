@@ -99,6 +99,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\drawable\Add.png" />
+    <AndroidResource Include="Resources\drawable\Remove.png" />
+    <AndroidResource Include="Resources\drawable\Cancel.png" />
+    <AndroidResource Include="Resources\drawable\Done.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Band.Portable.Sample\Microsoft.Band.Portable.Sample.csproj">
