@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# build everything
 xamarin-component package
 
-nuget pack DotNetDevAddict.Microsoft.Band.Xamarin.nuspec
+# package binding
+nuget pack Xamarin.Microsoft.Band.nuspec

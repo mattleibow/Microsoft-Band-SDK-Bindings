@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
-        <id>DotNetDevAddict.Microsoft.Band.Xamarin</id>
-        <version>1.3.2-preview</version>
-        <title>Microsoft Band SDK Preview for Xamarin</title>
-        <authors>.NET Development Addict</authors>
+        <id>Xamarin.Microsoft.Band</id>
+        <version>1.3.3-preview</version>
+        <title>Microsoft Band SDK Preview for Xamarin and Windows</title>
+        <authors>Xamarin Inc., .NET Development Addict</authors>
         <licenseUrl>https://raw.githubusercontent.com/mattleibow/Microsoft-Band-SDK-Bindings/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/mattleibow/Microsoft-Band-SDK-Bindings</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/mattleibow/Microsoft-Band-SDK-Bindings/master/Icons/microsoft-band-sdk_256x256.png</iconUrl>
@@ -18,7 +18,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="Microsoft.Band/Microsoft.Band.Android/bin/Release/Microsoft.Band.Android.dll" target="lib/MonoAndroid/Microsoft.Band.Android.dll" />
-        <file src="Microsoft.Band/Microsoft.Band.iOS/bin/Release/Microsoft.Band.iOS.dll" target="lib/XamariniOS/Microsoft.Band.iOS.dll" />
+        <file src="Microsoft.Band\Microsoft.Band.Android\bin\Release\Microsoft.Band.Android.dll" target="lib\MonoAndroid\Microsoft.Band.Android.dll" />
+        <file src="Microsoft.Band\Microsoft.Band.iOS\bin\Release\Microsoft.Band.iOS.dll" target="lib\XamariniOS\Microsoft.Band.iOS.dll" />
     </files>
 </package>
