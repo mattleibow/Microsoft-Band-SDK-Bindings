@@ -781,12 +781,14 @@ namespace Microsoft.Band.Tiles
 		bool BadgingEnabled { [Bind ("isBadgingEnabled")] get; set; }
 
 		// @property (readonly, nonatomic) NSMutableArray * pageIcons;
+		[Internal]
 		[Export ("pageIcons")]
-		NSMutableArray PageIcons { get; }
+		NSMutableArray PageIconsInternal { get; }
 
 		// @property (readonly, nonatomic) NSMutableArray * pageLayouts;
+		[Internal]
 		[Export ("pageLayouts")]
-		NSMutableArray PageLayouts { get; }
+		NSMutableArray PageLayoutsInternal { get; }
 
 		// +(MSBTile *)tileWithId:(NSUUID *)tileId name:(NSString *)tileName tileIcon:(MSBIcon *)tileIcon smallIcon:(MSBIcon *)smallIcon error:(NSError **)pError;
 		[Static]

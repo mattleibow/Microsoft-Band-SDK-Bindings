@@ -62,6 +62,7 @@
     <Compile Include="Tiles\BandTileManagerExtensions.cs" />
     <Compile Include="Pages\BandPagePanel.cs" />
     <Compile Include="BandCollection.cs" />
+    <Compile Include="Tiles\BandTile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />

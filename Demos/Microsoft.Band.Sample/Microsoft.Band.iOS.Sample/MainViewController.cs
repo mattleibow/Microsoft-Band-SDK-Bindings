@@ -142,7 +142,7 @@ namespace Microsoft.Band.iOS.Sample
 
 				// send a message with a dialog
 				try {
-					await client.NotificationManager.SendMessageTaskAsync (customId, "Hello", "Hello World!", DateTime.Now, true);
+					await client.NotificationManager.SendMessageTaskAsync (tileId, "Hello", "Hello World!", DateTime.Now, true);
 					Output ("Sent the message!!");
 				} catch (BandException ex) {
 					Output ("Failed to send the message:");
