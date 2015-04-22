@@ -7,6 +7,7 @@ using UIKit;
 
 using Microsoft.Band;
 using Microsoft.Band.Notifications;
+using Microsoft.Band.Pages;
 using Microsoft.Band.Personalization;
 using Microsoft.Band.Sensors;
 using Microsoft.Band.Tiles;
@@ -127,15 +128,15 @@ namespace Microsoft.Band.Pages
 
 		// @property (nonatomic, strong) MSBRect * rect;
 		[Export ("rect", ArgumentSemantic.Retain)]
-		BandRect Rect { get; set; }
+		BandRect Rect { get; [NullAllowed] set; }
 
 		// @property (nonatomic, strong) MSBMargins * margins;
 		[Export ("margins", ArgumentSemantic.Retain)]
-		BandMargins Margins { get; set; }
+		BandMargins Margins { get; [NullAllowed] set; }
 
 		// @property (nonatomic, strong) MSBColor * color;
 		[Export ("color", ArgumentSemantic.Retain)]
-		BandColor Color { get; set; }
+		BandColor Color { get; [NullAllowed] set; }
 
 		// @property (assign, nonatomic) MSBPageElementHorizontalAlignment horizontalAlignment;
 		[Export ("horizontalAlignment", ArgumentSemantic.UnsafeUnretained)]
@@ -256,8 +257,9 @@ namespace Microsoft.Band.Pages
 	interface BandPagePanel
 	{
 		// @property (nonatomic, strong) NSMutableArray * children;
+		[Internal]
 		[Export ("children", ArgumentSemantic.Retain)]
-		NSMutableArray Children { get; set; }
+		NSMutableArray ChildrenInternal { get; set; }
 	}
 
 	// @interface MSBTextElement : MSBPageElement
@@ -842,7 +844,7 @@ namespace Microsoft.Band.Tiles
 		// @required -(void)setPages:(NSArray *)pageData tileId:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("setPages:tileId:completionHandler:")]
-		void SetPagesAsync (NSObject[] pageData, NSUuid tileId, Action<NSError> completionHandler);
+		void SetPagesAsync (BandPageData[] pageData, NSUuid tileId, Action<NSError> completionHandler);
 
 		// @required -(void)removePagesInTile:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
