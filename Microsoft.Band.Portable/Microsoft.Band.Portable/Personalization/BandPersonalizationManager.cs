@@ -7,7 +7,7 @@ using NativeBandPersonalizationManager = Microsoft.Band.Personalization.IBandPer
 #elif __IOS__
 using Microsoft.Band.Personalization;
 using NativeBandPersonalizationManager = Microsoft.Band.Personalization.IBandPersonalizationManager;
-using NativeBandImage = Microsoft.Band.Tiles.BandImage;
+using NativeBandImage = Microsoft.Band.Personalization.BandImage;
 #elif WINDOWS_PHONE_APP
 using Microsoft.Band.Personalization;
 using NativeBandPersonalizationManager = Microsoft.Band.Personalization.IBandPersonalizationManager;
@@ -34,22 +34,22 @@ namespace Microsoft.Band.Portable.Personalization
         {
 #if __ANDROID__
             var image = await Native.GetMeTileImageTaskAsync();
-			if (image != null)
-			{
+            if (image != null)
+            {
                 return new BandImage(image, image.Width, image.Height);
-			}
+            }
 #elif __IOS__
             var image = await Native.GetMeTileImageTaskAsync();
-			if (image != null)
-			{
+            if (image != null)
+            {
                 return new BandImage(image.UIImage, (int)image.Size.Width, (int)image.Size.Height);
-			}
+            }
 #elif WINDOWS_PHONE_APP
             var image = await Native.GetMeTileImageAsync();
-			if (image != null)
-			{
-			    return new BandImage(image.ToWriteableBitmap(), image.Width, image.Height);
-			}
+            if (image != null)
+            {
+                return new BandImage(image.ToWriteableBitmap(), image.Width, image.Height);
+            }
 #endif
             return null;
         }
@@ -66,27 +66,25 @@ namespace Microsoft.Band.Portable.Personalization
             var theme = await Native.GetThemeAsync();
             return theme.FromNative();
 #else // PORTABLE
-			return default(BandTheme);
+            return BandTheme.Empty;
 #endif
         }
 
         public async Task SetMeTileImageAsync(BandImage image)
         {
 #if __ANDROID__
-            await Native.SetMeTileImageTaskAsync(image.ToNative());
+            await Native.SetMeTileImageTaskAsync(image.ToBitmap());
 #elif __IOS__
-            await Native.UpdateMeTileImageAsync(new NativeBandImage(image.ToNative()));
+            await Native.SetMeTileImageTaskAsync(image.ToUIImage().ToBandImage());
 #elif WINDOWS_PHONE_APP
-            await Native.SetMeTileImageAsync(image.ToNative().ToBandImage());
+            await Native.SetMeTileImageAsync(image.ToWriteableBitmap().ToBandImage());
 #endif
         }
 
         public async Task SetThemeAsync(BandTheme theme)
         {
-#if __ANDROID__
+#if __ANDROID__ || __IOS__
             await Native.SetThemeTaskAsync(theme.ToNative());
-#elif __IOS__
-            await Native.UpdateThemeAsync(theme.ToNative());
 #elif WINDOWS_PHONE_APP
             await Native.SetThemeAsync(theme.ToNative());
 #endif

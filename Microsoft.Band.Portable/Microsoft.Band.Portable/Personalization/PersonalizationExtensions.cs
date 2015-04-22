@@ -4,8 +4,8 @@
 using NativeBandTheme = Microsoft.Band.Tiles.BandTheme;
 using NativeBandColor = Android.Graphics.Color;
 #elif __IOS__
-using NativeBandTheme = Microsoft.Band.Tiles.BandTheme;
-using NativeBandColor = Microsoft.Band.Tiles.BandColor;
+using NativeBandTheme = Microsoft.Band.Personalization.BandTheme;
+using NativeBandColor = Microsoft.Band.Personalization.BandColor;
 #elif WINDOWS_PHONE_APP
 using NativeBandTheme = Microsoft.Band.Personalization.BandTheme;
 using NativeBandColor = Microsoft.Band.Personalization.BandColor;
@@ -27,14 +27,7 @@ namespace Microsoft.Band.Portable
                 LowlightColor = theme.Lowlight.ToNative(),
                 MutedColor = theme.Muted.ToNative(),
                 SecondaryTextColor = theme.SecondaryText.ToNative()
-#elif __IOS__
-                BaseColor = theme.Base.ToNative(),
-                HighContrastColor = theme.HighContrast.ToNative(),
-                HighLightColor = theme.Highlight.ToNative(),
-                LowLightColor = theme.Lowlight.ToNative(),
-                MutedColor = theme.Muted.ToNative(),
-                SecondaryTextColor = theme.SecondaryText.ToNative()
-#elif WINDOWS_PHONE_APP
+#elif __IOS__ || WINDOWS_PHONE_APP
                 Base = theme.Base.ToNative(),
                 HighContrast = theme.HighContrast.ToNative(),
                 Highlight = theme.Highlight.ToNative(),
@@ -55,14 +48,7 @@ namespace Microsoft.Band.Portable
                 Lowlight = theme.LowlightColor.FromNative(),
                 Muted = theme.MutedColor.FromNative(),
                 SecondaryText = theme.SecondaryTextColor.FromNative(),
-#elif __IOS__
-                Base = theme.BaseColor.FromNative(),
-                HighContrast = theme.HighContrastColor.FromNative(),
-                Highlight = theme.HighLightColor.FromNative(),
-                Lowlight = theme.LowLightColor.FromNative(),
-                Muted = theme.MutedColor.FromNative(),
-                SecondaryText = theme.SecondaryTextColor.FromNative(),
-#elif WINDOWS_PHONE_APP
+#elif __IOS__ || WINDOWS_PHONE_APP
                 Base = theme.Base.FromNative(),
                 HighContrast = theme.HighContrast.FromNative(),
                 Highlight = theme.Highlight.FromNative(),
@@ -78,7 +64,7 @@ namespace Microsoft.Band.Portable
 #if __ANDROID__ || WINDOWS_PHONE_APP
             return new NativeBandColor(color.R, color.G, color.B);
 #elif __IOS__
-            return NativeBandColor.ColorWithRed(color.R, color.G, color.B);
+            return NativeBandColor.FromRgb(color.R, color.G, color.B);
 #endif
         }
 

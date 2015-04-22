@@ -34,11 +34,6 @@ namespace Microsoft.Band.Portable.Personalization
             this.Width = width;
             this.Height = height;
         }
-
-        internal NativeBitmap ToNative()
-        {
-            return nativeBitmap;
-        }
 #endif
 
         public int Width { get; private set; }
@@ -59,6 +54,23 @@ namespace Microsoft.Band.Portable.Personalization
         public static BandImage FromWriteableBitmap(NativeBitmap writeableBitmap)
         {
             return new BandImage(writeableBitmap, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight);
+        }
+#endif
+        
+#if __ANDROID__
+        public NativeBitmap ToBitmap()
+        {
+            return nativeBitmap;
+        }
+#elif __IOS__
+		public NativeBitmap ToUIImage()
+        {
+			return nativeBitmap;
+        }
+#elif WINDOWS_PHONE_APP
+        public NativeBitmap ToWriteableBitmap()
+        {
+            return nativeBitmap;
         }
 #endif
         
@@ -91,7 +103,7 @@ namespace Microsoft.Band.Portable.Personalization
         public async Task<Stream> ToStreamAsync()
         {
 #if __ANDROID__
-            var native = ToNative();
+            var native = ToBitmap();
             var stream = new MemoryStream();
             if (await native.CompressAsync(NativeBitmap.CompressFormat.Png, 0, stream))
             {
@@ -100,10 +112,10 @@ namespace Microsoft.Band.Portable.Personalization
             }
             return null;
 #elif __IOS__
-            var native = ToNative();
+			var native = ToUIImage();
             return native.AsPNG().AsStream();
 #elif WINDOWS_PHONE_APP
-            var native = ToNative();
+			var native = ToWriteableBitmap();
             var stream = new InMemoryRandomAccessStream();
             var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
             using (Stream pixelStream = native.PixelBuffer.AsStream())

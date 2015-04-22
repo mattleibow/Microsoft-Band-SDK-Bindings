@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using Foundation;
+using UIKit;
 
 using Microsoft.Band.Tiles;
 
@@ -9,10 +10,10 @@ namespace Microsoft.Band.Personalization
 {
 	public static class BandPersonalizationManagerExtensions
 	{
-		public static Task UpdateMeTileImageAsync (this IBandPersonalizationManager manager, BandImage image)
+		public static Task SetMeTileImageTaskAsync (this IBandPersonalizationManager manager, BandImage image)
 		{
 			var tcs = new TaskCompletionSource<object> ();
-			manager.UpdateMeTileImageAsync (image, tcs.AttachCompletionHandler ());
+			manager.SetMeTileImageAsync (image, tcs.AttachCompletionHandler ());
 			return tcs.Task;
 		}
 
@@ -23,10 +24,10 @@ namespace Microsoft.Band.Personalization
 			return tcs.Task;
 		}
 
-		public static Task UpdateThemeAsync (this IBandPersonalizationManager manager, BandTheme theme)
+		public static Task SetThemeTaskAsync (this IBandPersonalizationManager manager, BandTheme theme)
 		{
 			var tcs = new TaskCompletionSource<object> ();
-			manager.UpdateThemeAsync (theme, tcs.AttachCompletionHandler ());
+			manager.SetThemeAsync (theme, tcs.AttachCompletionHandler ());
 			return tcs.Task;
 		}
 
@@ -35,6 +36,11 @@ namespace Microsoft.Band.Personalization
 			var tcs = new TaskCompletionSource<BandTheme> ();
 			manager.GetThemeAsync (tcs.AttachCompletionHandler ());
 			return tcs.Task;
+		}
+
+		public static BandImage ToBandImage (this UIImage image)
+		{
+			return new BandImage (image);
 		}
 	}
 }

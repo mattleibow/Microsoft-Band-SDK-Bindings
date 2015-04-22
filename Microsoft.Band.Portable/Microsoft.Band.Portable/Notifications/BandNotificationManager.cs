@@ -41,9 +41,7 @@ namespace Microsoft.Band.Portable.Notifications
 
         public async Task SendMessageAsync(Guid tileId, string title, string body, DateTime timestamp, MessageFlags messageFlags)
         {
-#if __ANDROID__
-            await Native.SendMessageTaskAsync(tileId.ToNative(), title, body, timestamp, messageFlags.ToNative());
-#elif __IOS__
+#if __ANDROID__ || __IOS__
             await Native.SendMessageTaskAsync(tileId.ToNative(), title, body, timestamp, messageFlags.ToNative());
 #elif WINDOWS_PHONE_APP
             await Native.SendMessageAsync(tileId.ToNative(), title, body, timestamp, messageFlags.ToNative());
@@ -52,9 +50,7 @@ namespace Microsoft.Band.Portable.Notifications
 
         public async Task ShowDialogAsync(Guid tileId, string title, string body)
         {
-#if __ANDROID__
-            await Native.ShowDialogTaskAsync(tileId.ToNative(), title, body);
-#elif __IOS__
+#if __ANDROID__ || __IOS__
             await Native.ShowDialogTaskAsync(tileId.ToNative(), title, body);
 #elif WINDOWS_PHONE_APP
             await Native.ShowDialogAsync(tileId.ToNative(), title, body);
@@ -63,9 +59,7 @@ namespace Microsoft.Band.Portable.Notifications
 
         public async Task VibrateAsync(VibrationType vibrationType)
         {
-#if __ANDROID__
-            await Native.VibrateTaskAsync(vibrationType.ToNative());
-#elif __IOS__
+#if __ANDROID__ || __IOS__
             await Native.VibrateTaskAsync(vibrationType.ToNative());
 #elif WINDOWS_PHONE_APP
             await Native.VibrateAsync(vibrationType.ToNative());

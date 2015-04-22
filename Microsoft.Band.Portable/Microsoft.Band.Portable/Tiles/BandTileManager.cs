@@ -61,10 +61,8 @@ namespace Microsoft.Band.Portable.Tiles
 
         public async Task<int> GetRemainingTileCapacityAsync()
         {
-#if __ANDROID__
-            return await Native.GetRemainingTileCapacityTaskAsync();
-#elif __IOS__
-            return (int)await Native.RemainingTileCapacityTaskAsync();
+#if __ANDROID__ || __IOS__
+            return (int)await Native.GetRemainingTileCapacityTaskAsync();
 #elif WINDOWS_PHONE_APP
             return await Native.GetRemainingTileCapacityAsync();
 #else // PORTABLE
@@ -74,9 +72,7 @@ namespace Microsoft.Band.Portable.Tiles
 
         public async Task<IEnumerable<BandTile>> GetTilesAsync()
         {
-#if __ANDROID__
-            return (await Native.GetTilesTaskAsync()).Select(x => x.FromNative());
-#elif __IOS__
+#if __ANDROID__ || __IOS__
             return (await Native.GetTilesTaskAsync()).Select(x => x.FromNative());
 #elif WINDOWS_PHONE_APP
             return (await Native.GetTilesAsync()).Select(x => x.FromNative());
@@ -87,9 +83,7 @@ namespace Microsoft.Band.Portable.Tiles
 
         public async Task RemoveTileAsync(Guid tileId)
         {
-#if __ANDROID__
-            await Native.RemoveTileTaskAsync(tileId.ToNative());
-#elif __IOS__
+#if __ANDROID__ || __IOS__
             await Native.RemoveTileTaskAsync(tileId.ToNative());
 #elif WINDOWS_PHONE_APP
             await Native.RemoveTileAsync(tileId.ToNative());

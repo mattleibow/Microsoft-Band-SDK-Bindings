@@ -29,16 +29,16 @@ namespace Microsoft.Band.Portable
         public static NativeBandTile ToNative(this BandTile tile)
         {
 #if __ANDROID__
-            var icon = NativeBandIcon.ToBandIcon(tile.Icon.ToNative());
+            var icon = NativeBandIcon.ToBandIcon(tile.Icon.ToBitmap());
             using (var builder = new NativeBandTile.Builder(tile.Id.ToNative(), tile.Name, icon))
             {
-                if (tile.Theme != null)
+                if (tile.IsCustomThemeEnabled)
                 {
                     builder.SetTheme(tile.Theme.ToNative());
                 }
-                if (tile.SmallIcon != null)
+                if (tile.IsBadgingEnabled)
                 {
-                    icon = NativeBandIcon.ToBandIcon(tile.SmallIcon.ToNative());
+                    icon = NativeBandIcon.ToBandIcon(tile.SmallIcon.ToBitmap());
                     builder.SetTileSmallIcon(icon);
                 }
                 return builder.Build();
@@ -46,11 +46,11 @@ namespace Microsoft.Band.Portable
 #elif __IOS__
             // TODO: iOS - SmallIcon may not be optional
             Foundation.NSError error;
-            var icon = NativeBandIcon.FromUIImage(tile.Icon.ToNative(), out error);
-            var smallIcon = tile.SmallIcon == null ? null : NativeBandIcon.FromUIImage(tile.SmallIcon.ToNative(), out error);
+            var icon = NativeBandIcon.FromUIImage(tile.Icon.ToUIImage(), out error);
+            var smallIcon = tile.IsBadgingEnabled ? NativeBandIcon.FromUIImage(tile.SmallIcon.ToUIImage(), out error) : null;
             var bandTile = NativeBandTile.Create(tile.Id.ToNative(), tile.Name, icon, smallIcon, out error);
-			bandTile.BadgingEnabled = smallIcon != null;
-			if (tile.Theme != default(BandTheme))
+            bandTile.BadgingEnabled = tile.IsBadgingEnabled;
+            if (tile.IsCustomThemeEnabled)
             {
                 bandTile.Theme = tile.Theme.ToNative();
             }
@@ -59,15 +59,15 @@ namespace Microsoft.Band.Portable
             var bandTile = new NativeBandTile(tile.Id.ToNative())
             {
                 Name = tile.Name,
-                TileIcon = tile.Icon.ToNative().ToBandIcon()
+                TileIcon = tile.Icon.ToWriteableBitmap().ToBandIcon()
             };
-            if (tile.Theme != null)
+            if (tile.IsCustomThemeEnabled)
             {
                 bandTile.Theme = tile.Theme.ToNative();
             }
-            if (tile.SmallIcon != null)
+            if (tile.IsBadgingEnabled)
             {
-                bandTile.SmallIcon = tile.SmallIcon.ToNative().ToBandIcon();
+                bandTile.SmallIcon = tile.SmallIcon.ToWriteableBitmap().ToBandIcon();
                 bandTile.IsBadgingEnabled = true;
             }
             return bandTile;

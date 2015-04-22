@@ -40,7 +40,7 @@ namespace Microsoft.Band.Portable.Sensors
 #if __ANDROID__
                 reading.AngularVelocityX, reading.AngularVelocityY, reading.AngularVelocityZ
 #elif __IOS__
-                reading.X, reading.Y, reading.Z
+				reading.AngularVelocityX, reading.AngularVelocityY, reading.AngularVelocityZ
 #elif WINDOWS_PHONE_APP
                 reading.AngularVelocityX, reading.AngularVelocityY, reading.AngularVelocityZ
 #endif

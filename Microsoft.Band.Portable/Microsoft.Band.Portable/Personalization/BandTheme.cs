@@ -2,8 +2,10 @@
 {
     public struct BandTheme
     {
+        public static readonly BandTheme Empty = new BandTheme();
+
         public BandTheme(BandColor baseColor, BandColor highContrastColor, BandColor highlightColor, BandColor lowlightColor, BandColor mutedColor, BandColor secondaryTextColor)
-			: this()
+            : this()
         {
             Base = baseColor;
             HighContrast = highContrastColor;
@@ -13,6 +15,20 @@
             SecondaryText = secondaryTextColor;
         }
 
+        public bool IsEmpty 
+        {
+            get 
+            { 
+                return 
+                    Base.IsEmpty && 
+                    HighContrast.IsEmpty && 
+                    Highlight.IsEmpty && 
+                    Lowlight.IsEmpty && 
+                    Muted.IsEmpty && 
+                    SecondaryText.IsEmpty; 
+            }    
+        }
+
         public BandColor Base { get; set; }
         public BandColor HighContrast { get; set; }
         public BandColor Highlight { get; set; }
@@ -20,34 +36,34 @@
         public BandColor Muted { get; set; }
         public BandColor SecondaryText { get; set; }
 
-		public static bool operator ==(BandTheme theme1, BandTheme theme2)
-		{
-			return theme1.Equals(theme2);
-		}
+        public static bool operator ==(BandTheme theme1, BandTheme theme2)
+        {
+            return theme1.Equals(theme2);
+        }
 
-		public static bool operator !=(BandTheme theme1, BandTheme theme2)
-		{
-			return !theme1.Equals(theme2);
-		}
+        public static bool operator !=(BandTheme theme1, BandTheme theme2)
+        {
+            return !theme1.Equals(theme2);
+        }
 
-		public override bool Equals(object obj)
-		{
-			if (!(obj is BandTheme))
-			{
-				return this.Equals(obj);
-			}
+        public override bool Equals(object obj)
+        {
+            if (!(obj is BandTheme))
+            {
+                return this.Equals(obj);
+            }
 
-			BandTheme theme1 = this;
-			BandTheme theme2 = (BandTheme)obj;
+            BandTheme theme1 = this;
+            BandTheme theme2 = (BandTheme)obj;
 
-			return 
-				theme1.Base == theme2.Base && 
-				theme1.HighContrast == theme2.HighContrast && 
-				theme1.Highlight == theme2.Highlight && 
-				theme1.Lowlight == theme2.Lowlight && 
-				theme1.Muted == theme2.Muted && 
-				theme1.SecondaryText == theme2.SecondaryText;
-		}
+            return 
+                theme1.Base == theme2.Base && 
+                theme1.HighContrast == theme2.HighContrast && 
+                theme1.Highlight == theme2.Highlight && 
+                theme1.Lowlight == theme2.Lowlight && 
+                theme1.Muted == theme2.Muted && 
+                theme1.SecondaryText == theme2.SecondaryText;
+        }
 
         //public static BandTheme CORN_FLOWER_THEME = new BandTheme(3368652, 3832029, 3237306, 9017259, 3832029, 1590908);
         //public static BandTheme CYBER_THEME = new BandTheme(3784559, 4312698, 3517029, 10000790, 3662460, 3241807);

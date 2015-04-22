@@ -38,10 +38,10 @@ namespace Microsoft.Band.Tiles
 			return tcs.Task;
 		}
 
-		public static Task<nuint> RemainingTileCapacityTaskAsync (this IBandTileManager manager)
+        public static Task<nuint> GetRemainingTileCapacityTaskAsync (this IBandTileManager manager)
 		{
 			var tcs = new TaskCompletionSource<nuint> ();
-			manager.RemainingTileCapacityAsync (tcs.AttachCompletionHandler ());
+            manager.GetRemainingTileCapacityAsync (tcs.AttachCompletionHandler ());
 			return tcs.Task;
 		}
 

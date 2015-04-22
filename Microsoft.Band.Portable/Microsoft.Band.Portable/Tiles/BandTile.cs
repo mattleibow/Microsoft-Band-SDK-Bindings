@@ -26,8 +26,16 @@ namespace Microsoft.Band.Portable.Tiles
 
         public BandImage SmallIcon { get; set; }
 
-        public BandTheme Theme { get; set; }
+		public BandTheme Theme { get; set; }
 
-        public bool IsBadgingEnabled { get { return SmallIcon != null; } }
+		public bool IsBadgingEnabled 
+		{
+			get { return SmallIcon != null; }
+		}
+
+		public bool IsCustomThemeEnabled 
+		{ 
+			get { return Theme != BandTheme.Empty; }
+		}
     }
 }

@@ -477,7 +477,7 @@ namespace Microsoft.Band.Personalization
 		// @required -(void)updateMeTileImage:(MSBImage *)image completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("updateMeTileImage:completionHandler:")]
-		void UpdateMeTileImageAsync (BandImage image, Action<NSError> completionHandler);
+		void SetMeTileImageAsync (BandImage image, Action<NSError> completionHandler);
 
 		// @required -(void)meTileImageWithCompletionHandler:(void (^)(MSBImage *, NSError *))completionHandler;
 		[Abstract]
@@ -487,7 +487,7 @@ namespace Microsoft.Band.Personalization
 		// @required -(void)updateTheme:(MSBTheme *)theme completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("updateTheme:completionHandler:")]
-		void UpdateThemeAsync (BandTheme theme, Action<NSError> completionHandler);
+		void SetThemeAsync (BandTheme theme, Action<NSError> completionHandler);
 
 		// @required -(void)themeWithCompletionHandler:(void (^)(MSBTheme *, NSError *))completionHandler;
 		[Abstract]
@@ -510,15 +510,15 @@ namespace Microsoft.Band.Sensors
 	{
 		// @property (readonly, nonatomic) double x;
 		[Export ("x")]
-		double X { get; }
+		double AccelerationX { get; }
 
 		// @property (readonly, nonatomic) double y;
 		[Export ("y")]
-		double Y { get; }
+		double AccelerationY { get; }
 
 		// @property (readonly, nonatomic) double z;
 		[Export ("z")]
-		double Z { get; }
+		double AccelerationZ { get; }
 	}
 
 	// @interface MSBSensorGyroData : MSBSensorData
@@ -527,15 +527,15 @@ namespace Microsoft.Band.Sensors
 	{
 		// @property (readonly, nonatomic) double x;
 		[Export ("x")]
-		double X { get; }
+		double AngularVelocityX { get; }
 
 		// @property (readonly, nonatomic) double y;
 		[Export ("y")]
-		double Y { get; }
+		double AngularVelocityY { get; }
 
 		// @property (readonly, nonatomic) double z;
 		[Export ("z")]
-		double Z { get; }
+		double AngularVelocityZ { get; }
 	}
 
 	// @interface MSBSensorAccelGyroData : MSBSensorData
@@ -544,11 +544,11 @@ namespace Microsoft.Band.Sensors
 	{
 		// @property (readonly, nonatomic) MSBSensorAccelData * accel;
 		[Export ("accel")]
-		BandSensorAccelerometerData Accel { get; }
+		BandSensorAccelerometerData Accelerometer { get; }
 
 		// @property (readonly, nonatomic) MSBSensorGyroData * gyro;
 		[Export ("gyro")]
-		BandSensorGyroscopeData Gyro { get; }
+		BandSensorGyroscopeData Gyroscope { get; }
 	}
 
 	// @interface MSBSensorHeartRateData : MSBSensorData
@@ -837,7 +837,7 @@ namespace Microsoft.Band.Tiles
 		// @required -(void)remainingTileCapacityWithCompletionHandler:(void (^)(NSUInteger, NSError *))completionHandler;
 		[Abstract]
 		[Export ("remainingTileCapacityWithCompletionHandler:")]
-		void RemainingTileCapacityAsync (Action<nuint, NSError> completionHandler);
+        void GetRemainingTileCapacityAsync (Action<nuint, NSError> completionHandler);
 
 		// @required -(void)setPages:(NSArray *)pageData tileId:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
@@ -872,7 +872,10 @@ namespace Microsoft.Band.Tiles
 		[Export ("UIImage")]
 		UIImage UIImage { get; }
 	}
+}
 
+namespace Microsoft.Band.Personalization
+{
 	// @interface MSBImage : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBImage")]
 	interface BandImage
@@ -910,7 +913,7 @@ namespace Microsoft.Band.Tiles
 		// +(MSBColor *)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue;
 		[Static]
 		[Export ("colorWithRed:green:blue:")]
-		BandColor ColorWithRed (nuint red, nuint green, nuint blue);
+		BandColor FromRgb (nuint red, nuint green, nuint blue);
 	}
 
 	// @interface MSBTheme : NSObject
@@ -919,27 +922,27 @@ namespace Microsoft.Band.Tiles
 	{
 		// @property (nonatomic, strong) MSBColor * baseColor;
 		[Export ("baseColor", ArgumentSemantic.Retain)]
-		BandColor BaseColor { get; set; }
+		BandColor Base { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * highLightColor;
 		[Export ("highLightColor", ArgumentSemantic.Retain)]
-		BandColor HighLightColor { get; set; }
+		BandColor Highlight { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * lowLightColor;
 		[Export ("lowLightColor", ArgumentSemantic.Retain)]
-		BandColor LowLightColor { get; set; }
+		BandColor Lowlight { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * secondaryTextColor;
 		[Export ("secondaryTextColor", ArgumentSemantic.Retain)]
-		BandColor SecondaryTextColor { get; set; }
+		BandColor SecondaryText { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * highContrastColor;
 		[Export ("highContrastColor", ArgumentSemantic.Retain)]
-		BandColor HighContrastColor { get; set; }
+		BandColor HighContrast { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * mutedColor;
 		[Export ("mutedColor", ArgumentSemantic.Retain)]
-		BandColor MutedColor { get; set; }
+		BandColor Muted { get; set; }
 
 		// +(MSBTheme *)themeWithBaseColor:(MSBColor *)baseColor highLightColor:(MSBColor *)highLightColor lowLightColor:(MSBColor *)lowLightColor secondaryTextColor:(MSBColor *)secondaryTextColor highContrastColor:(MSBColor *)highContrastColor mutedColor:(MSBColor *)mutedColor;
 		[Static]
