@@ -8,6 +8,8 @@ using CoreGraphics;
 using Microsoft.Band;
 using Microsoft.Band.Notifications;
 using Microsoft.Band.Tiles;
+using Microsoft.Band.Pages;
+using Microsoft.Band.Personalization;
 using Microsoft.Band.Sensors;
 
 namespace Microsoft.Band.iOS.Sample
@@ -20,6 +22,9 @@ namespace Microsoft.Band.iOS.Sample
 		private bool sensorStarted;
 
 		private static NSUuid tileId = new NSUuid ("DCBABA9F-12FD-47A5-83A9-E7270A4399BB");
+
+		private static NSUuid customId = new NSUuid ("ABCDBA9F-12FD-47A5-83A9-E7270A43BB99");
+		private static NSUuid pageId = new NSUuid ("1234BA9F-12FD-47A5-83A9-E7270A43BB99");
 
 		public MainViewController (IntPtr handle)
 			: base (handle)
@@ -67,7 +72,9 @@ namespace Microsoft.Band.iOS.Sample
 					accelerometer = client.SensorManager.CreateAccelerometerSensor ();
 					accelerometer.ReadingChanged += (_, e) => {
 						var data = e.SensorReading;
-						AccelerometerDataText.Text = string.Format ("Accel Data: X={0:+0.00} Y={0:+0.00} Z={0:+0.00}", data.X, data.Y, data.Z);
+						AccelerometerDataText.Text = string.Format (
+							"Accel Data: X={0:+0.00} Y={1:+0.00} Z={2:+0.00}", 
+							data.AccelerationX, data.AccelerationY, data.AccelerationZ);
 					};
 				}
 				if (sensorStarted) {
@@ -98,7 +105,7 @@ namespace Microsoft.Band.iOS.Sample
 				Output ("Creating tile...");
 
 				// the number of tile spaces left
-				var capacity = await client.TileManager.RemainingTileCapacityTaskAsync ();
+				var capacity = await client.TileManager.GetRemainingTileCapacityTaskAsync ();
 				Output ("Remaning tile space: " + capacity);
 
 				// create the tile
@@ -135,11 +142,67 @@ namespace Microsoft.Band.iOS.Sample
 
 				// send a message with a dialog
 				try {
-					await client.NotificationManager.SendMessageTaskAsync (tileId, "Hello", "Hello World!", DateTime.Now, true);
+					await client.NotificationManager.SendMessageTaskAsync (customId, "Hello", "Hello World!", DateTime.Now, true);
 					Output ("Sent the message!!");
 				} catch (BandException ex) {
 					Output ("Failed to send the message:");
 					Output (ex.Message);
+				}
+			} else {
+				Output ("Band is not connected. Please wait....");
+			}
+		}
+
+		async partial void ToggleCustomTileClick (UIButton sender)
+		{
+			if (client != null && client.IsDeviceConnected) {
+				Output ("Creating tile...");
+		        
+				NSError operationError;
+		        var tileName = "A tile";
+				var tileIcon = BandIcon.FromUIImage (UIImage.FromBundle ("A.png"), out operationError);
+				var smallIcon = BandIcon.FromUIImage (UIImage.FromBundle ("Aa.png"), out operationError);
+				var tile = BandTile.Create (customId, tileName, tileIcon, smallIcon, out operationError);
+		        
+				var textBlock = new BandTextBlock(BandRect.Create(0, 0, 230, 40), BandTextBlockFont.Small, 25);
+				textBlock.ElementId = 10;
+				textBlock.HorizontalAlignment = BandPageElementHorizontalAlignment.Left;
+				textBlock.BaselineAlignment = BandTextBlockBaselineAlignment.Absolute;
+				textBlock.Color = BandColor.FromRgb(0xff, 0xff, 0xff);
+		        
+				var barcode = new BandBarcode(BandRect.Create(0, 5, 230, 95), BandBarcodeType.CODE39);
+				barcode.ElementId = 11;
+				barcode.Color = BandColor.FromRgb(0xff, 0xff, 0xff);
+		        
+				var flowList = new BandFlowList(BandRect.Create(15, 0, 260, 105), BandFlowListOrientation.Vertical);
+				flowList.Margins = BandMargins.Create(0, 0, 0, 0);
+				flowList.Color = null;
+				flowList.Children.Add(textBlock);
+				flowList.Children.Add(barcode);
+		        
+				var pageLaypout = new BandPageLayout();
+				pageLaypout.Root = flowList;
+				tile.PageLayouts.Add(pageLaypout);
+
+				try {
+					Output ("Adding tile...");
+					await client.TileManager.AddTileTaskAsync(tile);
+				} catch (BandException ex) {
+					Output ("Error: " + ex.Message);
+				}
+
+				try {
+					Output ("Creating page...");
+					var pageValues = new BandPageElementData [] {
+						BandPageBarcodeCode39Data.Create(11, "A1 B", out operationError),
+						BandPageTextData.Create(10, "Barcode value: A1 B", out operationError)
+					};
+					var page = BandPageData.Create(pageId, 0, pageValues);
+	                
+					await client.TileManager.SetPagesTaskAsync(new[]{ page }, customId);
+					Output ("Completed custom page!");
+				} catch (BandException ex) {
+					Output ("Error: " + ex.Message);
 				}
 			} else {
 				Output ("Band is not connected. Please wait....");

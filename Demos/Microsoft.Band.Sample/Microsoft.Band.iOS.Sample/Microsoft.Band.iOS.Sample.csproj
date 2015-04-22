@@ -101,5 +101,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\B.png" />
     <BundleResource Include="Resources\Bb.png" />
+    <BundleResource Include="Resources\A.png" />
+    <BundleResource Include="Resources\Aa.png" />
   </ItemGroup>
 </Project>

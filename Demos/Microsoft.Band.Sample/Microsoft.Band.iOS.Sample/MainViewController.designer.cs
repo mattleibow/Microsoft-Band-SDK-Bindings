@@ -38,6 +38,10 @@ namespace Microsoft.Band.iOS.Sample
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void ToggleAppTileClick (UIButton sender);
 
+		[Action ("ToggleCustomTileClick:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void ToggleCustomTileClick (UIButton sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (AccelerometerDataText != null) {
