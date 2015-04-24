@@ -37,7 +37,6 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Notifications\" />
-    <Folder Include="Pages\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,7 +59,6 @@
     <Compile Include="Sensors\UVSensor.cs" />
     <Compile Include="AsyncHelpers.cs" />
     <Compile Include="Tiles\BandTileManagerExtensions.cs" />
-    <Compile Include="Pages\BandPagePanel.cs" />
     <Compile Include="BandCollection.cs" />
     <Compile Include="Tiles\BandTile.cs" />
   </ItemGroup>

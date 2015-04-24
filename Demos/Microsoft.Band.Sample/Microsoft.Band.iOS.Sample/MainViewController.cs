@@ -8,7 +8,7 @@ using CoreGraphics;
 using Microsoft.Band;
 using Microsoft.Band.Notifications;
 using Microsoft.Band.Tiles;
-using Microsoft.Band.Pages;
+using Microsoft.Band.Tiles.Pages;
 using Microsoft.Band.Personalization;
 using Microsoft.Band.Sensors;
 
@@ -22,9 +22,7 @@ namespace Microsoft.Band.iOS.Sample
 		private bool sensorStarted;
 
 		private static NSUuid tileId = new NSUuid ("DCBABA9F-12FD-47A5-83A9-E7270A4399BB");
-
-		private static NSUuid customId = new NSUuid ("ABCDBA9F-12FD-47A5-83A9-E7270A43BB99");
-		private static NSUuid pageId = new NSUuid ("1234BA9F-12FD-47A5-83A9-E7270A43BB99");
+		private static NSUuid barcodePageId = new NSUuid ("1234BA9F-12FD-47A5-83A9-E7270A43BB99");
 
 		public MainViewController (IntPtr handle)
 			: base (handle)
@@ -45,6 +43,18 @@ namespace Microsoft.Band.iOS.Sample
 			if (client == null) {
 				// get the client
 				client = manager.AttachedClients.FirstOrDefault ();
+
+				// attach event handlers
+				client.ButtonPressed += (_, e) => {
+					Output (string.Format ("Button {0} Pressed: {1}", e.TileButtonEvent.ButtonId, e.TileButtonEvent.TileName));
+				};
+				client.TileOpened += (_, e) => {
+					Output (string.Format ("Tile Opened: {0}", e.TileEvent.TileName));
+				};
+				client.TileClosed += (_, e) => {
+					Output (string.Format ("Tile Closed: {0}", e.TileEvent.TileName));
+				};
+
 				if (client == null) {
 					Output ("Failed! No Bands attached.");
 				} else {
@@ -66,7 +76,7 @@ namespace Microsoft.Band.iOS.Sample
 
 		partial void StartAccelerometerClick (UIButton sender)
 		{
-			if (client != null && client.IsDeviceConnected) {
+			if (client != null && client.IsConnected) {
 				// create the sensor once
 				if (accelerometer == null) {
 					accelerometer = client.SensorManager.CreateAccelerometerSensor ();
@@ -101,7 +111,7 @@ namespace Microsoft.Band.iOS.Sample
 
 		async partial void ToggleAppTileClick (UIButton sender)
 		{
-			if (client != null && client.IsDeviceConnected) {
+			if (client != null && client.IsConnected) {
 				Output ("Creating tile...");
 
 				// the number of tile spaces left
@@ -110,10 +120,11 @@ namespace Microsoft.Band.iOS.Sample
 
 				// create the tile
 				NSError operationError;
-				var tileName = "B tile";
-				var tileIcon = BandIcon.FromUIImage (UIImage.FromBundle ("B.png"), out operationError);
-				var smallIcon = BandIcon.FromUIImage (UIImage.FromBundle ("Bb.png"), out operationError);
+				var tileName = "iOS Sample";
+				var tileIcon = BandIcon.FromUIImage (UIImage.FromBundle ("tile.png"), out operationError);
+				var smallIcon = BandIcon.FromUIImage (UIImage.FromBundle ("badge.png"), out operationError);
 				var tile = BandTile.Create (tileId, tileName, tileIcon, smallIcon, out operationError);
+				tile.BadgingEnabled = true;
 
 				// get the tiles
 				try {
@@ -137,7 +148,7 @@ namespace Microsoft.Band.iOS.Sample
 
 		async partial void SendMessageClick (UIButton sender)
 		{
-			if (client != null && client.IsDeviceConnected) {
+			if (client != null && client.IsConnected) {
 				Output ("Sending notification...");
 
 				// send a message with a dialog
@@ -153,53 +164,68 @@ namespace Microsoft.Band.iOS.Sample
 			}
 		}
 
-		async partial void ToggleCustomTileClick (UIButton sender)
+		async partial void AddBarcodePageClick (UIButton sender)
 		{
-			if (client != null && client.IsDeviceConnected) {
+			if (client != null && client.IsConnected) {
 				Output ("Creating tile...");
 		        
-				NSError operationError;
-		        var tileName = "A tile";
-				var tileIcon = BandIcon.FromUIImage (UIImage.FromBundle ("A.png"), out operationError);
-				var smallIcon = BandIcon.FromUIImage (UIImage.FromBundle ("Aa.png"), out operationError);
-				var tile = BandTile.Create (customId, tileName, tileIcon, smallIcon, out operationError);
-		        
-				var textBlock = new BandTextBlock(BandRect.Create(0, 0, 230, 40), BandTextBlockFont.Small, 25);
-				textBlock.ElementId = 10;
-				textBlock.HorizontalAlignment = BandPageElementHorizontalAlignment.Left;
-				textBlock.BaselineAlignment = BandTextBlockBaselineAlignment.Absolute;
-				textBlock.Color = BandColor.FromRgb(0xff, 0xff, 0xff);
-		        
-				var barcode = new BandBarcode(BandRect.Create(0, 5, 230, 95), BandBarcodeType.CODE39);
-				barcode.ElementId = 11;
-				barcode.Color = BandColor.FromRgb(0xff, 0xff, 0xff);
-		        
-				var flowList = new BandFlowList(BandRect.Create(15, 0, 260, 105), BandFlowListOrientation.Vertical);
-				flowList.Margins = BandMargins.Create(0, 0, 0, 0);
-				flowList.Color = null;
-				flowList.Children.Add(textBlock);
-				flowList.Children.Add(barcode);
-		        
-				var pageLaypout = new BandPageLayout();
-				pageLaypout.Root = flowList;
-				tile.PageLayouts.Add(pageLaypout);
-
+				// remove an old tile
 				try {
-					Output ("Adding tile...");
-					await client.TileManager.AddTileTaskAsync(tile);
+					var tiles = await client.TileManager.GetTilesTaskAsync ();
+					if (tiles.Any (x => x.TileId.AsString () == tileId.AsString ())) {
+						// a tile exists, so remove it
+						await client.TileManager.RemoveTileTaskAsync (tileId);
+						Output ("Removed tile!");
+					}
 				} catch (BandException ex) {
 					Output ("Error: " + ex.Message);
 				}
 
+				// create the tile
+				NSError operationError;
+				var tileName = "iOS Sample";
+				var tileIcon = BandIcon.FromUIImage (UIImage.FromBundle ("tile.png"), out operationError);
+				var smallIcon = BandIcon.FromUIImage (UIImage.FromBundle ("badge.png"), out operationError);
+				var tile = BandTile.Create (tileId, tileName, tileIcon, smallIcon, out operationError);
+				tile.BadgingEnabled = true;
+
+				// create the barcode page
+				var textBlock = new BandPageTextBlock (BandPageRect.Create (0, 0, 230, 40), BandPageTextBlockFont.Small);
+				textBlock.ElementId = 10;
+				textBlock.Baseline = 25;
+				textBlock.HorizontalAlignment = BandPageHorizontalAlignment.Center;
+				textBlock.BaselineAlignment = BandPageTextBlockBaselineAlignment.Relative;
+				textBlock.AutoWidth = false;
+		        
+				var barcode = new BandPageBarcode (BandPageRect.Create (0, 5, 230, 95), BandPageBarcodeType.Code39);
+				barcode.ElementId = 11;
+		        
+				var flowPanel = new BandPageFlowPanel (BandPageRect.Create (15, 0, 260, 105));
+				flowPanel.AddElement (textBlock);
+				flowPanel.AddElement (barcode);
+		        
+				var pageLayout = new BandPageLayout ();
+				pageLayout.Root = flowPanel;
+				tile.PageLayouts.Add (pageLayout);
+
+				// add the tile to the band
 				try {
-					Output ("Creating page...");
+					Output ("Adding tile...");
+					await client.TileManager.AddTileTaskAsync (tile);
+				} catch (BandException ex) {
+					Output ("Error: " + ex.Message);
+				}
+
+				// set the page data
+				try {
+					Output ("Creating page data...");
 					var pageValues = new BandPageElementData [] {
-						BandPageBarcodeCode39Data.Create(11, "A1 B", out operationError),
-						BandPageTextData.Create(10, "Barcode value: A1 B", out operationError)
+						BandPageTextBlockData.Create (textBlock.ElementId, "Barcode value: A1 B", out operationError),
+						BandPageBarcodeData.Create (barcode.ElementId, BandPageBarcodeType.Code39, "A1 B", out operationError)
 					};
-					var page = BandPageData.Create(pageId, 0, pageValues);
+					var page = BandPageData.Create (barcodePageId, 0, pageValues);
 	                
-					await client.TileManager.SetPagesTaskAsync(new[]{ page }, customId);
+					await client.TileManager.SetPagesTaskAsync (new[]{ page }, tileId);
 					Output ("Completed custom page!");
 				} catch (BandException ex) {
 					Output ("Error: " + ex.Message);
@@ -208,6 +234,147 @@ namespace Microsoft.Band.iOS.Sample
 				Output ("Band is not connected. Please wait....");
 			}
 		}
+
+		async partial void RegisterNotificationsClick (UIButton sender)
+		{
+			if (UIDevice.CurrentDevice.CheckSystemVersion (8, 0)) {
+				var types = UIUserNotificationType.Badge | UIUserNotificationType.Sound | UIUserNotificationType.Alert;
+				var mySettings = UIUserNotificationSettings.GetSettingsForTypes (types, null);
+				UIApplication.SharedApplication.RegisterUserNotificationSettings (mySettings);
+			}
+
+			if (client != null && client.IsConnected) {
+				Output ("Creating tile...");
+
+				// remove an old tile
+				try {
+					var tiles = await client.TileManager.GetTilesTaskAsync ();
+					if (tiles.Any (x => x.TileId.AsString () == tileId.AsString ())) {
+						// a tile exists, so remove it
+						await client.TileManager.RemoveTileTaskAsync (tileId);
+						Output ("Removed tile!");
+					}
+				} catch (BandException ex) {
+					Output ("Error: " + ex.Message);
+				}
+
+				// create the tile
+				NSError operationError;
+				var tileName = "iOS Sample";
+				var tileIcon = BandIcon.FromUIImage (UIImage.FromBundle ("tile.png"), out operationError);
+				var smallIcon = BandIcon.FromUIImage (UIImage.FromBundle ("badge.png"), out operationError);
+				var tile = BandTile.Create (tileId, tileName, tileIcon, smallIcon, out operationError);
+				tile.BadgingEnabled = true;
+
+				// add the tile to the band
+				try {
+					Output ("Adding tile...");
+					await client.TileManager.AddTileTaskAsync (tile);
+				} catch (BandException ex) {
+					Output ("Error: " + ex.Message);
+				}
+
+				try {
+					Output ("Registering notification...");
+					await client.NotificationManager.RegisterNotificationTaskAsync ();
+					Output ("Completed registration!");
+
+					Output ("Sending notification...");
+
+					var localNotification = new UILocalNotification ();
+					localNotification.FireDate = NSDate.Now.AddSeconds (20);
+					localNotification.TimeZone = NSTimeZone.DefaultTimeZone;
+					localNotification.AlertBody = "Local notification";
+					localNotification.AlertAction = "View Details";
+					localNotification.SoundName = UILocalNotification.DefaultSoundName;
+
+					UIApplication.SharedApplication.PresentLocalNotificationNow (localNotification);
+
+					Output ("Notification sent!");
+				} catch (BandException ex) {
+					Output ("Error: " + ex.Message);
+				}
+			} else {
+				Output ("Band is not connected. Please wait....");
+			}
+		}
+
+		async partial void AddButtonPageClick (UIButton sender)
+		{
+			if (client != null && client.IsConnected) {
+				Output ("Creating tile...");
+
+				// remove an old tile
+				try {
+					var tiles = await client.TileManager.GetTilesTaskAsync ();
+					if (tiles.Any (x => x.TileId.AsString () == tileId.AsString ())) {
+						// a tile exists, so remove it
+						await client.TileManager.RemoveTileTaskAsync (tileId);
+						Output ("Removed tile!");
+					}
+				} catch (BandException ex) {
+					Output ("Error: " + ex.Message);
+				}
+
+				// create the tile
+				NSError operationError;
+				var tileName = "iOS Sample";
+				var tileIcon = BandIcon.FromUIImage (UIImage.FromBundle ("tile.png"), out operationError);
+				var smallIcon = BandIcon.FromUIImage (UIImage.FromBundle ("badge.png"), out operationError);
+				var tile = BandTile.Create (tileId, tileName, tileIcon, smallIcon, out operationError);
+				tile.BadgingEnabled = true;
+
+				// create the button page
+				var textBlock = new BandPageTextBlock (BandPageRect.Create (0, 0, 200, 40), BandPageTextBlockFont.Small);
+				textBlock.ElementId = 10;
+				textBlock.Baseline = 25;
+				textBlock.HorizontalAlignment = BandPageHorizontalAlignment.Center;
+				textBlock.BaselineAlignment = BandPageTextBlockBaselineAlignment.Relative;
+				textBlock.AutoWidth = false;
+				textBlock.Color = BandColor.FromUIColor (UIColor.Red, out operationError);
+				textBlock.Margins = BandPageMargins.Create (5, 2, 5, 2);
+
+				var button = new BandPageTextButton (BandPageRect.Create (0, 0, 200, 40));
+				button.ElementId = 11;
+				button.HorizontalAlignment = BandPageHorizontalAlignment.Center;
+				button.PressedColor = BandColor.FromUIColor (UIColor.Purple, out operationError);
+				button.Margins = BandPageMargins.Create (5, 2, 5, 2);
+
+				var flowPanel = new BandPageFlowPanel (BandPageRect.Create (15, 0, 260, 105));
+				flowPanel.AddElement (textBlock);
+				flowPanel.AddElement (button);
+
+				var pageLayout = new BandPageLayout ();
+				pageLayout.Root = flowPanel;
+				tile.PageLayouts.Add (pageLayout);
+
+				// add the tile to the band
+				try {
+					Output ("Adding tile...");
+					await client.TileManager.AddTileTaskAsync (tile);
+				} catch (BandException ex) {
+					Output ("Error: " + ex.Message);
+				}
+
+				// set the page data
+				try {
+					Output ("Creating page data...");
+					var pageValues = new BandPageElementData [] {
+						BandPageTextBlockData.Create (textBlock.ElementId, "TextButton sample", out operationError),
+						BandPageTextButtonData.Create (button.ElementId, "Press Me", out operationError)
+					};
+					var page = BandPageData.Create (barcodePageId, 0, pageValues);
+
+					await client.TileManager.SetPagesTaskAsync (new[]{ page }, tileId);
+					Output ("Completed custom page!");
+				} catch (BandException ex) {
+					Output ("Error: " + ex.Message);
+				}
+			} else {
+				Output ("Band is not connected. Please wait....");
+			}
+		}
+
 
 		private void Output (string message)
 		{

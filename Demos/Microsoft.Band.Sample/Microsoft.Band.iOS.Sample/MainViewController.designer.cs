@@ -22,9 +22,21 @@ namespace Microsoft.Band.iOS.Sample
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextView OutputText { get; set; }
 
+		[Action ("AddBarcodePageClick:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void AddBarcodePageClick (UIButton sender);
+
+		[Action ("AddButtonPageClick:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void AddButtonPageClick (UIButton sender);
+
 		[Action ("ConnectToBandClick:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void ConnectToBandClick (UIButton sender);
+
+		[Action ("RegisterNotificationsClick:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void RegisterNotificationsClick (UIButton sender);
 
 		[Action ("SendMessageClick:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -37,10 +49,6 @@ namespace Microsoft.Band.iOS.Sample
 		[Action ("ToggleAppTileClick:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void ToggleAppTileClick (UIButton sender);
-
-		[Action ("ToggleCustomTileClick:")]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void ToggleCustomTileClick (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{

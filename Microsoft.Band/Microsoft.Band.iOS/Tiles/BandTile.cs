@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Microsoft.Band.Pages;
+using Microsoft.Band.Tiles.Pages;
 
 namespace Microsoft.Band.Tiles
 {

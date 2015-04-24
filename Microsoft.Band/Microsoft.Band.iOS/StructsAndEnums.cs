@@ -6,8 +6,11 @@ namespace Microsoft.Band
 	[Native]
 	public enum BandNSErrorCodes : long
 	{
+		// Band errors
 		BandNotConnected = 100L,
 		BandError,
+
+		// Validation errors
 		NullArgument = 200L,
 		ValueEmpty,
 		InvalidImage,
@@ -15,81 +18,133 @@ namespace Microsoft.Band
 		TileNameInvalidLength,
 		SDKUnsupported,
 		InvalidArgument,
+		UserDeclinedHR,
+		UserConsentRequiredHR,
+
+		// Tile errors
 		InvalidTile = 300L,
 		InvalidTileID,
 		UserDeclinedTile,
 		MaxTiles,
 		TileAlreadyExist,
 		TileNotFound,
+
+		// Unknown
 		Unknown = 900L
 	}
 
 	[Native]
-	public enum BandPageElementHorizontalAlignment : ulong
+	public enum BandPageHorizontalAlignment : ulong
 	{
-		None = 0uL,
-		Left,
+		Left = 0uL,
 		Center,
 		Right
 	}
 
 	[Native]
-	public enum BandPageElementVerticalAlignment : ulong
+	public enum BandPageVerticalAlignment : ulong
 	{
-		None = 100uL,
-		Top,
+		Top = 100uL,
 		Center,
 		Bottom
 	}
 
 	[Native]
-	public enum BandPageElementVisibility : ulong
-	{
-		Hidden = 200uL,
-		Visible
-	}
-
-	[Native]
-	public enum BandFlowListOrientation : ulong
+	public enum BandPageFlowPanelOrientation : ulong
 	{
 		Horizontal = 300uL,
 		Vertical
 	}
 
 	[Native]
-	public enum BandTextBlockBaselineAlignment : ulong
+	public enum BandPageTextBlockBaselineAlignment : ulong
 	{
-		Absolute = 400uL,
+		Auto = 400uL,
+		Absolute,
 		Relative
 	}
 
 	[Native]
-	public enum BandTextBlockFont : ulong
+	public enum BandPageTextBlockFont : ulong
 	{
+		/// <summary>
+		/// Smallest font, contains all characters supported by the device.
+		/// </summary>
 		Small = 500uL,
+
+		/// <summary>
+		/// Medium sized font, contains alphanumeric characters as well as some symbols.
+		/// </summary>
 		Medium,
+
+		/// <summary>
+		/// Large font, contains numeric and some symbols.
+		/// </summary>
 		Large,
+
+		/// <summary>
+		/// Extra large font contains numeric characters and a very small set of symbols.
+		/// </summary>
 		ExtraLargeNumbers,
+
+		/// <summary>
+		/// Extra Large Bold contains numbers and a very small subset of symbols.
+		/// </summary>
 		ExtraLargeNumbersBold
 	}
 
-	public enum BandWrappedTextBlockFont : uint
+	public enum BandPageWrappedTextBlockFont : uint
 	{
+		/// <summary>
+		/// Smallest font, contains all characters supported by the device.
+		/// </summary>
 		Small = 600u,
+
+		/// <summary>
+		/// Medium sized font, contains alphanumeric characters as well as some symbols.
+		/// </summary>
 		Medium
 	}
 
-	public enum BandTextBlockLayoutElementWidth : uint
+	public enum BandPageTextBlockLayoutElementWidth : uint
 	{
 		Fixed = 700u,
 		Auto
 	}
 
-	public enum BandBarcodeType : ushort
+	public enum BandPageBarcodeType : ushort
 	{
-		PDF417 = (ushort)800u,
-		CODE39
+		Pdf417 = 800,
+		Code39
 	}
+
+	[Native]
+	public enum BandTileEventType : ulong
+	{
+		Opened,
+		ButtonPressed,
+		Closed
+	}
+
+	public enum BandPageElementColorSource : ushort
+	{
+		Custom = 0,
+
+		BandBase,
+		BandHighlight,
+		BandLowlight,
+		BandSecondaryText,
+		BandHighContrast,
+		BandMuted,
+
+		TileBase,
+		TileHighlight,
+		TileLowlight,
+		TileSecondaryText,
+		TileHighContrast,
+		TileMuted
+	}
+
 }
 
 namespace Microsoft.Band.Notifications
@@ -125,7 +180,7 @@ namespace Microsoft.Band.Sensors
 	}
 
 	[Native]
-	public enum PedometerMode : ulong
+	public enum MotionType : ulong
 	{
 		Unknown,
 		Idle,
@@ -144,10 +199,19 @@ namespace Microsoft.Band.Sensors
 		VeryHigh
 	}
 
-	public enum BandContactStatus : uint
+	[Native]
+	public enum BandContactStatus : ulong
 	{
 		NotWorn,
 		Worn,
 		Unknown
+	}
+
+	[Native]
+	public enum BandUserConsent : ulong
+	{
+		NotSpecified,
+		Granted,
+		Declined
 	}
 }

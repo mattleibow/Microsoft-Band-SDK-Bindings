@@ -7,13 +7,30 @@ using UIKit;
 
 using Microsoft.Band;
 using Microsoft.Band.Notifications;
-using Microsoft.Band.Pages;
 using Microsoft.Band.Personalization;
 using Microsoft.Band.Sensors;
 using Microsoft.Band.Tiles;
+using Microsoft.Band.Tiles.Pages;
+
+// TODO: the Xamarin.Mac binding
 
 namespace Microsoft.Band
 {
+	partial interface BandClientManagerConstants
+	{
+		// extern NSString *const MSBClientManagerBluetoothPowerNotification;
+		[Field ("MSBClientManagerBluetoothPowerNotification")]
+		NSString BluetoothPowerNotification { get; }
+
+		// extern NSString *const MSBClientManagerBluetoothPowerKey;
+		[Field ("MSBClientManagerBluetoothPowerKey")]
+		NSString BluetoothPowerKey { get; }
+	
+		// extern NSString *const MSBErrorTypeDomain;
+		[Field ("MSBErrorTypeDomain")]
+		NSString BandErrorTypeDomain { get; }
+	}
+
 	interface IBandClientManagerDelegate
 	{
 
@@ -50,7 +67,7 @@ namespace Microsoft.Band
 
 		// @property (readonly) BOOL isPowerOn;
 		[Export ("isPowerOn")]
-		bool IsPowerOn { get; }
+		bool IsBluetoothPowerOn { get; }
 
 		// +(MSBClientManager *)sharedManager;
 		[Static]
@@ -75,7 +92,7 @@ namespace Microsoft.Band
 	}
 
 	// @interface MSBClient : NSObject
-	[BaseType (typeof(NSObject), Name = "MSBClient")]
+	[BaseType (typeof(NSObject), Name = "MSBClient", Delegates = new string [] { "TileDelegate" }, Events = new Type [] { typeof(BandClientTileDelegate) })]
 	interface BandClient
 	{
 		// @property (readonly) NSString * name;
@@ -84,11 +101,15 @@ namespace Microsoft.Band
 
 		// @property (readonly) NSUUID * connectionIdentifier;
 		[Export ("connectionIdentifier")]
-		NSUuid ConnectionIdentifier { get; }
+		NSUuid ConnectionId { get; }
 
 		// @property (readonly) BOOL isDeviceConnected;
 		[Export ("isDeviceConnected")]
-		bool IsDeviceConnected { get; }
+		bool IsConnected { get; }
+
+		// @property (nonatomic, weak) id<MSBClientTileDelegate> tileDelegate;
+		[NullAllowed, Export ("tileDelegate", ArgumentSemantic.Weak)]
+		IBandClientTileDelegate TileDelegate { get; set; }
 
 		// @property (readonly, nonatomic) id<MSBTileManagerProtocol> tileManager;
 		[Export ("tileManager")]
@@ -116,7 +137,7 @@ namespace Microsoft.Band
 	}
 }
 
-namespace Microsoft.Band.Pages
+namespace Microsoft.Band.Tiles.Pages
 {
 	// @interface MSBPageElement : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBPageElement")]
@@ -126,29 +147,25 @@ namespace Microsoft.Band.Pages
 		[Export ("elementId")]
 		ushort ElementId { get; set; }
 
-		// @property (nonatomic, strong) MSBRect * rect;
-		[Export ("rect", ArgumentSemantic.Retain)]
-		BandRect Rect { get; [NullAllowed] set; }
+		// @property (nonatomic, strong) MSBPageRect * rect;
+		[Export ("rect", ArgumentSemantic.Strong)]
+		BandPageRect Rect { get; set; }
 
-		// @property (nonatomic, strong) MSBMargins * margins;
-		[Export ("margins", ArgumentSemantic.Retain)]
-		BandMargins Margins { get; [NullAllowed] set; }
+		// @property (nonatomic, strong) MSBPageMargins * margins;
+		[Export ("margins", ArgumentSemantic.Strong)]
+		BandPageMargins Margins { get; set; }
 
-		// @property (nonatomic, strong) MSBColor * color;
-		[Export ("color", ArgumentSemantic.Retain)]
-		BandColor Color { get; [NullAllowed] set; }
+		// @property (assign, nonatomic) MSBPageHorizontalAlignment horizontalAlignment;
+		[Export ("horizontalAlignment", ArgumentSemantic.Assign)]
+		BandPageHorizontalAlignment HorizontalAlignment { get; set; }
 
-		// @property (assign, nonatomic) MSBPageElementHorizontalAlignment horizontalAlignment;
-		[Export ("horizontalAlignment", ArgumentSemantic.UnsafeUnretained)]
-		BandPageElementHorizontalAlignment HorizontalAlignment { get; set; }
+		// @property (assign, nonatomic) MSBPageVerticalAlignment verticalAlignment;
+		[Export ("verticalAlignment", ArgumentSemantic.Assign)]
+		BandPageVerticalAlignment VerticalAlignment { get; set; }
 
-		// @property (assign, nonatomic) MSBPageElementVerticalAlignment verticalAlignment;
-		[Export ("verticalAlignment", ArgumentSemantic.UnsafeUnretained)]
-		BandPageElementVerticalAlignment VerticalAlignment { get; set; }
-
-		// @property (assign, nonatomic) MSBPageElementVisibility visibility;
-		[Export ("visibility", ArgumentSemantic.UnsafeUnretained)]
-		BandPageElementVisibility Visibility { get; set; }
+		// @property (assign, nonatomic) BOOL visible;
+		[Export ("visible")]
+		bool Visible { get; set; }
 	}
 
 	// @interface MSBPageElementData : NSObject
@@ -167,16 +184,21 @@ namespace Microsoft.Band.Pages
 		// @property (readonly, nonatomic) NSString * text;
 		[Export ("text")]
 		string Text { get; }
-
-		// +(MSBPageTextData *)pageTextDataWithElementId:(MSBPageElementIdentifier)elementId text:(NSString *)text error:(NSError **)pError;
-		[Static]
-		[Export ("pageTextDataWithElementId:text:error:")]
-		BandPageTextData Create (ushort elementId, string text, out NSError pError);
 	}
 
-	// @interface MSBPageWrappedTextData : MSBPageElementData
-	[BaseType (typeof(BandPageElementData), Name = "MSBPageWrappedTextData")]
-	interface BandPageWrappedTextData
+	// @interface MSBPageTextBlockData : MSBPageTextData
+	[BaseType (typeof(BandPageTextData), Name = "MSBPageTextBlockData")]
+	interface BandPageTextBlockData
+	{
+		// +(MSBPageTextBlockData *)pageTextBlockDataWithElementId:(MSBPageElementIdentifier)elementId text:(NSString *)text error:(NSError **)pError;
+		[Static]
+		[Export ("pageTextBlockDataWithElementId:text:error:")]
+		BandPageTextBlockData Create (ushort elementId, string text, out NSError pError);
+	}
+
+	// @interface MSBPageWrappedTextBlockData : MSBPageElementData
+	[BaseType (typeof(BandPageElementData), Name = "MSBPageWrappedTextBlockData")]
+	interface BandPageWrappedTextBlockData
 	{
 		// @property (readonly, nonatomic) NSString * text;
 		[Export ("text")]
@@ -185,7 +207,7 @@ namespace Microsoft.Band.Pages
 		// +(MSBPageWrappedTextData *)pageWrappedTextDataWithElementId:(MSBPageElementIdentifier)elementId text:(NSString *)text error:(NSError **)pError;
 		[Static]
 		[Export ("pageWrappedTextDataWithElementId:text:error:")]
-		BandPageWrappedTextData Create (ushort elementId, string text, out NSError pError);
+		BandPageWrappedTextBlockData Create (ushort elementId, string text, out NSError pError);
 	}
 
 	// @interface MSBPageIconData : MSBPageElementData
@@ -210,70 +232,23 @@ namespace Microsoft.Band.Pages
 		[Export ("pageId")]
 		NSUuid PageId { get; }
 
-		// @property (readonly, nonatomic) NSUInteger pageTemplateIndex;
-		[Export ("pageTemplateIndex")]
-		nuint PageTemplateIndex { get; }
+		// @property (readonly, nonatomic) NSUInteger pageLayoutIndex;
+		[Export ("pageLayoutIndex")]
+		nuint PageLayoutIndex { get; }
 
 		// @property (readonly, nonatomic) NSArray * values;
 		[Export ("values")]
-		NSObject[] Values { get; }
+		BandPageElementData[] Values { get; }
 
-		// +(MSBPageData *)pageDataWithId:(NSUUID *)pageId templateIndex:(NSUInteger)templateIndex value:(NSArray *)values;
+		// +(MSBPageData *)pageDataWithId:(NSUUID *)pageId layoutIndex:(NSUInteger)layoutIndex value:(NSArray *)values;
 		[Static]
-		[Export ("pageDataWithId:templateIndex:value:")]
-		BandPageData Create (NSUuid pageId, nuint templateIndex, NSObject[] values);
+		[Export ("pageDataWithId:layoutIndex:value:")]
+		BandPageData Create (NSUuid pageId, nuint layoutIndex, BandPageElementData[] values);
 	}
 
-	// @interface MSBPageBarcodePDF417Data : MSBPageElementData
-	[BaseType (typeof(BandPageElementData), Name = "MSBPageBarcodePDF417Data")]
-	interface BandPageBarcodePDF417Data
-	{
-		// @property (readonly, nonatomic) NSString * value;
-		[Export ("value")]
-		string Value { get; }
-
-		// +(MSBPageBarcodePDF417Data *)pageBarcodePDF417DataWithElementId:(MSBPageElementIdentifier)elementId value:(NSString *)value error:(NSError **)pError;
-		[Static]
-		[Export ("pageBarcodePDF417DataWithElementId:value:error:")]
-		BandPageBarcodePDF417Data Create (ushort elementId, string value, out NSError pError);
-	}
-
-	// @interface MSBPageBarcodeCode39Data : MSBPageElementData
-	[BaseType (typeof(BandPageElementData), Name = "MSBPageBarcodeCode39Data")]
-	interface BandPageBarcodeCode39Data
-	{
-		// @property (readonly, nonatomic) NSString * value;
-		[Export ("value")]
-		string Value { get; }
-
-		// +(MSBPageBarcodeCode39Data *)pageBarcodeCode39DataWithElementId:(MSBPageElementIdentifier)elementId value:(NSString *)value error:(NSError **)pError;
-		[Static]
-		[Export ("pageBarcodeCode39DataWithElementId:value:error:")]
-		BandPageBarcodeCode39Data Create (ushort elementId, string value, out NSError pError);
-	}
-
-	// @interface MSBPagePanel : MSBPageElement
-	[BaseType (typeof(BandPageElement), Name = "MSBPagePanel")]
-	interface BandPagePanel
-	{
-		// @property (nonatomic, strong) NSMutableArray * children;
-		[Internal]
-		[Export ("children", ArgumentSemantic.Retain)]
-		NSMutableArray ChildrenInternal { get; set; }
-	}
-
-	// @interface MSBTextElement : MSBPageElement
-	[BaseType (typeof(BandPageElement), Name = "MSBTextElement")]
-	interface BandTextElement
-	{
-		// @property (assign, nonatomic) MSBTextBlockLayoutElementWidth width;
-		[Export ("width", ArgumentSemantic.UnsafeUnretained)]
-		BandTextBlockLayoutElementWidth Width { get; set; }
-	}
-
-	// @interface MSBRect : NSObject
-	[BaseType (typeof(NSObject), Name = "MSBRect")]
-	interface BandRect
+	// @interface MSBPageRect : NSObject <NSCopying>
+	[BaseType (typeof(NSObject), Name = "MSBPageRect")]
+	interface BandPageRect : INSCopying
 	{
 		// @property (assign, nonatomic) UInt16 x;
 		[Export ("x")]
@@ -291,67 +266,142 @@ namespace Microsoft.Band.Pages
 		[Export ("height")]
 		ushort Height { get; set; }
 
-		// +(MSBRect *)rectwithX:(UInt16)x y:(UInt16)y width:(UInt16)width height:(UInt16)height;
+		// +(MSBPageRect *)rectWithX:(UInt16)x y:(UInt16)y width:(UInt16)width height:(UInt16)height;
 		[Static]
-		[Export ("rectwithX:y:width:height:")]
-		BandRect Create (ushort x, ushort y, ushort width, ushort height);
+		[Export ("rectWithX:y:width:height:")]
+		BandPageRect Create (ushort x, ushort y, ushort width, ushort height);
 	}
 
-	// @interface MSBMargins : NSObject
-	[BaseType (typeof(NSObject), Name = "MSBMargins")]
-	interface BandMargins
+	// @interface MSBPageMargins : NSObject <NSCopying>
+	[BaseType (typeof(NSObject), Name = "MSBPageMargins")]
+	interface BandPageMargins : INSCopying
 	{
-		// @property (assign, nonatomic) UInt16 left;
+		// @property (assign, nonatomic) SInt16 left;
 		[Export ("left")]
-		ushort Left { get; set; }
+		short Left { get; set; }
 
-		// @property (assign, nonatomic) UInt16 top;
+		// @property (assign, nonatomic) SInt16 top;
 		[Export ("top")]
-		ushort Top { get; set; }
+		short Top { get; set; }
 
-		// @property (assign, nonatomic) UInt16 right;
+		// @property (assign, nonatomic) SInt16 right;
 		[Export ("right")]
-		ushort Right { get; set; }
+		short Right { get; set; }
 
-		// @property (assign, nonatomic) UInt16 bottom;
+		// @property (assign, nonatomic) SInt16 bottom;
 		[Export ("bottom")]
-		ushort Bottom { get; set; }
+		short Bottom { get; set; }
 
-		// +(MSBMargins *)marginsWithLeft:(UInt16)left top:(UInt16)top right:(UInt16)right bottom:(UInt16)bottom;
+		// +(MSBPageMargins *)marginsWithLeft:(SInt16)left top:(SInt16)top right:(SInt16)right bottom:(SInt16)bottom;
 		[Static]
 		[Export ("marginsWithLeft:top:right:bottom:")]
-		BandMargins Create (ushort left, ushort top, ushort right, ushort bottom);
+		BandPageMargins Create (short left, short top, short right, short bottom);
 	}
 
-	// @interface MSBFilledQuad : MSBPagePanel
-	[BaseType (typeof(BandPagePanel), Name = "MSBFilledQuad")]
-	interface BandFilledQuad
+	// @interface MSBPageBarcodeData : MSBPageElementData
+	[BaseType (typeof(BandPageElementData), Name = "MSBPageBarcodeData")]
+	interface BandPageBarcodeData
 	{
-		// -(id)initWithRect:(MSBRect *)rect;
-		[Export ("initWithRect:")]
-		IntPtr Constructor (BandRect rect);
+		// @property (readonly, nonatomic) NSString * value;
+		[Export ("value")]
+		string Value { get; }
+
+		// @property (readonly, nonatomic) MSBPageBarcodeType barcodeType;
+		[Export ("barcodeType")]
+		BandPageBarcodeType BarcodeType { get; }
+
+		// +(MSBPageBarcodeData *)pageBarcodeDataWithElementId:(MSBPageElementIdentifier)elementId barcodeType:(MSBPageBarcodeType)type value:(NSString *)value error:(NSError **)pError;
+		[Static]
+		[Export ("pageBarcodeDataWithElementId:barcodeType:value:error:")]
+		BandPageBarcodeData Create (ushort elementId, BandPageBarcodeType type, string value, out NSError pError);
 	}
 
-	// @interface MSBFlowList : MSBPagePanel
-	[BaseType (typeof(BandPagePanel), Name = "MSBFlowList")]
-	interface BandFlowList
+	// @interface MSBPageTextButtonData : MSBPageTextData
+	[BaseType (typeof(BandPageTextData), Name = "MSBPageTextButtonData")]
+	interface BandPageTextButtonData
+	{
+		// +(MSBPageTextButtonData *)pageTextButtonDataWithElementId:(MSBPageElementIdentifier)elementId text:(NSString *)text error:(NSError **)pError;
+		[Static]
+		[Export ("pageTextButtonDataWithElementId:text:error:")]
+		BandPageTextButtonData Create (ushort elementId, string text, out NSError pError);
+	}
+
+	// @interface MSBPageFilledButtonData : MSBPageElementData
+	[BaseType (typeof(BandPageElementData), Name = "MSBPageFilledButtonData")]
+	interface BandPageFilledButtonData
+	{
+		// @property (nonatomic, strong) MSBColor * pressedColor;
+		[Export ("pressedColor", ArgumentSemantic.Strong)]
+		BandColor PressedColor { get; set; }
+
+		// +(MSBPageFilledButtonData *)pageFilledButtonDataWithElementId:(MSBPageElementIdentifier)elementId;
+		[Static]
+		[Export ("pageFilledButtonDataWithElementId:")]
+		BandPageFilledButtonData Create (ushort elementId);
+	}
+
+	// @interface MSBPagePanel : MSBPageElement
+	[BaseType (typeof(BandPageElement), Name = "MSBPagePanel")]
+	interface BandPagePanel
+	{
+		// -(NSArray *)elements;
+		[Export ("elements")]
+		BandPageElement[] Elements { get; }
+
+		// -(BOOL)addElement:(MSBPageElement *)element;
+		[Export ("addElement:")]
+		bool AddElement (BandPageElement element);
+
+		// -(BOOL)addElements:(NSArray *)elements;
+		[Export ("addElements:")]
+		bool AddElements (BandPageElement[] elements);
+	}
+
+	// @interface MSBPageFilledPanel : MSBPagePanel
+	[BaseType (typeof(BandPagePanel), Name = "MSBPageFilledPanel")]
+	interface BandPageFilledPanel
+	{
+		// @property (nonatomic, strong) MSBColor * backgroundColor;
+		[Export ("backgroundColor", ArgumentSemantic.Strong)]
+		BandColor BackgroundColor { get; set; }
+
+		// @property (assign, nonatomic) MSBPageElementColorSource backgroundColorSource;
+		[Export ("backgroundColorSource", ArgumentSemantic.Assign)]
+		BandPageElementColorSource BackgroundColorSource { get; set; }
+
+		// -(id)initWithRect:(MSBPageRect *)rect;
+		[Export ("initWithRect:")]
+		IntPtr Constructor (BandPageRect rect);
+	}
+
+	// @interface MSBPageFlowPanel : MSBPagePanel
+	[BaseType (typeof(BandPagePanel), Name = "MSBPageFlowPanel")]
+	interface BandPageFlowPanel
 	{
 		// @property (assign, nonatomic) MSBFlowListOrientation orientation;
-		[Export ("orientation", ArgumentSemantic.UnsafeUnretained)]
-		BandFlowListOrientation Orientation { get; set; }
+		[Export ("orientation", ArgumentSemantic.Assign)]
+		BandPageFlowPanelOrientation Orientation { get; set; }
 
-		// -(id)initWithRect:(MSBRect *)rect orientation:(MSBFlowListOrientation)orientation;
-		[Export ("initWithRect:orientation:")]
-		IntPtr Constructor (BandRect rect, BandFlowListOrientation orientation);
+		// -(id)initWithRect:(MSBPageRect *)rect;
+		[Export ("initWithRect:")]
+		IntPtr Constructor (BandPageRect rect);
 	}
 
-	// @interface MSBGlyph : MSBPageElement
-	[BaseType (typeof(BandPageElement), Name = "MSBGlyph")]
-	interface BandGlyph
+	// @interface MSBPageIcon : MSBPageElement
+	[BaseType (typeof(BandPageElement), Name = "MSBPageIcon")]
+	interface BandPageIcon
 	{
-		// -(id)initWithRect:(MSBRect *)rect;
+		// @property (nonatomic, strong) MSBColor * color;
+		[Export ("color", ArgumentSemantic.Strong)]
+		BandColor Color { get; set; }
+
+		// @property (assign, nonatomic) MSBPageElementColorSource colorSource;
+		[Export ("colorSource", ArgumentSemantic.Assign)]
+		BandPageElementColorSource ColorSource { get; set; }
+
+		// -(id)initWithRect:(MSBPageRect *)rect;
 		[Export ("initWithRect:")]
-		IntPtr Constructor (BandRect rect);
+		IntPtr Constructor (BandPageRect rect);
 	}
 
 	// @interface MSBPageLayout : NSObject
@@ -359,61 +409,122 @@ namespace Microsoft.Band.Pages
 	interface BandPageLayout
 	{
 		// @property (nonatomic, strong) MSBPagePanel * root;
-		[Export ("root", ArgumentSemantic.Retain)]
+		[Export ("root", ArgumentSemantic.Strong)]
 		BandPagePanel Root { get; set; }
+
+		// -(instancetype)initWithRoot:(MSBPagePanel *)root;
+		[Export ("initWithRoot:")]
+		IntPtr Constructor (BandPagePanel root);
 	}
 
-	// @interface MSBScrollFlowList : MSBFlowList
-	[BaseType (typeof(BandFlowList), Name = "MSBScrollFlowList")]
-	interface BandScrollFlowList
+	// @interface MSBScrollFlowList : MSBPageFlowPanel
+	[BaseType (typeof(BandPageFlowPanel), Name = "MSBPageScrollFlowPanel")]
+	interface BandPageScrollFlowPanel
 	{
+		// @property (nonatomic, strong) MSBColor * scrollBarColor;
+		[Export ("scrollBarColor", ArgumentSemantic.Strong)]
+		BandColor ScrollBarColor { get; set; }
+
+		// @property (assign, nonatomic) MSBPageElementColorSource scrollBarColorSource;
+		[Export ("scrollBarColorSource", ArgumentSemantic.Assign)]
+		BandPageElementColorSource ScrollBarColorSource { get; set; }
 	}
 
-	// @interface MSBTextBlock : MSBTextElement
-	[BaseType (typeof(BandTextElement), Name = "MSBTextBlock")]
-	interface BandTextBlock
+	// @interface MSBPageTextBlock : MSBPageElement
+	[BaseType (typeof(BandPageElement), Name = "MSBPageTextBlock")]
+	interface BandPageTextBlock
 	{
-		// @property (assign, nonatomic) MSBTextBlockFont font;
-		[Export ("font", ArgumentSemantic.UnsafeUnretained)]
-		BandTextBlockFont Font { get; set; }
+		// @property (assign, nonatomic) MSBPageTextBlockFont font;
+		[Export ("font", ArgumentSemantic.Assign)]
+		BandPageTextBlockFont Font { get; set; }
 
 		// @property (assign, nonatomic) MSBTextBlockBaseline baseline;
 		[Export ("baseline")]
 		ushort Baseline { get; set; }
 
-		// @property (assign, nonatomic) MSBTextBlockBaselineAlignment baselineAlignment;
-		[Export ("baselineAlignment", ArgumentSemantic.UnsafeUnretained)]
-		BandTextBlockBaselineAlignment BaselineAlignment { get; set; }
+		// @property (assign, nonatomic) MSBPageTextBlockBaselineAlignment baselineAlignment;
+		[Export ("baselineAlignment", ArgumentSemantic.Assign)]
+		BandPageTextBlockBaselineAlignment BaselineAlignment { get; set; }
 
-		// -(id)initWithRect:(MSBRect *)rect font:(MSBTextBlockFont)font baseline:(MSBTextBlockBaseline)baseline;
-		[Export ("initWithRect:font:baseline:")]
-		IntPtr Constructor (BandRect rect, BandTextBlockFont font, ushort baseline);
-	}
+		// @property (assign, nonatomic) BOOL autoWidth;
+		[Export ("autoWidth")]
+		bool AutoWidth { get; set; }
 
-	// @interface MSBWrappedTextBlock : MSBTextElement
-	[BaseType (typeof(BandTextElement), Name = "MSBWrappedTextBlock")]
-	interface BandWrappedTextBlock
-	{
-		// @property (assign, nonatomic) MSBWrappedTextBlockFont font;
-		[Export ("font", ArgumentSemantic.UnsafeUnretained)]
-		BandWrappedTextBlockFont Font { get; set; }
+		// @property (nonatomic, strong) MSBColor * color;
+		[Export ("color", ArgumentSemantic.Strong)]
+		BandColor Color { get; set; }
 
-		// -(id)initWithRect:(MSBRect *)rect font:(MSBWrappedTextBlockFont)font;
+		// @property (assign, nonatomic) MSBPageElementColorSource colorSource;
+		[Export ("colorSource", ArgumentSemantic.Assign)]
+		BandPageElementColorSource ColorSource { get; set; }
+
+		// -(id)initWithRect:(MSBPageRect *)rect font:(MSBPageTextBlockFont)font;
 		[Export ("initWithRect:font:")]
-		IntPtr Constructor (BandRect rect, BandWrappedTextBlockFont font);
+		IntPtr Constructor (BandPageRect rect, BandPageTextBlockFont font);
 	}
 
-	// @interface MSBBarcode : MSBPageElement
-	[BaseType (typeof(BandPageElement), Name = "MSBBarcode")]
-	interface BandBarcode
+	// @interface MSBPageWrappedTextBlock : MSBPageElement
+	[BaseType (typeof(BandPageElement), Name = "MSBPageWrappedTextBlock")]
+	interface BandPageWrappedTextBlock
 	{
-		// @property (assign, nonatomic) MSBBarcodeType barcodeType;
-		[Export ("barcodeType", ArgumentSemantic.UnsafeUnretained)]
-		BandBarcodeType BarcodeType { get; set; }
+		// @property (assign, nonatomic) MSBPageWrappedTextBlockFont font;
+		[Export ("font", ArgumentSemantic.Assign)]
+		BandPageWrappedTextBlockFont Font { get; set; }
 
-		// -(id)initWithRect:(MSBRect *)rect barcodeType:(MSBBarcodeType)type;
+		// @property (assign, nonatomic) BOOL autoHeight;
+		[Export ("autoHeight")]
+		bool AutoHeight { get; set; }
+
+		// @property (nonatomic, strong) MSBColor * color;
+		[Export ("color", ArgumentSemantic.Strong)]
+		BandColor Color { get; set; }
+
+		// @property (assign, nonatomic) MSBPageElementColorSource colorSource;
+		[Export ("colorSource", ArgumentSemantic.Assign)]
+		BandPageElementColorSource ColorSource { get; set; }
+
+		// -(id)initWithRect:(MSBPageRect *)rect font:(MSBPageWrappedTextBlockFont)font;
+		[Export ("initWithRect:font:")]
+		IntPtr Constructor (BandPageRect rect, BandPageWrappedTextBlockFont font);
+	}
+
+	// @interface MSBPageBarcode : MSBPageElement
+	[BaseType (typeof(BandPageElement), Name = "MSBPageBarcode")]
+	interface BandPageBarcode
+	{
+		// @property (readonly, nonatomic) MSBPageBarcodeType barcodeType;
+		[Export ("barcodeType")]
+		BandPageBarcodeType BarcodeType { get; }
+
+		// -(id)initWithRect:(MSBPageRect *)rect barcodeType:(MSBPageBarcodeType)type;
 		[Export ("initWithRect:barcodeType:")]
-		IntPtr Constructor (BandRect rect, BandBarcodeType type);
+		IntPtr Constructor (BandPageRect rect, BandPageBarcodeType type);
+	}
+
+	// @interface MSBPageTextButton : MSBPageElement
+	[BaseType (typeof(BandPageElement), Name = "MSBPageTextButton")]
+	interface BandPageTextButton
+	{
+		// @property (nonatomic, strong) MSBColor * pressedColor;
+		[Export ("pressedColor", ArgumentSemantic.Strong)]
+		BandColor PressedColor { get; set; }
+
+		// -(id)initWithRect:(MSBPageRect *)rect;
+		[Export ("initWithRect:")]
+		IntPtr Constructor (BandPageRect rect);
+	}
+
+	// @interface MSBPageFilledButton : MSBPageElement
+	[BaseType (typeof(BandPageElement), Name = "MSBPageFilledButton")]
+	interface BandPageFilledButton
+	{
+		// @property (nonatomic, strong) MSBColor * backgroundColor;
+		[Export ("backgroundColor", ArgumentSemantic.Strong)]
+		BandColor BackgroundColor { get; set; }
+
+		// -(id)initWithRect:(MSBPageRect *)rect;
+		[Export ("initWithRect:")]
+		IntPtr Constructor (BandPageRect rect);
 	}
 }
 
@@ -448,19 +559,19 @@ namespace Microsoft.Band.Notifications
 		[iOS (7, 0)]
 		[Abstract]
 		[Export ("registerNotificationWithTileID:completionHandler:")]
-		void RegisterPushNotificationAsync (NSUuid tileID, Action<NSError> completionHandler);
+		void RegisterNotificationAsync (NSUuid tileID, Action<NSError> completionHandler);
 
 		// @required -(void)registerNotificationWithCompletionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
 		[iOS (7, 0)]
 		[Abstract]
 		[Export ("registerNotificationWithCompletionHandler:")]
-		void RegisterPushNotificationAsync (Action<NSError> completionHandler);
+		void RegisterNotificationAsync (Action<NSError> completionHandler);
 
 		// @required -(void)unregisterNotificationWithCompletionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
 		[iOS (7, 0)]
 		[Abstract]
 		[Export ("unregisterNotificationWithCompletionHandler:")]
-		void UnregisterPushNotificationAsync (Action<NSError> completionHandler);
+		void UnregisterNotificationAsync (Action<NSError> completionHandler);
 	}
 }
 
@@ -506,8 +617,8 @@ namespace Microsoft.Band.Sensors
 	{
 	}
 
-	// @interface MSBSensorAccelData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorAccelData")]
+	// @interface MSBSensorAccelerometerData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorAccelerometerData")]
 	interface BandSensorAccelerometerData
 	{
 		// @property (readonly, nonatomic) double x;
@@ -523,8 +634,8 @@ namespace Microsoft.Band.Sensors
 		double AccelerationZ { get; }
 	}
 
-	// @interface MSBSensorGyroData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorGyroData")]
+	// @interface MSBSensorGyroscopeData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorGyroscopeData")]
 	interface BandSensorGyroscopeData
 	{
 		// @property (readonly, nonatomic) double x;
@@ -538,19 +649,6 @@ namespace Microsoft.Band.Sensors
 		// @property (readonly, nonatomic) double z;
 		[Export ("z")]
 		double AngularVelocityZ { get; }
-	}
-
-	// @interface MSBSensorAccelGyroData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorAccelGyroData")]
-	interface BandSensorAccelerometerGyroscopeData
-	{
-		// @property (readonly, nonatomic) MSBSensorAccelData * accel;
-		[Export ("accel")]
-		BandSensorAccelerometerData Accelerometer { get; }
-
-		// @property (readonly, nonatomic) MSBSensorGyroData * gyro;
-		[Export ("gyro")]
-		BandSensorGyroscopeData Gyroscope { get; }
 	}
 
 	// @interface MSBSensorHeartRateData : MSBSensorData
@@ -592,8 +690,8 @@ namespace Microsoft.Band.Sensors
 		double Pace { get; }
 
 		// @property (readonly, nonatomic) MSBPedometerMode pedometerMode;
-		[Export ("pedometerMode")]
-		PedometerMode PedometerMode { get; }
+		[Export ("motionType")]
+		MotionType MotionType { get; }
 	}
 
 	// @interface MSBSensorPedometerData : MSBSensorData
@@ -621,8 +719,8 @@ namespace Microsoft.Band.Sensors
 		int MovementMode { get; }
 	}
 
-	// @interface MSBSensorSkinTempData : MSBSensorData
-	[BaseType (typeof(BandSensorData), Name = "MSBSensorSkinTempData")]
+	// @interface MSBSensorSkinTemperatureData : MSBSensorData
+	[BaseType (typeof(BandSensorData), Name = "MSBSensorSkinTemperatureData")]
 	interface BandSensorSkinTemperatureData
 	{
 		// @property (readonly, nonatomic) double temperature;
@@ -747,6 +845,16 @@ namespace Microsoft.Band.Sensors
 		[Abstract]
 		[Export ("stopBandContactUpdatesErrorRef:")]
 		bool StopBandContactUpdates (out NSError pError);
+
+		// @required -(MSBUserConsent)heartRateUserConsent;
+		[Abstract]
+		[Export ("heartRateUserConsent")]
+		BandUserConsent HeartRateUserConsent { get; }
+
+		// @required -(void)requestHRUserConsentWithCompletion:(void (^)(BOOL, NSError *))completion;
+		[Abstract]
+		[Export ("requestHRUserConsentWithCompletion:")]
+		void RequestHeartRateUserConsentAsync (Action<bool, NSError> completion);
 	}
 }
 
@@ -859,14 +967,24 @@ namespace Microsoft.Band.Tiles
 	interface BandIcon
 	{
 		// @property (readonly, assign, nonatomic) CGSize size;
-		[Export ("size", ArgumentSemantic.UnsafeUnretained)]
+		[Export ("size", ArgumentSemantic.Assign)]
 		CGSize Size { get; }
 
 		// +(MSBIcon *)iconWithMSBImage:(MSBImage *)image error:(NSError **)pError;
 		[Static]
 		[Export ("iconWithMSBImage:error:")]
-		BandIcon FromImage (BandImage image, out NSError pError);
+		BandIcon FromBandImage (BandImage image, out NSError pError);
 
+#if __MAC__
+		// +(MSBIcon *)iconWithNSImage:(NSImage *)image error:(NSError **)pError;
+		[Static]
+		[Export ("iconWithNSImage:error:")]
+		BandIcon FromNSImage (NSImage image, out NSError pError);
+
+		// -(NSImage *)NSImage;
+		[Export ("NSImage")]
+		NSImage NSImage { get; }
+#else
 		// +(MSBIcon *)iconWithUIImage:(UIImage *)image error:(NSError **)pError;
 		[Static]
 		[Export ("iconWithUIImage:error:")]
@@ -875,6 +993,62 @@ namespace Microsoft.Band.Tiles
 		// -(UIImage *)UIImage;
 		[Export ("UIImage")]
 		UIImage UIImage { get; }
+#endif
+	}
+
+	// @interface MSBTileEvent : NSObject
+	[BaseType (typeof(NSObject), Name = "MSBTileEvent")]
+	interface BandTileEvent
+	{
+		// @property (readonly, nonatomic) NSString * tileName;
+		[Export ("tileName")]
+		string TileName { get; }
+
+		// @property (readonly, nonatomic) NSUUID * tileId;
+		[Export ("tileId")]
+		NSUuid TileId { get; }
+
+		// @property (readonly, nonatomic) MSBTileEventType eventType;
+		[Export ("eventType")]
+		BandTileEventType EventType { get; }
+	}
+
+	// @interface MSBTileButtonEvent : MSBTileEvent
+	[BaseType (typeof(BandTileEvent), Name = "MSBTileButtonEvent")]
+	interface BandTileButtonEvent
+	{
+		// @property (readonly, nonatomic) NSUUID * pageId;
+		[Export ("pageId")]
+		NSUuid PageId { get; }
+
+		// @property (readonly, nonatomic) MSBPageElementIdentifier buttonId;
+		[Export ("buttonId")]
+		ushort ButtonId { get; }
+	}
+
+	interface IBandClientTileDelegate
+	{
+
+	}
+
+	// @protocol MSBClientTileDelegate <NSObject>
+	[Protocol, Model]
+	[BaseType (typeof(NSObject), Name = "MSBClientTileDelegate")]
+	interface BandClientTileDelegate
+	{
+		// @required -(void)client:(MSBClient *)client tileDidOpen:(MSBTileEvent *)event;
+		[Abstract]
+		[Export ("client:tileDidOpen:"), EventArgs ("TileOpened")]
+		void TileOpened (BandClient client, BandTileEvent tileEvent);
+
+		// @required -(void)client:(MSBClient *)client tileDidClose:(MSBTileEvent *)event;
+		[Abstract]
+		[Export ("client:tileDidClose:"), EventArgs ("TileClosed")]
+		void TileClosed (BandClient client, BandTileEvent tileEvent);
+
+		// @optional -(void)client:(MSBClient *)client buttonDidPress:(MSBTileButtonEvent *)event;
+		[Export ("client:buttonDidPress:"), EventArgs ("TileButtonPressed")]
+		void ButtonPressed (BandClient client, BandTileButtonEvent tileButtonEvent);
 	}
 }
 
@@ -892,6 +1066,15 @@ namespace Microsoft.Band.Personalization
 		[Export ("initWithContentsOfFile:")]
 		IntPtr Constructor (string path);
 
+#if __MAC__
+		// -(instancetype)initWithNSImage:(NSImage *)image;
+		[Export ("initWithNSImage:")]
+		IntPtr Constructor (NSImage image);
+
+		// -(NSImage *)NSImage;
+		[Export ("NSImage")]
+		NSImage NSImage { get; }
+#else
 		// -(instancetype)initWithUIImage:(UIImage *)image;
 		[Export ("initWithUIImage:")]
 		IntPtr Constructor (UIImage image);
@@ -899,12 +1082,23 @@ namespace Microsoft.Band.Personalization
 		// -(UIImage *)UIImage;
 		[Export ("UIImage")]
 		UIImage UIImage { get; }
+#endif
 	}
 
 	// @interface MSBColor : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBColor")]
-	interface BandColor
+	interface BandColor : INSCopying
 	{
+#if __MAC__
+		// +(id)colorWithNSColor:(NSColor *)color error:(NSError **)pError;
+		[Static]
+		[Export ("colorWithNSColor:error:")]
+		BandColor FromNSColor (NSColor color, out NSError pError);
+
+		// -(NSColor *)NSColor;
+		[Export ("NSColor")]
+		NSColor NSColor { get; }
+#else
 		// +(id)colorWithUIColor:(UIColor *)color error:(NSError **)pError;
 		[Static]
 		[Export ("colorWithUIColor:error:")]
@@ -913,27 +1107,31 @@ namespace Microsoft.Band.Personalization
 		// -(UIColor *)UIColor;
 		[Export ("UIColor")]
 		UIColor UIColor { get; }
-
+#endif
 		// +(MSBColor *)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue;
 		[Static]
 		[Export ("colorWithRed:green:blue:")]
 		BandColor FromRgb (nuint red, nuint green, nuint blue);
+
+		// -(BOOL)isEqualToColor:(MSBColor *)color;
+		[Export ("isEqualToColor:")]
+		bool IsEqualToColor (BandColor color);
 	}
 
 	// @interface MSBTheme : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBTheme")]
-	interface BandTheme
+	interface BandTheme : INSCopying
 	{
 		// @property (nonatomic, strong) MSBColor * baseColor;
 		[Export ("baseColor", ArgumentSemantic.Retain)]
 		BandColor Base { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * highLightColor;
-		[Export ("highLightColor", ArgumentSemantic.Retain)]
+		[Export ("highlightColor", ArgumentSemantic.Retain)]
 		BandColor Highlight { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * lowLightColor;
-		[Export ("lowLightColor", ArgumentSemantic.Retain)]
+		[Export ("lowlightColor", ArgumentSemantic.Retain)]
 		BandColor Lowlight { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * secondaryTextColor;
@@ -948,9 +1146,9 @@ namespace Microsoft.Band.Personalization
 		[Export ("mutedColor", ArgumentSemantic.Retain)]
 		BandColor Muted { get; set; }
 
-		// +(MSBTheme *)themeWithBaseColor:(MSBColor *)baseColor highLightColor:(MSBColor *)highLightColor lowLightColor:(MSBColor *)lowLightColor secondaryTextColor:(MSBColor *)secondaryTextColor highContrastColor:(MSBColor *)highContrastColor mutedColor:(MSBColor *)mutedColor;
+		// +(MSBTheme *)themeWithBaseColor:(MSBColor *)baseColor highlightColor:(MSBColor *)highlightColor lowlightColor:(MSBColor *)lowlightColor secondaryTextColor:(MSBColor *)secondaryTextColor highContrastColor:(MSBColor *)highContrastColor mutedColor:(MSBColor *)mutedColor;
 		[Static]
-		[Export ("themeWithBaseColor:highLightColor:lowLightColor:secondaryTextColor:highContrastColor:mutedColor:")]
+		[Export ("themeWithBaseColor:highlightColor:lowlightColor:secondaryTextColor:highContrastColor:mutedColor:")]
 		BandTheme Create (BandColor baseColor, BandColor highLightColor, BandColor lowLightColor, BandColor secondaryTextColor, BandColor highContrastColor, BandColor mutedColor);
 	}
 }

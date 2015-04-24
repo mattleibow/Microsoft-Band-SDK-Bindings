@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using Foundation;
 
-using Microsoft.Band.Pages;
+using Microsoft.Band.Tiles.Pages;
 using Microsoft.Band.Tiles;
 
 namespace Microsoft.Band.Tiles

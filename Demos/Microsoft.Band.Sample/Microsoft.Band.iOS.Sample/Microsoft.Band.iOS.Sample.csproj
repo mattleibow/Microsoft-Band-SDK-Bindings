@@ -99,9 +99,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\B.png" />
-    <BundleResource Include="Resources\Bb.png" />
-    <BundleResource Include="Resources\A.png" />
-    <BundleResource Include="Resources\Aa.png" />
+    <BundleResource Include="Resources\badge.png" />
+    <BundleResource Include="Resources\tile.png" />
   </ItemGroup>
 </Project>

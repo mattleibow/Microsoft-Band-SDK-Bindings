@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Microsoft Band!!!" translatesAutoresizingMaskIntoConstraints="NO" id="b98-Gy-XIf">
-                                <rect key="frame" x="16" y="247" width="382" height="469"/>
+                                <rect key="frame" x="16" y="323" width="382" height="393"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" red="0.0079773027569999995" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
@@ -37,12 +37,12 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap &quot;Start Accelerometer&quot; to get data..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xOz-tK-FAl">
-                                <rect key="frame" x="16" y="218" width="382" height="21"/>
+                                <rect key="frame" x="16" y="294" width="382" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <constraints>
-                                    <constraint id="87" firstItem="xOz-tK-FAl" firstAttribute="height" constant="21"/>
+                                    <constraint id="110" firstItem="xOz-tK-FAl" firstAttribute="height" constant="21"/>
                                 </constraints>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38">
@@ -88,14 +88,44 @@
                                 <rect key="frame" x="16" y="180" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Toggle Custom Tile">
+                                <state key="normal" title="Add Barcode Page">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="OnRunClick:" destination="75" id="74" eventType="touchUpInside"/>
                                     <action selector="SendMessageClick:" destination="77" id="76" eventType="touchUpInside"/>
-                                    <action selector="ToggleCustomTileClick:" destination="vXZ-lx-hvc" id="88" eventType="touchUpInside"/>
+                                    <action selector="AddBarcodePageClick:" destination="vXZ-lx-hvc" id="117" eventType="touchUpInside"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="92">
+                                <rect key="frame" x="16" y="218" width="382" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Add Button Page">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="OnRunClick:" destination="94" id="93" eventType="touchUpInside"/>
+                                    <action selector="SendMessageClick:" destination="96" id="95" eventType="touchUpInside"/>
+                                    <action selector="ToggleCustomTileClick:" destination="98" id="97" eventType="touchUpInside"/>
+                                    <action selector="AddButtonPageClick:" destination="vXZ-lx-hvc" id="118" eventType="touchUpInside"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="99">
+                                <rect key="frame" x="16" y="256" width="382" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Register Notifications">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="OnRunClick:" destination="101" id="100" eventType="touchUpInside"/>
+                                    <action selector="SendMessageClick:" destination="103" id="102" eventType="touchUpInside"/>
+                                    <action selector="ToggleCustomTileClick:" destination="105" id="104" eventType="touchUpInside"/>
+                                    <action selector="RegisterNotificationsClick:" destination="vXZ-lx-hvc" id="119" eventType="touchUpInside"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -119,10 +149,16 @@
                             <constraint firstItem="73" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="78"/>
                             <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="73" secondAttribute="trailing" constant="16" id="79"/>
                             <constraint firstItem="73" firstAttribute="top" secondItem="44" secondAttribute="bottom" constant="8" id="80"/>
-                            <constraint firstItem="xOz-tK-FAl" firstAttribute="top" secondItem="73" secondAttribute="bottom" constant="8" id="83"/>
-                            <constraint firstItem="b98-Gy-XIf" firstAttribute="top" secondItem="xOz-tK-FAl" secondAttribute="bottom" constant="8" id="84"/>
-                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="xOz-tK-FAl" secondAttribute="trailing" constant="16" id="85"/>
-                            <constraint firstItem="xOz-tK-FAl" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="86"/>
+                            <constraint firstItem="b98-Gy-XIf" firstAttribute="top" secondItem="xOz-tK-FAl" secondAttribute="bottom" constant="8" id="106"/>
+                            <constraint firstItem="xOz-tK-FAl" firstAttribute="top" secondItem="99" secondAttribute="bottom" constant="8" id="107"/>
+                            <constraint firstItem="xOz-tK-FAl" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="108"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="xOz-tK-FAl" secondAttribute="trailing" constant="16" id="109"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="99" secondAttribute="trailing" constant="16" id="111"/>
+                            <constraint firstItem="99" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="112"/>
+                            <constraint firstItem="99" firstAttribute="top" secondItem="92" secondAttribute="bottom" constant="8" id="113"/>
+                            <constraint firstItem="92" firstAttribute="top" secondItem="73" secondAttribute="bottom" constant="8" id="114"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="92" secondAttribute="trailing" constant="16" id="115"/>
+                            <constraint firstItem="92" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="116"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
@@ -139,5 +175,9 @@
     <resources>
         <image name="B.png" width="46" height="46"/>
         <image name="Bb.png" width="24" height="24"/>
+        <image name="A.png" width="46" height="46"/>
+        <image name="Aa.png" width="24" height="24"/>
+        <image name="badge.png" width="24" height="24"/>
+        <image name="tile.png" width="46" height="46"/>
     </resources>
 </document>
