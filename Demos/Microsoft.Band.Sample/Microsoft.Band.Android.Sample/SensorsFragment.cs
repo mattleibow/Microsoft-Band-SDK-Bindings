@@ -252,7 +252,7 @@ namespace Microsoft.Band.Sample
                     Activity.RunOnUiThread(() =>
                     {
                         var contactEvent = e.SensorReading;
-                        mTextContact.Text = contactEvent.ContactStatus.ToString();
+                        mTextContact.Text = contactEvent.ContactState.ToString();
                     });
                 };
             }
@@ -268,7 +268,7 @@ namespace Microsoft.Band.Sample
                         mTextTotalDistance.Text = string.Format("{0:D} cm", distanceEvent.TotalDistance);
                         mTextSpeed.Text = string.Format("{0:F2} cm/s", distanceEvent.Speed);
                         mTextPace.Text = string.Format("{0:F2} ms/m", distanceEvent.Pace);
-                        mTextPedometerMode.Text = distanceEvent.PedometerMode.ToString();
+                        mTextPedometerMode.Text = distanceEvent.MotionType.ToString();
                     });
                 };
             }
@@ -413,7 +413,7 @@ namespace Microsoft.Band.Sample
                         mTextAccX.Text = "";
                         mTextAccY.Text = "";
                         mTextAccZ.Text = "";
-                        await accelerometerSensor.StartReadingsTaskAsync(rate);
+                        accelerometerSensor.StartReadings(rate);
                     }
                     else if (sw == mSwitchGyro)
                     {
@@ -437,7 +437,7 @@ namespace Microsoft.Band.Sample
                         mTextGyroAngX.Text = "";
                         mTextGyroAngY.Text = "";
                         mTextGyroAngZ.Text = "";
-						await gyroscopeSensor.StartReadingsTaskAsync(rate);
+						gyroscopeSensor.StartReadings(rate);
                     }
                     else if (sw == mSwitchDistance)
                     {
@@ -445,33 +445,41 @@ namespace Microsoft.Band.Sample
                         mTextSpeed.Text = "";
                         mTextPace.Text = "";
                         mTextPedometerMode.Text = "";
-						await distanceSensor.StartReadingsTaskAsync();
+						distanceSensor.StartReadings();
                     }
                     else if (sw == mSwitchHeartRate)
                     {
-                        mTextHeartRate.Text = "";
-                        mTextHeartRateQuality.Text = "";
-						await heartRateSensor.StartReadingsTaskAsync();
+						var sensorMngr = Model.Instance.Client.SensorManager;
+						if (await sensorMngr.RequestHeartRateConsentTaskAsync(Activity)) 
+						{
+							mTextHeartRate.Text = "";
+							mTextHeartRateQuality.Text = "";
+							heartRateSensor.StartReadings();
+						}
+						else
+						{
+							Util.ShowExceptionAlert(Activity, "Start heart rate sensor", new Exception("User declined permission."));
+						}
                     }
                     else if (sw == mSwitchContact)
                     {
                         mTextContact.Text = "";
-						await contactSensor.StartReadingsTaskAsync();
+						contactSensor.StartReadings();
                     }
                     else if (sw == mSwitchSkinTemperature)
                     {
                         mTextSkinTemperature.Text = "";
-						await skinTemperatureSensor.StartReadingsTaskAsync();
+						skinTemperatureSensor.StartReadings();
                     }
                     else if (sw == mSwitchUltraviolet)
                     {
                         mTextUltraviolet.Text = "";
-						await uvSensor.StartReadingsTaskAsync();
+						uvSensor.StartReadings();
                     }
                     else if (sw == mSwitchPedometer)
                     {
                         mTextTotalSteps.Text = "";
-						await pedometerSensor.StartReadingsTaskAsync();
+						pedometerSensor.StartReadings();
                     }
                 }
                 catch (BandException ex)
@@ -500,35 +508,35 @@ namespace Microsoft.Band.Sample
                 {
                     if (sw == mSwitchAccelerometer)
                     {
-                        await accelerometerSensor.StopReadingsTaskAsync();
+                        accelerometerSensor.StopReadings();
                     }
                     else if (sw == mSwitchGyro)
                     {
-						await gyroscopeSensor.StopReadingsTaskAsync();
+						gyroscopeSensor.StopReadings();
                     }
                     else if (sw == mSwitchDistance)
                     {
-						await distanceSensor.StopReadingsTaskAsync();
+						distanceSensor.StopReadings();
                     }
                     else if (sw == mSwitchHeartRate)
                     {
-						await heartRateSensor.StopReadingsTaskAsync();
+						heartRateSensor.StopReadings();
                     }
                     else if (sw == mSwitchContact)
                     {
-						await contactSensor.StopReadingsTaskAsync();
+						contactSensor.StopReadings();
                     }
                     else if (sw == mSwitchSkinTemperature)
                     {
-						await skinTemperatureSensor.StopReadingsTaskAsync();
+						skinTemperatureSensor.StopReadings();
                     }
                     else if (sw == mSwitchUltraviolet)
                     {
-						await uvSensor.StopReadingsTaskAsync();
+						uvSensor.StopReadings();
                     }
                     else if (sw == mSwitchPedometer)
                     {
-						await pedometerSensor.StopReadingsTaskAsync();
+						pedometerSensor.StopReadings();
                     }
                 }
                 catch (BandException ex)

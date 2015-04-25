@@ -10,12 +10,12 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="0,2" >
+        android:stretchColumns="0,2">
 
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" >
+            android:layout_marginTop="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" >
+            android:layout_marginBottom="8dp">
 
             <View
                 android:layout_width="fill_parent"
@@ -45,7 +45,7 @@
 
         <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/imageBackground"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal">
 
             <Button
                 android:id="@+id/buttonGetBackground"
@@ -90,7 +90,7 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" >
+            android:layout_marginTop="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" >
+            android:layout_marginBottom="8dp">
 
             <View
                 android:layout_width="fill_parent"
@@ -119,22 +119,8 @@
         </TableRow>
 
         <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center_horizontal" >
-
-            <Button
-                android:id="@+id/buttonChooseTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/select_label" />
-
-        </TableRow>
-
-        <TableRow
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <Microsoft.Band.Sample.BandThemeView
                 android:id="@+id/viewTheme"
@@ -151,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="20dp"
-            android:gravity="center" >
+            android:gravity="center">
 
             <Button
                 android:id="@+id/buttonGetTheme"

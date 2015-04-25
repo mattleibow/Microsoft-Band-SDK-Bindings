@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Deployment.Internal;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 using Android.App;
 using Android.Content;
@@ -19,10 +21,15 @@ namespace Microsoft.Band.Sensors
             return new AccelerometerSensor(sensorManager);
         }
 
-        public static ContactSensor CreateContactSensor(this IBandSensorManager sensorManager)
-        {
-            return new ContactSensor(sensorManager);
-        }
+		public static ContactSensor CreateContactSensor(this IBandSensorManager sensorManager)
+		{
+			return new ContactSensor(sensorManager);
+		}
+
+		public static CaloriesSensor CreateCaloriesSensor(this IBandSensorManager sensorManager)
+		{
+			return new CaloriesSensor(sensorManager);
+		}
 
         public static DistanceSensor CreateDistanceSensor(this IBandSensorManager sensorManager)
         {
@@ -53,5 +60,42 @@ namespace Microsoft.Band.Sensors
         {
             return new UVSensor(sensorManager);
         }
-    }
+
+		public static void RequestHeartRateConsentAsync(this IBandSensorManager sensorManager, Activity activity, Action<bool> callback)
+		{
+			sensorManager.RequestHeartRateConsentAsync(activity, new HeartRateConsentListener(callback));
+		}
+
+		public static Task<bool> RequestHeartRateConsentTaskAsync(this IBandSensorManager sensorManager, Activity activity)
+		{
+			var t = new TaskCompletionSource<bool>();
+			if (sensorManager.CurrentHeartRateConsent == UserConsent.Granted)
+			{
+				t.SetResult(true);
+			}
+			else
+			{
+				sensorManager.RequestHeartRateConsentAsync(activity, result =>
+				{
+					t.SetResult(result);
+				});
+			}
+			return t.Task;
+		}
+	}
+
+	internal class HeartRateConsentListener : Java.Lang.Object, IHeartRateConsentListener
+	{
+		private readonly Action<bool> callback;
+
+		public HeartRateConsentListener(Action<bool> callback)
+		{
+			this.callback = callback;
+		}
+
+		public void UserAccepted(bool p0)
+		{
+			callback(p0);
+		}
+	}
 }

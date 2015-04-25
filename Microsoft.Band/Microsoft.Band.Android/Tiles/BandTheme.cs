@@ -1,6 +1,6 @@
 using Android.Graphics;
 
-namespace Microsoft.Band.Tiles
+namespace Microsoft.Band
 {
     public partial class BandTheme
     {
