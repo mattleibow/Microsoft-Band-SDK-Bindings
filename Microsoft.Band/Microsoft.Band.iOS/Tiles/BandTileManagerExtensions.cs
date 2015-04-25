@@ -46,7 +46,7 @@ namespace Microsoft.Band.Tiles
 			return tcs.Task;
 		}
 
-		public static Task SetPagesTaskAsync (this IBandTileManager manager, BandPageData[] pageData, NSUuid tileId)
+		public static Task SetPagesTaskAsync (this IBandTileManager manager, PageData[] pageData, NSUuid tileId)
 		{
 			var tcs = new TaskCompletionSource<object> ();
 			manager.SetPagesAsync (pageData, tileId, tcs.AttachCompletionHandler ());

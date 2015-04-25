@@ -34,7 +34,26 @@ namespace Microsoft.Band
 	}
 
 	[Native]
-	public enum BandPageHorizontalAlignment : ulong
+	public enum BandTileEventType : ulong
+	{
+		Opened,
+		ButtonPressed,
+		Closed
+	}
+
+	[Native]
+	public enum BandUserConsent : ulong
+	{
+		NotSpecified,
+		Granted,
+		Declined
+	}
+}
+
+namespace Microsoft.Band.Tiles.Pages
+{
+	[Native]
+	public enum HorizontalAlignment : ulong
 	{
 		Left = 0uL,
 		Center,
@@ -42,7 +61,7 @@ namespace Microsoft.Band
 	}
 
 	[Native]
-	public enum BandPageVerticalAlignment : ulong
+	public enum VerticalAlignment : ulong
 	{
 		Top = 100uL,
 		Center,
@@ -50,14 +69,14 @@ namespace Microsoft.Band
 	}
 
 	[Native]
-	public enum BandPageFlowPanelOrientation : ulong
+	public enum FlowPanelOrientation : ulong
 	{
 		Horizontal = 300uL,
 		Vertical
 	}
 
 	[Native]
-	public enum BandPageTextBlockBaselineAlignment : ulong
+	public enum TextBlockBaselineAlignment : ulong
 	{
 		Auto = 400uL,
 		Absolute,
@@ -65,7 +84,7 @@ namespace Microsoft.Band
 	}
 
 	[Native]
-	public enum BandPageTextBlockFont : ulong
+	public enum TextBlockFont : ulong
 	{
 		/// <summary>
 		/// Smallest font, contains all characters supported by the device.
@@ -93,7 +112,7 @@ namespace Microsoft.Band
 		ExtraLargeNumbersBold
 	}
 
-	public enum BandPageWrappedTextBlockFont : uint
+	public enum WrappedTextBlockFont : uint
 	{
 		/// <summary>
 		/// Smallest font, contains all characters supported by the device.
@@ -106,27 +125,13 @@ namespace Microsoft.Band
 		Medium
 	}
 
-	public enum BandPageTextBlockLayoutElementWidth : uint
-	{
-		Fixed = 700u,
-		Auto
-	}
-
-	public enum BandPageBarcodeType : ushort
+	public enum BarcodeType : ushort
 	{
 		Pdf417 = 800,
 		Code39
 	}
 
-	[Native]
-	public enum BandTileEventType : ulong
-	{
-		Opened,
-		ButtonPressed,
-		Closed
-	}
-
-	public enum BandPageElementColorSource : ushort
+	public enum ElementColorSource : ushort
 	{
 		Custom = 0,
 
@@ -144,7 +149,6 @@ namespace Microsoft.Band
 		TileHighContrast,
 		TileMuted
 	}
-
 }
 
 namespace Microsoft.Band.Notifications
@@ -205,13 +209,5 @@ namespace Microsoft.Band.Sensors
 		NotWorn,
 		Worn,
 		Unknown
-	}
-
-	[Native]
-	public enum BandUserConsent : ulong
-	{
-		NotSpecified,
-		Granted,
-		Declined
 	}
 }

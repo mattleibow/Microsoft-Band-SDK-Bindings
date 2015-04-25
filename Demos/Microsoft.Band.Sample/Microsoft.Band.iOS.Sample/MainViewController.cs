@@ -190,21 +190,21 @@ namespace Microsoft.Band.iOS.Sample
 				tile.BadgingEnabled = true;
 
 				// create the barcode page
-				var textBlock = new BandPageTextBlock (BandPageRect.Create (0, 0, 230, 40), BandPageTextBlockFont.Small);
+				var textBlock = new TextBlock (PageRect.Create (0, 0, 230, 40), TextBlockFont.Small);
 				textBlock.ElementId = 10;
 				textBlock.Baseline = 25;
-				textBlock.HorizontalAlignment = BandPageHorizontalAlignment.Center;
-				textBlock.BaselineAlignment = BandPageTextBlockBaselineAlignment.Relative;
+				textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+				textBlock.BaselineAlignment = TextBlockBaselineAlignment.Relative;
 				textBlock.AutoWidth = false;
 		        
-				var barcode = new BandPageBarcode (BandPageRect.Create (0, 5, 230, 95), BandPageBarcodeType.Code39);
+				var barcode = new Barcode (PageRect.Create (0, 5, 230, 95), BarcodeType.Code39);
 				barcode.ElementId = 11;
 		        
-				var flowPanel = new BandPageFlowPanel (BandPageRect.Create (15, 0, 260, 105));
+				var flowPanel = new FlowPanel (PageRect.Create (15, 0, 260, 105));
 				flowPanel.AddElement (textBlock);
 				flowPanel.AddElement (barcode);
 		        
-				var pageLayout = new BandPageLayout ();
+				var pageLayout = new PageLayout ();
 				pageLayout.Root = flowPanel;
 				tile.PageLayouts.Add (pageLayout);
 
@@ -219,11 +219,11 @@ namespace Microsoft.Band.iOS.Sample
 				// set the page data
 				try {
 					Output ("Creating page data...");
-					var pageValues = new BandPageElementData [] {
-						BandPageTextBlockData.Create (textBlock.ElementId, "Barcode value: A1 B", out operationError),
-						BandPageBarcodeData.Create (barcode.ElementId, BandPageBarcodeType.Code39, "A1 B", out operationError)
+					var pageValues = new PageElementData [] {
+						TextBlockData.Create (textBlock.ElementId, "Barcode value: A1 B", out operationError),
+						BarcodeData.Create (barcode.ElementId, BarcodeType.Code39, "A1 B", out operationError)
 					};
-					var page = BandPageData.Create (barcodePageId, 0, pageValues);
+					var page = PageData.Create (barcodePageId, 0, pageValues);
 	                
 					await client.TileManager.SetPagesTaskAsync (new[]{ page }, tileId);
 					Output ("Completed custom page!");
@@ -325,26 +325,26 @@ namespace Microsoft.Band.iOS.Sample
 				tile.BadgingEnabled = true;
 
 				// create the button page
-				var textBlock = new BandPageTextBlock (BandPageRect.Create (0, 0, 200, 40), BandPageTextBlockFont.Small);
+				var textBlock = new TextBlock (PageRect.Create (0, 0, 200, 40), TextBlockFont.Small);
 				textBlock.ElementId = 10;
 				textBlock.Baseline = 25;
-				textBlock.HorizontalAlignment = BandPageHorizontalAlignment.Center;
-				textBlock.BaselineAlignment = BandPageTextBlockBaselineAlignment.Relative;
+				textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+				textBlock.BaselineAlignment = TextBlockBaselineAlignment.Relative;
 				textBlock.AutoWidth = false;
 				textBlock.Color = BandColor.FromUIColor (UIColor.Red, out operationError);
-				textBlock.Margins = BandPageMargins.Create (5, 2, 5, 2);
+				textBlock.Margins = Margins.Create (5, 2, 5, 2);
 
-				var button = new BandPageTextButton (BandPageRect.Create (0, 0, 200, 40));
+				var button = new TextButton (PageRect.Create (0, 0, 200, 40));
 				button.ElementId = 11;
-				button.HorizontalAlignment = BandPageHorizontalAlignment.Center;
+				button.HorizontalAlignment = HorizontalAlignment.Center;
 				button.PressedColor = BandColor.FromUIColor (UIColor.Purple, out operationError);
-				button.Margins = BandPageMargins.Create (5, 2, 5, 2);
+				button.Margins = Margins.Create (5, 2, 5, 2);
 
-				var flowPanel = new BandPageFlowPanel (BandPageRect.Create (15, 0, 260, 105));
+				var flowPanel = new FlowPanel (PageRect.Create (15, 0, 260, 105));
 				flowPanel.AddElement (textBlock);
 				flowPanel.AddElement (button);
 
-				var pageLayout = new BandPageLayout ();
+				var pageLayout = new PageLayout ();
 				pageLayout.Root = flowPanel;
 				tile.PageLayouts.Add (pageLayout);
 
@@ -359,11 +359,11 @@ namespace Microsoft.Band.iOS.Sample
 				// set the page data
 				try {
 					Output ("Creating page data...");
-					var pageValues = new BandPageElementData [] {
-						BandPageTextBlockData.Create (textBlock.ElementId, "TextButton sample", out operationError),
-						BandPageTextButtonData.Create (button.ElementId, "Press Me", out operationError)
+					var pageValues = new PageElementData [] {
+						TextBlockData.Create (textBlock.ElementId, "TextButton sample", out operationError),
+						TextButtonData.Create (button.ElementId, "Press Me", out operationError)
 					};
-					var page = BandPageData.Create (barcodePageId, 0, pageValues);
+					var page = PageData.Create (barcodePageId, 0, pageValues);
 
 					await client.TileManager.SetPagesTaskAsync (new[]{ page }, tileId);
 					Output ("Completed custom page!");

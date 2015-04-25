@@ -141,7 +141,7 @@ namespace Microsoft.Band.Tiles.Pages
 {
 	// @interface MSBPageElement : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBPageElement")]
-	interface BandPageElement
+	interface PageElement
 	{
 		// @property (assign, nonatomic) MSBPageElementIdentifier elementId;
 		[Export ("elementId")]
@@ -149,19 +149,19 @@ namespace Microsoft.Band.Tiles.Pages
 
 		// @property (nonatomic, strong) MSBPageRect * rect;
 		[Export ("rect", ArgumentSemantic.Strong)]
-		BandPageRect Rect { get; set; }
+		PageRect Rect { get; set; }
 
 		// @property (nonatomic, strong) MSBPageMargins * margins;
 		[Export ("margins", ArgumentSemantic.Strong)]
-		BandPageMargins Margins { get; set; }
+		Margins Margins { get; set; }
 
 		// @property (assign, nonatomic) MSBPageHorizontalAlignment horizontalAlignment;
 		[Export ("horizontalAlignment", ArgumentSemantic.Assign)]
-		BandPageHorizontalAlignment HorizontalAlignment { get; set; }
+		HorizontalAlignment HorizontalAlignment { get; set; }
 
 		// @property (assign, nonatomic) MSBPageVerticalAlignment verticalAlignment;
 		[Export ("verticalAlignment", ArgumentSemantic.Assign)]
-		BandPageVerticalAlignment VerticalAlignment { get; set; }
+		VerticalAlignment VerticalAlignment { get; set; }
 
 		// @property (assign, nonatomic) BOOL visible;
 		[Export ("visible")]
@@ -170,7 +170,7 @@ namespace Microsoft.Band.Tiles.Pages
 
 	// @interface MSBPageElementData : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBPageElementData")]
-	interface BandPageElementData
+	interface PageElementData
 	{
 		// @property (readonly, nonatomic) MSBPageElementIdentifier elementId;
 		[Export ("elementId")]
@@ -178,8 +178,8 @@ namespace Microsoft.Band.Tiles.Pages
 	}
 
 	// @interface MSBPageTextData : MSBPageElementData
-	[BaseType (typeof(BandPageElementData), Name = "MSBPageTextData")]
-	interface BandPageTextData
+	[BaseType (typeof(PageElementData), Name = "MSBPageTextData")]
+	interface TextData
 	{
 		// @property (readonly, nonatomic) NSString * text;
 		[Export ("text")]
@@ -187,18 +187,18 @@ namespace Microsoft.Band.Tiles.Pages
 	}
 
 	// @interface MSBPageTextBlockData : MSBPageTextData
-	[BaseType (typeof(BandPageTextData), Name = "MSBPageTextBlockData")]
-	interface BandPageTextBlockData
+	[BaseType (typeof(TextData), Name = "MSBPageTextBlockData")]
+	interface TextBlockData
 	{
 		// +(MSBPageTextBlockData *)pageTextBlockDataWithElementId:(MSBPageElementIdentifier)elementId text:(NSString *)text error:(NSError **)pError;
 		[Static]
 		[Export ("pageTextBlockDataWithElementId:text:error:")]
-		BandPageTextBlockData Create (ushort elementId, string text, out NSError pError);
+		TextBlockData Create (ushort elementId, string text, out NSError pError);
 	}
 
 	// @interface MSBPageWrappedTextBlockData : MSBPageElementData
-	[BaseType (typeof(BandPageElementData), Name = "MSBPageWrappedTextBlockData")]
-	interface BandPageWrappedTextBlockData
+	[BaseType (typeof(PageElementData), Name = "MSBPageWrappedTextBlockData")]
+	interface WrappedTextBlockData
 	{
 		// @property (readonly, nonatomic) NSString * text;
 		[Export ("text")]
@@ -207,12 +207,12 @@ namespace Microsoft.Band.Tiles.Pages
 		// +(MSBPageWrappedTextData *)pageWrappedTextDataWithElementId:(MSBPageElementIdentifier)elementId text:(NSString *)text error:(NSError **)pError;
 		[Static]
 		[Export ("pageWrappedTextDataWithElementId:text:error:")]
-		BandPageWrappedTextBlockData Create (ushort elementId, string text, out NSError pError);
+		WrappedTextBlockData Create (ushort elementId, string text, out NSError pError);
 	}
 
 	// @interface MSBPageIconData : MSBPageElementData
-	[BaseType (typeof(BandPageElementData), Name = "MSBPageIconData")]
-	interface BandPageIconData
+	[BaseType (typeof(PageElementData), Name = "MSBPageIconData")]
+	interface IconData
 	{
 		// @property (readonly, nonatomic) NSUInteger iconIndex;
 		[Export ("iconIndex")]
@@ -221,12 +221,12 @@ namespace Microsoft.Band.Tiles.Pages
 		// +(MSBPageIconData *)pageIconDataWithElementId:(MSBPageElementIdentifier)elementId iconIndex:(NSUInteger)iconIndex error:(NSError **)pError;
 		[Static]
 		[Export ("pageIconDataWithElementId:iconIndex:error:")]
-		BandPageIconData Create (ushort elementId, nuint iconIndex, out NSError pError);
+		IconData Create (ushort elementId, nuint iconIndex, out NSError pError);
 	}
 
 	// @interface MSBPageData : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBPageData")]
-	interface BandPageData
+	interface PageData
 	{
 		// @property (readonly, nonatomic) NSUUID * pageId;
 		[Export ("pageId")]
@@ -238,17 +238,17 @@ namespace Microsoft.Band.Tiles.Pages
 
 		// @property (readonly, nonatomic) NSArray * values;
 		[Export ("values")]
-		BandPageElementData[] Values { get; }
+		PageElementData[] Values { get; }
 
 		// +(MSBPageData *)pageDataWithId:(NSUUID *)pageId layoutIndex:(NSUInteger)layoutIndex value:(NSArray *)values;
 		[Static]
 		[Export ("pageDataWithId:layoutIndex:value:")]
-		BandPageData Create (NSUuid pageId, nuint layoutIndex, BandPageElementData[] values);
+		PageData Create (NSUuid pageId, nuint layoutIndex, PageElementData[] values);
 	}
 
 	// @interface MSBPageRect : NSObject <NSCopying>
 	[BaseType (typeof(NSObject), Name = "MSBPageRect")]
-	interface BandPageRect : INSCopying
+	interface PageRect : INSCopying
 	{
 		// @property (assign, nonatomic) UInt16 x;
 		[Export ("x")]
@@ -269,12 +269,12 @@ namespace Microsoft.Band.Tiles.Pages
 		// +(MSBPageRect *)rectWithX:(UInt16)x y:(UInt16)y width:(UInt16)width height:(UInt16)height;
 		[Static]
 		[Export ("rectWithX:y:width:height:")]
-		BandPageRect Create (ushort x, ushort y, ushort width, ushort height);
+		PageRect Create (ushort x, ushort y, ushort width, ushort height);
 	}
 
 	// @interface MSBPageMargins : NSObject <NSCopying>
 	[BaseType (typeof(NSObject), Name = "MSBPageMargins")]
-	interface BandPageMargins : INSCopying
+	interface Margins : INSCopying
 	{
 		// @property (assign, nonatomic) SInt16 left;
 		[Export ("left")]
@@ -295,12 +295,12 @@ namespace Microsoft.Band.Tiles.Pages
 		// +(MSBPageMargins *)marginsWithLeft:(SInt16)left top:(SInt16)top right:(SInt16)right bottom:(SInt16)bottom;
 		[Static]
 		[Export ("marginsWithLeft:top:right:bottom:")]
-		BandPageMargins Create (short left, short top, short right, short bottom);
+		Margins Create (short left, short top, short right, short bottom);
 	}
 
 	// @interface MSBPageBarcodeData : MSBPageElementData
-	[BaseType (typeof(BandPageElementData), Name = "MSBPageBarcodeData")]
-	interface BandPageBarcodeData
+	[BaseType (typeof(PageElementData), Name = "MSBPageBarcodeData")]
+	interface BarcodeData
 	{
 		// @property (readonly, nonatomic) NSString * value;
 		[Export ("value")]
@@ -308,27 +308,27 @@ namespace Microsoft.Band.Tiles.Pages
 
 		// @property (readonly, nonatomic) MSBPageBarcodeType barcodeType;
 		[Export ("barcodeType")]
-		BandPageBarcodeType BarcodeType { get; }
+		BarcodeType BarcodeType { get; }
 
 		// +(MSBPageBarcodeData *)pageBarcodeDataWithElementId:(MSBPageElementIdentifier)elementId barcodeType:(MSBPageBarcodeType)type value:(NSString *)value error:(NSError **)pError;
 		[Static]
 		[Export ("pageBarcodeDataWithElementId:barcodeType:value:error:")]
-		BandPageBarcodeData Create (ushort elementId, BandPageBarcodeType type, string value, out NSError pError);
+		BarcodeData Create (ushort elementId, BarcodeType type, string value, out NSError pError);
 	}
 
 	// @interface MSBPageTextButtonData : MSBPageTextData
-	[BaseType (typeof(BandPageTextData), Name = "MSBPageTextButtonData")]
-	interface BandPageTextButtonData
+	[BaseType (typeof(TextData), Name = "MSBPageTextButtonData")]
+	interface TextButtonData
 	{
 		// +(MSBPageTextButtonData *)pageTextButtonDataWithElementId:(MSBPageElementIdentifier)elementId text:(NSString *)text error:(NSError **)pError;
 		[Static]
 		[Export ("pageTextButtonDataWithElementId:text:error:")]
-		BandPageTextButtonData Create (ushort elementId, string text, out NSError pError);
+		TextButtonData Create (ushort elementId, string text, out NSError pError);
 	}
 
 	// @interface MSBPageFilledButtonData : MSBPageElementData
-	[BaseType (typeof(BandPageElementData), Name = "MSBPageFilledButtonData")]
-	interface BandPageFilledButtonData
+	[BaseType (typeof(PageElementData), Name = "MSBPageFilledButtonData")]
+	interface FilledButtonData
 	{
 		// @property (nonatomic, strong) MSBColor * pressedColor;
 		[Export ("pressedColor", ArgumentSemantic.Strong)]
@@ -337,29 +337,29 @@ namespace Microsoft.Band.Tiles.Pages
 		// +(MSBPageFilledButtonData *)pageFilledButtonDataWithElementId:(MSBPageElementIdentifier)elementId;
 		[Static]
 		[Export ("pageFilledButtonDataWithElementId:")]
-		BandPageFilledButtonData Create (ushort elementId);
+		FilledButtonData Create (ushort elementId);
 	}
 
 	// @interface MSBPagePanel : MSBPageElement
-	[BaseType (typeof(BandPageElement), Name = "MSBPagePanel")]
-	interface BandPagePanel
+	[BaseType (typeof(PageElement), Name = "MSBPagePanel")]
+	interface PagePanel
 	{
 		// -(NSArray *)elements;
 		[Export ("elements")]
-		BandPageElement[] Elements { get; }
+		PageElement[] Elements { get; }
 
 		// -(BOOL)addElement:(MSBPageElement *)element;
 		[Export ("addElement:")]
-		bool AddElement (BandPageElement element);
+		bool AddElement (PageElement element);
 
 		// -(BOOL)addElements:(NSArray *)elements;
 		[Export ("addElements:")]
-		bool AddElements (BandPageElement[] elements);
+		bool AddElements (PageElement[] elements);
 	}
 
 	// @interface MSBPageFilledPanel : MSBPagePanel
-	[BaseType (typeof(BandPagePanel), Name = "MSBPageFilledPanel")]
-	interface BandPageFilledPanel
+	[BaseType (typeof(PagePanel), Name = "MSBPageFilledPanel")]
+	interface FilledPanel
 	{
 		// @property (nonatomic, strong) MSBColor * backgroundColor;
 		[Export ("backgroundColor", ArgumentSemantic.Strong)]
@@ -367,29 +367,29 @@ namespace Microsoft.Band.Tiles.Pages
 
 		// @property (assign, nonatomic) MSBPageElementColorSource backgroundColorSource;
 		[Export ("backgroundColorSource", ArgumentSemantic.Assign)]
-		BandPageElementColorSource BackgroundColorSource { get; set; }
+		ElementColorSource BackgroundColorSource { get; set; }
 
 		// -(id)initWithRect:(MSBPageRect *)rect;
 		[Export ("initWithRect:")]
-		IntPtr Constructor (BandPageRect rect);
+		IntPtr Constructor (PageRect rect);
 	}
 
 	// @interface MSBPageFlowPanel : MSBPagePanel
-	[BaseType (typeof(BandPagePanel), Name = "MSBPageFlowPanel")]
-	interface BandPageFlowPanel
+	[BaseType (typeof(PagePanel), Name = "MSBPageFlowPanel")]
+	interface FlowPanel
 	{
 		// @property (assign, nonatomic) MSBFlowListOrientation orientation;
 		[Export ("orientation", ArgumentSemantic.Assign)]
-		BandPageFlowPanelOrientation Orientation { get; set; }
+		FlowPanelOrientation Orientation { get; set; }
 
 		// -(id)initWithRect:(MSBPageRect *)rect;
 		[Export ("initWithRect:")]
-		IntPtr Constructor (BandPageRect rect);
+		IntPtr Constructor (PageRect rect);
 	}
 
 	// @interface MSBPageIcon : MSBPageElement
-	[BaseType (typeof(BandPageElement), Name = "MSBPageIcon")]
-	interface BandPageIcon
+	[BaseType (typeof(PageElement), Name = "MSBPageIcon")]
+	interface Icon
 	{
 		// @property (nonatomic, strong) MSBColor * color;
 		[Export ("color", ArgumentSemantic.Strong)]
@@ -397,29 +397,29 @@ namespace Microsoft.Band.Tiles.Pages
 
 		// @property (assign, nonatomic) MSBPageElementColorSource colorSource;
 		[Export ("colorSource", ArgumentSemantic.Assign)]
-		BandPageElementColorSource ColorSource { get; set; }
+		ElementColorSource ColorSource { get; set; }
 
 		// -(id)initWithRect:(MSBPageRect *)rect;
 		[Export ("initWithRect:")]
-		IntPtr Constructor (BandPageRect rect);
+		IntPtr Constructor (PageRect rect);
 	}
 
 	// @interface MSBPageLayout : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBPageLayout")]
-	interface BandPageLayout
+	interface PageLayout
 	{
 		// @property (nonatomic, strong) MSBPagePanel * root;
 		[Export ("root", ArgumentSemantic.Strong)]
-		BandPagePanel Root { get; set; }
+		PagePanel Root { get; set; }
 
 		// -(instancetype)initWithRoot:(MSBPagePanel *)root;
 		[Export ("initWithRoot:")]
-		IntPtr Constructor (BandPagePanel root);
+		IntPtr Constructor (PagePanel root);
 	}
 
 	// @interface MSBScrollFlowList : MSBPageFlowPanel
-	[BaseType (typeof(BandPageFlowPanel), Name = "MSBPageScrollFlowPanel")]
-	interface BandPageScrollFlowPanel
+	[BaseType (typeof(FlowPanel), Name = "MSBPageScrollFlowPanel")]
+	interface ScrollFlowPanel
 	{
 		// @property (nonatomic, strong) MSBColor * scrollBarColor;
 		[Export ("scrollBarColor", ArgumentSemantic.Strong)]
@@ -427,16 +427,16 @@ namespace Microsoft.Band.Tiles.Pages
 
 		// @property (assign, nonatomic) MSBPageElementColorSource scrollBarColorSource;
 		[Export ("scrollBarColorSource", ArgumentSemantic.Assign)]
-		BandPageElementColorSource ScrollBarColorSource { get; set; }
+		ElementColorSource ScrollBarColorSource { get; set; }
 	}
 
 	// @interface MSBPageTextBlock : MSBPageElement
-	[BaseType (typeof(BandPageElement), Name = "MSBPageTextBlock")]
-	interface BandPageTextBlock
+	[BaseType (typeof(PageElement), Name = "MSBPageTextBlock")]
+	interface TextBlock
 	{
 		// @property (assign, nonatomic) MSBPageTextBlockFont font;
 		[Export ("font", ArgumentSemantic.Assign)]
-		BandPageTextBlockFont Font { get; set; }
+		TextBlockFont Font { get; set; }
 
 		// @property (assign, nonatomic) MSBTextBlockBaseline baseline;
 		[Export ("baseline")]
@@ -444,7 +444,7 @@ namespace Microsoft.Band.Tiles.Pages
 
 		// @property (assign, nonatomic) MSBPageTextBlockBaselineAlignment baselineAlignment;
 		[Export ("baselineAlignment", ArgumentSemantic.Assign)]
-		BandPageTextBlockBaselineAlignment BaselineAlignment { get; set; }
+		TextBlockBaselineAlignment BaselineAlignment { get; set; }
 
 		// @property (assign, nonatomic) BOOL autoWidth;
 		[Export ("autoWidth")]
@@ -456,20 +456,20 @@ namespace Microsoft.Band.Tiles.Pages
 
 		// @property (assign, nonatomic) MSBPageElementColorSource colorSource;
 		[Export ("colorSource", ArgumentSemantic.Assign)]
-		BandPageElementColorSource ColorSource { get; set; }
+		ElementColorSource ColorSource { get; set; }
 
 		// -(id)initWithRect:(MSBPageRect *)rect font:(MSBPageTextBlockFont)font;
 		[Export ("initWithRect:font:")]
-		IntPtr Constructor (BandPageRect rect, BandPageTextBlockFont font);
+		IntPtr Constructor (PageRect rect, TextBlockFont font);
 	}
 
 	// @interface MSBPageWrappedTextBlock : MSBPageElement
-	[BaseType (typeof(BandPageElement), Name = "MSBPageWrappedTextBlock")]
-	interface BandPageWrappedTextBlock
+	[BaseType (typeof(PageElement), Name = "MSBPageWrappedTextBlock")]
+	interface WrappedTextBlock
 	{
 		// @property (assign, nonatomic) MSBPageWrappedTextBlockFont font;
 		[Export ("font", ArgumentSemantic.Assign)]
-		BandPageWrappedTextBlockFont Font { get; set; }
+		WrappedTextBlockFont Font { get; set; }
 
 		// @property (assign, nonatomic) BOOL autoHeight;
 		[Export ("autoHeight")]
@@ -481,29 +481,29 @@ namespace Microsoft.Band.Tiles.Pages
 
 		// @property (assign, nonatomic) MSBPageElementColorSource colorSource;
 		[Export ("colorSource", ArgumentSemantic.Assign)]
-		BandPageElementColorSource ColorSource { get; set; }
+		ElementColorSource ColorSource { get; set; }
 
 		// -(id)initWithRect:(MSBPageRect *)rect font:(MSBPageWrappedTextBlockFont)font;
 		[Export ("initWithRect:font:")]
-		IntPtr Constructor (BandPageRect rect, BandPageWrappedTextBlockFont font);
+		IntPtr Constructor (PageRect rect, WrappedTextBlockFont font);
 	}
 
 	// @interface MSBPageBarcode : MSBPageElement
-	[BaseType (typeof(BandPageElement), Name = "MSBPageBarcode")]
-	interface BandPageBarcode
+	[BaseType (typeof(PageElement), Name = "MSBPageBarcode")]
+	interface Barcode
 	{
 		// @property (readonly, nonatomic) MSBPageBarcodeType barcodeType;
 		[Export ("barcodeType")]
-		BandPageBarcodeType BarcodeType { get; }
+		BarcodeType BarcodeType { get; }
 
 		// -(id)initWithRect:(MSBPageRect *)rect barcodeType:(MSBPageBarcodeType)type;
 		[Export ("initWithRect:barcodeType:")]
-		IntPtr Constructor (BandPageRect rect, BandPageBarcodeType type);
+		IntPtr Constructor (PageRect rect, BarcodeType type);
 	}
 
 	// @interface MSBPageTextButton : MSBPageElement
-	[BaseType (typeof(BandPageElement), Name = "MSBPageTextButton")]
-	interface BandPageTextButton
+	[BaseType (typeof(PageElement), Name = "MSBPageTextButton")]
+	interface TextButton
 	{
 		// @property (nonatomic, strong) MSBColor * pressedColor;
 		[Export ("pressedColor", ArgumentSemantic.Strong)]
@@ -511,12 +511,12 @@ namespace Microsoft.Band.Tiles.Pages
 
 		// -(id)initWithRect:(MSBPageRect *)rect;
 		[Export ("initWithRect:")]
-		IntPtr Constructor (BandPageRect rect);
+		IntPtr Constructor (PageRect rect);
 	}
 
 	// @interface MSBPageFilledButton : MSBPageElement
-	[BaseType (typeof(BandPageElement), Name = "MSBPageFilledButton")]
-	interface BandPageFilledButton
+	[BaseType (typeof(PageElement), Name = "MSBPageFilledButton")]
+	interface FilledButton
 	{
 		// @property (nonatomic, strong) MSBColor * backgroundColor;
 		[Export ("backgroundColor", ArgumentSemantic.Strong)]
@@ -524,7 +524,7 @@ namespace Microsoft.Band.Tiles.Pages
 
 		// -(id)initWithRect:(MSBPageRect *)rect;
 		[Export ("initWithRect:")]
-		IntPtr Constructor (BandPageRect rect);
+		IntPtr Constructor (PageRect rect);
 	}
 }
 
@@ -954,7 +954,7 @@ namespace Microsoft.Band.Tiles
 		// @required -(void)setPages:(NSArray *)pageData tileId:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
 		[Export ("setPages:tileId:completionHandler:")]
-		void SetPagesAsync (BandPageData[] pageData, NSUuid tileId, Action<NSError> completionHandler);
+		void SetPagesAsync (PageData[] pageData, NSUuid tileId, Action<NSError> completionHandler);
 
 		// @required -(void)removePagesInTile:(NSUUID *)tileId completionHandler:(void (^)(NSError *))completionHandler;
 		[Abstract]
