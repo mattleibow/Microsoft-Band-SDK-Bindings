@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Deployment.Internal;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Microsoft.Band.Sensors
 {
@@ -46,5 +47,25 @@ namespace Microsoft.Band.Sensors
 		{
 			return new UVSensor(sensorManager);
 		}
+
+		public static CaloriesSensor CreateCaloriesSensor(this IBandSensorManager sensorManager)
+		{
+			return new CaloriesSensor(sensorManager);
+		}
+
+		public static Task<bool> RequestHeartRateUserConsentTaskAsync(this IBandSensorManager sensorManager)
+		{
+			var tcs = new TaskCompletionSource<bool> ();
+			if (sensorManager.HeartRateUserConsent == BandUserConsent.Granted)
+			{
+				tcs.SetResult(true);
+			}
+			else
+			{
+				sensorManager.RequestHeartRateUserConsentAsync (tcs.AttachCompletionHandler ());
+			}
+			return tcs.Task;
+		}
+
 	}
 }

@@ -61,6 +61,8 @@
     <Compile Include="Tiles\BandTileManagerExtensions.cs" />
     <Compile Include="BandCollection.cs" />
     <Compile Include="Tiles\BandTile.cs" />
+    <Compile Include="BandClientExtensions.cs" />
+    <Compile Include="Sensors\CaloriesSensor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />

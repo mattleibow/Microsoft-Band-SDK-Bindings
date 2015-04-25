@@ -28,5 +28,16 @@ namespace Microsoft.Band
 				}
 			};
 		}
+
+		internal static Action<NSString, NSError> AttachCompletionHandler (this TaskCompletionSource<string> tcs)
+		{
+			return delegate (NSString data, NSError error) {
+				if (error == null) {
+					tcs.SetResult ((string) data);
+				} else {
+					tcs.SetException (new BandException (error));
+				}
+			};
+		}
 	}
 }
