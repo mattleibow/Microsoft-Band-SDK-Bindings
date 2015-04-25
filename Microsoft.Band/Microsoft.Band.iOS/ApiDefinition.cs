@@ -1023,7 +1023,7 @@ namespace Microsoft.Band.Tiles
 
 		// @property (readonly, nonatomic) MSBPageElementIdentifier buttonId;
 		[Export ("buttonId")]
-		ushort ButtonId { get; }
+		ushort ElementId { get; }
 	}
 
 	interface IBandClientTileDelegate

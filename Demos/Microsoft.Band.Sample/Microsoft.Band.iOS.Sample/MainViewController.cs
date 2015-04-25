@@ -46,7 +46,7 @@ namespace Microsoft.Band.iOS.Sample
 
 				// attach event handlers
 				client.ButtonPressed += (_, e) => {
-					Output (string.Format ("Button {0} Pressed: {1}", e.TileButtonEvent.ButtonId, e.TileButtonEvent.TileName));
+					Output (string.Format ("Button {0} Pressed: {1}", e.TileButtonEvent.ElementId, e.TileButtonEvent.TileName));
 				};
 				client.TileOpened += (_, e) => {
 					Output (string.Format ("Tile Opened: {0}", e.TileEvent.TileName));

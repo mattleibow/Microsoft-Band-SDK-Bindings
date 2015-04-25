@@ -23,7 +23,7 @@ namespace Microsoft.Band
 
 		// Tile errors
 		InvalidTile = 300L,
-		InvalidTileID,
+		InvalidTileId,
 		UserDeclinedTile,
 		MaxTiles,
 		TileAlreadyExist,
