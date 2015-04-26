@@ -428,6 +428,10 @@ namespace Microsoft.Band.Tiles.Pages
 		// @property (assign, nonatomic) MSBPageElementColorSource scrollBarColorSource;
 		[Export ("scrollBarColorSource", ArgumentSemantic.Assign)]
 		ElementColorSource ScrollBarColorSource { get; set; }
+
+		// -(id)initWithRect:(MSBPageRect *)rect;
+		[Export ("initWithRect:")]
+		IntPtr Constructor (PageRect rect);
 	}
 
 	// @interface MSBPageTextBlock : MSBPageElement
