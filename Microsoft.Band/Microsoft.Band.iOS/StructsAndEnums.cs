@@ -44,7 +44,7 @@ namespace Microsoft.Band
 	[Native]
 	public enum BandUserConsent : ulong
 	{
-		NotSpecified,
+		Unspecified,
 		Granted,
 		Declined
 	}
@@ -78,7 +78,7 @@ namespace Microsoft.Band.Tiles.Pages
 	[Native]
 	public enum TextBlockBaselineAlignment : ulong
 	{
-		Auto = 400uL,
+		Automatic = 400uL,
 		Absolute,
 		Relative
 	}
