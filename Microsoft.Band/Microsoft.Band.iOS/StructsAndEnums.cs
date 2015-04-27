@@ -42,9 +42,9 @@ namespace Microsoft.Band
 	}
 
 	[Native]
-	public enum BandUserConsent : ulong
+	public enum UserConsent : ulong
 	{
-		Unspecified,
+		NotSpecified,
 		Granted,
 		Declined
 	}

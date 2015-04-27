@@ -56,7 +56,7 @@ namespace Microsoft.Band.Sensors
 		public static Task<bool> RequestHeartRateUserConsentTaskAsync(this IBandSensorManager sensorManager)
 		{
 			var tcs = new TaskCompletionSource<bool> ();
-			if (sensorManager.HeartRateUserConsent == BandUserConsent.Granted)
+			if (sensorManager.HeartRateUserConsent == UserConsent.Granted)
 			{
 				tcs.SetResult(true);
 			}

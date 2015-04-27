@@ -304,7 +304,7 @@ namespace Microsoft.Band.Tiles.Pages
 	{
 		// @property (readonly, nonatomic) NSString * value;
 		[Export ("value")]
-		string Value { get; }
+		string Barcode { get; }
 
 		// @property (readonly, nonatomic) MSBPageBarcodeType barcodeType;
 		[Export ("barcodeType")]
@@ -853,7 +853,7 @@ namespace Microsoft.Band.Sensors
 		// @required -(MSBUserConsent)heartRateUserConsent;
 		[Abstract]
 		[Export ("heartRateUserConsent")]
-		BandUserConsent HeartRateUserConsent { get; }
+		UserConsent HeartRateUserConsent { get; }
 
 		// @required -(void)requestHRUserConsentWithCompletion:(void (^)(BOOL, NSError *))completion;
 		[Abstract]
