@@ -2,47 +2,47 @@
 
 #if __ANDROID__
 using Microsoft.Band.Sensors;
-using NativeBandContactSensor = Microsoft.Band.Sensors.ContactSensor;
-using NativeBandContactEventArgs = Microsoft.Band.Sensors.IBandSensorEventEventArgs<Microsoft.Band.Sensors.IBandContactEvent>;
+using NativeBandCaloriesSensor = Microsoft.Band.Sensors.CaloriesSensor;
+using NativeBandCaloriesEventArgs = Microsoft.Band.Sensors.IBandSensorEventEventArgs<Microsoft.Band.Sensors.IBandCaloriesEvent>;
 #elif __IOS__
 using Microsoft.Band.Sensors;
-using NativeBandContactSensor = Microsoft.Band.Sensors.ContactSensor;
-using NativeBandContactEventArgs = Microsoft.Band.Sensors.BandSensorDataEventArgs<Microsoft.Band.Sensors.BandSensorContactData>;
+using NativeBandCaloriesSensor = Microsoft.Band.Sensors.CaloriesSensor;
+using NativeBandCaloriesEventArgs = Microsoft.Band.Sensors.BandSensorDataEventArgs<Microsoft.Band.Sensors.BandSensorCaloriesData>;
 #elif WINDOWS_PHONE_APP
-using NativeBandContactSensor = Microsoft.Band.Sensors.IBandSensor<Microsoft.Band.Sensors.IBandContactReading>;
-using NativeBandContactEventArgs = Microsoft.Band.Sensors.BandSensorReadingEventArgs<Microsoft.Band.Sensors.IBandContactReading>;
+using NativeBandCaloriesSensor = Microsoft.Band.Sensors.IBandSensor<Microsoft.Band.Sensors.IBandCaloriesReading>;
+using NativeBandCaloriesEventArgs = Microsoft.Band.Sensors.BandSensorReadingEventArgs<Microsoft.Band.Sensors.IBandCaloriesReading>;
 #endif
 
 namespace Microsoft.Band.Portable.Sensors
 {
-    public class BandContactSensor : BandSensorBase<BandContactReading>
+    public class BandCaloriesSensor : BandSensorBase<BandCaloriesReading>
     {
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
-        internal readonly NativeBandContactSensor Native;
+        internal readonly NativeBandCaloriesSensor Native;
         internal readonly BandSensorManager manager;
 
-        internal BandContactSensor(BandSensorManager manager)
+        internal BandCaloriesSensor(BandSensorManager manager)
         {
             this.manager = manager;
 #if __ANDROID__ || __IOS__
-            this.Native = manager.Native.CreateContactSensor();
+            this.Native = manager.Native.CreateCaloriesSensor();
 #elif WINDOWS_PHONE_APP
-            this.Native = manager.Native.Contact;
+            this.Native = manager.Native.Calories;
 #endif
 
             Native.ReadingChanged += OnReadingChanged;
         }
 
-        private void OnReadingChanged(object sender, NativeBandContactEventArgs e)
+        private void OnReadingChanged(object sender, NativeBandCaloriesEventArgs e)
         {
             var reading = e.SensorReading;
-            var newReading = new BandContactReading(
+            var newReading = new BandCaloriesReading(
 #if __ANDROID__
-                reading.ContactState.FromNative()
+                reading.Calories
 #elif __IOS__
-                reading.WornState.FromNative()
+                (long)reading.Calories
 #elif WINDOWS_PHONE_APP
-                reading.State.FromNative()
+                reading.Calories
 #endif
                 );
             OnReadingChanged(newReading);

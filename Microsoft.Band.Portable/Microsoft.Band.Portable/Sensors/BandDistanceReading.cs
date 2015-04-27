@@ -2,7 +2,7 @@
 {
     public class BandDistanceReading : IBandSensorReading
     {
-        internal BandDistanceReading(BandDistanceMotionType motion, double pace, double speed, long total)
+        internal BandDistanceReading(MotionType motion, double pace, double speed, long total)
         {
             CurrentMotion = motion;
             Pace = pace;
@@ -10,7 +10,7 @@
             TotalDistance = total;
         }
 
-        public BandDistanceMotionType CurrentMotion { get; private set; }
+        public MotionType CurrentMotion { get; private set; }
         public double Pace { get; private set; }
         public double Speed { get; private set; }
         public long TotalDistance { get; private set; }

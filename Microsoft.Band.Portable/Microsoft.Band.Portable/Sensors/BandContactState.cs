@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Band.Portable.Sensors
 {
-    public enum BandContactState
+    public enum ContactState
     {
         Unknown,
 

@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 
+using Microsoft.Band.Portable;
+
 #if __ANDROID__
 using Microsoft.Band.Sensors;
 using NativeBandHeartRateSensor = Microsoft.Band.Sensors.HeartRateSensor;
@@ -52,7 +54,7 @@ namespace Microsoft.Band.Portable.Sensors
         public override async Task StartReadingsAsync(BandSensorSampleRate sampleRate)
         {
 #if __ANDROID__
-            await Native.StartReadingsTaskAsync();
+            Native.StartReadings();
 #elif __IOS__
             Native.StartReadings();
 #elif WINDOWS_PHONE_APP
@@ -64,12 +66,44 @@ namespace Microsoft.Band.Portable.Sensors
         public override async Task StopReadingsAsync()
         {
 #if __ANDROID__
-            await Native.StopReadingsTaskAsync();
+            Native.StopReadings();
 #elif __IOS__
             Native.StopReadings();
 #elif WINDOWS_PHONE_APP
             await Native.StopReadingsAsync();
 #endif
+        }
+
+        public UserConsent UserConsented
+        {
+            get
+            {
+                var result = UserConsent.Unspecified;
+#if __ANDROID__
+                result = manager.Native.CurrentHeartRateConsent.FromNative();
+#elif __IOS__
+                result = manager.Native.HeartRateUserConsent.FromNative();
+#elif WINDOWS_PHONE_APP
+                result = Native.GetCurrentUserConsent().FromNative();
+#endif
+                return result;
+            }
+        }
+
+        public async Task<bool> RequestUserConsent()
+        {
+            bool result = false;
+#if __ANDROID__
+            result = await ActivityWrappedActionExtensions<bool>.WrapActionAsync(activity =>
+            {
+                return manager.Native.RequestHeartRateConsentTaskAsync(activity);
+            });
+#elif __IOS__
+            result = await manager.Native.RequestHeartRateUserConsentTaskAsync();
+#elif WINDOWS_PHONE_APP
+            result = await Native.RequestUserConsentAsync();
+#endif
+            return result;
         }
     }
 }

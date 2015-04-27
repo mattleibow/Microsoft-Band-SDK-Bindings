@@ -2,12 +2,12 @@
 {
     public class BandContactReading : IBandSensorReading
     {
-        internal BandContactReading(BandContactState state)
+        internal BandContactReading(ContactState state)
         {
             State = state;
         }
 
-        public BandContactState State { get; private set; }
+        public ContactState State { get; private set; }
 
         public override string ToString()
         {

@@ -47,6 +47,9 @@
     <Compile Include="..\Microsoft.Band.Portable\BandClientManager.cs">
       <Link>BandClientManager.cs</Link>
     </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\BandExtensions.cs">
+      <Link>BandExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Microsoft.Band.Portable\IBandClient.cs">
       <Link>IBandClient.cs</Link>
     </Compile>
@@ -85,6 +88,12 @@
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandAccelerometerSensor.cs">
       <Link>Sensors\BandAccelerometerSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandCaloriesReading.cs">
+      <Link>Sensors\BandCaloriesReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandCaloriesSensor.cs">
+      <Link>Sensors\BandCaloriesSensor.cs</Link>
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandContactReading.cs">
       <Link>Sensors\BandContactReading.cs</Link>
@@ -161,11 +170,131 @@
     <Compile Include="..\Microsoft.Band.Portable\Tiles\BandTile.cs">
       <Link>Tiles\BandTile.cs</Link>
     </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\BandTileButtonPressedEventArgs.cs">
+      <Link>Tiles\BandTileButtonPressedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\BandTileClosedEventArgs.cs">
+      <Link>Tiles\BandTileClosedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\BandTileEventArgs.cs">
+      <Link>Tiles\BandTileEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Tiles\BandTileManager.cs">
       <Link>Tiles\BandTileManager.cs</Link>
     </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\BandTileOpenedEventArgs.cs">
+      <Link>Tiles\BandTileOpenedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Barcode.cs">
+      <Link>Tiles\Pages\Barcode.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\BarcodeType.cs">
+      <Link>Tiles\Pages\BarcodeType.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\BarcodeData.cs">
+      <Link>Tiles\Pages\Data\BarcodeData.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\ElementData.cs">
+      <Link>Tiles\Pages\Data\ElementData.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\FilledButtonData.cs">
+      <Link>Tiles\Pages\Data\FilledButtonData.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\ImageData.cs">
+      <Link>Tiles\Pages\Data\ImageData.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\PageData.cs">
+      <Link>Tiles\Pages\Data\PageData.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\TextBlockData.cs">
+      <Link>Tiles\Pages\Data\TextBlockData.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\TextButtonData.cs">
+      <Link>Tiles\Pages\Data\TextButtonData.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\TextData.cs">
+      <Link>Tiles\Pages\Data\TextData.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\WrappedTextBlockData.cs">
+      <Link>Tiles\Pages\Data\WrappedTextBlockData.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Element.cs">
+      <Link>Tiles\Pages\Element.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\ElementColorSource.cs">
+      <Link>Tiles\Pages\ElementColorSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\FilledButton.cs">
+      <Link>Tiles\Pages\FilledButton.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\FilledPanel.cs">
+      <Link>Tiles\Pages\FilledPanel.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\FlowPanel.cs">
+      <Link>Tiles\Pages\FlowPanel.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\HorizontalAlignment.cs">
+      <Link>Tiles\Pages\HorizontalAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Image.cs">
+      <Link>Tiles\Pages\Image.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Margin.cs">
+      <Link>Tiles\Pages\Margin.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Orientation.cs">
+      <Link>Tiles\Pages\Orientation.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\PageExtensions.cs">
+      <Link>Tiles\Pages\PageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\PageLayout.cs">
+      <Link>Tiles\Pages\PageLayout.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Panel.cs">
+      <Link>Tiles\Pages\Panel.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Point.cs">
+      <Link>Tiles\Pages\Point.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Rectangle.cs">
+      <Link>Tiles\Pages\Rectangle.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\ScrollFlowPanel.cs">
+      <Link>Tiles\Pages\ScrollFlowPanel.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Size.cs">
+      <Link>Tiles\Pages\Size.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\TextBlock.cs">
+      <Link>Tiles\Pages\TextBlock.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\TextBlockBaselineAlignment.cs">
+      <Link>Tiles\Pages\TextBlockBaselineAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\TextBlockFont.cs">
+      <Link>Tiles\Pages\TextBlockFont.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\TextButton.cs">
+      <Link>Tiles\Pages\TextButton.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\VerticalAlignment.cs">
+      <Link>Tiles\Pages\VerticalAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\WrappedTextBlock.cs">
+      <Link>Tiles\Pages\WrappedTextBlock.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\WrappedTextBlockFont.cs">
+      <Link>Tiles\Pages\WrappedTextBlockFont.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\TileActionType.cs">
+      <Link>Tiles\TileActionType.cs</Link>
+    </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Tiles\TileExtensions.cs">
       <Link>Tiles\TileExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\UserConsent.cs">
+      <Link>UserConsent.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -92,10 +92,8 @@ namespace Microsoft.Band.Portable
             {
                 CheckDisposed();
 
-#if __ANDROID__
+#if __ANDROID__ || __IOS__
                 return Native.IsConnected;
-#elif __IOS__
-                return Native.IsDeviceConnected;
 #elif WINDOWS_PHONE_APP
                 return true;
 #else // PORTABLE

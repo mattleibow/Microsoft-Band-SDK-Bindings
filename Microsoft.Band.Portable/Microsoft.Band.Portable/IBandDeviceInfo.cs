@@ -1,6 +1,6 @@
 ﻿
 #if __ANDROID__
-using NativeBandDeviceInfo = Microsoft.Band.IBandDeviceInfo;
+using NativeBandDeviceInfo = Microsoft.Band.IBandInfo;
 #elif __IOS__
 using NativeBandDeviceInfo = Microsoft.Band.BandClient;
 #elif WINDOWS_PHONE_APP

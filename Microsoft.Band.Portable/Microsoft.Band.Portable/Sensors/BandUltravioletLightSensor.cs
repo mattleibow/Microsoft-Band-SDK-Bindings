@@ -9,8 +9,8 @@ using Microsoft.Band.Sensors;
 using NativeBandUltravioletLightSensor = Microsoft.Band.Sensors.UVSensor;
 using NativeBandUltravioletLightEventArgs = Microsoft.Band.Sensors.BandSensorDataEventArgs<Microsoft.Band.Sensors.BandSensorUVData>;
 #elif WINDOWS_PHONE_APP
-using NativeBandUltravioletLightSensor = Microsoft.Band.Sensors.IBandSensor<Microsoft.Band.Sensors.IBandUltravioletLightReading>;
-using NativeBandUltravioletLightEventArgs = Microsoft.Band.Sensors.BandSensorReadingEventArgs<Microsoft.Band.Sensors.IBandUltravioletLightReading>;
+using NativeBandUltravioletLightSensor = Microsoft.Band.Sensors.IBandSensor<Microsoft.Band.Sensors.IBandUVReading>;
+using NativeBandUltravioletLightEventArgs = Microsoft.Band.Sensors.BandSensorReadingEventArgs<Microsoft.Band.Sensors.IBandUVReading>;
 #endif
 
 namespace Microsoft.Band.Portable.Sensors
@@ -27,7 +27,7 @@ namespace Microsoft.Band.Portable.Sensors
 #if __ANDROID__ || __IOS__
             this.Native = manager.Native.CreateUVSensor();
 #elif WINDOWS_PHONE_APP
-            this.Native = manager.Native.Ultraviolet;
+            this.Native = manager.Native.UV;
 #endif
 
             Native.ReadingChanged += OnReadingChanged;
@@ -42,7 +42,7 @@ namespace Microsoft.Band.Portable.Sensors
 #elif __IOS__
                 reading.UVIndexLevel.FromNative()
 #elif WINDOWS_PHONE_APP
-                reading.ExposureLevel.FromNative()
+                reading.IndexLevel.FromNative()
 #endif
                 );
             OnReadingChanged(newReading);
@@ -52,7 +52,7 @@ namespace Microsoft.Band.Portable.Sensors
         public override async Task StartReadingsAsync(BandSensorSampleRate sampleRate)
         {
 #if __ANDROID__
-            await Native.StartReadingsTaskAsync();
+            Native.StartReadings();
 #elif __IOS__
             Native.StartReadings();
 #elif WINDOWS_PHONE_APP
@@ -64,7 +64,7 @@ namespace Microsoft.Band.Portable.Sensors
         public override async Task StopReadingsAsync()
         {
 #if __ANDROID__
-            await Native.StopReadingsTaskAsync();
+            Native.StopReadings();
 #elif __IOS__
             Native.StopReadings();
 #elif WINDOWS_PHONE_APP

@@ -52,7 +52,7 @@ namespace Microsoft.Band.Portable.Sensors
         public override async Task StartReadingsAsync(BandSensorSampleRate sampleRate)
         {
 #if __ANDROID__
-            await Native.StartReadingsTaskAsync(sampleRate.ToNative());
+            Native.StartReadings(sampleRate.ToNative());
 #elif __IOS__
             Native.StartReadings();
 #elif WINDOWS_PHONE_APP
@@ -64,7 +64,7 @@ namespace Microsoft.Band.Portable.Sensors
         public override async Task StopReadingsAsync()
         {
 #if __ANDROID__
-            await Native.StopReadingsTaskAsync();
+            Native.StopReadings();
 #elif __IOS__
             Native.StopReadings();
 #elif WINDOWS_PHONE_APP

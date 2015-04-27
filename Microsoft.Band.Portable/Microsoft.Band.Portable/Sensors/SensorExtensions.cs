@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Band.Portable.Sensors;
 
 #if __ANDROID__
+using System;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
+using Android.App;
+using Android.Content;
+using Android.OS;
+using NativeBandSensorManager = Microsoft.Band.Sensors.IBandSensorManager;
 using NativeSampleRate = Microsoft.Band.Sensors.SampleRate;
-using NativePedometerMotionType = Microsoft.Band.Sensors.PedometerMode;
+using NativePedometerMotionType = Microsoft.Band.Sensors.MotionType;
 using NativeHeartRateQuality = Microsoft.Band.Sensors.HeartRateQuality;
 using NativeUltravioletLightLevel = Microsoft.Band.Sensors.UVIndexLevel;
-using NativeBandContactState = Microsoft.Band.Sensors.BandContactStatus;
+using NativeBandContactState = Microsoft.Band.Sensors.BandContactState;
 #elif __IOS__
-using NativePedometerMotionType = Microsoft.Band.Sensors.PedometerMode;
+using NativePedometerMotionType = Microsoft.Band.Sensors.MotionType;
 using NativeHeartRateQuality = Microsoft.Band.Sensors.HeartRateQuality;
 using NativeUltravioletLightLevel = Microsoft.Band.Sensors.UVIndexLevel;
 using NativeBandContactState = Microsoft.Band.Sensors.BandContactStatus;
@@ -17,7 +25,7 @@ using NativeBandContactState = Microsoft.Band.Sensors.BandContactStatus;
 using NativeSampleRate = System.TimeSpan;
 using NativePedometerMotionType = Microsoft.Band.Sensors.MotionType;
 using NativeHeartRateQuality = Microsoft.Band.Sensors.HeartRateQuality;
-using NativeUltravioletLightLevel = Microsoft.Band.Sensors.UltravioletExposureLevel;
+using NativeUltravioletLightLevel = Microsoft.Band.Sensors.UVIndexLevel;
 using NativeBandContactState = Microsoft.Band.Sensors.BandContactState;
 #endif
 
@@ -66,55 +74,55 @@ namespace Microsoft.Band.Portable
 #endif
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
-        public static BandDistanceMotionType FromNative(this NativePedometerMotionType motion)
+        public static MotionType FromNative(this NativePedometerMotionType motion)
         {
             // can't use switch on Android as this is not an enum
             if (motion == NativePedometerMotionType.Running)
-                return BandDistanceMotionType.Running;
+                return MotionType.Running;
             if (motion == NativePedometerMotionType.Jogging)
-                return BandDistanceMotionType.Jogging;
+                return MotionType.Jogging;
             if (motion == NativePedometerMotionType.Walking)
-                return BandDistanceMotionType.Walking;
+                return MotionType.Walking;
             if (motion == NativePedometerMotionType.Idle)
-                return BandDistanceMotionType.Idle;
-            return BandDistanceMotionType.Unknown;
+                return MotionType.Idle;
+            return MotionType.Unknown;
         }
-        public static BandHeartRateQuality FromNative(this NativeHeartRateQuality motion)
+        public static HeartRateQuality FromNative(this NativeHeartRateQuality motion)
         {
             // can't use switch on Android as this is not an enum
             if (motion == NativeHeartRateQuality.Locked)
-                return BandHeartRateQuality.Locked;
+                return HeartRateQuality.Locked;
 #if WINDOWS_PHONE_APP || __IOS__
             if (motion == NativeHeartRateQuality.Acquiring)
 #else
             if (motion == NativeHeartRateQuality.Aquiring) // spelling error
 #endif
-                return BandHeartRateQuality.Acquiring;
-            return BandHeartRateQuality.Unknown;
+                return HeartRateQuality.Acquiring;
+            return HeartRateQuality.Unknown;
         }
-        public static BandUltravioletLightLevel FromNative(this NativeUltravioletLightLevel level)
+        public static UVIndexLevel FromNative(this NativeUltravioletLightLevel level)
         {
             // can't use switch on Android as this is not an enum
             if (level == NativeUltravioletLightLevel.VeryHigh)
-                return BandUltravioletLightLevel.VeryHigh;
+                return UVIndexLevel.VeryHigh;
             if (level == NativeUltravioletLightLevel.High)
-                return BandUltravioletLightLevel.High;
+                return UVIndexLevel.High;
             if (level == NativeUltravioletLightLevel.Medium)
-                return BandUltravioletLightLevel.Medium;
+                return UVIndexLevel.Medium;
             if (level == NativeUltravioletLightLevel.Low)
-                return BandUltravioletLightLevel.Low;
+                return UVIndexLevel.Low;
             if (level == NativeUltravioletLightLevel.None)
-                return BandUltravioletLightLevel.None;
-            return BandUltravioletLightLevel.Unknown;
+                return UVIndexLevel.None;
+            return UVIndexLevel.Unknown;
         }
-        public static BandContactState FromNative(this NativeBandContactState state)
+        public static ContactState FromNative(this NativeBandContactState state)
         {
             // can't use switch on Android as this is not an enum
             if (state == NativeBandContactState.NotWorn)
-                return BandContactState.NotWorn;
+                return ContactState.NotWorn;
             if (state == NativeBandContactState.Worn)
-                return BandContactState.Worn;
-            return BandContactState.Unknown;
+                return ContactState.Worn;
+            return ContactState.Unknown;
         }
 #endif
     }

@@ -2,13 +2,13 @@
 {
     public class BandHeartRateReading : IBandSensorReading
     {
-        internal BandHeartRateReading(BandHeartRateQuality quality, int rate)
+        internal BandHeartRateReading(HeartRateQuality quality, int rate)
         {
             Quality = quality;
             HeartRate = rate;
         }
 
-        public BandHeartRateQuality Quality { get; private set; }
+        public HeartRateQuality Quality { get; private set; }
         public int HeartRate { get; private set; }
 
         public override string ToString()
