@@ -10,7 +10,11 @@
     <RootNamespace>Microsoft.Band</RootNamespace>
     <AssemblyName>Microsoft.Band.Android</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v4.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <AndroidUseLatestPlatformSdk />
+  </PropertyGroup>
+  <PropertyGroup>
+    <JavaDocPaths>JavaDoc</JavaDocPaths>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,6 +60,18 @@
     <Compile Include="Tiles\BandTileManagerExtensions.cs" />
     <Compile Include="Tiles\BandTheme.cs" />
     <Compile Include="Sensors\CaloriesSensor.cs" />
+    <Compile Include="Tiles\Pages\FilledButtonData.cs" />
+    <Compile Include="Tiles\Pages\PageRect.cs" />
+    <Compile Include="Tiles\Pages\WrappedTextBlock.cs" />
+    <Compile Include="Tiles\Pages\TextButton.cs" />
+    <Compile Include="Tiles\Pages\ScrollFlowPanel.cs" />
+    <Compile Include="Tiles\Pages\PageElement.cs" />
+    <Compile Include="Tiles\Pages\TextBlock.cs" />
+    <Compile Include="Tiles\Pages\Icon.cs" />
+    <Compile Include="Tiles\Pages\FlowPanel.cs" />
+    <Compile Include="Tiles\Pages\FilledPanel.cs" />
+    <Compile Include="Tiles\Pages\FilledButton.cs" />
+    <Compile Include="Tiles\Pages\Barcode.cs" />
   </ItemGroup>
   <ItemGroup>
     <TransformFile Include="Transforms\Metadata.xml">
@@ -66,6 +82,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedJar Include="Jars\microsoft-band-android.jar" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="microsoft-band-javadoc.jar" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="JavaDoc\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.Bindings.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
