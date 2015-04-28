@@ -179,8 +179,14 @@
     <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\BarcodeType.cs">
       <Link>Tiles\Pages\BarcodeType.cs</Link>
     </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\ButtonBase.cs">
+      <Link>Tiles\Pages\ButtonBase.cs</Link>
+    </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\BarcodeData.cs">
       <Link>Tiles\Pages\Data\BarcodeData.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\ButtonBaseData.cs">
+      <Link>Tiles\Pages\Data\ButtonBaseData.cs</Link>
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\ElementData.cs">
       <Link>Tiles\Pages\Data\ElementData.cs</Link>
@@ -193,6 +199,9 @@
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\PageData.cs">
       <Link>Tiles\Pages\Data\PageData.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\TextBlockBaseData.cs">
+      <Link>Tiles\Pages\Data\TextBlockBaseData.cs</Link>
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\Data\TextBlockData.cs">
       <Link>Tiles\Pages\Data\TextBlockData.cs</Link>
@@ -253,6 +262,9 @@
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\TextBlock.cs">
       <Link>Tiles\Pages\TextBlock.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\TextBlockBase.cs">
+      <Link>Tiles\Pages\TextBlockBase.cs</Link>
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Tiles\Pages\TextBlockBaselineAlignment.cs">
       <Link>Tiles\Pages\TextBlockBaselineAlignment.cs</Link>
