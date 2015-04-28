@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>Xamarin.Microsoft.Band</id>
-        <version>1.3.3-preview2</version>
-        <title>Microsoft Band SDK Preview for Xamarin and Windows</title>
+        <version>1.3.4</version>
+        <title>Microsoft Band Native SDK for Xamarin (Preview)</title>
         <authors>Xamarin Inc.</authors>
         <licenseUrl>https://raw.githubusercontent.com/mattleibow/Microsoft-Band-SDK-Bindings/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/mattleibow/Microsoft-Band-SDK-Bindings</projectUrl>
@@ -16,17 +16,12 @@
         <tags>Microsoft Band,Fitness,Health,Xamarin,Android,iOS,windows phone,wp8,monodroid,monoandroid,monotouch</tags>
         <dependencies>
             <group targetFramework=".NETPortable0.0-net45+win+wpa81">
-                <dependency id="Microsoft.Band" version="1.3.10219-preview" />
+                <dependency id="Microsoft.Band" version="1.3.10417" />
             </group>
         </dependencies>
     </metadata>
     <files>
         <file src="Microsoft.Band\Microsoft.Band.Android\bin\Release\Microsoft.Band.Android.dll" target="lib\MonoAndroid\Microsoft.Band.Android.dll" />
         <file src="Microsoft.Band\Microsoft.Band.iOS\bin\Release\Microsoft.Band.iOS.dll" target="lib\XamariniOS\Microsoft.Band.iOS.dll" />
-		
-        <file src="Microsoft.Band.Portable\Microsoft.Band.Portable\bin\Release\Microsoft.Band.Portable.dll" target="lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Microsoft.Band.Portable.dll" />
-        <file src="Microsoft.Band.Portable\Microsoft.Band.Portable.Android\bin\Release\Microsoft.Band.Portable.dll" target="lib\MonoAndroid\Microsoft.Band.Portable.dll" />
-        <file src="Microsoft.Band.Portable\Microsoft.Band.Portable.Phone\bin\Release\Microsoft.Band.Portable.dll" target="lib\wpa81\Microsoft.Band.Portable.dll" />
-        <file src="Microsoft.Band.Portable\Microsoft.Band.Portable.iOS\bin\Release\Microsoft.Band.Portable.dll" target="lib\XamariniOS\Microsoft.Band.Portable.dll" />
     </files>
 </package>

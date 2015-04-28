@@ -54,7 +54,7 @@ namespace RotatingHandAndroid
 					};
 
 					// start listening for updates
-					await accelerometer.StartReadingsTaskAsync(SampleRate.Ms16);
+					accelerometer.StartReadings(SampleRate.Ms16);
 				} catch (Exception ex) {
 					System.Diagnostics.Debug.WriteLine (ex.Message);
 				}

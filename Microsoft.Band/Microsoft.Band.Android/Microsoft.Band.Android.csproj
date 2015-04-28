@@ -11,10 +11,9 @@
     <AssemblyName>Microsoft.Band.Android</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
-    <AndroidUseLatestPlatformSdk />
   </PropertyGroup>
   <PropertyGroup>
-    <JavaDocPaths>JavaDoc</JavaDocPaths>
+    <Java7DocPaths>JavaDoc</Java7DocPaths>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -85,9 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="microsoft-band-javadoc.jar" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="JavaDoc\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.Bindings.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

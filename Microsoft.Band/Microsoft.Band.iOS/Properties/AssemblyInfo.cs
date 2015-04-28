@@ -16,8 +16,8 @@ using Foundation;
 [assembly: AssemblyDescription ("")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
-[assembly: AssemblyProduct ("")]
-[assembly: AssemblyCopyright ("matthew")]
+[assembly: AssemblyProduct ("Microsoft.Band.iOS")]
+[assembly: AssemblyCopyright ("Copyright © Xamarin and Microsoft")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 
@@ -25,7 +25,8 @@ using Foundation;
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-[assembly: AssemblyVersion ("1.0.*")]
+[assembly: AssemblyVersion ("1.3.10400.0")]
+[assembly: AssemblyFileVersion ("1.3.10400.0")]
 
 // The following attributes are used to specify the signing key for the assembly,
 // if desired. See the Mono documentation for more information about signing.
