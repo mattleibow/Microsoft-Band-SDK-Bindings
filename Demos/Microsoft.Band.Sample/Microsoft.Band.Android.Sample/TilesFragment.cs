@@ -112,14 +112,14 @@ namespace Microsoft.Band.Sample
 					BandIcon badgeIcon = BandIcon.ToBandIcon(BitmapFactory.DecodeResource(Resources, Resource.Raw.badge, options));
 
 					FilledButton button = new FilledButton(0, 5, 210, 45);
-					button.SetBackgroundColor(Color.Red);
-					button.SetMargins(0, 5, 0 ,0);
-					button.SetId(12);
+                    button.BackgroundColor = Color.Red;
+					button.Margins = new Margins(0, 5, 0 ,0);
+					button.ElementId = 12;
 
 					TextButton button2 = new TextButton(0, 0, 210, 45);
-					button2.SetPressedColor(Color.Blue);
-					button2.SetMargins(0, 5, 0 ,0);
-					button2.SetId(21);
+                    button2.PressedColor = Color.Blue;
+					button2.Margins = new Margins(0, 5, 0 ,0);
+					button2.ElementId = 21;
 
 					FlowPanel flowPanel = new FlowPanel(15, 0, 260, 105, FlowPanelOrientation.Vertical);
 					flowPanel.AddElements(button);
@@ -188,12 +188,12 @@ namespace Microsoft.Band.Sample
 					// create layout 1
 
 					Barcode barcode1 = new Barcode(0, 0, 221, 70, BarcodeType.Code39);
-					barcode1.SetMargins(3, 0, 0, 0);
-					barcode1.SetId(11);
+					barcode1.Margins = new Margins(3, 0, 0, 0);
+					barcode1.ElementId = 11;
 
 					TextBlock textBlock1 = new TextBlock(0, 0, 230, 30, TextBlockFont.Small, 0);
-					textBlock1.SetColor(Color.Red);
-					textBlock1.SetId(21);
+					textBlock1.Color = Color.Red;
+					textBlock1.ElementId = 21;
 
 					FlowPanel flowPanel1 = new FlowPanel(15, 0, 245, 105, FlowPanelOrientation.Vertical);
 					flowPanel1.AddElements(barcode1);
@@ -204,12 +204,12 @@ namespace Microsoft.Band.Sample
 					// create layout 2
 
 					Barcode barcode2 = new Barcode(0, 0, 221, 70, BarcodeType.Pdf417);
-					barcode2.SetMargins(3, 0, 0, 0);
-					barcode2.SetId(11);
+					barcode2.Margins = new Margins(3, 0, 0, 0);
+					barcode2.ElementId = 11;
 
 					TextBlock textBlock2 = new TextBlock(0, 0, 230, 30, TextBlockFont.Small, 0);
-					textBlock2.SetColor(Color.Red);
-					textBlock2.SetId(21);
+					textBlock2.Color = Color.Red;
+					textBlock2.ElementId = 21;
 
 					FlowPanel flowPanel2 = new FlowPanel(15, 0, 245, 105, FlowPanelOrientation.Vertical);
 					flowPanel2.AddElements(barcode2);
@@ -558,7 +558,7 @@ namespace Microsoft.Band.Sample
 				else if (intent.Action == TileEvent.ActionTileButtonPressed) 
 				{
 					var buttonData = (TileButtonEvent)intent.GetParcelableExtra(TileEvent.TileEventData);
-					Toast.MakeText(context, string.Format("Button {0} Pressed: {1}", buttonData.ElementID, buttonData.TileName), ToastLength.Short).Show();
+					Toast.MakeText(context, string.Format("Button {0} Pressed: {1}", buttonData.ElementId, buttonData.TileName), ToastLength.Short).Show();
 				} 
 				else if (intent.Action == TileEvent.ActionTileClosed) 
 				{
