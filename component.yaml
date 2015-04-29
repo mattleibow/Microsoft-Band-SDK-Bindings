@@ -8,9 +8,9 @@ summary: Extend the experience of your application to your users' wrists via a n
 version: 1.3.4
 src-url: https://github.com/mattleibow/Microsoft-Band-SDK-Bindings
 
-details: Readme.md
+details: README.md
 license: LICENSE
-getting-started: Readme.md
+getting-started: GettingStarted.md
 
 is_shell: true
 packages:

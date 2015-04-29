@@ -187,15 +187,15 @@ namespace Microsoft.Band.Sample
 
 					// create layout 1
 
-					Barcode barcode1 = new Barcode(0, 0, 221, 70, BarcodeType.Code39);
+					Barcode barcode1 = new Barcode(new PageRect(0, 0, 221, 70), BarcodeType.Code39);
 					barcode1.Margins = new Margins(3, 0, 0, 0);
 					barcode1.ElementId = 11;
 
-					TextBlock textBlock1 = new TextBlock(0, 0, 230, 30, TextBlockFont.Small, 0);
+					TextBlock textBlock1 = new TextBlock(new PageRect(0, 0, 230, 30), TextBlockFont.Small, 0);
 					textBlock1.Color = Color.Red;
 					textBlock1.ElementId = 21;
 
-					FlowPanel flowPanel1 = new FlowPanel(15, 0, 245, 105, FlowPanelOrientation.Vertical);
+					FlowPanel flowPanel1 = new FlowPanel(new PageRect(15, 0, 245, 105), FlowPanelOrientation.Vertical);
 					flowPanel1.AddElements(barcode1);
 					flowPanel1.AddElements(textBlock1);
 
