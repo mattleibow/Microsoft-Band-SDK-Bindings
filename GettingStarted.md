@@ -210,12 +210,9 @@ await bandClient.TileManager.RemoveTileAsync(tile);
 
 ```
 // get the tiles
-client.TileManager.GetTiles ((tiles, tileError) => {
-    // tiles contains the collection of app tiles
-});
-client.TileManager.RemainingTileCapacity((capacity, error) => {
-    // capacity contains the value of the remaining spaces
-});
+var tiles = await bandClient.TileManager.GetTilesTaskAsync();
+// the the number of tiles we can add
+var capacity = await bandClient.TileManager.GetRemainingTileCapacityTaskAsync();
 // create the tile
 NSError operationError;
 var tile = BandTile.Create(
