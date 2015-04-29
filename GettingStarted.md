@@ -24,7 +24,7 @@ Use a range of sensors including heart rate, UV, accelerometer, gyroscope, and s
    Provides the current ultra violet radition exposure intensity.
  - **Device Contact**  
    Provides a way to let the developer know if someone is currently wearing the device.
- - **Calories**
+ - **Calories**  
    Provides the total number of calories the wearer has burned.
 
 ### Create App Tiles
