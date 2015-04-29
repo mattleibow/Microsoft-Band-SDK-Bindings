@@ -25,13 +25,16 @@
         </dependencies>
     </metadata>
     <files>
-	    <file src="README.md" target="lib\portable-net45+win+wpa81\README.md" />
-	    <file src="LICENSE" target="lib\portable-net45+win+wpa81\LICENSE" />
-	    <file src="README.md" target="lib\MonoAndroid\README.md" />
-	    <file src="LICENSE" target="lib\MonoAndroid\LICENSE" />
-	    <file src="README.md" target="lib\XamariniOS\README.md" />
-	    <file src="LICENSE" target="lib\XamariniOS\LICENSE" />
+        <file src="README.md" target="lib\portable-net45+win+wpa81\README.md" />
+        <file src="README.md" target="lib\portable-net45+win+wpa81\README.md" />
+        <file src="_._" target="lib\portable-net45+win+wpa81\_._" />
+
+        <file src="README.md" target="lib\MonoAndroid\README.md" />
+        <file src="LICENSE" target="lib\MonoAndroid\LICENSE" />
         <file src="Microsoft.Band\Microsoft.Band.Android\bin\Release\Microsoft.Band.Android.dll" target="lib\MonoAndroid\Microsoft.Band.Android.dll" />
+
+        <file src="README.md" target="lib\XamariniOS\README.md" />
+        <file src="LICENSE" target="lib\XamariniOS\LICENSE" />
         <file src="Microsoft.Band\Microsoft.Band.iOS\bin\Release\Microsoft.Band.iOS.dll" target="lib\XamariniOS\Microsoft.Band.iOS.dll" />
     </files>
 </package>
