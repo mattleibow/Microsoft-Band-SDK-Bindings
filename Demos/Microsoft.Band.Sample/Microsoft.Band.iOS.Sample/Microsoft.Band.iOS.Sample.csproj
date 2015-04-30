@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Microsoft.Band.iOS.Sample</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>Microsoft.Band.iOS.Sample</AssemblyName>
+    <AssemblyName>MicrosoftBandiOSSample</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
