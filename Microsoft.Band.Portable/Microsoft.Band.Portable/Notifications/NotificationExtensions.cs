@@ -1,18 +1,17 @@
 ﻿using System;
 using Microsoft.Band.Portable.Notifications;
 
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
+using NativeMessageFlags = Microsoft.Band.Notifications.MessageFlags;
+using NativeVibrationType = Microsoft.Band.Notifications.VibrationType;
+#endif
+
 #if __ANDROID__
 using NativeGuid = Java.Util.UUID;
-using NativeMessageFlags = Microsoft.Band.Notifications.MessageFlags;
-using NativeVibrationType = Microsoft.Band.Notifications.VibrationType;
 #elif __IOS__
 using NativeGuid = Foundation.NSUuid;
-using NativeMessageFlags = Microsoft.Band.Notifications.MessageFlags;
-using NativeVibrationType = Microsoft.Band.Notifications.VibrationType;
 #elif WINDOWS_PHONE_APP
 using NativeGuid = System.Guid;
-using NativeMessageFlags = Microsoft.Band.Notifications.MessageFlags;
-using NativeVibrationType = Microsoft.Band.Notifications.VibrationType;
 #endif
 
 namespace Microsoft.Band.Portable

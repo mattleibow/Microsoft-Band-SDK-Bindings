@@ -9,6 +9,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public Barcode()
         {
+            BarcodeType = BarcodeType.Code39;
         }
 
         public BarcodeType BarcodeType { get; set; }

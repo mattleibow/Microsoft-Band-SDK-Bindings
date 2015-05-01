@@ -11,6 +11,8 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public FilledPanel()
         {
+            BackgroundColor = BandColor.Empty;
+            BackgroundColorSource = ElementColorSource.Custom;
         }
 
         public BandColor BackgroundColor { get; set; }
@@ -35,7 +37,10 @@ namespace Microsoft.Band.Portable.Tiles.Pages
                 native = new NativeFilledPanel();
 #endif
             }
-            native.BackgroundColor = BackgroundColor.ToNative();
+            if (BackgroundColor != BandColor.Empty)
+            {
+                native.BackgroundColor = BackgroundColor.ToNative();
+            }
             native.BackgroundColorSource = BackgroundColorSource.ToNative();
             return base.ToNative(native);
         }

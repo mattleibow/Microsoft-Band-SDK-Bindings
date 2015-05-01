@@ -11,6 +11,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public TextButton()
         {
+            PressedColor = BandColor.Empty;
         }
 
         public BandColor PressedColor { get; set; }
@@ -33,7 +34,10 @@ namespace Microsoft.Band.Portable.Tiles.Pages
                 native = new NativeTextButton();
 #endif
             }
-            native.PressedColor = PressedColor.ToNative();
+            if (PressedColor != BandColor.Empty)
+            {
+                native.PressedColor = PressedColor.ToNative();
+            }
             return base.ToNative(native);
         }
 #endif

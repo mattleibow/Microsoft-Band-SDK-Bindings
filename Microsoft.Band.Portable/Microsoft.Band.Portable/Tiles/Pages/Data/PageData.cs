@@ -12,11 +12,12 @@ namespace Microsoft.Band.Portable.Tiles.Pages.Data
     {
         public PageData()
         {
+            Data = new List<ElementData>();
         }
 
         public Guid PageId { get; set; }
         public int PageLayoutIndex { get; set; }
-        public List<ElementData> Data { get; }
+        public List<ElementData> Data { get; private set; }
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
         internal PageData(NativePageData native)

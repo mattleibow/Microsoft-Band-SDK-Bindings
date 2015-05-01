@@ -92,11 +92,7 @@ namespace Microsoft.Band.Portable
             // can't use switch on Android as this is not an enum
             if (motion == NativeHeartRateQuality.Locked)
                 return HeartRateQuality.Locked;
-#if WINDOWS_PHONE_APP || __IOS__
             if (motion == NativeHeartRateQuality.Acquiring)
-#else
-            if (motion == NativeHeartRateQuality.Aquiring) // spelling error
-#endif
                 return HeartRateQuality.Acquiring;
             return HeartRateQuality.Unknown;
         }

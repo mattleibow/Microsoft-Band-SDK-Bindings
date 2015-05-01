@@ -12,6 +12,12 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 
         public Element()
         {
+            ElementId = -1;
+            HorizontalAlignment = HorizontalAlignment.Left;
+            VerticalAlignment = VerticalAlignment.Top;
+            Visible = true;
+            Margins = Margins.Empty;
+            Rectangle = Rectangle.Empty;
         }
 
         public short ElementId { get; set; }
@@ -54,14 +60,23 @@ namespace Microsoft.Band.Portable.Tiles.Pages
         internal virtual NativeElement ToNative(NativeElement element)
         {
             var native = EnsureDerived<NativeElement>(element, false);
+            if (ElementId > 0)
+            {
 #if __ANDROID__ || __IOS__
-            native.ElementId = (ushort)ElementId;
+                native.ElementId = (ushort)ElementId;
 #elif WINDOWS_PHONE_APP
-            native.ElementId = ElementId;
+                native.ElementId = ElementId;
 #endif
-            native.Rect = Rectangle.ToNative();
+            }
+            if (Rectangle != Rectangle.Empty)
+            {
+                native.Rect = Rectangle.ToNative();
+            }
             native.HorizontalAlignment = HorizontalAlignment.ToNative();
-            native.Margins = Margins.ToNative();
+            if (Margins != Margins.Empty)
+            {
+                native.Margins = Margins.ToNative();
+            }
             native.VerticalAlignment = VerticalAlignment.ToNative();
             native.Visible = Visible;
             return native;

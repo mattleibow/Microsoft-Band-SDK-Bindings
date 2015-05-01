@@ -11,6 +11,8 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public Image()
         {
+            Color = BandColor.Empty;
+            ColorSource = ElementColorSource.Custom;
         }
 
         public BandColor Color { get; set; }
@@ -35,7 +37,10 @@ namespace Microsoft.Band.Portable.Tiles.Pages
                 native = new NativeImage();
 #endif
             }
-            native.Color = Color.ToNative();
+            if (Color != BandColor.Empty)
+            {
+                native.Color = Color.ToNative();
+            }
             native.ColorSource = ColorSource.ToNative();
             return base.ToNative(native);
         }

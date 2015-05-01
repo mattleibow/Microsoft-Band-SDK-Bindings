@@ -11,6 +11,8 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public ScrollFlowPanel()
         {
+            ScrollbarColor = BandColor.Empty;
+            ScrollbarColorSource = ElementColorSource.Custom;
         }
 
         public BandColor ScrollbarColor { get; set; }
@@ -35,7 +37,10 @@ namespace Microsoft.Band.Portable.Tiles.Pages
                 native = new NativeScrollFlowPanel();
 #endif
             }
-            native.ScrollBarColor = ScrollbarColor.ToNative();
+            if (ScrollbarColor != BandColor.Empty)
+            {
+                native.ScrollBarColor = ScrollbarColor.ToNative();
+            }
             native.ScrollBarColorSource = ScrollbarColorSource.ToNative();
             return base.ToNative(native);
         }

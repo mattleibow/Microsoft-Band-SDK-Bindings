@@ -7,7 +7,11 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 {
     public class PageLayout
     {
-        public Panel Root { get; }
+        public PageLayout()
+        {
+        }
+
+        public Panel Root { get; set; }
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
         internal PageLayout(NativePageLayout native)

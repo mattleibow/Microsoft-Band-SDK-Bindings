@@ -170,11 +170,11 @@ namespace Microsoft.Band.Portable
     }
 
 #if __ANDROID__
-    internal class ActivityWrappedActionExtensions<T>
+    internal class ActivityWrappedActionExtensions
     {
         // delegate type that is the listener/callback
         public delegate Task WrappedActionDelegate(Activity activity);
-        public delegate Task<T> ActionDelegate(Activity activity);
+        public delegate Task<bool> ActionDelegate(Activity activity);
 
         // extra key for the intent
         private const string ActionIdExtra = "ACTION_ID";
@@ -183,9 +183,9 @@ namespace Microsoft.Band.Portable
         private static ConcurrentDictionary<string, WrappedActionDelegate> listeners =
             new ConcurrentDictionary<string, WrappedActionDelegate>();
 
-        public static Task<T> WrapActionAsync(ActionDelegate action)
+        public static Task<bool> WrapActionAsync(ActionDelegate action)
         {
-            var tcs = new TaskCompletionSource<T>();
+            var tcs = new TaskCompletionSource<bool>();
 
             var actionId = Guid.NewGuid().ToString();
 

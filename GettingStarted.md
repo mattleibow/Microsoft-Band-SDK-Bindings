@@ -111,7 +111,7 @@ var bandClient = await manager.ConnectAsync(pairedBands[0]);
 
 ```
 var manager = BandClientManager.Instance;
-var pairedBands = await manager.AttachedClients;
+var pairedBands = manager.AttachedClients;
 var bandClient = pairedBands[0];
 await manager.ConnectTaskAsync(bandClient);
 ```

@@ -9,6 +9,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public FlowPanel()
         {
+            Orientation = Orientation.Vertical;
         }
 
         public Orientation Orientation { get; set; }

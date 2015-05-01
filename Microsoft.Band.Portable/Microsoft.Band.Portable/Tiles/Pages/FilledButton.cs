@@ -11,6 +11,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public FilledButton()
         {
+            BackgroundColor = BandColor.Empty;
         }
 
         public BandColor BackgroundColor { get; set; }
@@ -33,7 +34,10 @@ namespace Microsoft.Band.Portable.Tiles.Pages
                 native = new NativeFilledButton();
 #endif
             }
-            native.BackgroundColor = BackgroundColor.ToNative();
+            if (BackgroundColor != BandColor.Empty)
+            {
+                native.BackgroundColor = BackgroundColor.ToNative();
+            }
             return base.ToNative(native);
         }
 #endif

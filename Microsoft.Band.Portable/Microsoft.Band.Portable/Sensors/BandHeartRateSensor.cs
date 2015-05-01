@@ -94,7 +94,7 @@ namespace Microsoft.Band.Portable.Sensors
         {
             bool result = false;
 #if __ANDROID__
-            result = await ActivityWrappedActionExtensions<bool>.WrapActionAsync(activity =>
+            result = await ActivityWrappedActionExtensions.WrapActionAsync(activity =>
             {
                 return manager.Native.RequestHeartRateConsentTaskAsync(activity);
             });

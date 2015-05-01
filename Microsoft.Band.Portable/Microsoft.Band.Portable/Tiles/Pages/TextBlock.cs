@@ -11,6 +11,12 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public TextBlock()
         {
+            AutoWidth = true;
+            Baseline = 0;
+            BaselineAlignment = TextBlockBaselineAlignment.Automatic;
+            TextColor = BandColor.Empty;
+            TextColorSource = ElementColorSource.Custom;
+            Font = TextBlockFont.Small;
         }
 
         public bool AutoWidth { get; set; }
@@ -50,7 +56,10 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             }
             native.AutoWidth = AutoWidth;
             native.BaselineAlignment = BaselineAlignment.ToNative();
-            native.Color = TextColor.ToNative();
+            if (TextColor != BandColor.Empty)
+            {
+                native.Color = TextColor.ToNative();
+            }
             native.ColorSource = TextColorSource.ToNative();
             return base.ToNative(native);
         }

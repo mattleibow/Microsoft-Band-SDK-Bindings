@@ -11,6 +11,10 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public WrappedTextBlock()
         {
+            AutoHeight = true;
+            TextColor = BandColor.Empty;
+            TextColorSource = ElementColorSource.Custom;
+            Font = WrappedTextBlockFont.Small;
         }
 
         public bool AutoHeight { get; set; }
@@ -41,7 +45,10 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 #endif
             }
             native.AutoHeight = AutoHeight;
-            native.Color = TextColor.ToNative();
+            if (TextColor != BandColor.Empty)
+            {
+                native.Color = TextColor.ToNative();
+            }
             native.ColorSource = TextColorSource.ToNative();
             return base.ToNative(native);
         }

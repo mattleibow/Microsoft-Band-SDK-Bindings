@@ -58,7 +58,7 @@ namespace Microsoft.Band.Portable.Tiles
         {
             bool result = false;
 #if __ANDROID__
-            result = await ActivityWrappedActionExtensions<bool>.WrapActionAsync(activity =>
+            result = await ActivityWrappedActionExtensions.WrapActionAsync(activity =>
             {
                 return Native.AddTileTaskAsync(activity, tile.ToNative());
             });

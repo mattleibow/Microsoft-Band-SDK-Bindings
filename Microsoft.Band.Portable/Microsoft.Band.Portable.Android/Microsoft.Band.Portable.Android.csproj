@@ -14,7 +14,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <DevInstrumentationEnabled>True</DevInstrumentationEnabled>
-    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,6 +36,10 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Band.Android, Version=1.3.10421.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Xamarin.Microsoft.Band.1.3.4\lib\MonoAndroid\Microsoft.Band.Android.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
@@ -46,6 +50,9 @@
   <ItemGroup>
     <Compile Include="..\Microsoft.Band.Portable\BandClientManager.cs">
       <Link>BandClientManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\BandException.cs">
+      <Link>BandException.cs</Link>
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\BandExtensions.cs">
       <Link>BandExtensions.cs</Link>
@@ -307,6 +314,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -315,10 +325,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Band\Microsoft.Band.Android\Microsoft.Band.Android.csproj">
-      <Project>{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}</Project>
-      <Name>Microsoft.Band.Android</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>
