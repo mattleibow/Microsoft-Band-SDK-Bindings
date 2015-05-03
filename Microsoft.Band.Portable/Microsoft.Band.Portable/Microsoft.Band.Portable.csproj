@@ -39,6 +39,8 @@
     <Compile Include="IBandClient.cs" />
     <Compile Include="BandClientManager.cs" />
     <Compile Include="IBandDeviceInfo.cs" />
+    <Compile Include="Sensors\IBandSensor.cs" />
+    <Compile Include="Sensors\IUserConsentingBandSensor.cs" />
     <Compile Include="Tiles\BandTileButtonPressedEventArgs.cs" />
     <Compile Include="Tiles\BandTileClosedEventArgs.cs" />
     <Compile Include="Tiles\BandTileOpenedEventArgs.cs" />

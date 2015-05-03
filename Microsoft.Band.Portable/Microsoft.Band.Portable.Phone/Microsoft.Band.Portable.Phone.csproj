@@ -195,11 +195,17 @@
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandUltravioletLightSensor.cs">
       <Link>Sensors\BandUltravioletLightSensor.cs</Link>
     </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\IBandSensor.cs">
+      <Link>Sensors\IBandSensor.cs</Link>
+    </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\IBandSensorManager.cs">
       <Link>Sensors\IBandSensorManager.cs</Link>
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\IBandSensorReading.cs">
       <Link>Sensors\IBandSensorReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\IUserConsentingBandSensor.cs">
+      <Link>Sensors\IUserConsentingBandSensor.cs</Link>
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\SensorExtensions.cs">
       <Link>Sensors\SensorExtensions.cs</Link>

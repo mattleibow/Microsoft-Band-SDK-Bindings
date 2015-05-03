@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Band.Portable.Sensors
 {
-    public abstract class BandSensorBase<T>
+    public abstract class BandSensorBase<T> : IBandSensor<T>
         where T : IBandSensorReading
     {
         public event EventHandler<BandSensorReadingEventArgs<T>> ReadingChanged;

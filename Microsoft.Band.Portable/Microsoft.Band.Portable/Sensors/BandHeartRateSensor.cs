@@ -17,7 +17,7 @@ using NativeBandHeartRateEventArgs = Microsoft.Band.Sensors.BandSensorReadingEve
 
 namespace Microsoft.Band.Portable.Sensors
 {
-    public class BandHeartRateSensor : BandSensorBase<BandHeartRateReading>
+    public class BandHeartRateSensor : BandSensorBase<BandHeartRateReading>, IUserConsentingBandSensor<BandHeartRateReading>
     {
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
         internal readonly NativeBandHeartRateSensor Native;

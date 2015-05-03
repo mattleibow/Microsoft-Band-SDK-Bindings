@@ -25,6 +25,12 @@ namespace Microsoft.Band.Portable.Tiles
             Icon = icon;
         }
 
+        public BandTile(Guid tileId, string name, BandImage icon, BandImage smallIcon)
+            : this(tileId, name, icon)
+        {
+            SmallIcon = smallIcon;
+        }
+
         public Guid Id { get; private set; }
 
         public string Name { get; set; }
@@ -38,11 +44,6 @@ namespace Microsoft.Band.Portable.Tiles
         public List<PageLayout> PageLayouts { get; private set; }
 
         public List<BandImage> PageImages { get; private set; }
-
-		public bool IsBadgingEnabled 
-		{
-			get { return SmallIcon != null; }
-		}
 
 		public bool IsCustomThemeEnabled 
 		{ 

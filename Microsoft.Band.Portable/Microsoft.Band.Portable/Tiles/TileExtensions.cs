@@ -29,18 +29,15 @@ namespace Microsoft.Band.Portable
             var icon = NativeBandIcon.ToBandIcon(tile.Icon.ToBitmap());
             using (var builder = new NativeBandTile.Builder(tile.Id.ToNative(), tile.Name, icon))
             {
-                var nativeIcons = tile.PageImages.Select(pi => NativeBandIcon.ToBandIcon(pi.ToBitmap()));
-                builder.SetPageIcons(nativeIcons.ToArray());
-                var nativeLayouts = tile.PageLayouts.Select(pl => pl.ToNative());
-                builder.SetPageLayouts(nativeLayouts.ToArray());
+                var smallIcon = NativeBandIcon.ToBandIcon(tile.SmallIcon.ToBitmap());
+                builder.SetTileSmallIcon(smallIcon);
+                var pageIcons = tile.PageImages.Select(pi => NativeBandIcon.ToBandIcon(pi.ToBitmap())).ToArray();
+                builder.SetPageIcons(pageIcons);
+                var pageLayouts = tile.PageLayouts.Select(pl => pl.ToNative()).ToArray();
+                builder.SetPageLayouts(pageLayouts);
                 if (tile.IsCustomThemeEnabled)
                 {
                     builder.SetTheme(tile.Theme.ToNative());
-                }
-                if (tile.IsBadgingEnabled)
-                {
-                    icon = NativeBandIcon.ToBandIcon(tile.SmallIcon.ToBitmap());
-                    builder.SetTileSmallIcon(icon);
                 }
                 return builder.Build();
             }
@@ -48,9 +45,9 @@ namespace Microsoft.Band.Portable
             // TODO: iOS - SmallIcon may not be optional
             Foundation.NSError error;
             var icon = NativeBandIcon.FromUIImage(tile.Icon.ToUIImage(), out error);
-            var smallIcon = tile.IsBadgingEnabled ? NativeBandIcon.FromUIImage(tile.SmallIcon.ToUIImage(), out error) : null;
+            var smallIcon = NativeBandIcon.FromUIImage(tile.SmallIcon.ToUIImage(), out error);
             var bandTile = NativeBandTile.Create(tile.Id.ToNative(), tile.Name, icon, smallIcon, out error);
-            bandTile.BadgingEnabled = tile.IsBadgingEnabled;
+            bandTile.BadgingEnabled = true;
             foreach (var image in tile.PageImages)
             {
                 var pageIcon = NativeBandIcon.FromUIImage(image.ToUIImage(), out error);
@@ -69,7 +66,9 @@ namespace Microsoft.Band.Portable
             var bandTile = new NativeBandTile(tile.Id.ToNative())
             {
                 Name = tile.Name,
-                TileIcon = tile.Icon.ToWriteableBitmap().ToBandIcon()
+                TileIcon = tile.Icon.ToWriteableBitmap().ToBandIcon(),
+                SmallIcon = tile.SmallIcon.ToWriteableBitmap().ToBandIcon(),
+                IsBadgingEnabled = true
             };
             foreach (var icon in tile.PageImages)
             {
@@ -82,11 +81,6 @@ namespace Microsoft.Band.Portable
             if (tile.IsCustomThemeEnabled)
             {
                 bandTile.Theme = tile.Theme.ToNative();
-            }
-            if (tile.IsBadgingEnabled)
-            {
-                bandTile.SmallIcon = tile.SmallIcon.ToWriteableBitmap().ToBandIcon();
-                bandTile.IsBadgingEnabled = true;
             }
             return bandTile;
 #endif
