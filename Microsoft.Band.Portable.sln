@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.Portable.iOS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.Portable.Phone", "Microsoft.Band.Portable\Microsoft.Band.Portable.Phone\Microsoft.Band.Portable.Phone.csproj", "{5CCB973C-6923-46AE-A571-D3A6BAA4E5DD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bindings", "Bindings", "{C657A62B-89C5-417F-92E9-33A4D04009CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.Android", "Microsoft.Band\Microsoft.Band.Android\Microsoft.Band.Android.csproj", "{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.iOS", "Microsoft.Band\Microsoft.Band.iOS\Microsoft.Band.iOS.csproj", "{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +39,20 @@ Global
 		{5CCB973C-6923-46AE-A571-D3A6BAA4E5DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CCB973C-6923-46AE-A571-D3A6BAA4E5DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CCB973C-6923-46AE-A571-D3A6BAA4E5DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7} = {C657A62B-89C5-417F-92E9-33A4D04009CD}
+		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49} = {C657A62B-89C5-417F-92E9-33A4D04009CD}
 	EndGlobalSection
 EndGlobal
