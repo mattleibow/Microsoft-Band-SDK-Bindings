@@ -12,10 +12,8 @@ using Microsoft.Band.Tiles;
 using NativeBandTileManager = Microsoft.Band.Tiles.IBandTileManager;
 #elif __IOS__
 using Microsoft.Band.Tiles;
+using NativeBandClient = Microsoft.Band.BandClient;
 using NativeBandTileManager = Microsoft.Band.Tiles.IBandTileManager;
-using NativeTileButtonPressedEventArgs = Microsoft.Band.TileButtonPressedEventArgs;
-using NativeTileOpenedEventArgs = Microsoft.Band.TileOpenedEventArgs;
-using NativeTileClosedEventArgs = Microsoft.Band.TileClosedEventArgs;
 #elif WINDOWS_PHONE_APP
 using Microsoft.Band.Tiles;
 using NativeBandTileManager = Microsoft.Band.Tiles.IBandTileManager;
@@ -30,13 +28,14 @@ namespace Microsoft.Band.Portable.Tiles
     {
         private readonly BandClient client;
         private readonly object subscribedLock = new object();
-        private bool subscribed = false;
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
         internal readonly NativeBandTileManager Native;
 
 #if __ANDROID__
         private readonly BandTileBroadcastReceiver tileReceiver;
+#elif __IOS__
+        private readonly BandTileDelegate tileDelegate;
 #endif
 
         internal BandTileManager(BandClient client, NativeBandTileManager tileManager)
@@ -50,6 +49,15 @@ namespace Microsoft.Band.Portable.Tiles
                 e => OnTileOpened(new BandTileOpenedEventArgs(e)), 
                 e => OnTileClosed(new BandTileClosedEventArgs(e)),
                 e => OnTileButtonPressed(new BandTileButtonPressedEventArgs(e)));
+#elif __IOS__
+            this.tileDelegate = new BandTileDelegate(
+                e => OnTileOpened(new BandTileOpenedEventArgs(e)),
+                e => OnTileClosed(new BandTileClosedEventArgs(e)),
+                e => OnTileButtonPressed(new BandTileButtonPressedEventArgs(e)));
+#elif WINDOWS_PHONE_APP
+            this.Native.TileButtonPressed += OnNativeTileButtonPressed;
+            this.Native.TileOpened += OnNativeTileOpened;
+            this.Native.TileClosed += OnNativeTileClosed;
 #endif
         }
 #endif
@@ -141,59 +149,30 @@ namespace Microsoft.Band.Portable.Tiles
             return SetTilePageDataAsync(tileId, (IEnumerable<PageData>)pageData);
         }
 
-        public void StartBandEvents()
+        public async Task StartEventListenersAsync()
         {
-            if (!subscribed)
-            {
-                lock (subscribedLock)
-                {
-                    if (!subscribed)
-                    {
-                        subscribed = true;
 #if __ANDROID__
-                        var filter = new IntentFilter();
-                        filter.AddAction(TileEvent.ActionTileOpened);
-                        filter.AddAction(TileEvent.ActionTileButtonPressed);
-                        filter.AddAction(TileEvent.ActionTileClosed);
-                        Application.Context.RegisterReceiver(tileReceiver, filter);
+            var filter = new IntentFilter();
+            filter.AddAction(TileEvent.ActionTileOpened);
+            filter.AddAction(TileEvent.ActionTileButtonPressed);
+            filter.AddAction(TileEvent.ActionTileClosed);
+            Application.Context.RegisterReceiver(tileReceiver, filter);
 #elif __IOS__
-                        client.Native.ButtonPressed += OnNativeTileButtonPressed;
-                        client.Native.TileOpened += OnNativeTileOpened;
-                        client.Native.TileClosed += OnNativeTileClosed;
+            client.Native.TileDelegate = tileDelegate;
 #elif WINDOWS_PHONE_APP
-                        Native.TileButtonPressed += OnNativeTileButtonPressed;
-                        Native.TileOpened += OnNativeTileOpened;
-                        Native.TileClosed += OnNativeTileClosed;
+            await Native.StartReadingsAsync();
 #endif
-                    }
-                }
-            }
         }
-        
-        public void StopBandEvents()
+
+        public async Task StopEventListenersAsync()
         {
-            if (subscribed)
-            {
-                lock (subscribedLock)
-                {
-                    if (subscribed)
-                    {
-                        subscribed = false;
 #if __ANDROID__
-                        Application.Context.UnregisterReceiver(tileReceiver);
+            Application.Context.UnregisterReceiver(tileReceiver);
 #elif __IOS__
-                        client.Native.ButtonPressed -= OnNativeTileButtonPressed;
-                        client.Native.TileOpened -= OnNativeTileOpened;
-                        client.Native.TileClosed -= OnNativeTileClosed;
-                        client.Native.TileDelegate = null;
+            client.Native.TileDelegate = null;
 #elif WINDOWS_PHONE_APP
-                        Native.TileButtonPressed -= OnNativeTileButtonPressed;
-                        Native.TileOpened -= OnNativeTileOpened;
-                        Native.TileClosed -= OnNativeTileClosed;
+            await Native.StopReadingsAsync();
 #endif
-                    }
-                }
-            }
         }
         
         protected virtual void OnTileButtonPressed(BandTileButtonPressedEventArgs e)
@@ -263,19 +242,31 @@ namespace Microsoft.Band.Portable.Tiles
             }
         }
 #elif __IOS__
-        private void OnNativeTileButtonPressed(object sender, NativeTileButtonPressedEventArgs e)
+        private class BandTileDelegate : BandClientTileDelegate
         {
-            OnTileButtonPressed(new BandTileButtonPressedEventArgs(e.TileButtonEvent));
-        }
+            private readonly Action<BandTileEvent> opened;
+            private readonly Action<BandTileEvent> closed;
+            private readonly Action<BandTileButtonEvent> buttonPressed;
 
-        private void OnNativeTileOpened(object sender, NativeTileOpenedEventArgs e)
-        {
-            OnTileOpened(new BandTileOpenedEventArgs(e.TileEvent));
-        }
+            public BandTileDelegate(Action<BandTileEvent> opened, Action<BandTileEvent> closed, Action<BandTileButtonEvent> buttonPressed)
+            {
+                this.opened = opened;
+                this.closed = closed;
+                this.buttonPressed = buttonPressed;
+            }
 
-        private void OnNativeTileClosed(object sender, NativeTileClosedEventArgs e)
-        {
-            OnTileClosed(new BandTileClosedEventArgs(e.TileEvent));
+            public override void ButtonPressed(NativeBandClient client, BandTileButtonEvent tileButtonEvent)
+            {
+                buttonPressed(tileButtonEvent);
+            }
+            public override void TileOpened(NativeBandClient client, BandTileEvent tileEvent)
+            {
+                opened(tileEvent);
+            }
+            public override void TileClosed(NativeBandClient client, BandTileEvent tileEvent)
+            {
+                closed(tileEvent);
+            }
         }
 #elif WINDOWS_PHONE_APP
         private void OnNativeTileButtonPressed(object sender, NativeTileButtonPressedEventArgs e)
