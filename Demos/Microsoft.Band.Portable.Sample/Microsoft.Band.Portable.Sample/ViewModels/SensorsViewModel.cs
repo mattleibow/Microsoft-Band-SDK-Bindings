@@ -21,6 +21,7 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         public void Init()
         {
             Sensors.Add(CreateSensorItem("Accelerometer", sensorManager.Accelerometer));
+            Sensors.Add(CreateSensorItem("Calories", sensorManager.Calories));
             Sensors.Add(CreateSensorItem("Contact", sensorManager.Contact));
             Sensors.Add(CreateSensorItem("Distance", sensorManager.Distance));
             Sensors.Add(CreateSensorItem("Gyroscope", sensorManager.Gyroscope));
@@ -42,7 +43,7 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
 
         public ObservableCollection<BaseViewModel> Sensors { get; private set; }
 
-        private SensorViewModel<T> CreateSensorItem<T>(string type, BandSensorBase<T> sensor)
+        private SensorViewModel<T> CreateSensorItem<T>(string type, IBandSensor<T> sensor)
             where T : IBandSensorReading
         {
             return new SensorViewModel<T>(type, sensor);

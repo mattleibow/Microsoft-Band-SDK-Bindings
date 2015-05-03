@@ -28,7 +28,6 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
 
         private Guid tileId;
         private string tileName;
-        private bool allowBadging;
         private bool useCustomTheme;
         private BandImage tileIcon;
         private BandImage tileBadge;
@@ -83,12 +82,9 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
                 var tile = new BandTile(tileId)
                 {
                     Icon = TileIcon,
-                    Name = TileName
+                    Name = TileName,
+                    SmallIcon = TileBadge
                 };
-                if (AllowBadging)
-                {
-                    tile.SmallIcon = TileBadge;
-                }
                 if (UseCustomTheme)
                 {
                     tile.Theme = TileTheme;
@@ -115,9 +111,8 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             TileId = tile.Id.ToString("D");
             TileName = tile.Name;
             TileIcon = tile.Icon;
-            AllowBadging = tile.SmallIcon != null;
             TileBadge = tile.SmallIcon;
-            if (tile.Theme != default(BandTheme)) 
+            if (tile.Theme != BandTheme.Empty) 
             {
                 UseCustomTheme = true;
                 TileTheme = tile.Theme;
@@ -147,19 +142,6 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
                 {
                     tileName = value;
                     OnPropertyChanged("TileName");
-                }
-            }
-        }
-
-        public bool AllowBadging
-        {
-            get { return allowBadging; }
-            set
-            {
-                if (allowBadging != value)
-                {
-                    allowBadging = value;
-                    OnPropertyChanged("AllowBadging");
                 }
             }
         }

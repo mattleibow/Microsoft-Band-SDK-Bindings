@@ -43,15 +43,9 @@
                   VerticalOptions="Center" HorizontalOptions="End" />
         </StackLayout>
 
-        <StackLayout Orientation="Horizontal"
-                     VerticalOptions="Start" HorizontalOptions="FillAndExpand">
-          <Label Text="Allow Badging:" FontSize="Medium"
-                 VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
-          <Switch IsToggled="{Binding AllowBadging}"
-                  VerticalOptions="Center" HorizontalOptions="End" />
-        </StackLayout>
-
-        <StackLayout Orientation="Horizontal" IsVisible="{Binding AllowBadging}"
+        <Label Text="Tile Badge Icon:" FontSize="Medium"
+               VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+        <StackLayout Orientation="Horizontal" 
                      VerticalOptions="Start" HorizontalOptions="FillAndExpand">
           <Image Source="{Binding TileBadge, Converter={StaticResource BandImageConverter}}"
                  BackgroundColor="Black" WidthRequest="48" HeightRequest="48"
