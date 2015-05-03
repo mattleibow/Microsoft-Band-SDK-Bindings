@@ -780,9 +780,9 @@ namespace Microsoft.Band.Sensors
 		[Export ("stopGyroscopeUpdatesErrorRef:")]
 		bool StopGyroscopeUpdates (out NSError pError);
 
-		// @required -(BOOL)startHearRateUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorHeartRateData *, NSError *))handler;
+		// @required -(BOOL)startHeartRateUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorHeartRateData *, NSError *))handler;
 		[Abstract]
-		[Export ("startHearRateUpdatesToQueue:errorRef:withHandler:")]
+		[Export ("startHeartRateUpdatesToQueue:errorRef:withHandler:")]
 		bool StartHeartRateUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorHeartRateData, NSError> handler);
 
 		// @required -(BOOL)stopHeartRateUpdatesErrorRef:(NSError **)pError;
