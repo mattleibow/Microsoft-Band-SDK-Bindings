@@ -71,8 +71,8 @@ namespace Microsoft.Band.Tiles.Pages
 	[Native]
 	public enum FlowPanelOrientation : ulong
 	{
-		Horizontal = 300uL,
-		Vertical
+		Vertical = 300uL,
+		Horizontal
 	}
 
 	[Native]
