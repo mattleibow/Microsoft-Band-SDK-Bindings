@@ -1,6 +1,6 @@
-# Getting Started with Microsoft Band Native SDK (Preview)
+# Getting Started with Microsoft Band SDK (Preview)
 
-The Microsoft Band SDK Preview gives developers access to the sensors available on the band, as well as the ability to create and send notifications to tiles. Enhance and extend the experience of your applications to your customers' wrists.
+The Microsoft Band SDK gives developers access to the sensors available on the band, as well as the ability to create and send notifications to tiles. Enhance and extend the experience of your applications to your customers' wrists.
 
 ## Amazing App Experiences
 Extend the experience of your application to your users' wrists via a new dimension of interaction. Create an app that can send UI content to the band, keeping users engaged when they're in motion. Your app can also receive data directly from the band sensors, giving your users more reasons to interact with it. Create a personalized, data-rich, custom experience and enhanced scenarios that will engage users in ways only possible with Microsoft Band.
@@ -9,7 +9,7 @@ Extend the experience of your application to your users' wrists via a new dimens
 Use a range of sensors including heart rate, UV, accelerometer, gyroscope, and skin temperature, as well as fitness data, to design cutting-edge user experiences:
 
  - **Accelerometer**  
-   Provides X, Y, and Z acceleration in meters per second squared (m/s2) units.
+   Provides X, Y, and Z acceleration in meters per second squared (m/s²) units.
  - **Gyroscope**  
    Provides X, Y, and Z angular velocity in degrees per second (°/sec) units.
  - **Distance**  
@@ -19,16 +19,16 @@ Use a range of sensors including heart rate, UV, accelerometer, gyroscope, and s
  - **Pedometer**  
    Provides the total number of steps the wearer has taken.
  - **Skin Temperature**  
-   Provides the current skin temperature of the wearer in degrees Celcius.
+   Provides the current skin temperature of the wearer in degrees Celsius.
  - **UV**  
-   Provides the current ultra violet radition exposure intensity.
+   Provides the current ultra violet radiation exposure intensity.
  - **Device Contact**  
    Provides a way to let the developer know if someone is currently wearing the device.
  - **Calories**  
    Provides the total number of calories the wearer has burned.
 
 ### Create App Tiles
-Keep users engaged and extend your app experience to Microsoft Band. Create tiles for the band that send glanceable data and notifications from your app to your users.
+Keep users engaged and extend your app experience to Microsoft Band. Create tiles for the band that send glance-able data and notifications from your app to your users.
 
 #### Tile Notifications
 
@@ -41,7 +41,6 @@ Each app tile is visually represented on the Start Strip by an icon, and when a 
 messages at a time. Messages may display a dialog as well.
 Both notifications types contain a title text and a body text.
 
-
 #### Custom Tile Pages
 
 Custom tiles have application defined layouts and custom content, which includes multiple icons, buttons, text blocks, and barcodes. With custom tiles, developers can define unique experiences for their applications. The developers control exactly how many pages to show inside of a tile as well as the content of individual pages. 
@@ -49,7 +48,8 @@ Custom tiles have application defined layouts and custom content, which includes
 They can update the contents of a page that has been created using custom layout at any point, unlike messaging tiles where every new message results in the creation of a new page inside the tile. In addition, a developer can choose to add additional pages inside the tile. If the total number of pages goes past the maximum pages allowed inside the tile, the right most page is dropped out when a new page is added.
 
 #### Tile Events
-It is also possible to register for tile events. This allows a developer to know when the user has entered and exited their tile. In addition, they can receive events when a user taps on a button in one of their custom tiles.
+
+It is also possible to register for tile events. This allows a developer to know when the user has entered and exited their tile. In addition, they can receive events when a user taps on a button in one of their custom tiles.
 
 ### Personalize Device
 Monetize your app by offering users ways to customize the band. Change the color theme, or bring the Me Tile to life by changing the wallpaper.
@@ -59,6 +59,8 @@ Monetize your app by offering users ways to customize the band. Change the color
 More advanced documentation can be found on the [Microsoft Band Developers Page][1].
 
 ### Requirements
+
+All operations with the Band API are performed using the types and members of the `Microsoft.Band.Portable` namespace. This makes it easier to share and reuse code across platforms. But, the original `Microsoft.Band` namespace can still be used on the specific platforms. 
 
 #### Android 4.2+
 1. Permission to access Bluetooth:  
@@ -74,9 +76,9 @@ More advanced documentation can be found on the [Microsoft Band Developers Page]
 ```
 <DeviceCapability Name="bluetooth.rfcomm">
   <Device Id="any">
-    <!-- Used by the Microsoft Band SDK Preview -->
+    <!-- Used by the Microsoft Band SDK -->
     <Function Type="serviceId:A502CA9A-2BA5-413C-A4E0-13804E47B38F" />
-    <!-- Used by the Microsoft Band SDK Preview -->
+    <!-- Used by the Microsoft Band SDK -->
     <Function Type="serviceId:C742E1A2-6320-5ABC-9643-D206C677E580" />
   </Device>
 </m2:DeviceCapability>
@@ -89,336 +91,193 @@ More advanced documentation can be found on the [Microsoft Band Developers Page]
 
 ### Connecting to a Band
 
+Connecting to a Band device is very easy and only requires two steps:
 
-#### Android
-
-```
-var manager = BandClientManager.Instance;
-var pairedBands = manager.GetPairedBands();
-var bandClient = manager.Create(this, pairedBands[0]);
-await bandClient.ConnectTaskAsync();
-```
-
-#### Windows 
+1. Get a list of the paired Band devices
+2. Connect to a specific Band device
 
 ```
-var manager = BandClientManager.Instance;
-var pairedBands = await manager.GetBandsAsync();
-var bandClient = await manager.ConnectAsync(pairedBands[0]);
-```
-
-#### iOS
-
-```
-var manager = BandClientManager.Instance;
-var pairedBands = manager.AttachedClients;
-var bandClient = pairedBands[0];
-await manager.ConnectTaskAsync(bandClient);
+var bandClientManager = BandClientManager.Instance;
+// query the service for paired devices
+var pairedBands = await bandClientManager.GetPairedBandsAsync();
+// connect to the first device
+var bandInfo = pairedBands.FirstOrDefault();
+var bandClient = await bandClientManager.ConnectAsync(bandInfo);
 ```
 
 ### Connecting to a Sensor
 
-
-#### Android
+Connecting to a sensor on the Band requires the use of the Sensor Manager.
 
 ```
-// get the sensor
-var accelerometer = bandClient.SensorManager.CreateAccelerometerSensor();
+var sensorManager = bandClient.SensorManager;
+// get the accelerometer sensor
+var accelerometer = sensorManager.Accelerometer;
 // add a handler
 accelerometer.ReadingChanged += (o, args) => {
     var yReading = args.SensorReading.AccelerationY;
 };
 // start reading, with the interval
-accelerometer.StartReadings(SampleRate.Ms16);
-// stop reading
-accelerometer.StopReadings();
-```
-
-#### Windows
-
-```
-// get the sensor
-var accelerometer = bandclient.SensorManager.Accelerometer;
-// set the interval
-accelerometer.ReportingInterval = TimeSpan.FromMilliseconds(16);
-// add a handler
-accelerometer.ReadingChanged += (o, args) => {
-    var yReading = args.SensorReading.AccelerationY;
-};
-// start reading
-await accelerometer.StartReadingsAsync();
+await accelerometer.StartReadingsAsync(SampleRate.Ms16);
 // stop reading
 await accelerometer.StopReadingsAsync();
 ```
 
-#### iOS
+Some sensors require user consent before use. One of these sensors, and currently the only one, is the heart rate sensor.
 
 ```
-// get the sensor
-var accelerometer = bandClient.SensorManager.CreateAccelerometerSensor();
+var sensorManager = bandClient.SensorManager;
+// get the heart rate sensor
+var heartRate = sensorManager.HeartRate;
 // add a handler
-accelerometer.ReadingChanged += (o, args) => {
-    var yReading = args.SensorReading.AccelerationY;
+heartRate.ReadingChanged += (o, args) => {
+    var quality= args.SensorReading.Quality;
 };
-// start reading
-accelerometer.StartReadings();
+if (heartRate.UserConsented == UserConsent.Unspecified) {
+    bool granted = await heartRate.RequestUserConsent();
+}
+if (heartRate.UserConsented == UserConsent.Granted) {
+    // start reading, with the interval
+    await heartRate.StartReadingsAsync(SampleRate.Ms16);
+} else {
+    // user declined
+}
 // stop reading
-accelerometer.StopReadings();
+await heartRate.StopReadingsAsync();
 ```
 
 ### Adding Tiles
 
-#### Android
+Another feature of the Band is the ability to provide the user with custom, interactive tiles.
 
 ```
-// get the tiles
-var tiles = await bandClient.TileManager.GetTilesTaskAsync();
-// the the number of tiles we can add
-var capacity = await bandClient.TileManager.GetRemainingTileCapacityTaskAsync();
+var tileManager = bandClient.TileManager;
+// get the current set of tiles
+var tiles = await tileManager.GetTilesAsync();
+// get the number of tiles we can add
+var capacity = await tileManager.GetRemainingTileCapacityAsync();
 // create a new tile
-var tile = 
-    new BandTile.Builder(tileUuid, "TileName", tileIcon)
-    .SetTileSmallIcon(smallIcon)
-    .Build();
-// add the tile
-await bandClient.TileManager.AddTileTaskAsync(this, tile);
-// remove the tile
-await bandClient.TileManager.RemoveTileTaskAsync(tile);
-```
-
-#### Windows
-
-```
-// get the tiles
-var tiles = await bandClient.TileManager.GetTilesAsync();
-// the the number of tiles we can add
-var capacity = await bandClient.TileManager.GetRemainingTileCapacityAsync();
-// create a new tile
-var tile = new BandTile(tileGuid) {
-    IsBadgingEnabled = true,
-    Name = "TileName",
-    SmallIcon = smallIcon,
-    TileIcon = tileIcon
+var tile = new BandTile(tileId) {
+    Icon = await BandImage.FromStreamAsync(tileImageStream),
+    Name = "Tile Name",
+    SmallIcon = await BandImage.FromStreamAsync(tileBadgeImageStream)
 };
 // add the tile
-await bandClient.TileManager.AddTileAsync(tile);
+await tileManager.AddTileAsync(tile);
 // remove the tile
-await bandClient.TileManager.RemoveTileAsync(tile);
-```
-
-#### iOS
-
-```
-// get the tiles
-var tiles = await bandClient.TileManager.GetTilesTaskAsync();
-// the the number of tiles we can add
-var capacity = await bandClient.TileManager.GetRemainingTileCapacityTaskAsync();
-// create the tile
-NSError operationError;
-var tile = BandTile.Create(
-    new NSUuid ("DCBABA9F-12FD-47A5-83A9-E7270A4399BB",
-    "B tile",
-    BandIcon.FromUIImage (UIImage.FromBundle ("B.png"), out operationError), 
-    BandIcon.FromUIImage (UIImage.FromBundle ("Bb.png"), out operationError), 
-    out operationError);
-// add the tile
-await bandClient.TileManager.AddTileTaskAsync (tile);
-// remove the tile
-await bandClient.TileManager.RemoveTileTaskAsync (tileId);
+await tileManager.RemoveTileAsync(tile);
 ```
 
 ### Adding Pages to Tiles
 
-#### Android
+Tiles are made up of the actual tile as well as pages. Each page can consist of several page elements with which to provide the user information. Buttons can be added to allow the user to communicate back to the app on the device.
 
 ```
-// create a barcode element
-Barcode barcode = new Barcode(new PageRect(0, 0, 221, 70), BarcodeType.Code39);
-barcode.Margins = new Margins(3, 0, 0, 0);
-barcode.ElementId = 11;
-// create a text block element
-var textBlock = new TextBlock(new PageRect(0, 0, 230, 30), TextBlockFont.Small, 0);
-textBlock.Color = Color.Red;
-textBlock.ElementId = 21;
-// add both to a flow panel
-var flowPanel = new FlowPanel(new PageRect(15, 0, 245, 105), FlowPanelOrientation.Vertical);
-flowPanel.AddElements(barcode);
-flowPanel.AddElements(textBlock);
-// create the page
-PageLayout pageLayout = new PageLayout(flowPanel1);
-// add the page to the tile
-var tile = 
-    new BandTile.Builder(tileUuid, "TileName", tileIcon)
-    .SetPageLayouts(pageLayout);
-    .Build();
-// add the tile to the band
-await bandClient.TileManager.AddTileTaskAsync(Activity, tile);
-// create the data for the page
-var barcodeValue = "MK12345509";
-var pageData = new PageData(Java.Util.UUID.RandomUUID(), 0);
-pageData.Update(new BarcodeData(barcode.ElementId, barcodeValue, BarcodeType.Code39));
-pageData.Update(new TextButtonData(textBlock.ElementId, barcodeValue));
-// set the data for the page
-await bandClient.TileManager.SetPagesTaskAsync(tile.TileId, pageData);
-```
-
-#### Windows
-
-```
-// create a flow panel element
-var panel = new ScrollFlowPanel{    Rect = new PageRect(0, 0, 245, 102),    Orientation = FlowListOrientation.Vertical,    ColorSource = ElementColorSource.BandBase};
-// add a text block element
-panel.Elements.Add(new WrappedTextBlock{    ElementId = 11,    Rect = new PageRect(0, 0, 245, 102),    Margins = new Margins(15, 0, 15, 0),    Color = new BandColor(0xFF, 0xFF, 0xFF),    Font = WrappedTextBlockFont.Small});
-// add another text block element
-panel.Elements.Add(new WrappedTextBlock{    ElementId = 21,    Rect = new PageRect(0, 0, 245, 102),    Margins = new Margins (15, 0, 15, 0),    Color = new BandColor(0xFF, 0xFF, 0xFF),    Font = WrappedTextBlockFont.Small});
-// create the page
-var pageLayout = new PageLayout(panel);
-// add the page to the tile
-tile.PageLayouts.Add(pageLayout);
-// add the tile to the band
-await bandClient.TileManager.AddTileAsync (tile);
-// create the data for the page
-var pageData = new PageData(Guid.NewGuid(), 0,
-    new WrappedTextBlockData(11, "The first message"),
-    new WrappedTextBlockData(21, "The second message"));
-// set the data for the page
-await client.TileManager.SetPagesAsync(tileId, pageData);
-```
-
-#### iOS
-
-```
-// create a text block element
-textBlock = new TextBlock (PageRect.Create (0, 0, 230, 40), TextBlockFont.Small);
-textBlock.ElementId = 10;
-textBlock.Baseline = 25;
-textBlock.HorizontalAlignment = HorizontalAlignment.Center;
-textBlock.BaselineAlignment = TextBlockBaselineAlignment.Relative;
-textBlock.AutoWidth = false;
-// create a barcode element
-var barcode = new Barcode (PageRect.Create (0, 5, 230, 95), BarcodeType.Code39);
-barcode.ElementId = 11;
-// add both to a flow panel
-var flowPanel = new FlowPanel (PageRect.Create (15, 0, 260, 105));
-flowPanel.AddElement (textBlock);
-flowPanel.AddElement (barcode);
-// create the page
-var pageLayout = new PageLayout ();
-pageLayout.Root = flowPanel;
-// add the page to the tile
-tile.PageLayouts.Add (pageLayout);
-// add the tile to the band
-await bandClient.TileManager.AddTileTaskAsync (tile);
-// create the data for the page
-var pageValues = new PageElementData [] {
-    TextBlockData.Create (textBlock.ElementId, "Barcode value: A1 B", out error),
-    BarcodeData.Create (barcode.ElementId, BarcodeType.Code39, "A1 B", out error)
+// define page/element IDs
+Guid tileId = Guid.NewGuid();
+Guid pageId = Guid.NewGuid();
+int pageIndex = 0;
+short titleId = 1;
+short buttonId = 2;
+short imageId = 3;
+// create the new tile
+var tile = new BandTile(tileId) { ... };
+// define the page layout
+var pageLayout = new PageLayout {
+    Root = new ScrollFlowPanel {
+        Rectangle = new Rectangle(0, 0, 245, 105),
+        Orientation = Orientation.Vertical,
+        Elements = {
+            new TextBlock {
+                ElementId = titleId,
+                Rectangle = new Rectangle(0, 0, 229, 30),
+                TextColorSource = ElementColorSource.BandBase,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Bottom
+            },
+            new TextButton {
+                ElementId = buttonId,
+                Rectangle = new Rectangle(0, 0, 229, 43),
+                PressedColor = new BandColor(0, 127, 0)
+            },
+            new Image {
+                ElementId = imageId,
+                Rectangle = new Rectangle(0, 0, 229, 46),
+                Color = new BandColor(127, 127, 0),
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            }
+        }
+    }
 };
-var page = PageData.Create (barcodePageId, 0, pageValues);
-// set the data for the page
-await client.TileManager.SetPagesTaskAsync (new[]{ page }, tileId);
+// add the page layout to the tile
+tile.PageLayouts.Add(pageLayout);
+// add additional images
+tile.PageImages.Add(await BandImage.FromStreamAsync(additionalImageStream));
+// add the tile to the Band
+await tileManager.AddTileAsync(tile);
+// declare the data for the page
+var pageData = new PageData {
+    PageId = pageId,
+    PageLayoutIndex = pageIndex,
+    Data = {
+        new TextBlockData {
+            ElementId = titleId,
+            Text = "Buttons"
+        },
+        new TextButtonData {
+            ElementId = buttonId,
+            Text = "Press Me!"
+        },
+        new ImageData {
+            ElementId = imageId,
+            ImageIndex = 0
+        }
+    }
+};
+// apply the data to the tile
+await tileManager.SetTilePageDataAsync(tileId, pageData);
 ```
 
 ### Subscribing to Band Page Events
 
-#### Android
+Events can be received from the Band when a tile is opened or close, as well as when the user presses a button on a page. 
 
 ```
-// create a broadcast receiver
-private class ButtonTileBroadcastReceiver : BroadcastReceiver
-{
-    public override void OnReceive(Context context, Intent intent)
-    {
-        if (intent.Action == TileEvent.ActionTileOpened) 
-        {
-            var data = (TileEvent)intent.GetParcelableExtra(TileEvent.TileEventData);
-        }
-        else if (intent.Action == TileEvent.ActionTileButtonPressed) 
-        {
-            var data = (TileButtonEvent)intent.GetParcelableExtra(TileEvent.TileEventData);
-        }
-        else if (intent.Action == TileEvent.ActionTileClosed) 
-        {
-            var data = (TileEvent)intent.GetParcelableExtra(TileEvent.TileEventData);
-        }
-    }
-}
-// create the intent filter for the events
-var filter = new IntentFilter();
-filter.AddAction(TileEvent.ActionTileOpened);
-filter.AddAction(TileEvent.ActionTileButtonPressed);
-filter.AddAction(TileEvent.ActionTileClosed);
-// register the receiver
-var receiver = new ButtonTileBroadcastReceiver();
-RegisterReceiver(receiver, filter);
+var tileManager = bandClient.TileManager;
+// attach a handler to the button pressed event
+tileManager.TileButtonPressed += (sender, e) => {
+    var buttonId = e.ElementId;
+    var pageId = e.PageId;
+    var tileId = e.TileId;
+};
+// attach a handler to the tile events
+tileManager.TileOpened += (sender, e) => {
+    var tileId = e.TileId;
+};
+tileManager.TileClosed += (sender, e) => {
+    var tileId = e.TileId;
+};
+// start listening to events from the Band
+await tileManager.StartEventListenersAsync();
+// stop listening
+await BandClient.TileManager.StopEventListenersAsync();
 ```
-
-#### Windows
-
-```
-// attach event handlers to the Band client
-bandClient.TileManager.TileButtonPushed += (_, e) => {
-    var data = e.TileEvent;
-};
-bandClient.TileManager.TileOpened += (_, e) => {
-    var data = e.TileEvent;
-};
-bandClient.TileManager.TileClosed += (_, e) => {
-    var data = e.TileEvent;
-};
-```
-
-#### iOS
-
-```
-// attach event handlers to the Band client
-bandClient.ButtonPressed += (_, e) => {
-    var data = e.TileButtonEvent;
-};
-bandClient.TileOpened += (_, e) => {
-    var data = e.TileEvent;
-};
-bandClient.TileClosed += (_, e) => {
-    var data = e.TileEvent;
-};
-```
-
 
 ### Send a Message
 
-#### Android
+Along with pages, a tile can be used to show notifications or dialogs.
 
 ```
-await bandClient.NotificationManager.SendMessageTaskAsync(
-  tileId, 
-  "Message title", 
-  "Message body", 
-  DateTime.Now,
-  MessageFlags.ShowDialog);
+var notifictionManager = bandClient.NotificationManager;
+// send a notification to the Band with a dialog as well as a page
+await notifictionManager.SendMessageAsync(
+    tileId, 
+    "Message Title", 
+    "This is the message body...", 
+    DateTime.Now, 
+    true);
 ```
-
-#### Windows 
-
-```
-await bandClient.NotificationManager.SendMessageAsync(
-  tileId, 
-  "Message title", 
-  "Message body", 
-  DateTimeOffset.Now, 
-  MessageFlags.ShowDialog);
-```
-
-#### iOS
-
-```
-bandClient.NotificationManager.SendMessageTaskAsync(
-  tileId, 
-  "Message title", 
-  "Message body", 
-  NSDate.Now, 
-  MessageFlags.ShowDialog);
-```
-
 
 [1]:http://developer.microsoftband.com/
 [2]:https://raw.githubusercontent.com/mattleibow/Microsoft-Band-SDK-Bindings/master/Images/capabilities.png
