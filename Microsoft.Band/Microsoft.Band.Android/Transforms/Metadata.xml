@@ -9,7 +9,7 @@
 
   <remove-node path="/api/package[@name='com.microsoft.band.a']" />
   <remove-node path="/api/package[@name='com.microsoft.band.internal']" />
-  <remove-node path="/api/package[@name='com.microsoft.band.internal.device']" />
+  <remove-node path="/api/package[@name='com.microsoft.band.internal.a']" />
   <remove-node path="/api/package[@name='com.microsoft.band.internal.device.subscription']" />
   
   <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='a']" />
@@ -30,13 +30,16 @@
   <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='p']" />
   <remove-node path="/api/package[@name='com.microsoft.band']/class[@name='q']" />
 
-  <attr path="/api/package[@name='com.microsoft.band.notification']" name="managedName">Microsoft.Band.Notifications</attr>
+  <attr path="/api/package[@name='com.microsoft.band.notifications']" name="managedName">Microsoft.Band.Notifications</attr>
   <attr path="/api/package[@name='com.microsoft.band.personalization']" name="managedName">Microsoft.Band.Personalization</attr>
   <attr path="/api/package[@name='com.microsoft.band.sensors']" name="managedName">Microsoft.Band.Sensors</attr>
   <attr path="/api/package[@name='com.microsoft.band.tiles']" name="managedName">Microsoft.Band.Tiles</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']" name="managedName">Microsoft.Band.Tiles.Pages</attr>
+  <attr path="/api/package[@name='com.microsoft.band.internal.device']" name="managedName">Microsoft.Band.Internal.Device</attr>
   <attr path="/api/package[@name='com.microsoft.band']" name="managedName">Microsoft.Band</attr>
   
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerAccelerometerEventListener']" name="managedName">RegisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerCaloriesEventListener']" name="managedName">RegisterListener</attr>
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerContactEventListener']" name="managedName">RegisterListener</attr>
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerDistanceEventListener']" name="managedName">RegisterListener</attr>
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerGyroscopeEventListener']" name="managedName">RegisterListener</attr>
@@ -44,8 +47,10 @@
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerPedometerEventListener']" name="managedName">RegisterListener</attr>
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerSkinTemperatureEventListener']" name="managedName">RegisterListener</attr>
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='registerUVEventListener']" name="managedName">RegisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='requestHeartRateConsent']" name="managedName">RequestHeartRateConsentAsync</attr>
   
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterAccelerometerEventListener']" name="managedName">UnregisterListener</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterCaloriesEventListener']" name="managedName">UnregisterListener</attr>
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterContactEventListener']" name="managedName">UnregisterListener</attr>
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterDistanceEventListener']" name="managedName">UnregisterListener</attr>
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSensorManager']/method[@name='unregisterGyroscopeEventListener']" name="managedName">UnregisterListener</attr>
@@ -63,9 +68,9 @@
   <attr path="/api/package[@name='com.microsoft.band']/interface[@name='BandClient']/method[@name='disconnect']" name="managedName">DisconnectAsync</attr>
   
   <!-- Microsoft.Band.Notifications.IBandNotificationManager -->
-  <attr path="/api/package[@name='com.microsoft.band.notification']/interface[@name='BandNotificationManager']/method[@name='sendMessage']" name="managedName">SendMessageAsync</attr>
-  <attr path="/api/package[@name='com.microsoft.band.notification']/interface[@name='BandNotificationManager']/method[@name='showDialog']" name="managedName">ShowDialogAsync</attr>
-  <attr path="/api/package[@name='com.microsoft.band.notification']/interface[@name='BandNotificationManager']/method[@name='vibrate']" name="managedName">VibrateAsync</attr>
+  <attr path="/api/package[@name='com.microsoft.band.notifications']/interface[@name='BandNotificationManager']/method[@name='sendMessage']" name="managedName">SendMessageAsync</attr>
+  <attr path="/api/package[@name='com.microsoft.band.notifications']/interface[@name='BandNotificationManager']/method[@name='showDialog']" name="managedName">ShowDialogAsync</attr>
+  <attr path="/api/package[@name='com.microsoft.band.notifications']/interface[@name='BandNotificationManager']/method[@name='vibrate']" name="managedName">VibrateAsync</attr>
 
   <!-- Microsoft.Band.Personalization.IBandPersonalizationManager -->
   <attr path="/api/package[@name='com.microsoft.band.personalization']/interface[@name='BandPersonalizationManager']/method[@name='getMeTileImage']" name="managedName">GetMeTileImageAsync</attr>
@@ -76,37 +81,38 @@
   <attr path="/api/package[@name='com.microsoft.band.personalization']/interface[@name='BandPersonalizationManager']/method[@name='setTheme']" name="managedName">SetThemeAsync</attr>
   
   <!-- Microsoft.Band.Sensors listeners -->
-  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandAccelerometerEventListener']/method[@name='onBandAccelerometerChanged']/parameter[@name='p0']" name="name">sensorReading</attr>
-  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandContactEventListener']/method[@name='onBandContactChanged']/parameter[@name='p0']" name="name">sensorReading</attr>
-  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandDistanceEventListener']/method[@name='onBandDistanceChanged']/parameter[@name='p0']" name="name">sensorReading</attr>
-  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandGyroscopeEventListener']/method[@name='onBandGyroscopeChanged']/parameter[@name='p0']" name="name">sensorReading</attr>
-  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandHeartRateEventListener']/method[@name='onBandHeartRateChanged']/parameter[@name='p0']" name="name">sensorReading</attr>
-  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandPedometerEventListener']/method[@name='onBandPedometerChanged']/parameter[@name='p0']" name="name">sensorReading</attr>
-  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSkinTemperatureEventListener']/method[@name='onBandSkinTemperatureChanged']/parameter[@name='p0']" name="name">sensorReading</attr>
-  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandUVEventListener']/method[@name='onBandUVChanged']/parameter[@name='p0']" name="name">sensorReading</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandAccelerometerEventListener']/method[@name='onBandAccelerometerChanged']/parameter[@name='event']" name="name">sensorReading</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandContactEventListener']/method[@name='onBandContactChanged']/parameter[@name='event']" name="name">sensorReading</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandCaloriesEventListener']/method[@name='onBandCaloriesChanged']/parameter[@name='event']" name="name">sensorReading</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandDistanceEventListener']/method[@name='onBandDistanceChanged']/parameter[@name='event']" name="name">sensorReading</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandGyroscopeEventListener']/method[@name='onBandGyroscopeChanged']/parameter[@name='event']" name="name">sensorReading</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandHeartRateEventListener']/method[@name='onBandHeartRateChanged']/parameter[@name='event']" name="name">sensorReading</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandPedometerEventListener']/method[@name='onBandPedometerChanged']/parameter[@name='event']" name="name">sensorReading</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandSkinTemperatureEventListener']/method[@name='onBandSkinTemperatureChanged']/parameter[@name='event']" name="name">sensorReading</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='BandUVEventListener']/method[@name='onBandUVChanged']/parameter[@name='event']" name="name">sensorReading</attr>
 
-  <!-- Microsoft.Band.Tiles.BandTheme properties -->
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getBaseColor']" name="propertyName" />
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getMutedColor']" name="propertyName" />
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getHighContrastColor']" name="propertyName" />
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getHighlightColor']" name="propertyName" />
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getLowlightColor']" name="propertyName" />
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getMutedColor']" name="propertyName" />
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getSecondaryTextColor']" name="propertyName" />
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getBaseColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getMutedColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getHighContrastColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getHighlightColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getLowlightColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getMutedColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='getSecondaryTextColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='setBaseColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='setMutedColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='setHighContrastColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='setHighlightColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='setLowlightColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='setMutedColor']" name="visibility">private</attr>
-  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='BandTheme']/method[@name='setSecondaryTextColor']" name="visibility">private</attr>
+  <!-- Microsoft.Band.BandTheme properties -->
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getBaseColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getMutedColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getHighContrastColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getHighlightColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getLowlightColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getMutedColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getSecondaryTextColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getBaseColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getMutedColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getHighContrastColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getHighlightColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getLowlightColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getMutedColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='getSecondaryTextColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='setBaseColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='setMutedColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='setHighContrastColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='setHighlightColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='setLowlightColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='setMutedColor']" name="visibility">private</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='BandTheme']/method[@name='setSecondaryTextColor']" name="visibility">private</attr>
   
   <!-- Microsoft.Band.Tiles.IBandTileManager -->
   <attr path="/api/package[@name='com.microsoft.band.tiles']/interface[@name='BandTileManager']/method[@name='getRemainingTileCapacity']" name="managedName">GetRemainingTileCapacityAsync</attr>
@@ -115,8 +121,124 @@
   <attr path="/api/package[@name='com.microsoft.band.tiles']/interface[@name='BandTileManager']/method[@name='getTiles']" name="propertyName" />
   <attr path="/api/package[@name='com.microsoft.band.tiles']/interface[@name='BandTileManager']/method[@name='addTile']" name="managedName">AddTileAsync</attr>
   <attr path="/api/package[@name='com.microsoft.band.tiles']/interface[@name='BandTileManager']/method[@name='removeTile']" name="managedName">RemoveTileAsync</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles']/interface[@name='BandTileManager']/method[@name='removePages']" name="managedName">RemovePagesAsync</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles']/interface[@name='BandTileManager']/method[@name='setPages']" name="managedName">SetPagesAsync</attr>
+
+  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='TileEvent']/method[@name='getTileID']" name="managedName">GetTileId</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='TileButtonEvent']/method[@name='getElementID']" name="managedName">GetElementId</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles']/class[@name='TileButtonEvent']/method[@name='getPageID']" name="managedName">GetPageId</attr>
+
+  <!-- Microsoft.Band.Tiles.Pages -->
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextData']" name="visibility">public</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setBounds']" name="return">Microsoft.Band.Tiles.Pages.PageElement</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setHorizontalAlignment']" name="return">Microsoft.Band.Tiles.Pages.PageElement</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setId']" name="return">Microsoft.Band.Tiles.Pages.PageElement</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setMargins']" name="return">Microsoft.Band.Tiles.Pages.PageElement</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setVerticalAlignment']" name="return">Microsoft.Band.Tiles.Pages.PageElement</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setVisible']" name="return">Microsoft.Band.Tiles.Pages.PageElement</attr>
+
+  <!-- Microsoft.Band.Tiles.Pages (property fixups) -->
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='Barcode']/method[@name='setBarcodeType']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='Barcode']/method[@name='getBarcodeType']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='Barcode']/method[@name='getBarcodeType']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButton']/method[@name='setBackgroundColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButton']/method[@name='getBackgroundColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButton']/method[@name='getBackgroundColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledPanel']/method[@name='setBackgroundColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledPanel']/method[@name='getBackgroundColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledPanel']/method[@name='getBackgroundColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledPanel']/method[@name='setBackgroundColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledPanel']/method[@name='getBackgroundColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledPanel']/method[@name='getBackgroundColorSource']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FlowPanel']/method[@name='setFlowPanelOrientation']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FlowPanel']/method[@name='getFlowPanelOrientation']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FlowPanel']/method[@name='getFlowPanelOrientation']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='Icon']/method[@name='setColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='Icon']/method[@name='getColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='Icon']/method[@name='getColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='Icon']/method[@name='setColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='Icon']/method[@name='getColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='Icon']/method[@name='getColorSource']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setBounds']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='getRect']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='getRect']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setHorizontalAlignment']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='getHorizontalAlignment']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='getHorizontalAlignment']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setId']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='getId']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='getId']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setMargins']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='getMargins']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='getMargins']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setVerticalAlignment']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='getVerticalAlignment']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='getVerticalAlignment']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='setVisible']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='isVisible']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElement']/method[@name='isVisible']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='setOriginX']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='getOriginX']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='getOriginX']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='setOriginY']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='getOriginY']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='getOriginY']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='setWidth']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='getWidth']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='getWidth']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='setHeight']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='getHeight']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageRect']/method[@name='getHeight']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='ScrollFlowPanel']/method[@name='setScrollBarColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='ScrollFlowPanel']/method[@name='getScrollBarColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='ScrollFlowPanel']/method[@name='getScrollBarColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='ScrollFlowPanel']/method[@name='setScrollBarColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='ScrollFlowPanel']/method[@name='getScrollBarColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='ScrollFlowPanel']/method[@name='getScrollBarColorSource']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextButton']/method[@name='setPressedColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextButton']/method[@name='getPressedColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextButton']/method[@name='getPressedColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='setColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='setColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getColorSource']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='setFont']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getFont']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getFont']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='setBaseline']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getBaseline']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getBaseline']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='setBaselineAlignment']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getBaselineAlignment']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getBaselineAlignment']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='setAutoWidthEnabled']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='isAutoWidthEnabled']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='isAutoWidthEnabled']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='setColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='getColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='getColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='setColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='getColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='getColorSource']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='setFont']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='getFont']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='getFont']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='setAutoHeightEnabled']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='isAutoHeightEnabled']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='WrappedTextBlock']/method[@name='isAutoHeightEnabled']" name="propertyName" />
   
+  <!-- PageElementData fixups -->
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageElementData']/method[@name='getId']" name="managedName">GetElementId</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='BarcodeData']/method[@name='getBarCode']" name="managedName">GetBarcode</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButtonData']/method[@name='getPressedColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButtonData']/method[@name='setPressedColor']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButtonData']/method[@name='getPressedColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButtonData']/method[@name='setPressedColor']" name="propertyName" />
+
   <!-- This should be fixed properly -->
-  <remove-node path="/api/package[@name='com.microsoft.band']/interface[@name='DeviceConnectionStateListener']" />
-  
+  <remove-node path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageData']/field[@name='PAGE_DATA']" />
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='UserConsent']/field[@name='UNSPECEFIED']" name="managedName">NotSpecified</attr>
+
 </metadata>

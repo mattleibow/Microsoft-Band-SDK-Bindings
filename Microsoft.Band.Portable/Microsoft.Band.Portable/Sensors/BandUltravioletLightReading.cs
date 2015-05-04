@@ -2,12 +2,12 @@
 {
     public class BandUltravioletLightReading : IBandSensorReading
     {
-        internal BandUltravioletLightReading(BandUltravioletLightLevel level)
+        internal BandUltravioletLightReading(UVIndexLevel level)
         {
             Level = level;
         }
 
-        public BandUltravioletLightLevel Level { get; private set; }
+        public UVIndexLevel Level { get; private set; }
 
         public override string ToString()
         {

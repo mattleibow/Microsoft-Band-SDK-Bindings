@@ -44,14 +44,8 @@ namespace Microsoft.Band.Portable
         public async Task<BandClient> ConnectAsync(BandDeviceInfo info)
         {
 #if __ANDROID__
-            // create a custom context
-            if (bandContextWrapper == null)
-            {
-                bandContextWrapper = new BandContextWrapper(Application.Context);
-            }
-            // continue normally
-            var nativeClient = NativeBandClientManager.Instance.Create(bandContextWrapper, info.Native);
-            var result = await nativeClient.ConnectTaskAsync();
+            var nativeClient = NativeBandClientManager.Instance.Create(Application.Context, info.Native);
+            var result = await nativeClient.ConnectTaskAsync() == ConnectionState.Connected;
             return new BandClient(nativeClient);
 #elif __IOS__
             await NativeBandClientManager.Instance.ConnectTaskAsync(info.Native);
@@ -63,28 +57,5 @@ namespace Microsoft.Band.Portable
             return null;
 #endif
         }
-
-#if __ANDROID__
-        private static BandContextWrapper bandContextWrapper;
-
-        private class BandContextWrapper : ContextWrapper
-        {
-            public BandContextWrapper(Context baseContext)
-                : base (baseContext)
-            {
-            }
-
-            // make the intent explicit
-            public override bool BindService(Intent service, IServiceConnection conn, Bind flags)
-            {
-                var action = service.Action;
-                if (!string.IsNullOrEmpty(action) && action.StartsWith("com.microsoft.band"))
-                {
-                    service.SetPackage("com.microsoft.kapp");
-                }
-                return base.BindService(service, conn, flags);
-            }
-        }
-#endif
     }
 }

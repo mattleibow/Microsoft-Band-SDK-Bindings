@@ -38,9 +38,9 @@ namespace Microsoft.Band.Portable.Sensors
             var reading = e.SensorReading;
             var newReading = new BandDistanceReading(
 #if __ANDROID__
-                reading.PedometerMode.FromNative(), reading.Pace, reading.Speed, reading.TotalDistance
+                reading.MotionType.FromNative(), reading.Pace, reading.Speed, reading.TotalDistance
 #elif __IOS__
-                reading.PedometerMode.FromNative(), reading.Pace, reading.Speed, (long)reading.TotalDistance
+                reading.MotionType.FromNative(), reading.Pace, reading.Speed, (long)reading.TotalDistance
 #elif WINDOWS_PHONE_APP
                 reading.CurrentMotion.FromNative(), reading.Pace, reading.Speed, reading.TotalDistance
 #endif
@@ -52,7 +52,7 @@ namespace Microsoft.Band.Portable.Sensors
         public override async Task StartReadingsAsync(BandSensorSampleRate sampleRate)
         {
 #if __ANDROID__
-            await Native.StartReadingsTaskAsync();
+            Native.StartReadings();
 #elif __IOS__
             Native.StartReadings();
 #elif WINDOWS_PHONE_APP
@@ -64,7 +64,7 @@ namespace Microsoft.Band.Portable.Sensors
         public override async Task StopReadingsAsync()
         {
 #if __ANDROID__
-            await Native.StopReadingsTaskAsync();
+            Native.StopReadings();
 #elif __IOS__
             Native.StopReadings();
 #elif WINDOWS_PHONE_APP

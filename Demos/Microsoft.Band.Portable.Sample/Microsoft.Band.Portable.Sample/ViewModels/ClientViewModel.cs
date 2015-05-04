@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+
+using EdSnider.Plugins;
 
 namespace Microsoft.Band.Portable.Sample.ViewModels
 {
@@ -20,6 +23,22 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             if (BandClient == null)
             {
                 BandClient = await BandClientManager.Instance.ConnectAsync(BandInfo);
+
+                BandClient.TileManager.TileButtonPressed += (sender, e) =>
+                {
+                    Notifier.Current.Show(
+                        "Tile Button Pressed",
+                        string.Format("Button [{0}] pressed on page [{1}] of tile [{2}].", e.ElementId, e.PageId, e.TileId));
+                };
+                BandClient.TileManager.TileOpened += (sender, e) =>
+                {
+                    Notifier.Current.Show("Tile Opened", string.Format("Tile [{0}] opened.", e.TileId));
+                };
+                BandClient.TileManager.TileClosed += (sender, e) =>
+                {
+                    Notifier.Current.Show("Tile Closed", string.Format("Tile [{0}] closed.", e.TileId));
+                };
+                await BandClient.TileManager.StartEventListenersAsync();
             }
 
             await base.Prepare();
@@ -35,6 +54,7 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         {
             await base.Destroy();
 
+            await BandClient.TileManager.StopEventListenersAsync();
             await BandClient.DisconnectAsync();
         }
     }

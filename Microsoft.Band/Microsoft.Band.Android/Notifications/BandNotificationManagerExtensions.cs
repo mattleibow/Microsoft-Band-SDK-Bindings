@@ -12,7 +12,8 @@ namespace Microsoft.Band.Notifications
 
         public static Task SendMessageTaskAsync(this IBandNotificationManager manager, Java.Util.UUID tileId, string title, string body, DateTime date, MessageFlags flags)
         {
-            return manager.SendMessageTaskAsync(tileId, title, body, new Java.Util.Date(date.Year, date.Month, date.Day), flags);
+			var javaDate = new Java.Util.Date(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
+			return manager.SendMessageTaskAsync(tileId, title, body, javaDate, flags);
         }
 
         public static Task SendMessageTaskAsync(this IBandNotificationManager manager, Java.Util.UUID tileId, string title, string body, DateTime date, bool showDialog)

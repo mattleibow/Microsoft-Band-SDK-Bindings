@@ -43,8 +43,6 @@ namespace Microsoft.Band.Sample
 
         private Button mButtonSelectBackground;
 
-        private Button mButtonChooseTheme;
-
         private Button mButtonGetTheme;
         private Button mButtonSetTheme;
 
@@ -68,13 +66,9 @@ namespace Microsoft.Band.Sample
             mRootView = inflater.Inflate(Resource.Layout.fragment_theme, container, false);
 
             mViewTheme = mRootView.FindViewById<BandThemeView>(Resource.Id.viewTheme);
-            mViewTheme.Theme = BandTheme.VioletTheme;
 
             mButtonGetTheme = mRootView.FindViewById<Button>(Resource.Id.buttonGetTheme);
             mButtonGetTheme.Click += OnGetThemeClick;
-
-            mButtonChooseTheme = mRootView.FindViewById<Button>(Resource.Id.buttonChooseTheme);
-            mButtonChooseTheme.Click += OnChooseThemeClick;
 
             mButtonSetTheme = mRootView.FindViewById<Button>(Resource.Id.buttonSetTheme);
             mButtonSetTheme.Click += OnSetThemeClick;
@@ -154,24 +148,6 @@ namespace Microsoft.Band.Sample
             int column_index = cursor.GetColumnIndexOrThrow(MediaStore.MediaColumns.Data);
             cursor.MoveToFirst();
             return cursor.GetString(column_index);
-        }
-
-        private async void OnChooseThemeClick(object sender, EventArgs e)
-        {
-            using (var builder = new AlertDialog.Builder(Activity))
-            {
-                PropertyInfo[] themes = typeof(BandTheme).GetProperties().Where(p => p.Name.EndsWith("Theme")).ToArray();
-
-                builder.SetItems(themes.Select(x => x.Name).ToArray(), (dialog, args) =>
-                {
-                    mViewTheme.Theme = (BandTheme) themes[args.Which].GetValue(null);
-                    ((Dialog) dialog).Dismiss();
-                    RefreshControls();
-                });
-
-                builder.SetTitle("Select theme:");
-                builder.Show();
-            }
         }
 
         private async void OnGetThemeClick(object sender, EventArgs e)

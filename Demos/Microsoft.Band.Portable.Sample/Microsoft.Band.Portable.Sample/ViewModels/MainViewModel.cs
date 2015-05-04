@@ -9,8 +9,6 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private BandDeviceInfo selectedBand;
-
         public MainViewModel()
         {
             Bands = new ObservableCollection<BandDeviceInfo>();

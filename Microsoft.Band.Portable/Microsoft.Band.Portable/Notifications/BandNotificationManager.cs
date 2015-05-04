@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-#if __ANDROID__
-using Microsoft.Band.Notifications;
-using NativeBandNotificationManager = Microsoft.Band.Notifications.IBandNotificationManager;
-#elif __IOS__
-using Microsoft.Band.Notifications;
-using NativeBandNotificationManager = Microsoft.Band.Notifications.IBandNotificationManager;
-#elif WINDOWS_PHONE_APP
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
 using Microsoft.Band.Notifications;
 using NativeBandNotificationManager = Microsoft.Band.Notifications.IBandNotificationManager;
 #endif

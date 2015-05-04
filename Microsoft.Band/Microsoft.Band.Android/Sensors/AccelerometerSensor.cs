@@ -18,14 +18,14 @@ namespace Microsoft.Band.Sensors
             get { return listener; }
         }
 
-        public Task StartReadingsTaskAsync(SampleRate sampleRate)
+        public void StartReadings(SampleRate sampleRate)
         {
-			return SensorManager.RegisterListener(listener, sampleRate).AsTask();
+			SensorManager.RegisterListener(listener, sampleRate);
         }
 
-        public Task StopReadingsTaskAsync()
+        public void StopReadings()
         {
-			return SensorManager.UnregisterListener(listener).AsTask();
+			SensorManager.UnregisterListener(listener);
         }
     }
 

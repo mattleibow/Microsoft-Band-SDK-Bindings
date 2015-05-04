@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Microsoft.Band.Pages;
+using Microsoft.Band.Tiles.Pages;
 
 namespace Microsoft.Band.Tiles
 {
@@ -27,9 +27,9 @@ namespace Microsoft.Band.Tiles
 		}
 
 		private object pageLayoutsLock = new object();
-		private BandCollection<BandPageLayout> pageLayouts;
+		private BandCollection<PageLayout> pageLayouts;
 
-		public IList<BandPageLayout> PageLayouts { 
+		public IList<PageLayout> PageLayouts { 
 			get {
 				// check outside to avoid unnecessary locking
 				if (pageLayouts == null) {
@@ -37,7 +37,7 @@ namespace Microsoft.Band.Tiles
 					lock (pageLayoutsLock) {
 						// do a check before init
 						if (pageLayouts == null) {
-							pageLayouts = new BandCollection<BandPageLayout> (PageLayoutsInternal);
+							pageLayouts = new BandCollection<PageLayout> (PageLayoutsInternal);
 						}
 					}
 				}

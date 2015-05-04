@@ -53,24 +53,24 @@ namespace Microsoft.Band.Notifications
 			return manager.SendMessageTaskAsync (tileID, title, body, (NSDate)timeStamp);
 		}
 
-		public static Task RegisterPushNotificationTaskAsync (this IBandNotificationManager manager, NSUuid tileID)
+		public static Task RegisterNotificationTaskAsync (this IBandNotificationManager manager, NSUuid tileID)
 		{
 			var tcs = new TaskCompletionSource<object> ();
-			manager.RegisterPushNotificationAsync (tileID, tcs.AttachCompletionHandler ());
+			manager.RegisterNotificationAsync (tileID, tcs.AttachCompletionHandler ());
 			return tcs.Task;
 		}
 
-		public static Task RegisterPushNotificationTaskAsync (this IBandNotificationManager manager)
+		public static Task RegisterNotificationTaskAsync (this IBandNotificationManager manager)
 		{
 			var tcs = new TaskCompletionSource<object> ();
-			manager.RegisterPushNotificationAsync (tcs.AttachCompletionHandler ());
+			manager.RegisterNotificationAsync (tcs.AttachCompletionHandler ());
 			return tcs.Task;
 		}
 
-		public static Task UnregisterPushNotificationTaskAsync (this IBandNotificationManager manager)
+		public static Task UnregisterNotificationTaskAsync (this IBandNotificationManager manager)
 		{
 			var tcs = new TaskCompletionSource<object> ();
-			manager.UnregisterPushNotificationAsync (tcs.AttachCompletionHandler ());
+			manager.UnregisterNotificationAsync (tcs.AttachCompletionHandler ());
 			return tcs.Task;
 		}
 	}

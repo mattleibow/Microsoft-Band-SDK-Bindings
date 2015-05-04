@@ -7,6 +7,7 @@
 *.sln.docstates
 *.DS_Store
 externals/
+Microsoft.Band/Microsoft.Band.Android/JavaDoc/
 
 # Build results
 [Dd]ebug/

@@ -16,19 +16,22 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             }
         }
 
-        public virtual async Task Prepare()
+        public virtual Task Prepare()
         {
             // this fires each time the view model appears
+            return Task.FromResult(true);
         }
 
-        public virtual async Task CleanUp()
+        public virtual Task CleanUp()
         {
-            // this fires each timethe view model disappears
+            // this fires each time the view model disappears
+            return Task.FromResult(true);
         }
 
-        public virtual async Task Destroy()
+        public virtual Task Destroy()
         {
-            // this fires each timethe view model disappears
+            // this fires each time the view model disappears
+            return Task.FromResult(true);
         }
     }
 }

@@ -9,10 +9,10 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         where T : IBandSensorReading
     {
         private IBandSensorReading reading;
-        private BandSensorBase<T> sensor;
+        private IBandSensor<T> sensor;
         private bool isSensorEnabled;
 
-        public SensorViewModel(string type, BandSensorBase<T> sensor)
+        public SensorViewModel(string type, IBandSensor<T> sensor)
         {
             this.sensor = sensor;
             this.reading = null;
@@ -38,7 +38,7 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             await Sensor.StopReadingsAsync();
         }
 
-        public BandSensorBase<T> Sensor { get { return sensor; } }
+        public IBandSensor<T> Sensor { get { return sensor; } }
 
         public string Type { get; private set; }
 
@@ -79,8 +79,14 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         {
             if (isSensorEnabled)
             {
-                // specify the minimum available
-                await Sensor.StartReadingsAsync(BandSensorSampleRate.Ms16);
+                var userConsenting = Sensor as IUserConsentingBandSensor<T>;
+                if (userConsenting == null ||
+                    userConsenting.UserConsented == UserConsent.Granted ||
+                    await userConsenting.RequestUserConsent())
+                {
+                    // specify the minimum available
+                    await Sensor.StartReadingsAsync(BandSensorSampleRate.Ms16);
+                }
             }
             else
             {

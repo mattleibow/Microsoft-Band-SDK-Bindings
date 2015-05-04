@@ -38,7 +38,7 @@ namespace Microsoft.Band.Portable.Sensors
             var reading = e.SensorReading;
             var newReading = new BandContactReading(
 #if __ANDROID__
-                reading.ContactStatus.FromNative()
+                reading.ContactState.FromNative()
 #elif __IOS__
                 reading.WornState.FromNative()
 #elif WINDOWS_PHONE_APP
@@ -52,7 +52,7 @@ namespace Microsoft.Band.Portable.Sensors
         public override async Task StartReadingsAsync(BandSensorSampleRate sampleRate)
         {
 #if __ANDROID__
-            await Native.StartReadingsTaskAsync();
+            Native.StartReadings();
 #elif __IOS__
             Native.StartReadings();
 #elif WINDOWS_PHONE_APP
@@ -64,7 +64,7 @@ namespace Microsoft.Band.Portable.Sensors
         public override async Task StopReadingsAsync()
         {
 #if __ANDROID__
-            await Native.StopReadingsTaskAsync();
+            Native.StopReadings();
 #elif __IOS__
             Native.StopReadings();
 #elif WINDOWS_PHONE_APP

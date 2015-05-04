@@ -42,7 +42,7 @@ namespace Microsoft.Band.Sample
         private Button mButtonVibrate;
         private Button mButtonVibratePattern;
 
-        private IBandDeviceInfo[] mPairedBands;
+        private IBandInfo[] mPairedBands;
         private int mSelectedBandIndex = 0;
 
         private VibrationType mSelectedVibrationType = VibrationType.NotificationAlarm;
@@ -108,27 +108,22 @@ namespace Microsoft.Band.Sample
 
                 mButtonConnect.Enabled = false;
 
-                // Connect must be called on a background thread.
-                ConnectionResult result;
-                try
-                {
-                    result = await Model.Instance.Client.ConnectTaskAsync();
-                }
-                catch (Java.Lang.InterruptedException)
-                {
-                    result= ConnectionResult.Timeout;
-                }
-                catch (BandException)
-                {
-                    result= ConnectionResult.InternalError;
-                }
+				try
+				{
+					// Connect must be called on a background thread.
+					var result = await Model.Instance.Client.ConnectTaskAsync();
 
-                // callback that must be handled on the UI thread
-                if (result != ConnectionResult.Ok)
-                {
-                    Util.ShowExceptionAlert(Activity, "Connect", new Exception("Connection failed: result=" + result));
-                }
-                RefreshControls();
+					// callback that must be handled on the UI thread
+					if (result != ConnectionState.Connected)
+					{
+						Util.ShowExceptionAlert(Activity, "Connect", new Exception("Connection failed: result=" + result));
+					}
+					RefreshControls();
+				}
+				catch (Exception ex)
+				{
+					Util.ShowExceptionAlert(Activity, "Connect", ex);
+				}
             }
         }
 
@@ -220,7 +215,7 @@ namespace Microsoft.Band.Sample
             }
         }
 
-        private async void OnVibratePatternClick(object sender, EventArgs e)
+        private void OnVibratePatternClick(object sender, EventArgs e)
         {
             using (var builder = new AlertDialog.Builder(Activity))
             {

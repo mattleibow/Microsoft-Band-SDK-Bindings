@@ -1,22 +1,19 @@
-﻿using Microsoft.Band.Portable.Tiles;
-using Microsoft.Band.Portable.Notifications;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading.Tasks;
+
+using Microsoft.Band.Portable.Tiles;
 using Microsoft.Band.Portable.Personalization;
+using Microsoft.Band.Portable.Tiles.Pages;
 
 #if __ANDROID__
-using System;
-using System.Collections.Concurrent;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using NativeBandTile = Microsoft.Band.Tiles.BandTile;
-using NativeBandIcon = Microsoft.Band.Tiles.BandIcon;
-using BandTileManagerExtensions = Microsoft.Band.Tiles.BandTileManagerExtensions;
-using NativeBandTileManager = Microsoft.Band.Tiles.IBandTileManager;
-#elif __IOS__
-using NativeBandTile = Microsoft.Band.Tiles.BandTile;
-using NativeBandIcon = Microsoft.Band.Tiles.BandIcon;
-#elif WINDOWS_PHONE_APP
+#endif
+
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
 using NativeBandTile = Microsoft.Band.Tiles.BandTile;
 using NativeBandIcon = Microsoft.Band.Tiles.BandIcon;
 #endif
@@ -32,14 +29,15 @@ namespace Microsoft.Band.Portable
             var icon = NativeBandIcon.ToBandIcon(tile.Icon.ToBitmap());
             using (var builder = new NativeBandTile.Builder(tile.Id.ToNative(), tile.Name, icon))
             {
+                var smallIcon = NativeBandIcon.ToBandIcon(tile.SmallIcon.ToBitmap());
+                builder.SetTileSmallIcon(smallIcon);
+                var pageIcons = tile.PageImages.Select(pi => NativeBandIcon.ToBandIcon(pi.ToBitmap())).ToArray();
+                builder.SetPageIcons(pageIcons);
+                var pageLayouts = tile.PageLayouts.Select(pl => pl.ToNative()).ToArray();
+                builder.SetPageLayouts(pageLayouts);
                 if (tile.IsCustomThemeEnabled)
                 {
                     builder.SetTheme(tile.Theme.ToNative());
-                }
-                if (tile.IsBadgingEnabled)
-                {
-                    icon = NativeBandIcon.ToBandIcon(tile.SmallIcon.ToBitmap());
-                    builder.SetTileSmallIcon(icon);
                 }
                 return builder.Build();
             }
@@ -47,9 +45,18 @@ namespace Microsoft.Band.Portable
             // TODO: iOS - SmallIcon may not be optional
             Foundation.NSError error;
             var icon = NativeBandIcon.FromUIImage(tile.Icon.ToUIImage(), out error);
-            var smallIcon = tile.IsBadgingEnabled ? NativeBandIcon.FromUIImage(tile.SmallIcon.ToUIImage(), out error) : null;
+            var smallIcon = NativeBandIcon.FromUIImage(tile.SmallIcon.ToUIImage(), out error);
             var bandTile = NativeBandTile.Create(tile.Id.ToNative(), tile.Name, icon, smallIcon, out error);
-            bandTile.BadgingEnabled = tile.IsBadgingEnabled;
+            bandTile.BadgingEnabled = true;
+            foreach (var image in tile.PageImages)
+            {
+                var pageIcon = NativeBandIcon.FromUIImage(image.ToUIImage(), out error);
+                bandTile.PageIcons.Add(pageIcon);
+            }
+            foreach (var layout in tile.PageLayouts)
+            {
+                bandTile.PageLayouts.Add(layout.ToNative());
+            }
             if (tile.IsCustomThemeEnabled)
             {
                 bandTile.Theme = tile.Theme.ToNative();
@@ -59,16 +66,21 @@ namespace Microsoft.Band.Portable
             var bandTile = new NativeBandTile(tile.Id.ToNative())
             {
                 Name = tile.Name,
-                TileIcon = tile.Icon.ToWriteableBitmap().ToBandIcon()
+                TileIcon = tile.Icon.ToWriteableBitmap().ToBandIcon(),
+                SmallIcon = tile.SmallIcon.ToWriteableBitmap().ToBandIcon(),
+                IsBadgingEnabled = true
             };
+            foreach (var icon in tile.PageImages)
+            {
+                bandTile.AdditionalIcons.Add(icon.ToWriteableBitmap().ToBandIcon());
+            }
+            foreach (var layout in tile.PageLayouts)
+            {
+                bandTile.PageLayouts.Add(layout.ToNative());
+            }
             if (tile.IsCustomThemeEnabled)
             {
                 bandTile.Theme = tile.Theme.ToNative();
-            }
-            if (tile.IsBadgingEnabled)
-            {
-                bandTile.SmallIcon = tile.SmallIcon.ToWriteableBitmap().ToBandIcon();
-                bandTile.IsBadgingEnabled = true;
             }
             return bandTile;
 #endif
@@ -82,6 +94,14 @@ namespace Microsoft.Band.Portable
                 Name = tile.TileName,
                 Icon = BandImage.FromBitmap(tile.TileIcon.Icon)
             };
+            if (tile.PageIcons != null)
+            {
+                bandTile.PageImages.AddRange(tile.PageIcons.Select(pi => BandImage.FromBitmap(pi.Icon)));
+            }
+            if (tile.PageLayouts != null)
+            {
+                bandTile.PageLayouts.AddRange(tile.PageLayouts.Select(pl => new PageLayout(pl)));
+            }
             if (tile.TileSmallIcon != null)
             {
                 bandTile.SmallIcon = BandImage.FromBitmap(tile.TileSmallIcon.Icon);
@@ -97,6 +117,14 @@ namespace Microsoft.Band.Portable
                 Name = tile.Name,
                 Icon = BandImage.FromUIImage(tile.TileIcon.UIImage)
             };
+            if (tile.PageIcons != null)
+            {
+                bandTile.PageImages.AddRange(tile.PageIcons.Select(pi => BandImage.FromUIImage(pi.UIImage)));
+            }
+            if (tile.PageLayouts != null)
+            {
+                bandTile.PageLayouts.AddRange(tile.PageLayouts.Select(pl => new PageLayout(pl)));
+            }
             if (tile.SmallIcon != null)
             {
                 bandTile.SmallIcon = BandImage.FromUIImage(tile.SmallIcon.UIImage);
@@ -112,6 +140,14 @@ namespace Microsoft.Band.Portable
                 Name = tile.Name,
                 Icon = BandImage.FromWriteableBitmap(tile.TileIcon.ToWriteableBitmap())
             };
+            if (tile.AdditionalIcons != null)
+            {
+                bandTile.PageImages.AddRange(tile.AdditionalIcons.Select(pi => BandImage.FromWriteableBitmap(pi.ToWriteableBitmap())));
+            }
+            if (tile.PageLayouts != null)
+            {
+                bandTile.PageLayouts.AddRange(tile.PageLayouts.Select(pl => new PageLayout(pl)));
+            }
             if (tile.SmallIcon != null)
             {
                 bandTile.SmallIcon = BandImage.FromWriteableBitmap(tile.SmallIcon.ToWriteableBitmap());
@@ -125,24 +161,30 @@ namespace Microsoft.Band.Portable
         }
 
 #endif
+    }
 
 #if __ANDROID__
+    internal class ActivityWrappedActionExtensions
+    {
         // delegate type that is the listener/callback
-        private delegate Task AddTileDelegate(Activity activity);
+        public delegate Task WrappedActionDelegate(Activity activity);
+        public delegate Task<bool> ActionDelegate(Activity activity);
 
         // extra key for the intent
-        private const string TileIdExtra = "TILE_ID";
+        private const string ActionIdExtra = "ACTION_ID";
 
         // collection to hold the callbacks
-        private static ConcurrentDictionary<string, AddTileDelegate> listeners =
-            new ConcurrentDictionary<string, AddTileDelegate>();
+        private static ConcurrentDictionary<string, WrappedActionDelegate> listeners =
+            new ConcurrentDictionary<string, WrappedActionDelegate>();
 
-        public static Task<bool> AddTileAsync(this NativeBandTileManager tileManager, BandTile tile)
+        public static Task<bool> WrapActionAsync(ActionDelegate action)
         {
             var tcs = new TaskCompletionSource<bool>();
 
+            var actionId = Guid.NewGuid().ToString();
+
             // show the add tile dialog
-            listeners.TryAdd(tile.Id.ToString(), async activity =>
+            listeners.TryAdd(actionId, async activity =>
             {
                 try
                 {
@@ -150,7 +192,7 @@ namespace Microsoft.Band.Portable
                     if (activity != null)
                     {
                         // show the dialog and add the tile
-                        var result = await BandTileManagerExtensions.AddTileTaskAsync(tileManager, activity, tile.ToNative());
+                        var result = await action(activity);
 
                         // end the waiting
                         tcs.SetResult(result);
@@ -158,7 +200,7 @@ namespace Microsoft.Band.Portable
                     else
                     {
                         // end the waiting
-                        tcs.SetResult(false);
+                        tcs.SetException(new ArgumentNullException("activity", "Specified action requires an Activity, which became unavailable."));
                     }
                 }
                 catch (Exception ex)
@@ -170,8 +212,8 @@ namespace Microsoft.Band.Portable
 
             // start the activity
             var context = Application.Context;
-            var intent = new Intent(context, typeof(AddTileActivity));
-            intent.PutExtra(TileIdExtra, tile.Id.ToString());
+            var intent = new Intent(context, typeof(WrappedActionActivity));
+            intent.PutExtra(ActionIdExtra, actionId);
             intent.AddFlags(ActivityFlags.NewTask);
             context.StartActivity(intent);
 
@@ -181,7 +223,7 @@ namespace Microsoft.Band.Portable
 
         // the empty activity that will show the dialog
         [Activity(Theme = "@android:style/Theme.DeviceDefault.Panel")]
-        private class AddTileActivity : Activity
+        private class WrappedActionActivity : Activity
         {
             protected override async void OnCreate(Bundle savedInstanceState)
             {
@@ -204,18 +246,18 @@ namespace Microsoft.Band.Portable
 
             private async Task TriggerDelegate(Activity activity)
             {
-                // get the tile ID
-                var tileId = Intent.GetStringExtra(TileIdExtra);
+                // get the action ID
+                var actionId = Intent.GetStringExtra(ActionIdExtra);
 
                 // get and fire the delegate
-                AddTileDelegate target;
-                if (listeners.TryRemove(tileId, out target))
+                WrappedActionDelegate target;
+                if (listeners.TryRemove(actionId, out target))
                 {
                     // show the dialog and complete the operation
                     await target(activity);
                 }
             }
         }
-#endif
     }
+#endif
 }

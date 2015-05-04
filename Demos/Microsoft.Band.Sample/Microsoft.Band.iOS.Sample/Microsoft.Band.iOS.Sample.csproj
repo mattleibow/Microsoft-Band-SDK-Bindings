@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Microsoft.Band.iOS.Sample</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>Microsoft.Band.iOS.Sample</AssemblyName>
+    <AssemblyName>MicrosoftBandiOSSample</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -71,6 +71,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="Microsoft.Band.iOS">
+      <HintPath>..\packages\Xamarin.Microsoft.Band.1.3.4\lib\XamariniOS\Microsoft.Band.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -82,6 +85,7 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -93,15 +97,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Microsoft.Band\Microsoft.Band.iOS\Microsoft.Band.iOS.csproj">
-      <Project>{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}</Project>
-      <Name>Microsoft.Band.iOS</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\B.png" />
-    <BundleResource Include="Resources\Bb.png" />
-    <BundleResource Include="Resources\A.png" />
-    <BundleResource Include="Resources\Aa.png" />
+    <BundleResource Include="Resources\badge.png" />
+    <BundleResource Include="Resources\tile.png" />
   </ItemGroup>
 </Project>

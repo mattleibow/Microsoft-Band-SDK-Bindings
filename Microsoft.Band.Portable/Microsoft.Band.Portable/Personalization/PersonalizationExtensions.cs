@@ -1,18 +1,19 @@
-﻿using Microsoft.Band.Portable.Personalization;
-
-#if __ANDROID__
-using NativeBandTheme = Microsoft.Band.Tiles.BandTheme;
+﻿#if __ANDROID__
+using NativeBandTheme = Microsoft.Band.BandTheme;
 using NativeBandColor = Android.Graphics.Color;
 #elif __IOS__
 using NativeBandTheme = Microsoft.Band.Personalization.BandTheme;
 using NativeBandColor = Microsoft.Band.Personalization.BandColor;
 #elif WINDOWS_PHONE_APP
-using NativeBandTheme = Microsoft.Band.Personalization.BandTheme;
-using NativeBandColor = Microsoft.Band.Personalization.BandColor;
+using NativeBandTheme = Microsoft.Band.BandTheme;
+using NativeBandColor = Microsoft.Band.BandColor;
 #endif
 
 namespace Microsoft.Band.Portable
 {
+    using BandTheme = Microsoft.Band.Portable.Personalization.BandTheme;
+    using BandColor = Microsoft.Band.Portable.Personalization.BandColor;
+
     internal static class PersonalizationExtensions
     {
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP

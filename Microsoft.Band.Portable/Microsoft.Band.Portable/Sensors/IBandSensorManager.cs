@@ -13,6 +13,7 @@ namespace Microsoft.Band.Portable.Sensors
     public class BandSensorManager
     {
         private readonly Lazy<BandAccelerometerSensor> accelerometer;
+        private readonly Lazy<BandCaloriesSensor> calories;
         private readonly Lazy<BandContactSensor> contact;
         private readonly Lazy<BandDistanceSensor> distance;
         private readonly Lazy<BandGyroscopeSensor> gyroscope;
@@ -33,6 +34,7 @@ namespace Microsoft.Band.Portable.Sensors
             this.client = client;
 
             this.accelerometer = new Lazy<BandAccelerometerSensor>(() => new BandAccelerometerSensor(this));
+            this.calories = new Lazy<BandCaloriesSensor>(() => new BandCaloriesSensor(this));
             this.contact = new Lazy<BandContactSensor>(() => new BandContactSensor(this));
             this.distance = new Lazy<BandDistanceSensor>(() => new BandDistanceSensor(this));
             this.gyroscope = new Lazy<BandGyroscopeSensor>(() => new BandGyroscopeSensor(this));
@@ -46,6 +48,10 @@ namespace Microsoft.Band.Portable.Sensors
         public BandAccelerometerSensor Accelerometer
         {
             get { return accelerometer.Value; }
+        }
+        public BandCaloriesSensor Calories
+        {
+            get { return calories.Value; }
         }
         public BandContactSensor Contact
         {

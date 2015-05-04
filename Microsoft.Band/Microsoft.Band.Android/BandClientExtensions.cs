@@ -4,9 +4,9 @@ namespace Microsoft.Band
 {
     public static class BandClientExtensions
     {
-        public static async Task<ConnectionResult> ConnectTaskAsync(this IBandClient client)
+        public static async Task<ConnectionState> ConnectTaskAsync(this IBandClient client)
         {
-            return (ConnectionResult)await client.ConnectAsync().AsTask();
+			return (ConnectionState)await client.ConnectAsync().AsTask();
         }
 
         public static Task DisconnectTaskAsync(this IBandClient client)
