@@ -9,6 +9,9 @@ using NativeBandDeviceInfo = Microsoft.Band.IBandInfo;
 
 namespace Microsoft.Band.Portable
 {
+    /// <summary>
+    /// Represents a paired device.
+    /// </summary>
     public class BandDeviceInfo
     {
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
@@ -20,6 +23,12 @@ namespace Microsoft.Band.Portable
         }
 #endif
 
+        /// <summary>
+        /// Gets the name of the Band device this instance represents.
+        /// </summary>
+        /// <value>
+        /// The name of the Band device.
+        /// </value>
         public string Name
         {
             get

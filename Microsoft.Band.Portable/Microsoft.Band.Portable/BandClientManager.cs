@@ -14,6 +14,9 @@ using NativeBandClientManager = Microsoft.Band.BandClientManager;
 
 namespace Microsoft.Band.Portable
 {
+    /// <summary>
+    /// Provides access to paired Band devices and the ability to connect to them.
+    /// </summary>
     public class BandClientManager
     {
         private static Lazy<BandClientManager> instance;
@@ -23,11 +26,21 @@ namespace Microsoft.Band.Portable
             instance = new Lazy<BandClientManager>(() => new BandClientManager());
         }
 
+        /// <summary>
+        /// Gets the value representing the current instance of the client manager.
+        /// </summary>
+        /// <value>
+        /// The current instance of the client manager.
+        /// </value>
         public static BandClientManager Instance
         {
             get { return instance.Value; }
         }
 
+        /// <summary>
+        /// Returns a collection of the Band devices that are paired with the current device.
+        /// </summary>
+        /// <returns>A collection of the paired Bands.</returns>
         public async Task<IEnumerable<BandDeviceInfo>> GetPairedBandsAsync()
         {
 #if __ANDROID__
@@ -41,6 +54,12 @@ namespace Microsoft.Band.Portable
 #endif
         }
 
+        /// <summary>
+        /// Connects to the Band device specified by the device information, 
+        /// and returns a client that is used for communication.
+        /// </summary>
+        /// <param name="info">The Band device information to connect to.</param>
+        /// <returns>The client instance that is used to communicate with the connected Band device.</returns>
         public async Task<BandClient> ConnectAsync(BandDeviceInfo info)
         {
 #if __ANDROID__

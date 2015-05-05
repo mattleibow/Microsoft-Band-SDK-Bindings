@@ -8,6 +8,9 @@ using NativeBandNotificationManager = Microsoft.Band.Notifications.IBandNotifica
 
 namespace Microsoft.Band.Portable.Notifications
 {
+    /// <summary>
+    /// Represents the notification manager for a connected Band device.
+    /// </summary>
     public class BandNotificationManager
     {
         private readonly BandClient client;
@@ -23,16 +26,42 @@ namespace Microsoft.Band.Portable.Notifications
         }
 #endif
 
+        /// <summary>
+        /// Sends a message to a specific tile to the connected Band device with the provided tile ID, title,
+        /// body and timestamp.
+        /// </summary>
+        /// <param name="tileId">The tile identifier.</param>
+        /// <param name="title">The message title.</param>
+        /// <param name="body">The message body.</param>
+        /// <param name="timestamp">The message timestamp.</param>
         public async Task SendMessageAsync(Guid tileId, string title, string body, DateTime timestamp)
         {
             await SendMessageAsync(tileId, title, body, timestamp, false);
         }
 
+        /// <summary>
+        /// Sends a message to a specific tile to the connected Band device with the provided tile ID, title, body, 
+        /// timestamp and, optionally, with a dialog.
+        /// </summary>
+        /// <param name="tileId">The tile identifier.</param>
+        /// <param name="title">The message title.</param>
+        /// <param name="body">The message body.</param>
+        /// <param name="timestamp">The message timestamp.</param>
+        /// <param name="showDialog">Display a dialog if set to <c>true</c>; otherwise, don't.</param>
         public async Task SendMessageAsync(Guid tileId, string title, string body, DateTime timestamp, bool showDialog)
         {
             await SendMessageAsync(tileId, title, body, timestamp, showDialog ? MessageFlags.ShowDialog : MessageFlags.None);
         }
 
+        /// <summary>
+        /// Sends a message to a specific tile to the connected Band device with the provided tile ID, title, body, 
+        /// timestamp and with message flags to control how the message is provided.
+        /// </summary>
+        /// <param name="tileId">The tile identifier.</param>
+        /// <param name="title">The message title.</param>
+        /// <param name="body">The message body.</param>
+        /// <param name="timestamp">The message timestamp.</param>
+        /// <param name="messageFlags">The message flags to control how the message is provided to the Band device.</param>
         public async Task SendMessageAsync(Guid tileId, string title, string body, DateTime timestamp, MessageFlags messageFlags)
         {
 #if __ANDROID__ || __IOS__
@@ -42,6 +71,12 @@ namespace Microsoft.Band.Portable.Notifications
 #endif
         }
 
+        /// <summary>
+        /// Shows a dialog on the connected Band device.
+        /// </summary>
+        /// <param name="tileId">The tile identifier.</param>
+        /// <param name="title">The message title.</param>
+        /// <param name="body">The message body.</param>
         public async Task ShowDialogAsync(Guid tileId, string title, string body)
         {
 #if __ANDROID__ || __IOS__
@@ -51,6 +86,10 @@ namespace Microsoft.Band.Portable.Notifications
 #endif
         }
 
+        /// <summary>
+        /// Vibrates the connected Band device using the specified vibration type.
+        /// </summary>
+        /// <param name="vibrationType">Type of vibration to use.</param>
         public async Task VibrateAsync(VibrationType vibrationType)
         {
 #if __ANDROID__ || __IOS__

@@ -25,6 +25,9 @@ using NativeBandClientManager = Microsoft.Band.BandClientManager;
 
 namespace Microsoft.Band.Portable
 {
+    /// <summary>
+    /// Represents a connected Band device.
+    /// </summary>
     public class BandClient
     {
         private readonly Lazy<BandSensorManager> sensors;
@@ -46,6 +49,12 @@ namespace Microsoft.Band.Portable
         }
 #endif
 
+        /// <summary>
+        /// Gets the value representing the current instance of the sensor manager.
+        /// </summary>
+        /// <value>
+        /// The current instance of the sensor manager.
+        /// </value>
         public BandSensorManager SensorManager
         {
             get
@@ -56,6 +65,12 @@ namespace Microsoft.Band.Portable
             }
         }
 
+        /// <summary>
+        /// Gets the value representing the current instance of the notification manager.
+        /// </summary>
+        /// <value>
+        /// The current instance of the notification manager.
+        /// </value>
         public BandNotificationManager NotificationManager
         {
             get
@@ -66,6 +81,12 @@ namespace Microsoft.Band.Portable
             }
         }
 
+        /// <summary>
+        /// Gets the value representing the current instance of the tile manager.
+        /// </summary>
+        /// <value>
+        /// The current instance of the tile manager.
+        /// </value>
         public BandTileManager TileManager
         {
             get
@@ -76,6 +97,12 @@ namespace Microsoft.Band.Portable
             }
         }
 
+        /// <summary>
+        /// Gets the value representing the current instance of the personalization manager.
+        /// </summary>
+        /// <value>
+        /// The current instance of the personalization manager.
+        /// </value>
         public BandPersonalizationManager PersonalizationManager
         {
             get
@@ -86,6 +113,12 @@ namespace Microsoft.Band.Portable
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is connected to a Band device.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is connected to a Band device; otherwise, <c>false</c>.
+        /// </value>
         public bool IsConnected
         {
             get
@@ -102,6 +135,10 @@ namespace Microsoft.Band.Portable
             }
         }
 
+        /// <summary>
+        /// Returns the firmware version of the Band.
+        /// </summary>
+        /// <returns>A string representing the firmware version of the Band.</returns>
         public async Task<string> GetFirmwareVersionAsync()
         {
             CheckDisposed();
@@ -117,6 +154,10 @@ namespace Microsoft.Band.Portable
 #endif
         }
 
+        /// <summary>
+        /// Returns the hardware version of the Band.
+        /// </summary>
+        /// <returns>A string representing the hardware version of the Band.</returns>
         public async Task<string> GetHardwareVersionAsync()
         {
             CheckDisposed();
@@ -132,6 +173,9 @@ namespace Microsoft.Band.Portable
 #endif
         }
 
+        /// <summary>
+        /// Disconnects from the current Band device.
+        /// </summary>
         public async Task DisconnectAsync()
         {
             CheckDisposed();
