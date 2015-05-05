@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E207466A-B533-4808-94A2-6B3D91BC32CA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Band.Portable</RootNamespace>
+    <AssemblyName>Microsoft.Band.Portable</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_APP;WINDOWS_PHONE_APP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_APP;WINDOWS_PHONE_APP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Microsoft.Band.Portable.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Microsoft.Band.Portable\BandClientManager.cs">
+      <Link>BandClientManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\BandException.cs">
+      <Link>BandException.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\BandExtensions.cs">
+      <Link>BandExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\IBandClient.cs">
+      <Link>IBandClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\IBandDeviceInfo.cs">
+      <Link>IBandDeviceInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\notifications\BandNotificationManager.cs">
+      <Link>Notifications\BandNotificationManager.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\notifications\MessageFlags.cs">
+      <Link>Notifications\MessageFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\notifications\NotificationExtensions.cs">
+      <Link>Notifications\NotificationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\notifications\VibrationType.cs">
+      <Link>Notifications\VibrationType.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\personalization\BandColor.cs">
+      <Link>Personalization\BandColor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\personalization\BandImage.cs">
+      <Link>Personalization\BandImage.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\personalization\BandPersonalizationManager.cs">
+      <Link>Personalization\BandPersonalizationManager.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\personalization\BandTheme.cs">
+      <Link>Personalization\BandTheme.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\personalization\PersonalizationExtensions.cs">
+      <Link>Personalization\PersonalizationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandAccelerometerReading.cs">
+      <Link>Sensors\BandAccelerometerReading.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandAccelerometerSensor.cs">
+      <Link>Sensors\BandAccelerometerSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandCaloriesReading.cs">
+      <Link>Sensors\BandCaloriesReading.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandCaloriesSensor.cs">
+      <Link>Sensors\BandCaloriesSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandContactReading.cs">
+      <Link>Sensors\BandContactReading.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandContactSensor.cs">
+      <Link>Sensors\BandContactSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandContactState.cs">
+      <Link>Sensors\BandContactState.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandDistanceReading.cs">
+      <Link>Sensors\BandDistanceReading.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandDistanceSensor.cs">
+      <Link>Sensors\BandDistanceSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandGyroscopeReading.cs">
+      <Link>Sensors\BandGyroscopeReading.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandGyroscopeSensor.cs">
+      <Link>Sensors\BandGyroscopeSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandHeartRateQuality.cs">
+      <Link>Sensors\BandHeartRateQuality.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandHeartRateReading.cs">
+      <Link>Sensors\BandHeartRateReading.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandHeartRateSensor.cs">
+      <Link>Sensors\BandHeartRateSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandMotionType.cs">
+      <Link>Sensors\BandMotionType.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandPedometerReading.cs">
+      <Link>Sensors\BandPedometerReading.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandPedometerSensor.cs">
+      <Link>Sensors\BandPedometerSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandSensorBase.cs">
+      <Link>Sensors\BandSensorBase.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandSensorReadingEventArgs.cs">
+      <Link>Sensors\BandSensorReadingEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandSensorSampleRate.cs">
+      <Link>Sensors\BandSensorSampleRate.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandSkinTemperatureReading.cs">
+      <Link>Sensors\BandSkinTemperatureReading.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandSkinTemperatureSensor.cs">
+      <Link>Sensors\BandSkinTemperatureSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandUltravioletLightLevel.cs">
+      <Link>Sensors\BandUltravioletLightLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandUltravioletLightReading.cs">
+      <Link>Sensors\BandUltravioletLightReading.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\BandUltravioletLightSensor.cs">
+      <Link>Sensors\BandUltravioletLightSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\IBandSensor.cs">
+      <Link>Sensors\IBandSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\IBandSensorManager.cs">
+      <Link>Sensors\IBandSensorManager.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\IBandSensorReading.cs">
+      <Link>Sensors\IBandSensorReading.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\IUserConsentingBandSensor.cs">
+      <Link>Sensors\IUserConsentingBandSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\sensors\SensorExtensions.cs">
+      <Link>Sensors\SensorExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\BandTile.cs">
+      <Link>Tiles\BandTile.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\BandTileButtonPressedEventArgs.cs">
+      <Link>Tiles\BandTileButtonPressedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\BandTileClosedEventArgs.cs">
+      <Link>Tiles\BandTileClosedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\BandTileEventArgs.cs">
+      <Link>Tiles\BandTileEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\BandTileManager.cs">
+      <Link>Tiles\BandTileManager.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\BandTileOpenedEventArgs.cs">
+      <Link>Tiles\BandTileOpenedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\Barcode.cs">
+      <Link>Tiles\Pages\Barcode.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\BarcodeType.cs">
+      <Link>Tiles\Pages\BarcodeType.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\ButtonBase.cs">
+      <Link>Tiles\Pages\ButtonBase.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\data\BarcodeData.cs">
+      <Link>Tiles\Pages\Data\BarcodeData.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\data\ButtonBaseData.cs">
+      <Link>Tiles\Pages\Data\ButtonBaseData.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\data\ElementData.cs">
+      <Link>Tiles\Pages\Data\ElementData.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\data\FilledButtonData.cs">
+      <Link>Tiles\Pages\Data\FilledButtonData.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\data\ImageData.cs">
+      <Link>Tiles\Pages\Data\ImageData.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\data\PageData.cs">
+      <Link>Tiles\Pages\Data\PageData.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\data\TextBlockBaseData.cs">
+      <Link>Tiles\Pages\Data\TextBlockBaseData.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\data\TextBlockData.cs">
+      <Link>Tiles\Pages\Data\TextBlockData.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\data\TextButtonData.cs">
+      <Link>Tiles\Pages\Data\TextButtonData.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\data\WrappedTextBlockData.cs">
+      <Link>Tiles\Pages\Data\WrappedTextBlockData.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\Element.cs">
+      <Link>Tiles\Pages\Element.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\ElementColorSource.cs">
+      <Link>Tiles\Pages\ElementColorSource.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\FilledButton.cs">
+      <Link>Tiles\Pages\FilledButton.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\FilledPanel.cs">
+      <Link>Tiles\Pages\FilledPanel.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\FlowPanel.cs">
+      <Link>Tiles\Pages\FlowPanel.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\HorizontalAlignment.cs">
+      <Link>Tiles\Pages\HorizontalAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\Image.cs">
+      <Link>Tiles\Pages\Image.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\Margin.cs">
+      <Link>Tiles\Pages\Margin.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\Orientation.cs">
+      <Link>Tiles\Pages\Orientation.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\PageExtensions.cs">
+      <Link>Tiles\Pages\PageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\PageLayout.cs">
+      <Link>Tiles\Pages\PageLayout.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\Panel.cs">
+      <Link>Tiles\Pages\Panel.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\Point.cs">
+      <Link>Tiles\Pages\Point.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\Rectangle.cs">
+      <Link>Tiles\Pages\Rectangle.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\ScrollFlowPanel.cs">
+      <Link>Tiles\Pages\ScrollFlowPanel.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\Size.cs">
+      <Link>Tiles\Pages\Size.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\TextBlock.cs">
+      <Link>Tiles\Pages\TextBlock.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\TextBlockBase.cs">
+      <Link>Tiles\Pages\TextBlockBase.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\TextBlockBaselineAlignment.cs">
+      <Link>Tiles\Pages\TextBlockBaselineAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\TextBlockFont.cs">
+      <Link>Tiles\Pages\TextBlockFont.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\TextButton.cs">
+      <Link>Tiles\Pages\TextButton.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\VerticalAlignment.cs">
+      <Link>Tiles\Pages\VerticalAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\WrappedTextBlock.cs">
+      <Link>Tiles\Pages\WrappedTextBlock.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\pages\WrappedTextBlockFont.cs">
+      <Link>Tiles\Pages\WrappedTextBlockFont.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\TileActionType.cs">
+      <Link>Tiles\TileActionType.cs</Link>
+    </Compile>
+    <Compile Include="..\microsoft.band.portable\tiles\TileExtensions.cs">
+      <Link>Tiles\TileExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\UserConsent.cs">
+      <Link>UserConsent.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Band, Version=1.3.10417.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Band.1.3.10417\lib\netcore451\Microsoft.Band.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Band.Store, Version=1.3.10417.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Band.1.3.10417\lib\netcore451\Microsoft.Band.Store.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Band.Windows, Version=1.3.10417.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Band.1.3.10417\lib\netcore451\Microsoft.Band.Windows.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
+    <VisualStudioVersion>12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

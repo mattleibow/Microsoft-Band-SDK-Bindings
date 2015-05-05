@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.Android", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.iOS", "Microsoft.Band\Microsoft.Band.iOS\Microsoft.Band.iOS.csproj", "{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.Portable.Windows", "Microsoft.Band.Portable\Microsoft.Band.Portable.Windows\Microsoft.Band.Portable.Windows.csproj", "{E207466A-B533-4808-94A2-6B3D91BC32CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E207466A-B533-4808-94A2-6B3D91BC32CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E207466A-B533-4808-94A2-6B3D91BC32CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E207466A-B533-4808-94A2-6B3D91BC32CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E207466A-B533-4808-94A2-6B3D91BC32CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
