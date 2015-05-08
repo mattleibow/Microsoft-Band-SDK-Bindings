@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>Xamarin.Microsoft.Band</id>
-        <version>1.3.4.1-preview</version>
+        <version>1.3.4.1-preview2</version>
         <title>Microsoft Band SDK for Xamarin and Windows (Preview)</title>
         <authors>Xamarin Inc.</authors>
         <licenseUrl>https://raw.githubusercontent.com/mattleibow/Microsoft-Band-SDK-Bindings/master/LICENSE</licenseUrl>
