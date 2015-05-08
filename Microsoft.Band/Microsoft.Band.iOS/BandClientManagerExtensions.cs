@@ -9,11 +9,16 @@ namespace Microsoft.Band
 		{
 			var tcs = new TaskCompletionSource<object> ();
 
-			// setup the completed event
 			EventHandler<ClientManagerConnectedEventArgs> onConnected = null;
+			EventHandler<ClientManagerDisconnectedEventArgs> onDisconnect = null;
+			EventHandler<ClientManagerFailedToConnectEventArgs> onFailed = null;
+
+			// setup the completed event
 			onConnected = (sender, args) => {
 				if (args.Client == client) {
 					manager.Connected -= onConnected;
+					manager.Disconnected -= onDisconnect;
+					manager.ConnectionFailed -= onFailed;
 
 					// we are finished
 					tcs.SetResult (null);
@@ -22,10 +27,11 @@ namespace Microsoft.Band
 			manager.Connected += onConnected;
 
 			// setup the canceled event
-			EventHandler<ClientManagerDisconnectedEventArgs> onDisconnect = null;
 			onDisconnect = (sender, args) => {
 				if (args.Client == client) {
+					manager.Connected -= onConnected;
 					manager.Disconnected -= onDisconnect;
+					manager.ConnectionFailed -= onFailed;
 
 					// we were canceled
 					tcs.SetCanceled();
@@ -34,9 +40,10 @@ namespace Microsoft.Band
 			manager.Disconnected += onDisconnect;
 
 			// setup the failed event
-			EventHandler<ClientManagerFailedToConnectEventArgs> onFailed = null;
 			onFailed = (sender, args) => {
 				if (args.Client == client) {
+					manager.Connected -= onConnected;
+					manager.Disconnected -= onDisconnect;
 					manager.ConnectionFailed -= onFailed;
 
 					// we failed
@@ -55,11 +62,14 @@ namespace Microsoft.Band
 		{
 			var tcs = new TaskCompletionSource<object> ();
 
-			// setup the disconnected event
 			EventHandler<ClientManagerDisconnectedEventArgs> onDisconnect = null;
+			EventHandler<ClientManagerFailedToConnectEventArgs> onFailed = null;
+
+			// setup the disconnected event
 			onDisconnect = (sender, args) => {
 				if (args.Client == client) {
 					manager.Disconnected -= onDisconnect;
+					manager.ConnectionFailed -= onFailed;
 
 					// we were disconnected (success)
 					tcs.SetResult(null);
@@ -67,8 +77,20 @@ namespace Microsoft.Band
 			};
 			manager.Disconnected += onDisconnect;
 
+			// setup the failed event
+			onFailed = (sender, args) => {
+				if (args.Client == client) {
+					manager.Disconnected -= onDisconnect;
+					manager.ConnectionFailed -= onFailed;
+
+					// we failed
+					tcs.SetException (new BandException(args.Error));
+				}
+			};
+			manager.ConnectionFailed += onFailed;
+
 			// run async
-			manager.ConnectAsync (client);
+			manager.DisconnectAsync (client);
 
 			return tcs.Task;
 		}
