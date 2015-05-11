@@ -7,9 +7,11 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 {
     public class Barcode : Element
     {
+        private static readonly BarcodeType DefaultBarcodeType = BarcodeType.Code39;
+
         public Barcode()
         {
-            BarcodeType = BarcodeType.Code39;
+            BarcodeType = DefaultBarcodeType;
         }
 
         public Barcode(BarcodeType barcodeType)

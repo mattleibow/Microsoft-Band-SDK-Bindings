@@ -7,9 +7,16 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 {
     public class FlowPanel : Panel
     {
+        private static readonly FlowPanelOrientation DefaultOrientation = FlowPanelOrientation.Vertical;
+
         public FlowPanel()
         {
-            Orientation = FlowPanelOrientation.Vertical;
+            Orientation = DefaultOrientation;
+        }
+
+        public FlowPanel(FlowPanelOrientation orientation)
+        {
+            Orientation = orientation;
         }
 
         public FlowPanelOrientation Orientation { get; set; }

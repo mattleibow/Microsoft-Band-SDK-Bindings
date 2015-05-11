@@ -9,10 +9,25 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 
     public class ScrollFlowPanel : FlowPanel
     {
+        private static readonly BandColor DefaultScrollBarColor = BandColor.Empty;
+        private static readonly ElementColorSource DefaultScrollBarColorSource = ElementColorSource.Custom;
+
         public ScrollFlowPanel()
         {
-            ScrollBarColor = BandColor.Empty;
-            ScrollBarColorSource = ElementColorSource.Custom;
+            ScrollBarColor = DefaultScrollBarColor;
+            ScrollBarColorSource = DefaultScrollBarColorSource;
+        }
+
+        public ScrollFlowPanel(BandColor scrollBarColor)
+        {
+            ScrollBarColor = scrollBarColor;
+            ScrollBarColorSource = DefaultScrollBarColorSource;
+        }
+
+        public ScrollFlowPanel(ElementColorSource scrollBarColorSource)
+        {
+            ScrollBarColor = DefaultScrollBarColor;
+            ScrollBarColorSource = scrollBarColorSource;
         }
 
         public BandColor ScrollBarColor { get; set; }

@@ -9,6 +9,12 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public PageLayout()
         {
+            Root = null;
+        }
+
+        public PageLayout(Panel root)
+        {
+            Root = root;
         }
 
         public Panel Root { get; set; }

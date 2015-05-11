@@ -4,6 +4,15 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public readonly static PageRect Empty = new PageRect();
 
+        public PageRect(PagePoint location, PageSize size)
+            : this()
+        {
+            X = location.X;
+            Y = location.Y;
+            Width = size.Width;
+            Height = size.Height;
+        }
+
         public PageRect(short x, short y, short width, short height)
             : this()
         {

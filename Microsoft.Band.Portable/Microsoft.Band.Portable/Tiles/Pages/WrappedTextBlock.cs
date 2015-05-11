@@ -9,12 +9,33 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 
     public class WrappedTextBlock : TextBlockBase
     {
+        private static readonly bool DefaultAutoHeight = true;
+        private static readonly BandColor DefaultColor = BandColor.Empty;
+        private static readonly ElementColorSource DefaultColorSource = ElementColorSource.Custom;
+        private static readonly WrappedTextBlockFont DefaultFont = WrappedTextBlockFont.Small;
+
         public WrappedTextBlock()
         {
-            AutoHeight = true;
-            Color = BandColor.Empty;
-            ColorSource = ElementColorSource.Custom;
-            Font = WrappedTextBlockFont.Small;
+            AutoHeight = DefaultAutoHeight;
+            Color = DefaultColor;
+            ColorSource = DefaultColorSource;
+            Font = DefaultFont;
+        }
+        
+        public WrappedTextBlock(BandColor color)
+        {
+            AutoHeight = DefaultAutoHeight;
+            Color = color;
+            ColorSource = DefaultColorSource;
+            Font = DefaultFont;
+        }
+
+        public WrappedTextBlock(ElementColorSource colorSource)
+        {
+            AutoHeight = DefaultAutoHeight;
+            Color = DefaultColor;
+            ColorSource = colorSource;
+            Font = DefaultFont;
         }
 
         public bool AutoHeight { get; set; }

@@ -9,9 +9,16 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 
     public class TextButton : ButtonBase
     {
+        private static readonly BandColor DefaultPressedColor = BandColor.Empty;
+
         public TextButton()
         {
-            PressedColor = BandColor.Empty;
+            PressedColor = DefaultPressedColor;
+        }
+
+        public TextButton(BandColor pressedColor)
+        {
+            PressedColor = pressedColor;
         }
 
         public BandColor PressedColor { get; set; }

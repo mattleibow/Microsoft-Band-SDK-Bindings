@@ -9,9 +9,16 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 
     public class FilledButton : ButtonBase
     {
+        private static readonly BandColor DefaultBackgroundColor = BandColor.Empty;
+
         public FilledButton()
         {
-            BackgroundColor = BandColor.Empty;
+            BackgroundColor = DefaultBackgroundColor;
+        }
+
+        public FilledButton(BandColor backgroundColor)
+        {
+            BackgroundColor = backgroundColor;
         }
 
         public BandColor BackgroundColor { get; set; }

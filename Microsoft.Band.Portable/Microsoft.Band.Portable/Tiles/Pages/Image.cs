@@ -9,10 +9,25 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 
     public class Icon : Element
     {
+        private static readonly BandColor DefaultColor = BandColor.Empty;
+        private static readonly ElementColorSource DefaultColorSource = ElementColorSource.Custom;
+
         public Icon()
         {
-            Color = BandColor.Empty;
-            ColorSource = ElementColorSource.Custom;
+            Color = DefaultColor;
+            ColorSource = DefaultColorSource;
+        }
+
+        public Icon(BandColor color)
+        {
+            Color = color;
+            ColorSource = DefaultColorSource;
+        }
+
+        public Icon(ElementColorSource colorSource)
+        {
+            Color = DefaultColor;
+            ColorSource = colorSource;
         }
 
         public BandColor Color { get; set; }

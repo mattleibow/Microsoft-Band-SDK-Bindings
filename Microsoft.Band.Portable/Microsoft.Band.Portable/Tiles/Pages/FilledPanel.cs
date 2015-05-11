@@ -9,10 +9,25 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 
     public class FilledPanel : Panel
     {
+        private static readonly BandColor DefaultBackgroundColor = BandColor.Empty;
+        private static readonly ElementColorSource DefaultBackgroundColorSource = ElementColorSource.Custom;
+
         public FilledPanel()
         {
-            BackgroundColor = BandColor.Empty;
-            BackgroundColorSource = ElementColorSource.Custom;
+            BackgroundColor = DefaultBackgroundColor;
+            BackgroundColorSource = DefaultBackgroundColorSource;
+        }
+
+        public FilledPanel(BandColor backgroundColor)
+        {
+            BackgroundColor = backgroundColor;
+            BackgroundColorSource = DefaultBackgroundColorSource;
+        }
+
+        public FilledPanel(ElementColorSource backgroundColorSource)
+        {
+            BackgroundColor = DefaultBackgroundColor;
+            BackgroundColorSource = backgroundColorSource;
         }
 
         public BandColor BackgroundColor { get; set; }

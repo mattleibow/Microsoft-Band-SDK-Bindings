@@ -9,14 +9,41 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 
     public class TextBlock : TextBlockBase
     {
+        private static readonly bool DefaultAutoWidth = true;
+        private static readonly short DefaultBaseline = 0;
+        private static readonly TextBlockBaselineAlignment DefaultBaselineAlignment = TextBlockBaselineAlignment.Automatic;
+        private static readonly BandColor DefaultColor = BandColor.Empty;
+        private static readonly ElementColorSource DefaultColorSource = ElementColorSource.Custom;
+        private static readonly TextBlockFont DefaultFont = TextBlockFont.Small;
+
         public TextBlock()
         {
-            AutoWidth = true;
-            Baseline = 0;
-            BaselineAlignment = TextBlockBaselineAlignment.Automatic;
-            Color = BandColor.Empty;
-            ColorSource = ElementColorSource.Custom;
-            Font = TextBlockFont.Small;
+            AutoWidth = DefaultAutoWidth;
+            Baseline = DefaultBaseline;
+            BaselineAlignment = DefaultBaselineAlignment;
+            Color = DefaultColor;
+            ColorSource = DefaultColorSource;
+            Font = DefaultFont;
+        }
+        
+        public TextBlock(BandColor color)
+        {
+            AutoWidth = DefaultAutoWidth;
+            Baseline = DefaultBaseline;
+            BaselineAlignment = DefaultBaselineAlignment;
+            Color = color;
+            ColorSource = DefaultColorSource;
+            Font = DefaultFont;
+        }
+
+        public TextBlock(ElementColorSource colorSource)
+        {
+            AutoWidth = DefaultAutoWidth;
+            Baseline = DefaultBaseline;
+            BaselineAlignment = DefaultBaselineAlignment;
+            Color = DefaultColor;
+            ColorSource = colorSource;
+            Font = DefaultFont;
         }
 
         public bool AutoWidth { get; set; }
