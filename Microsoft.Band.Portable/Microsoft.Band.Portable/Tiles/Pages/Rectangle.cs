@@ -1,10 +1,10 @@
 namespace Microsoft.Band.Portable.Tiles.Pages
 {
-    public struct Rectangle
+    public struct PageRect
     {
-        public readonly static Rectangle Empty = new Rectangle();
+        public readonly static PageRect Empty = new PageRect();
 
-        public Rectangle(short x, short y, short width, short height)
+        public PageRect(short x, short y, short width, short height)
             : this()
         {
             X = x;
@@ -18,18 +18,18 @@ namespace Microsoft.Band.Portable.Tiles.Pages
         public short Width { get; set; }
         public short Height { get; set; }
 
-        public Point Location
+        public PagePoint Location
         {
-            get { return new Point(X, Y); }
+            get { return new PagePoint(X, Y); }
             set
             {
                 X = value.X;
                 Y = value.Y;
             }
         }
-        public Size Size
+        public PageSize Size
         {
-            get { return new Size(Width, Height); }
+            get { return new PageSize(Width, Height); }
             set
             {
                 Width = value.Width;
@@ -44,11 +44,11 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Rectangle))
+            if (!(obj is PageRect))
             {
                 return false;
             }
-            Rectangle Rectangle = (Rectangle)obj;
+            PageRect Rectangle = (PageRect)obj;
             return Rectangle == this;
         }
 
@@ -62,12 +62,12 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             return string.Format("[X={0}, Y={1}, Width={2}, Height={3}]", X, Y, Width, Height);
         }
 
-        public static bool operator ==(Rectangle left, Rectangle right)
+        public static bool operator ==(PageRect left, PageRect right)
         {
             return left.X == right.X && left.Y == right.Y && left.Width == right.Width && left.Height == right.Height;
         }
 
-        public static bool operator !=(Rectangle left, Rectangle right)
+        public static bool operator !=(PageRect left, PageRect right)
         {
             return !(left == right);
         }

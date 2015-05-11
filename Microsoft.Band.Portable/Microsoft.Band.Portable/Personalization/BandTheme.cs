@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Band.Portable.Personalization
+﻿namespace Microsoft.Band.Portable
 {
     public struct BandTheme
     {

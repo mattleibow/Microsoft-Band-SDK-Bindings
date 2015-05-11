@@ -5,7 +5,7 @@ using NativeElementData = Microsoft.Band.Tiles.Pages.PageElementData;
 
 namespace Microsoft.Band.Portable.Tiles.Pages.Data
 {
-    using BandColor = Microsoft.Band.Portable.Personalization.BandColor;
+    using BandColor = Microsoft.Band.Portable.BandColor;
 
     public class FilledButtonData : ButtonBaseData
     {

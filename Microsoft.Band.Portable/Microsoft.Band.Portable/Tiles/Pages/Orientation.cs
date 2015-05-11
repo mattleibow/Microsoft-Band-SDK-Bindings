@@ -1,6 +1,6 @@
 namespace Microsoft.Band.Portable.Tiles.Pages
 {
-    public enum Orientation
+    public enum FlowPanelOrientation
     {
         Horizontal,
         Vertical

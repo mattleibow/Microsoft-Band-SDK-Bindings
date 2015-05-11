@@ -5,11 +5,11 @@ using NativeImage = Microsoft.Band.Tiles.Pages.Icon;
 
 namespace Microsoft.Band.Portable.Tiles.Pages
 {
-    using BandColor = Microsoft.Band.Portable.Personalization.BandColor;
+    using BandColor = Microsoft.Band.Portable.BandColor;
 
-    public class Image : Element
+    public class Icon : Element
     {
-        public Image()
+        public Icon()
         {
             Color = BandColor.Empty;
             ColorSource = ElementColorSource.Custom;
@@ -19,7 +19,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
         public ElementColorSource ColorSource { get; set; }
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
-        internal Image(NativeImage native)
+        internal Icon(NativeImage native)
             : base(native)
         {
             Color = native.Color.FromNative();
@@ -32,7 +32,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             if (native == null)
             {
 #if __ANDROID__ || __IOS__
-                native = new NativeImage(Rectangle.ToNative());
+                native = new NativeImage(Rect.ToNative());
 #elif WINDOWS_PHONE_APP
                 native = new NativeImage();
 #endif

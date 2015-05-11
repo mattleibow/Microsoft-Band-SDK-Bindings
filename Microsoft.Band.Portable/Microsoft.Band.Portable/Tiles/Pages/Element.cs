@@ -8,7 +8,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 {
     public abstract class Element
     {
-        private Rectangle rectangle;
+        private PageRect rectangle;
 
         public Element()
         {
@@ -17,7 +17,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             VerticalAlignment = VerticalAlignment.Top;
             Visible = true;
             Margins = Margins.Empty;
-            Rectangle = Rectangle.Empty;
+            Rect = PageRect.Empty;
         }
 
         public short ElementId { get; set; }
@@ -25,18 +25,18 @@ namespace Microsoft.Band.Portable.Tiles.Pages
         public VerticalAlignment VerticalAlignment { get; set; }
         public bool Visible { get; set; }
         public Margins Margins { get; set; }
-        public Rectangle Rectangle
+        public PageRect Rect
         {
             get { return rectangle; }
             set { rectangle = value; }
         }
 
-        public Point Location
+        public PagePoint Location
         {
             get { return rectangle.Location; }
             set { rectangle.Location = value; }
         }
-        public Size Size
+        public PageSize Size
         {
             get { return rectangle.Size; }
             set { rectangle.Size = value; }
@@ -46,7 +46,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
         internal Element(NativeElement native)
         {
             ElementId = (short)native.ElementId;
-            Rectangle = native.Rect.FromNative();
+            Rect = native.Rect.FromNative();
             HorizontalAlignment = native.HorizontalAlignment.FromNative();
             Margins = native.Margins.FromNative();
             VerticalAlignment = native.VerticalAlignment.FromNative();
@@ -68,9 +68,9 @@ namespace Microsoft.Band.Portable.Tiles.Pages
                 native.ElementId = ElementId;
 #endif
             }
-            if (Rectangle != Rectangle.Empty)
+            if (Rect != PageRect.Empty)
             {
-                native.Rect = Rectangle.ToNative();
+                native.Rect = Rect.ToNative();
             }
             native.HorizontalAlignment = HorizontalAlignment.ToNative();
             if (Margins != Margins.Empty)

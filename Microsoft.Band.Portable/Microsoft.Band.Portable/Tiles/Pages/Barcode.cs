@@ -12,6 +12,11 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             BarcodeType = BarcodeType.Code39;
         }
 
+        public Barcode(BarcodeType barcodeType)
+        {
+            BarcodeType = barcodeType;
+        }
+
         public BarcodeType BarcodeType { get; set; }
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
@@ -27,7 +32,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             if (native == null)
             {
 #if __ANDROID__ || __IOS__
-                native = new NativeBarcode(Rectangle.ToNative(), BarcodeType.ToNative());
+                native = new NativeBarcode(Rect.ToNative(), BarcodeType.ToNative());
 #elif WINDOWS_PHONE_APP
                 native = new NativeBarcode(BarcodeType.ToNative());
 #endif

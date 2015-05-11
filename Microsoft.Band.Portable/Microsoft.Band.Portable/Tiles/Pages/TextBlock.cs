@@ -5,7 +5,7 @@ using NativeTextBlock = Microsoft.Band.Tiles.Pages.TextBlock;
 
 namespace Microsoft.Band.Portable.Tiles.Pages
 {
-    using BandColor = Microsoft.Band.Portable.Personalization.BandColor;
+    using BandColor = Microsoft.Band.Portable.BandColor;
 
     public class TextBlock : TextBlockBase
     {
@@ -14,16 +14,16 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             AutoWidth = true;
             Baseline = 0;
             BaselineAlignment = TextBlockBaselineAlignment.Automatic;
-            TextColor = BandColor.Empty;
-            TextColorSource = ElementColorSource.Custom;
+            Color = BandColor.Empty;
+            ColorSource = ElementColorSource.Custom;
             Font = TextBlockFont.Small;
         }
 
         public bool AutoWidth { get; set; }
         public short Baseline { get; set; }
         public TextBlockBaselineAlignment BaselineAlignment { get; set; }
-        public override BandColor TextColor { get; set; }
-        public override ElementColorSource TextColorSource { get; set; }
+        public override BandColor Color { get; set; }
+        public override ElementColorSource ColorSource { get; set; }
         public TextBlockFont Font { get; set; }
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
@@ -33,8 +33,8 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             AutoWidth = native.AutoWidth;
             Baseline = (short)native.Baseline;
             BaselineAlignment = native.BaselineAlignment.FromNative();
-            TextColor = native.Color.FromNative();
-            TextColorSource = native.ColorSource.FromNative();
+            Color = native.Color.FromNative();
+            ColorSource = native.ColorSource.FromNative();
             Font = native.Font.FromNative();
         }
 
@@ -44,9 +44,9 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             if (native == null)
             {
 #if __ANDROID__
-                native = new NativeTextBlock(Rectangle.ToNative(), Font.ToNative(), Baseline);
+                native = new NativeTextBlock(Rect.ToNative(), Font.ToNative(), Baseline);
 #elif __IOS__
-                native = new NativeTextBlock(Rectangle.ToNative(), Font.ToNative());
+                native = new NativeTextBlock(Rect.ToNative(), Font.ToNative());
                 native.Baseline = (ushort)Baseline;
 #elif WINDOWS_PHONE_APP
                 native = new NativeTextBlock();
@@ -56,11 +56,11 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             }
             native.AutoWidth = AutoWidth;
             native.BaselineAlignment = BaselineAlignment.ToNative();
-            if (TextColor != BandColor.Empty)
+            if (Color != BandColor.Empty)
             {
-                native.Color = TextColor.ToNative();
+                native.Color = Color.ToNative();
             }
-            native.ColorSource = TextColorSource.ToNative();
+            native.ColorSource = ColorSource.ToNative();
             return base.ToNative(native);
         }
 #endif

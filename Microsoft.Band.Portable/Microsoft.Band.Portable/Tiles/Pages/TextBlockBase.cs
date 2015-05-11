@@ -4,7 +4,7 @@ using NativeElement = Microsoft.Band.Tiles.Pages.PageElement;
 
 namespace Microsoft.Band.Portable.Tiles.Pages
 {
-    using BandColor = Microsoft.Band.Portable.Personalization.BandColor;
+    using BandColor = Microsoft.Band.Portable.BandColor;
 
     public abstract class TextBlockBase : Element
     {
@@ -12,8 +12,8 @@ namespace Microsoft.Band.Portable.Tiles.Pages
         {
         }
 
-        public abstract BandColor TextColor { get; set; }
-        public abstract ElementColorSource TextColorSource { get; set; }
+        public abstract BandColor Color { get; set; }
+        public abstract ElementColorSource ColorSource { get; set; }
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
         internal TextBlockBase(NativeElement native)
