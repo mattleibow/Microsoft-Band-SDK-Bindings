@@ -1,4 +1,7 @@
-﻿namespace Microsoft.Band.Portable
+﻿using System;
+using System.Globalization;
+
+namespace Microsoft.Band.Portable
 {
     public struct BandColor
     {
