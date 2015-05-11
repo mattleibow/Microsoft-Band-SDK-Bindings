@@ -54,6 +54,28 @@
             }
         }
 
+        public string Hex
+        {
+            get { return string.Format("#{0:X2}{1:X2}{2:X2}", R, G, B); }
+        }
+
+        public static BandColor FromHex(string hex)
+        {
+            hex = hex.Replace("#", "");
+
+            if (hex.Length != 3 && hex.Length != 6)
+            {
+                throw new ArgumentException(string.Format("'{0}' is not a valid RGB hex color.", hex), "hex");
+            }
+
+            var len = hex.Length == 3 ? 1 : 2;
+            var r = byte.Parse(hex.Substring(0, len), NumberStyles.HexNumber);
+            var g = byte.Parse(hex.Substring(len, len), NumberStyles.HexNumber);
+            var b = byte.Parse(hex.Substring(len + len, len), NumberStyles.HexNumber);
+
+            return new BandColor(r, g, b);
+        }
+
         public static bool operator ==(BandColor color1, BandColor color2)
         {
             return color1.Equals(color2);
