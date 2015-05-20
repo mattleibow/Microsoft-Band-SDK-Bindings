@@ -1,10 +1,10 @@
 namespace Microsoft.Band.Portable.Tiles.Pages
 {
-    public struct Size
+    public struct PageSize
     {
-        public readonly static Size Empty = new Size();
+        public readonly static PageSize Empty = new PageSize();
 
-        public Size(short width, short height)
+        public PageSize(short width, short height)
             : this()
         {
             Width = width;
@@ -22,11 +22,11 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Size))
+            if (!(obj is PageSize))
             {
                 return false;
             }
-            Size size = (Size)obj;
+            PageSize size = (PageSize)obj;
             return size == this;
         }
 
@@ -40,12 +40,12 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             return string.Format("[Width={0}, Height={1}]", Width, Height);
         }
 
-        public static bool operator ==(Size left, Size right)
+        public static bool operator ==(PageSize left, PageSize right)
         {
             return left.Width == right.Width && left.Height == right.Height;
         }
 
-        public static bool operator !=(Size left, Size right)
+        public static bool operator !=(PageSize left, PageSize right)
         {
             return !(left == right);
         }

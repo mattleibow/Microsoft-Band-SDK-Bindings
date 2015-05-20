@@ -5,13 +5,20 @@ using NativeTextButton = Microsoft.Band.Tiles.Pages.TextButton;
 
 namespace Microsoft.Band.Portable.Tiles.Pages
 {
-    using BandColor = Microsoft.Band.Portable.Personalization.BandColor;
+    using BandColor = Microsoft.Band.Portable.BandColor;
 
     public class TextButton : ButtonBase
     {
+        private static readonly BandColor DefaultPressedColor = BandColor.Empty;
+
         public TextButton()
         {
-            PressedColor = BandColor.Empty;
+            PressedColor = DefaultPressedColor;
+        }
+
+        public TextButton(BandColor pressedColor)
+        {
+            PressedColor = pressedColor;
         }
 
         public BandColor PressedColor { get; set; }
@@ -29,7 +36,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             if (native == null)
             {
 #if __ANDROID__ || __IOS__
-                native = new NativeTextButton(Rectangle.ToNative());
+                native = new NativeTextButton(Rect.ToNative());
 #elif WINDOWS_PHONE_APP
                 native = new NativeTextButton();
 #endif

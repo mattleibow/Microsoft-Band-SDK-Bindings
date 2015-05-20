@@ -5,13 +5,20 @@ using NativeFilledButton = Microsoft.Band.Tiles.Pages.FilledButton;
 
 namespace Microsoft.Band.Portable.Tiles.Pages
 {
-    using BandColor = Microsoft.Band.Portable.Personalization.BandColor;
+    using BandColor = Microsoft.Band.Portable.BandColor;
 
     public class FilledButton : ButtonBase
     {
+        private static readonly BandColor DefaultBackgroundColor = BandColor.Empty;
+
         public FilledButton()
         {
-            BackgroundColor = BandColor.Empty;
+            BackgroundColor = DefaultBackgroundColor;
+        }
+
+        public FilledButton(BandColor backgroundColor)
+        {
+            BackgroundColor = backgroundColor;
         }
 
         public BandColor BackgroundColor { get; set; }
@@ -29,7 +36,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             if (native == null)
             {
 #if __ANDROID__ || __IOS__
-                native = new NativeFilledButton(Rectangle.ToNative());
+                native = new NativeFilledButton(Rect.ToNative());
 #elif WINDOWS_PHONE_APP
                 native = new NativeFilledButton();
 #endif

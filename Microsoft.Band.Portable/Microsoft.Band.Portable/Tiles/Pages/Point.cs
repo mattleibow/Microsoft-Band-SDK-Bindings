@@ -1,10 +1,10 @@
 namespace Microsoft.Band.Portable.Tiles.Pages
 {
-    public struct Point
+    public struct PagePoint
     {
-        public readonly static Point Empty = new Point();
+        public readonly static PagePoint Empty = new PagePoint();
 
-        public Point(short x, short y)
+        public PagePoint(short x, short y)
             : this()
         {
             X = x;
@@ -22,11 +22,11 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Point))
+            if (!(obj is PagePoint))
             {
                 return false;
             }
-            Point point = (Point)obj;
+            PagePoint point = (PagePoint)obj;
             return point == this;
         }
 
@@ -40,12 +40,12 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             return string.Format("[X={0}, Y={1}]", X, Y);
         }
 
-        public static bool operator ==(Point left, Point right)
+        public static bool operator ==(PagePoint left, PagePoint right)
         {
             return left.X == right.X && left.Y == right.Y;
         }
 
-        public static bool operator !=(Point left, Point right)
+        public static bool operator !=(PagePoint left, PagePoint right)
         {
             return !(left == right);
         }

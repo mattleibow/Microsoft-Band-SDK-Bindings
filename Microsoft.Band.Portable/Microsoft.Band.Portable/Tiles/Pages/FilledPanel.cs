@@ -5,14 +5,29 @@ using NativeFilledPanel = Microsoft.Band.Tiles.Pages.FilledPanel;
 
 namespace Microsoft.Band.Portable.Tiles.Pages
 {
-    using BandColor = Microsoft.Band.Portable.Personalization.BandColor;
+    using BandColor = Microsoft.Band.Portable.BandColor;
 
     public class FilledPanel : Panel
     {
+        private static readonly BandColor DefaultBackgroundColor = BandColor.Empty;
+        private static readonly ElementColorSource DefaultBackgroundColorSource = ElementColorSource.Custom;
+
         public FilledPanel()
         {
-            BackgroundColor = BandColor.Empty;
-            BackgroundColorSource = ElementColorSource.Custom;
+            BackgroundColor = DefaultBackgroundColor;
+            BackgroundColorSource = DefaultBackgroundColorSource;
+        }
+
+        public FilledPanel(BandColor backgroundColor)
+        {
+            BackgroundColor = backgroundColor;
+            BackgroundColorSource = DefaultBackgroundColorSource;
+        }
+
+        public FilledPanel(ElementColorSource backgroundColorSource)
+        {
+            BackgroundColor = DefaultBackgroundColor;
+            BackgroundColorSource = backgroundColorSource;
         }
 
         public BandColor BackgroundColor { get; set; }
@@ -32,7 +47,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             if (native == null)
             {
 #if __ANDROID__ || __IOS__
-                native = new NativeFilledPanel(Rectangle.ToNative());
+                native = new NativeFilledPanel(Rect.ToNative());
 #elif WINDOWS_PHONE_APP
                 native = new NativeFilledPanel();
 #endif

@@ -5,21 +5,42 @@ using NativeWrappedTextBlock = Microsoft.Band.Tiles.Pages.WrappedTextBlock;
 
 namespace Microsoft.Band.Portable.Tiles.Pages
 {
-    using BandColor = Microsoft.Band.Portable.Personalization.BandColor;
+    using BandColor = Microsoft.Band.Portable.BandColor;
 
     public class WrappedTextBlock : TextBlockBase
     {
+        private static readonly bool DefaultAutoHeight = true;
+        private static readonly BandColor DefaultColor = BandColor.Empty;
+        private static readonly ElementColorSource DefaultColorSource = ElementColorSource.Custom;
+        private static readonly WrappedTextBlockFont DefaultFont = WrappedTextBlockFont.Small;
+
         public WrappedTextBlock()
         {
-            AutoHeight = true;
-            TextColor = BandColor.Empty;
-            TextColorSource = ElementColorSource.Custom;
-            Font = WrappedTextBlockFont.Small;
+            AutoHeight = DefaultAutoHeight;
+            Color = DefaultColor;
+            ColorSource = DefaultColorSource;
+            Font = DefaultFont;
+        }
+        
+        public WrappedTextBlock(BandColor color)
+        {
+            AutoHeight = DefaultAutoHeight;
+            Color = color;
+            ColorSource = DefaultColorSource;
+            Font = DefaultFont;
+        }
+
+        public WrappedTextBlock(ElementColorSource colorSource)
+        {
+            AutoHeight = DefaultAutoHeight;
+            Color = DefaultColor;
+            ColorSource = colorSource;
+            Font = DefaultFont;
         }
 
         public bool AutoHeight { get; set; }
-        public override BandColor TextColor { get; set; }
-        public override ElementColorSource TextColorSource { get; set; }
+        public override BandColor Color { get; set; }
+        public override ElementColorSource ColorSource { get; set; }
         public WrappedTextBlockFont Font { get; set; }
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
@@ -27,8 +48,8 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             : base(native)
         {
             AutoHeight = native.AutoHeight;
-            TextColor = native.Color.FromNative();
-            TextColorSource = native.ColorSource.FromNative();
+            Color = native.Color.FromNative();
+            ColorSource = native.ColorSource.FromNative();
             Font = native.Font.FromNative();
         }
 
@@ -38,18 +59,18 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             if (native == null)
             {
 #if __ANDROID__ || __IOS__
-                native = new NativeWrappedTextBlock(Rectangle.ToNative(), Font.ToNative());
+                native = new NativeWrappedTextBlock(Rect.ToNative(), Font.ToNative());
 #elif WINDOWS_PHONE_APP
                 native = new NativeWrappedTextBlock();
                 native.Font = Font.ToNative();
 #endif
             }
             native.AutoHeight = AutoHeight;
-            if (TextColor != BandColor.Empty)
+            if (Color != BandColor.Empty)
             {
-                native.Color = TextColor.ToNative();
+                native.Color = Color.ToNative();
             }
-            native.ColorSource = TextColorSource.ToNative();
+            native.ColorSource = ColorSource.ToNative();
             return base.ToNative(native);
         }
 #endif

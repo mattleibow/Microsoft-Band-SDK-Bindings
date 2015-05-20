@@ -4,37 +4,37 @@ namespace Microsoft.Band
 {
     public partial class BandTheme
     {
-        public Color BaseColor
+        public Color Base
         {
             get { return GetColor(GetBaseColor()); }
             set { SetBaseColor(value); }
         }
     
-        public Color MutedColor
+        public Color Muted
         {
             get { return GetColor(GetMutedColor()); }
             set { SetMutedColor(value); }
         }
     
-        public Color HighContrastColor
+        public Color HighContrast
         {
             get { return GetColor(GetHighContrastColor()); }
             set { SetHighContrastColor(value); }
         }
     
-        public Color HighlightColor
+        public Color Highlight
         {
             get { return GetColor(GetHighlightColor()); }
             set { SetHighlightColor(value); }
         }
     
-        public Color LowlightColor
+        public Color Lowlight
         {
             get { return GetColor(GetLowlightColor()); }
             set { SetLowlightColor(value); }
         }
     
-        public Color SecondaryTextColor
+        public Color SecondaryText
         {
             get { return GetColor(GetSecondaryTextColor()); }
             set { SetSecondaryTextColor(value); }

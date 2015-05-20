@@ -1056,7 +1056,7 @@ namespace Microsoft.Band.Tiles
 	}
 }
 
-namespace Microsoft.Band.Personalization
+namespace Microsoft.Band
 {
 	// @interface MSBImage : NSObject
 	[BaseType (typeof(NSObject), Name = "MSBImage")]

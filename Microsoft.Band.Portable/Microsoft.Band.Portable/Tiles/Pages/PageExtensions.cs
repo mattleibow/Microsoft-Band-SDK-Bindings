@@ -64,22 +64,22 @@ namespace Microsoft.Band.Portable
             throw new ArgumentOutOfRangeException("barcodeType", "Invalid BarcodeType specified.");
         }
 
-        internal static NativeFlowPanelOrientation ToNative(this Orientation orientation)
+        internal static NativeFlowPanelOrientation ToNative(this FlowPanelOrientation orientation)
         {
             // can't use switch on Android as this is not an enum
-            if (orientation == Orientation.Horizontal)
+            if (orientation == FlowPanelOrientation.Horizontal)
                 return NativeFlowPanelOrientation.Horizontal;
-            if (orientation == Orientation.Vertical)
+            if (orientation == FlowPanelOrientation.Vertical)
                 return NativeFlowPanelOrientation.Vertical;
             throw new ArgumentOutOfRangeException("orientation", "Invalid Orientation specified.");
         }
-        internal static Orientation FromNative(this NativeFlowPanelOrientation orientation)
+        internal static FlowPanelOrientation FromNative(this NativeFlowPanelOrientation orientation)
         {
             // can't use switch on Android as this is not an enum
             if (orientation == NativeFlowPanelOrientation.Horizontal)
-                return Orientation.Horizontal;
+                return FlowPanelOrientation.Horizontal;
             if (orientation == NativeFlowPanelOrientation.Vertical)
-                return Orientation.Vertical;
+                return FlowPanelOrientation.Vertical;
             throw new ArgumentOutOfRangeException("orientation", "Invalid FlowPanelOrientation specified.");
         }
 
@@ -152,7 +152,7 @@ namespace Microsoft.Band.Portable
             throw new ArgumentOutOfRangeException("elementColorSource", "Invalid ElementColorSource specified.");
         }
 
-        internal static NativeRectangle ToNative(this Rectangle rectangle)
+        internal static NativeRectangle ToNative(this PageRect rectangle)
         {
 #if __ANDROID__ || WINDOWS_PHONE_APP
             return new NativeRectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
@@ -160,9 +160,9 @@ namespace Microsoft.Band.Portable
             return NativeRectangle.Create((ushort)rectangle.X, (ushort)rectangle.Y, (ushort)rectangle.Width, (ushort)rectangle.Height);
 #endif
         }
-        internal static Rectangle FromNative(this NativeRectangle rectangle)
+        internal static PageRect FromNative(this NativeRectangle rectangle)
         {
-            return new Rectangle((short)rectangle.X, (short)rectangle.Y, (short)rectangle.Width, (short)rectangle.Height);
+            return new PageRect((short)rectangle.X, (short)rectangle.Y, (short)rectangle.Width, (short)rectangle.Height);
         }
 
         internal static NativeMargins ToNative(this Margins margins)

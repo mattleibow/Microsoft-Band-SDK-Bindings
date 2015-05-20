@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Foundation;
 using UIKit;
 
+using Microsoft.Band;
 using Microsoft.Band.Tiles;
 
 namespace Microsoft.Band.Personalization

@@ -4,6 +4,24 @@ namespace Microsoft.Band.Portable.Tiles.Pages
     {
         public static Margins Empty = new Margins();
 
+        public Margins(short all)
+            : this()
+        {
+            Left = all;
+            Top = all;
+            Right = all;
+            Bottom = all;
+        }
+
+        public Margins(short horizontal, short vertical)
+            : this()
+        {
+            Left = horizontal;
+            Top = vertical;
+            Right = horizontal;
+            Bottom = vertical;
+        }
+
         public Margins(short left, short top, short right, short bottom)
             : this()
         {
@@ -11,11 +29,6 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             Top = top;
             Right = right;
             Bottom = bottom;
-        }
-
-        public Margins(short all)
-            : this(all, all, all, all)
-        {
         }
 
         public short Left { get; set; }

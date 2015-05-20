@@ -15,7 +15,7 @@ using Windows.Storage.Streams;
 using NativeBitmap = Windows.UI.Xaml.Media.Imaging.WriteableBitmap;
 #endif
 
-namespace Microsoft.Band.Portable.Personalization
+namespace Microsoft.Band.Portable
 {
     public sealed class BandImage
     {

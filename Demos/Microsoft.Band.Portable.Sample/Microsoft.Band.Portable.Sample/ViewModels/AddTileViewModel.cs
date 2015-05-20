@@ -19,9 +19,6 @@ using Microsoft.Band.Portable.Tiles.Pages.Data;
 
 namespace Microsoft.Band.Portable.Sample.ViewModels
 {
-    using Rectangle = Microsoft.Band.Portable.Tiles.Pages.Rectangle;
-    using Image = Microsoft.Band.Portable.Tiles.Pages.Image;
-
     public class AddTileViewModel : BaseClientViewModel
     {
         private BandTileManager tileManager;
@@ -213,40 +210,40 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
                 // page index layout index 0 - BARCODES
                 new PageLayout {
                     Root = new ScrollFlowPanel {
-                        Rectangle = new Rectangle(0, 0, 245, 105),
-                        Orientation = Orientation.Vertical,
+                        Rect = new PageRect(0, 0, 245, 105),
+                        Orientation = FlowPanelOrientation.Vertical,
                         Elements = {
                             new TextBlock {
                                 ElementId = TilePages.BarcodePage.TextBlockTitleId,
-                                Rectangle = new Rectangle(0, 0, 230, 30),
-                                TextColorSource = ElementColorSource.BandBase,
+                                Rect = new PageRect(0, 0, 230, 30),
+                                ColorSource = ElementColorSource.BandBase,
                                 HorizontalAlignment = HorizontalAlignment.Left,
                                 VerticalAlignment = VerticalAlignment.Bottom
                             },
                             new TextBlock {
                                 ElementId = TilePages.BarcodePage.TextBlock39Id,
-                                Rectangle = new Rectangle(0, 0, 230, 30),
-                                TextColor = new BandColor(255, 0, 0),
+                                Rect = new PageRect(0, 0, 230, 30),
+                                Color = new BandColor(255, 0, 0),
                                 AutoWidth = false,
                                 HorizontalAlignment = HorizontalAlignment.Center,
                                 VerticalAlignment = VerticalAlignment.Bottom
                             },
                             new Barcode {
                                 ElementId = TilePages.BarcodePage.Barcode39Id,
-                                Rectangle = new Rectangle(0, 0, 230, 61),
+                                Rect = new PageRect(0, 0, 230, 61),
                                 BarcodeType = BarcodeType.Code39,
                             },
                             new TextBlock {
                                 ElementId = TilePages.BarcodePage.TextBlock417Id,
-                                Rectangle = new Rectangle(0, 0, 230, 30),
-                                TextColor = new BandColor(255, 0, 0),
+                                Rect = new PageRect(0, 0, 230, 30),
+                                Color = new BandColor(255, 0, 0),
                                 AutoWidth = false,
                                 HorizontalAlignment = HorizontalAlignment.Center,
                                 VerticalAlignment = VerticalAlignment.Bottom
                             },
                             new Barcode {
                                 ElementId = TilePages.BarcodePage.Barcode417Id,
-                                Rectangle = new Rectangle(0, 0, 230, 61),
+                                Rect = new PageRect(0, 0, 230, 61),
                                 BarcodeType = BarcodeType.Pdf417,
                             }
                         }
@@ -255,30 +252,30 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
                 //page layout index 1 - IMAGES
                 new PageLayout {
                     Root = new FlowPanel {
-                        Rectangle = new Rectangle(15, 0, 245, 105),
-                        Orientation = Orientation.Vertical,
+                        Rect = new PageRect(15, 0, 245, 105),
+                        Orientation = FlowPanelOrientation.Vertical,
                         Elements = {
                             new TextBlock {
                                 ElementId = TilePages.ImagePage.TextBlockTitleId,
-                                Rectangle = new Rectangle(0, 0, 230, 30),
-                                TextColorSource = ElementColorSource.BandBase,
+                                Rect = new PageRect(0, 0, 230, 30),
+                                ColorSource = ElementColorSource.BandBase,
                                 HorizontalAlignment = HorizontalAlignment.Left,
                                 VerticalAlignment = VerticalAlignment.Bottom
                             },
                             new FlowPanel {
-                                Rectangle = new Rectangle(0, 0, 230, 105),
-                                Orientation = Orientation.Horizontal,
+                                Rect = new PageRect(0, 0, 230, 105),
+                                Orientation = FlowPanelOrientation.Horizontal,
                                 Elements = {
-                                    new Image {
+                                    new Icon {
                                         ElementId = TilePages.ImagePage.ImageId1,
-                                        Rectangle = new Rectangle(0, 0, 100, 70),
+                                        Rect = new PageRect(0, 0, 100, 70),
                                         Color = new BandColor(127, 127, 0),
                                         VerticalAlignment = VerticalAlignment.Center,
                                         HorizontalAlignment = HorizontalAlignment.Center
                                     },
-                                    new Image {
+                                    new Icon {
                                         ElementId = TilePages.ImagePage.ImageId2,
-                                        Rectangle = new Rectangle(0, 0, 100, 70),
+                                        Rect = new PageRect(0, 0, 100, 70),
                                         Color = new BandColor(127, 0, 127),
                                         VerticalAlignment = VerticalAlignment.Center,
                                         HorizontalAlignment = HorizontalAlignment.Center
@@ -291,34 +288,34 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
                 // page layout index 2 - BUTTONS
                 new PageLayout {
                     Root = new ScrollFlowPanel {
-                        Rectangle = new Rectangle(0, 0, 245, 105),
-                        Orientation = Orientation.Vertical,
+                        Rect = new PageRect(0, 0, 245, 105),
+                        Orientation = FlowPanelOrientation.Vertical,
                         Elements = {
                             new TextBlock {
                                 ElementId = TilePages.ButtonPage.TextBlockTitleId,
-                                Rectangle = new Rectangle(0, 0, 229, 30),
-                                TextColorSource = ElementColorSource.BandBase,
+                                Rect = new PageRect(0, 0, 229, 30),
+                                ColorSource = ElementColorSource.BandBase,
                                 HorizontalAlignment = HorizontalAlignment.Left,
                                 VerticalAlignment = VerticalAlignment.Bottom
                             },
                             new TextBlock {
                                 ElementId = TilePages.ButtonPage.TextBlockId,
-                                Rectangle = new Rectangle(0, 0, 229, 30),
-                                TextColor = new BandColor(127, 127, 0),
+                                Rect = new PageRect(0, 0, 229, 30),
+                                Color = new BandColor(127, 127, 0),
                             },
                             new TextButton {
                                 ElementId = TilePages.ButtonPage.ButtonId,
-                                Rectangle = new Rectangle(0, 0, 229, 43),
+                                Rect = new PageRect(0, 0, 229, 43),
                                 PressedColor = new BandColor(0, 127, 0)
                             },
                             new TextBlock {
                                 ElementId = TilePages.ButtonPage.TextBlockFilledId,
-                                Rectangle = new Rectangle(0, 0, 229, 30),
-                                TextColor = new BandColor(0, 127, 127),
+                                Rect = new PageRect(0, 0, 229, 30),
+                                Color = new BandColor(0, 127, 127),
                             },
                             new FilledButton {
                                 ElementId = TilePages.ButtonPage.ButtonFilledId,
-                                Rectangle = new Rectangle(0, 0, 229, 43),
+                                Rect = new PageRect(0, 0, 229, 43),
                                 BackgroundColor = new BandColor(0, 0, 127)
                             }
                         }

@@ -4,9 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Band.Portable.Sensors;
 
 #if __ANDROID__
-using System;
 using System.Collections.Concurrent;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;

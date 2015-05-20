@@ -7,12 +7,19 @@ namespace Microsoft.Band.Portable.Tiles.Pages
 {
     public class FlowPanel : Panel
     {
+        private static readonly FlowPanelOrientation DefaultOrientation = FlowPanelOrientation.Vertical;
+
         public FlowPanel()
         {
-            Orientation = Orientation.Vertical;
+            Orientation = DefaultOrientation;
         }
 
-        public Orientation Orientation { get; set; }
+        public FlowPanel(FlowPanelOrientation orientation)
+        {
+            Orientation = orientation;
+        }
+
+        public FlowPanelOrientation Orientation { get; set; }
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
         internal FlowPanel(NativeFlowPanel native)
@@ -27,7 +34,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             if (native == null)
             {
 #if __ANDROID__ || __IOS__
-                native = new NativeFlowPanel(Rectangle.ToNative());
+                native = new NativeFlowPanel(Rect.ToNative());
 #elif WINDOWS_PHONE_APP
                 native = new NativeFlowPanel();
 #endif

@@ -14,6 +14,10 @@ namespace Microsoft.Band.Portable
     /// </summary>
     public class BandDeviceInfo
     {
+        private BandDeviceInfo()
+        {
+        }
+
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
         internal readonly NativeBandDeviceInfo Native;
          

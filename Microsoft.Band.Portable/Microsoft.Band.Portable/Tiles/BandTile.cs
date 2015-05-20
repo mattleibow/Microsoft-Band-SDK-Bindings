@@ -6,7 +6,7 @@ using Microsoft.Band.Portable.Tiles.Pages;
 
 namespace Microsoft.Band.Portable.Tiles
 {
-    using BandTheme = Microsoft.Band.Portable.Personalization.BandTheme;
+    using BandTheme = Microsoft.Band.Portable.BandTheme;
 
     public class BandTile
     {

@@ -15,6 +15,11 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             Elements = new List<Element>();
         }
 
+        public Panel(IEnumerable<Element> elements)
+        {
+            Elements = new List<Element>(elements);
+        }
+
         public List<Element> Elements { get; private set; }
 
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP

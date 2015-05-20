@@ -7,7 +7,7 @@ using NativeBandPersonalizationManager = Microsoft.Band.Personalization.IBandPer
 #elif __IOS__
 using Microsoft.Band.Personalization;
 using NativeBandPersonalizationManager = Microsoft.Band.Personalization.IBandPersonalizationManager;
-using NativeBandImage = Microsoft.Band.Personalization.BandImage;
+using NativeBandImage = Microsoft.Band.BandImage;
 #elif WINDOWS_PHONE_APP
 using Microsoft.Band.Personalization;
 using NativeBandPersonalizationManager = Microsoft.Band.Personalization.IBandPersonalizationManager;
