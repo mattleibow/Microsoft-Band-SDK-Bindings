@@ -28,14 +28,8 @@ icons:
   - Icons/microsoft-band-sdk_512x512.png
 
 samples: 
-    - name: Xamarin.Forms Cross-platform Feature Sample
+  - name: Xamarin.Forms Cross-platform Feature Sample
     path: Demos/Microsoft.Band.Portable.Sample/Microsoft.Band.Portable.Sample.sln
-    removeProjects:
-      - Microsoft.Band.Android
-    installNuGets:
-      - project: Microsoft.Band.Portable.Sample
-        packages:
-          - Xamarin.Microsoft.Band
   - name: Android Native Feature Sample
     path: Demos/Microsoft.Band.Sample/Microsoft.Band.Android.Sample.sln
     removeProjects:
