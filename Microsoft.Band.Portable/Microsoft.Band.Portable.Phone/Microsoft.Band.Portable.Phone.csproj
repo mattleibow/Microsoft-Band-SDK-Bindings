@@ -351,17 +351,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Band, Version=1.3.10417.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Band.1.3.10417\lib\wpa81\Microsoft.Band.dll</HintPath>
+    <Reference Include="Microsoft.Band, Version=1.3.10702.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Band.1.3.10702\lib\wpa81\Microsoft.Band.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Band.Phone, Version=1.3.10417.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Band.1.3.10417\lib\wpa81\Microsoft.Band.Phone.dll</HintPath>
+    <Reference Include="Microsoft.Band.Phone, Version=1.3.10702.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Band.1.3.10702\lib\wpa81\Microsoft.Band.Phone.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Band.Store, Version=1.3.10417.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Band.1.3.10417\lib\wpa81\Microsoft.Band.Store.dll</HintPath>
+    <Reference Include="Microsoft.Band.Store, Version=1.3.10702.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Band.1.3.10702\lib\wpa81\Microsoft.Band.Store.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

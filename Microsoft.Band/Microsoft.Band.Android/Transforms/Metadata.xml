@@ -144,6 +144,9 @@
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButton']/method[@name='setBackgroundColor']" name="visibility">internal</attr>
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButton']/method[@name='getBackgroundColor']" name="visibility">internal</attr>
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButton']/method[@name='getBackgroundColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButton']/method[@name='setBackgroundColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButton']/method[@name='getBackgroundColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButton']/method[@name='getBackgroundColorSource']" name="propertyName" />
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledPanel']/method[@name='setBackgroundColor']" name="visibility">internal</attr>
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledPanel']/method[@name='getBackgroundColor']" name="visibility">internal</attr>
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledPanel']/method[@name='getBackgroundColor']" name="propertyName" />
@@ -198,6 +201,9 @@
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextButton']/method[@name='setPressedColor']" name="visibility">internal</attr>
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextButton']/method[@name='getPressedColor']" name="visibility">internal</attr>
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextButton']/method[@name='getPressedColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextButton']/method[@name='setPressedColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextButton']/method[@name='getPressedColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextButton']/method[@name='getPressedColorSource']" name="propertyName" />
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='setColor']" name="visibility">internal</attr>
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getColor']" name="visibility">internal</attr>
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='TextBlock']/method[@name='getColor']" name="propertyName" />
@@ -236,9 +242,12 @@
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButtonData']/method[@name='setPressedColor']" name="visibility">internal</attr>
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButtonData']/method[@name='getPressedColor']" name="propertyName" />
   <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButtonData']/method[@name='setPressedColor']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButtonData']/method[@name='getPressedColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButtonData']/method[@name='setPressedColorSource']" name="visibility">internal</attr>
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButtonData']/method[@name='getPressedColorSource']" name="propertyName" />
+  <attr path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='FilledButtonData']/method[@name='setPressedColorSource']" name="propertyName" />
 
   <!-- This should be fixed properly -->
-  <remove-node path="/api/package[@name='com.microsoft.band.tiles.pages']/class[@name='PageData']/field[@name='PAGE_DATA']" />
-  <attr path="/api/package[@name='com.microsoft.band']/class[@name='UserConsent']/field[@name='UNSPECEFIED']" name="managedName">NotSpecified</attr>
+  <attr path="/api/package[@name='com.microsoft.band']/class[@name='UserConsent']/field[@name='UNSPECIFIED']" name="managedName">NotSpecified</attr>
 
 </metadata>

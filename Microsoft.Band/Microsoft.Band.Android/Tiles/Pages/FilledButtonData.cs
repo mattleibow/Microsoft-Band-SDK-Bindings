@@ -14,5 +14,11 @@ namespace Microsoft.Band.Tiles.Pages
             get { return new Color(GetPressedColor()); }
             set { SetPressedColor(value); }
         }
+
+        public ElementColorSource PressedColorSource
+        {
+            get { return GetPressedColorSource(); }
+            set { SetPressedColorSource(value); }
+        }
     }
 }

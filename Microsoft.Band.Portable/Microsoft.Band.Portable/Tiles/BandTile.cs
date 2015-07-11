@@ -45,6 +45,8 @@ namespace Microsoft.Band.Portable.Tiles
 
         public List<BandImage> PageImages { get; private set; }
 
+        public bool IsScreenTimeoutDisabled { get; set; }
+
 		public bool IsCustomThemeEnabled 
 		{ 
 			get { return Theme != BandTheme.Empty; }

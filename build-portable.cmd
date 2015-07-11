@@ -16,4 +16,5 @@ msbuild Microsoft.Band.Portable.sln /p:Configuration=Release /t:Rebuild
 
 rem build the nuget
 echo Packaging the NuGet
+nuget pack Xamarin.Microsoft.Band.Native.nuspec
 nuget pack Xamarin.Microsoft.Band.nuspec

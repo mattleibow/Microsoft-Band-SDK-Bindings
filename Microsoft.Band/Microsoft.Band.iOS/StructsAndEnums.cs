@@ -28,6 +28,7 @@ namespace Microsoft.Band
 		MaxTiles,
 		TileAlreadyExist,
 		TileNotFound,
+		PageElementAlreadyExist,
 
 		// Unknown
 		Unknown = 900L
@@ -147,7 +148,9 @@ namespace Microsoft.Band.Tiles.Pages
 		TileLowlight,
 		TileSecondaryText,
 		TileHighContrast,
-		TileMuted
+		TileMuted,
+
+		Max
 	}
 }
 

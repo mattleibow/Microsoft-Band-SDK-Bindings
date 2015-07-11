@@ -334,6 +334,10 @@ namespace Microsoft.Band.Tiles.Pages
 		[Export ("pressedColor", ArgumentSemantic.Strong)]
 		BandColor PressedColor { get; set; }
 
+		// @property (nonatomic, strong) MSBPageElementColorSource * pressedColorSource;
+		[Export ("pressedColorSource", ArgumentSemantic.Strong)]
+		ElementColorSource PressedColorSource { get; set; }
+
 		// +(MSBPageFilledButtonData *)pageFilledButtonDataWithElementId:(MSBPageElementIdentifier)elementId;
 		[Static]
 		[Export ("pageFilledButtonDataWithElementId:")]
@@ -513,6 +517,10 @@ namespace Microsoft.Band.Tiles.Pages
 		[Export ("pressedColor", ArgumentSemantic.Strong)]
 		BandColor PressedColor { get; set; }
 
+		// @property (nonatomic, assign) MSBPageElementColorSource * pressedColorSource;
+		[Export ("pressedColorSource", ArgumentSemantic.Assign)]
+		ElementColorSource PressedColorSource { get; set; }
+
 		// -(id)initWithRect:(MSBPageRect *)rect;
 		[Export ("initWithRect:")]
 		IntPtr Constructor (PageRect rect);
@@ -525,6 +533,10 @@ namespace Microsoft.Band.Tiles.Pages
 		// @property (nonatomic, strong) MSBColor * backgroundColor;
 		[Export ("backgroundColor", ArgumentSemantic.Strong)]
 		BandColor BackgroundColor { get; set; }
+
+		// @property (nonatomic, strong) MSBPageElementColorSource * backgroundColorSource;
+		[Export ("backgroundColorSource", ArgumentSemantic.Strong)]
+		ElementColorSource BackgroundColorSource { get; set; }
 
 		// -(id)initWithRect:(MSBPageRect *)rect;
 		[Export ("initWithRect:")]
@@ -892,6 +904,10 @@ namespace Microsoft.Band.Tiles
 		[Export ("badgingEnabled")]
 		bool BadgingEnabled { [Bind ("isBadgingEnabled")] get; set; }
 
+		// @property (nonatomic, assign, getter=isScreenTimeoutEnabled) BOOL screenTimeoutEnabled;
+		[Export ("screenTimeoutEnabled")]
+		bool ScreenTimeoutEnabled { [Bind ("isScreenTimeoutEnabled")] get; set; }
+
 		// @property (readonly, nonatomic) NSMutableArray * pageIcons;
 		[Internal]
 		[Export ("pageIcons")]
@@ -1149,6 +1165,11 @@ namespace Microsoft.Band
 		// @property (nonatomic, strong) MSBColor * mutedColor;
 		[Export ("mutedColor", ArgumentSemantic.Retain)]
 		BandColor Muted { get; set; }
+
+		// + (MSBTheme *)themeWithDictionary:(NSDictionary *)dictionary error:(NSError **)pError;
+		[Static]
+		[Export ("themeWithDictionary:error:")]
+		BandTheme Create (NSDictionary dictionary, out NSError pError);
 
 		// +(MSBTheme *)themeWithBaseColor:(MSBColor *)baseColor highlightColor:(MSBColor *)highlightColor lowlightColor:(MSBColor *)lowlightColor secondaryTextColor:(MSBColor *)secondaryTextColor highContrastColor:(MSBColor *)highContrastColor mutedColor:(MSBColor *)mutedColor;
 		[Static]

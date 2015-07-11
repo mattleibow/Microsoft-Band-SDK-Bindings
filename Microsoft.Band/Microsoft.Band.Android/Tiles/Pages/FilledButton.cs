@@ -9,5 +9,11 @@ namespace Microsoft.Band.Tiles.Pages
             get { return new Color(GetBackgroundColor()); }
             set { SetBackgroundColor(value); }
         }
+
+        public ElementColorSource BackgroundColorSource
+        {
+            get { return GetBackgroundColorSource(); }
+            set { SetBackgroundColorSource(value); }
+        }
     }
 }

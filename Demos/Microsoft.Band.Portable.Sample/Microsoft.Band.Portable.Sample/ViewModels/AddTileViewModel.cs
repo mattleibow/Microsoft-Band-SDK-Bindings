@@ -26,6 +26,7 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         private Guid tileId;
         private string tileName;
         private bool useCustomTheme;
+        private bool disableScreenTimeout;
         private BandImage tileIcon;
         private BandImage tileBadge;
         private BandTheme tileTheme;
@@ -80,7 +81,8 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
                 {
                     Icon = TileIcon,
                     Name = TileName,
-                    SmallIcon = TileBadge
+                    SmallIcon = TileBadge,
+                    IsScreenTimeoutDisabled = DisableScreenTimeout
                 };
                 if (UseCustomTheme)
                 {
@@ -109,6 +111,7 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             TileName = tile.Name;
             TileIcon = tile.Icon;
             TileBadge = tile.SmallIcon;
+            DisableScreenTimeout = tile.IsScreenTimeoutDisabled;
             if (tile.Theme != BandTheme.Empty) 
             {
                 UseCustomTheme = true;
@@ -139,6 +142,19 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
                 {
                     tileName = value;
                     OnPropertyChanged("TileName");
+                }
+            }
+        }
+
+        public bool DisableScreenTimeout
+        {
+            get { return disableScreenTimeout; }
+            set
+            {
+                if (disableScreenTimeout != value)
+                {
+                    disableScreenTimeout = value;
+                    OnPropertyChanged("DisableScreenTimeout");
                 }
             }
         }

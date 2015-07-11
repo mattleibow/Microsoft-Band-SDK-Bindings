@@ -92,12 +92,12 @@ namespace Microsoft.Band.Sample
             set
             {
                 mTheme = value;
-                SetColorForThemeElement(BASE_COLOR_NAME, value.BaseColor);
-                SetColorForThemeElement(HIGHLIGHT_COLOR_NAME, value.HighlightColor);
-                SetColorForThemeElement(LOWLIGHT_COLOR_NAME, value.LowlightColor);
-                SetColorForThemeElement(SECONDARY_TEXT_COLOR_NAME, value.SecondaryTextColor);
-                SetColorForThemeElement(HIGH_CONTRAST_COLOR_NAME, value.HighContrastColor);
-                SetColorForThemeElement(MUTED_COLOR_NAME, value.MutedColor);
+                SetColorForThemeElement(BASE_COLOR_NAME, value.Base);
+                SetColorForThemeElement(HIGHLIGHT_COLOR_NAME, value.Highlight);
+                SetColorForThemeElement(LOWLIGHT_COLOR_NAME, value.Lowlight);
+                SetColorForThemeElement(SECONDARY_TEXT_COLOR_NAME, value.SecondaryText);
+                SetColorForThemeElement(HIGH_CONTRAST_COLOR_NAME, value.HighContrast);
+                SetColorForThemeElement(MUTED_COLOR_NAME, value.Muted);
             }
             get { return mTheme; }
         }
@@ -110,27 +110,27 @@ namespace Microsoft.Band.Sample
                 {
                     if (BASE_COLOR_NAME.Equals(key))
                     {
-                        mTheme.BaseColor=e.Color;
+                        mTheme.Base = e.Color;
                     }
                     else if (HIGHLIGHT_COLOR_NAME.Equals(key))
                     {
-                        mTheme.HighlightColor=e.Color;
+                        mTheme.Highlight = e.Color;
                     }
                     else if (LOWLIGHT_COLOR_NAME.Equals(key))
                     {
-                        mTheme.LowlightColor=e.Color;
+                        mTheme.Lowlight = e.Color;
                     }
                     else if (HIGH_CONTRAST_COLOR_NAME.Equals(key))
                     {
-                        mTheme.HighContrastColor=e.Color;
+                        mTheme.HighContrast = e.Color;
                     }
                     else if (SECONDARY_TEXT_COLOR_NAME.Equals(key))
                     {
-                        mTheme.SecondaryTextColor=e.Color;
+                        mTheme.SecondaryText = e.Color;
                     }
                     else if (MUTED_COLOR_NAME.Equals(key))
                     {
-                        mTheme.MutedColor=e.Color;
+                        mTheme.Muted = e.Color;
                     }
 
                     SetColorForThemeElement(key, e.Color);

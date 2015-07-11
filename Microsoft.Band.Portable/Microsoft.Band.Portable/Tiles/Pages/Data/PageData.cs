@@ -34,7 +34,7 @@ namespace Microsoft.Band.Portable.Tiles.Pages.Data
             native = new NativePageData(PageId.ToNative(), PageLayoutIndex);
             foreach (var data in Data)
             {
-                native.Values.Add(data.ToNative());
+                native.Update(data.ToNative());
             }
 #elif __IOS__
             native = NativePageData.Create(PageId.ToNative(), (nuint)PageLayoutIndex, Data.Select(d => d.ToNative()).ToArray());

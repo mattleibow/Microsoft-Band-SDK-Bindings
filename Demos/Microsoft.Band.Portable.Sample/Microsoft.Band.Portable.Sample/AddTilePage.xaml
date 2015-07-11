@@ -31,6 +31,14 @@
         <Entry Text="{Binding TileName}"
                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
 
+        <StackLayout Orientation="Horizontal"
+                     VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+          <Label Text="Disable Screen Timeout:" FontSize="Medium"
+                 VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+          <Switch IsToggled="{Binding DisableScreenTimeout}"
+                  VerticalOptions="Center" HorizontalOptions="End" />
+        </StackLayout>
+
         <Label Text="Tile Icon:" FontSize="Medium"
                VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
         <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand">

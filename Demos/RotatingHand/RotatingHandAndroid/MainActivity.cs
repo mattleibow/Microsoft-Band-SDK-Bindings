@@ -17,7 +17,7 @@ using Android.App;
 namespace RotatingHandAndroid
 {
 	[Activity (Label = "Rotating Hand", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/Theme.AppCompat")]
-	public class MainActivity : ActionBarActivity
+	public class MainActivity : AppCompatActivity
 	{
 		protected override void OnCreate (Bundle bundle)
 		{
