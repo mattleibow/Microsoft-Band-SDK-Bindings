@@ -15,7 +15,7 @@ namespace Microsoft.Band.Tiles.Pages
         public int ElementId
         {
             get { return GetId(); }
-            set { SetId(value); }
+            set { SetElementId(value); }
         }
         public Margins Margins
         {

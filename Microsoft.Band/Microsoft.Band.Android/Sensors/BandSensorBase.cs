@@ -24,6 +24,10 @@ namespace Microsoft.Band.Sensors
                 handler(this, e);
             }
         }
+
+        public abstract void StartReadings();
+
+        public abstract void StopReadings();
     }
 
     // base type for sensor listeners event args

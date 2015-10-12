@@ -26,14 +26,34 @@ namespace Microsoft.Band.Sensors
 			return new ContactSensor(sensorManager);
 		}
 
+        public static AltimeterSensor CreateAltimeterSensor(this IBandSensorManager sensorManager)
+        {
+            return new AltimeterSensor(sensorManager);
+        }
+
+        public static AmbientLightSensor CreateAmbientLightSensor(this IBandSensorManager sensorManager)
+        {
+            return new AmbientLightSensor(sensorManager);
+        }
+
 		public static CaloriesSensor CreateCaloriesSensor(this IBandSensorManager sensorManager)
 		{
 			return new CaloriesSensor(sensorManager);
 		}
 
+        public static BarometerSensor CreateBarometerSensor(this IBandSensorManager sensorManager)
+        {
+            return new BarometerSensor(sensorManager);
+        }
+
         public static DistanceSensor CreateDistanceSensor(this IBandSensorManager sensorManager)
         {
             return new DistanceSensor(sensorManager);
+        }
+
+        public static GsrSensor CreateGsrSensor(this IBandSensorManager sensorManager)
+        {
+            return new GsrSensor(sensorManager);
         }
 
         public static GyroscopeSensor CreateGyroscopeSensor(this IBandSensorManager sensorManager)
@@ -49,6 +69,11 @@ namespace Microsoft.Band.Sensors
         public static PedometerSensor CreatePedometerSensor(this IBandSensorManager sensorManager)
         {
             return new PedometerSensor(sensorManager);
+        }
+
+        public static RRIntervalSensor CreateRRIntervalSensor(this IBandSensorManager sensorManager)
+        {
+            return new RRIntervalSensor(sensorManager);
         }
 
         public static SkinTemperatureSensor CreateSkinTemperatureSensor(this IBandSensorManager sensorManager)

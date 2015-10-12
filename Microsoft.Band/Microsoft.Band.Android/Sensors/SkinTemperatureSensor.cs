@@ -18,12 +18,12 @@ namespace Microsoft.Band.Sensors
             get { return listener; }
         }
 
-		public void StartReadings()
+        public override void StartReadings()
         {
 			SensorManager.RegisterListener(listener);
         }
 
-		public void StopReadings()
+        public override void StopReadings()
         {
 			SensorManager.UnregisterListener(listener);
         }

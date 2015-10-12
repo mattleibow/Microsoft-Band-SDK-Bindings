@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace Microsoft.Band
@@ -22,6 +23,31 @@ namespace Microsoft.Band
         public static async Task<string> GetHardwareVersionTaskAsync(this IBandClient client)
         {
             return (string)await client.GetHardwareVersionAsync().AsTask();
+        }
+
+        public static IBandConnectionCallback RegisterConnectionCallback(this IBandClient client, Action<ConnectionState> callback)
+        {
+            var instance = new BandConnectionCallback(callback);
+            client.RegisterConnectionCallback(instance);
+            return instance;
+        }
+
+        internal sealed class BandConnectionCallback : Java.Lang.Object, IBandConnectionCallback
+        {
+            private readonly Action<ConnectionState> callback;
+
+            public BandConnectionCallback(Action<ConnectionState> callback)
+            {
+                this.callback = callback;
+            }
+
+            public void OnStateChanged(ConnectionState connectionState)
+            {
+                if (callback != null)
+                {
+                    callback(connectionState);
+                }
+            }
         }
     }
 }

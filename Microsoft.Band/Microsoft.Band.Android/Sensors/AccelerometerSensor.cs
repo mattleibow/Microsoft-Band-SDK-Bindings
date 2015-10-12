@@ -23,9 +23,14 @@ namespace Microsoft.Band.Sensors
 			SensorManager.RegisterListener(listener, sampleRate);
         }
 
-        public void StopReadings()
+        public override void StartReadings()
         {
-			SensorManager.UnregisterListener(listener);
+            StartReadings(SampleRate.Ms16);
+        }
+
+        public override void StopReadings()
+        {
+            SensorManager.UnregisterListener(listener);
         }
     }
 
