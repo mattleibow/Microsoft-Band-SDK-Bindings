@@ -126,6 +126,24 @@
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandAccelerometerSensor.cs">
       <Link>Sensors\BandAccelerometerSensor.cs</Link>
     </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandAltimeterReading.cs">
+      <Link>Sensors\BandAltimeterReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandAltimeterSensor.cs">
+      <Link>Sensors\BandAltimeterSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandAmbientLightReading.cs">
+      <Link>Sensors\BandAmbientLightReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandAmbientLightSensor.cs">
+      <Link>Sensors\BandAmbientLightSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandBarometerReading.cs">
+      <Link>Sensors\BandBarometerReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandBarometerSensor.cs">
+      <Link>Sensors\BandBarometerSensor.cs</Link>
+    </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandCaloriesReading.cs">
       <Link>Sensors\BandCaloriesReading.cs</Link>
     </Compile>
@@ -146,6 +164,12 @@
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandDistanceSensor.cs">
       <Link>Sensors\BandDistanceSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandGsrReading.cs">
+      <Link>Sensors\BandGsrReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandGsrSensor.cs">
+      <Link>Sensors\BandGsrSensor.cs</Link>
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandGyroscopeReading.cs">
       <Link>Sensors\BandGyroscopeReading.cs</Link>
@@ -170,6 +194,12 @@
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandPedometerSensor.cs">
       <Link>Sensors\BandPedometerSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandRRIntervalReading.cs">
+      <Link>Sensors\BandRRIntervalReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandRRIntervalSensor.cs">
+      <Link>Sensors\BandRRIntervalSensor.cs</Link>
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandSensorBase.cs">
       <Link>Sensors\BandSensorBase.cs</Link>
@@ -351,16 +381,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Band, Version=1.3.10702.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Band.1.3.10702\lib\wpa81\Microsoft.Band.dll</HintPath>
+    <Reference Include="Microsoft.Band, Version=1.3.10929.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Band.1.3.10929\lib\wpa81\Microsoft.Band.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Band.Phone, Version=1.3.10702.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Band.1.3.10702\lib\wpa81\Microsoft.Band.Phone.dll</HintPath>
+    <Reference Include="Microsoft.Band.Phone, Version=1.3.10929.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Band.1.3.10929\lib\wpa81\Microsoft.Band.Phone.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Band.Store, Version=1.3.10702.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Band.1.3.10702\lib\wpa81\Microsoft.Band.Store.dll</HintPath>
+    <Reference Include="Microsoft.Band.Store, Version=1.3.10929.1, Culture=neutral, PublicKeyToken=608d7da3159f502b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Band.1.3.10929\lib\wpa81\Microsoft.Band.Store.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

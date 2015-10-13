@@ -81,6 +81,24 @@
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandAccelerometerSensor.cs">
       <Link>Sensors\BandAccelerometerSensor.cs</Link>
     </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandAltimeterReading.cs">
+      <Link>Sensors\BandAltimeterReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandAltimeterSensor.cs">
+      <Link>Sensors\BandAltimeterSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandAmbientLightReading.cs">
+      <Link>Sensors\BandAmbientLightReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandAmbientLightSensor.cs">
+      <Link>Sensors\BandAmbientLightSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandBarometerReading.cs">
+      <Link>Sensors\BandBarometerReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandBarometerSensor.cs">
+      <Link>Sensors\BandBarometerSensor.cs</Link>
+    </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandCaloriesReading.cs">
       <Link>Sensors\BandCaloriesReading.cs</Link>
     </Compile>
@@ -101,6 +119,12 @@
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandDistanceSensor.cs">
       <Link>Sensors\BandDistanceSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandGsrReading.cs">
+      <Link>Sensors\BandGsrReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandGsrSensor.cs">
+      <Link>Sensors\BandGsrSensor.cs</Link>
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandGyroscopeReading.cs">
       <Link>Sensors\BandGyroscopeReading.cs</Link>
@@ -125,6 +149,12 @@
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandPedometerSensor.cs">
       <Link>Sensors\BandPedometerSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandRRIntervalReading.cs">
+      <Link>Sensors\BandRRIntervalReading.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Band.Portable\Sensors\BandRRIntervalSensor.cs">
+      <Link>Sensors\BandRRIntervalSensor.cs</Link>
     </Compile>
     <Compile Include="..\Microsoft.Band.Portable\Sensors\BandSensorBase.cs">
       <Link>Sensors\BandSensorBase.cs</Link>

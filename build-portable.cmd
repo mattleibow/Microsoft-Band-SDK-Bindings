@@ -1,10 +1,4 @@
-echo off
-
-rem extract the javadocs
-echo Unzipping Java Docs...
-if exist Microsoft.Band\Microsoft.Band.Android\JavaDoc del /f /q /s Microsoft.Band\Microsoft.Band.Android\JavaDoc
-mkdir Microsoft.Band\Microsoft.Band.Android\JavaDoc
-7za x -oMicrosoft.Band\Microsoft.Band.Android\JavaDoc Microsoft.Band\Microsoft.Band.Android\microsoft-band-javadoc.jar
+@echo off
 
 rem restore the NuGets
 echo Restoring the NuGet packages
@@ -18,3 +12,7 @@ rem build the nuget
 echo Packaging the NuGet
 nuget pack Xamarin.Microsoft.Band.Native.nuspec
 nuget pack Xamarin.Microsoft.Band.nuspec
+
+rem package the component
+echo Packaging the Component
+xamarin-component package 

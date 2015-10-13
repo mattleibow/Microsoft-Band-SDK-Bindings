@@ -150,7 +150,7 @@ namespace Microsoft.Band.Portable
 #if __ANDROID__
             return await Native.GetFirmwareVersionTaskAsync();
 #elif __IOS__
-            return (string) await Native.GetFirmwareVersionAsyncAsync();
+            return (string) await Native.GetFirmwareVersionTaskAsync();
 #elif WINDOWS_PHONE_APP
             return await Native.GetFirmwareVersionAsync();
 #else // PORTABLE
@@ -169,7 +169,7 @@ namespace Microsoft.Band.Portable
 #if __ANDROID__
             return await Native.GetHardwareVersionTaskAsync();
 #elif __IOS__
-            return (string) await Native.GetHardwareVersionAsycAsync();
+            return (string) await Native.GetHardwareVersionTaskAsync();
 #elif WINDOWS_PHONE_APP
             return await Native.GetHardwareVersionAsync();
 #else // PORTABLE
