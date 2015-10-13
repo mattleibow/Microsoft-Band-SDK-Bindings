@@ -21,69 +21,113 @@ using System.Collections.Generic;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using Microsoft.Band.Sensors;
+using Genetics;
+using Genetics.Attributes;
 using Fragment = Android.Support.V4.App.Fragment;
+
+using Microsoft.Band.Sensors;
 
 namespace Microsoft.Band.Sample
 {
     public class SensorsFragment : Fragment, FragmentListener
     {
         // Accelerometer controls
-        private Switch mSwitchAccelerometer;
-        private TableLayout mTableAccelerometer;
-        private RadioGroup mRadioGroupAccelerometer;
-        private TextView mTextAccX;
-        private TextView mTextAccY;
-        private TextView mTextAccZ;
-        private RadioButton mRadioAcc16;
-        private RadioButton mRadioAcc32;
+        [Splice(Resource.Id.switchAccelerometer)] private Switch mSwitchAccelerometer;
+        [Splice(Resource.Id.tableAccelerometer)] private TableLayout mTableAccelerometer;
+        [Splice(Resource.Id.rgAccelerometer)] private RadioGroup mRadioGroupAccelerometer;
+        [Splice(Resource.Id.textAccX)] private TextView mTextAccX;
+        [Splice(Resource.Id.textAccY)] private TextView mTextAccY;
+        [Splice(Resource.Id.textAccZ)] private TextView mTextAccZ;
+        [Splice(Resource.Id.rbAccelerometerRate16ms)] private RadioButton mRadioAcc16;
+        [Splice(Resource.Id.rbAccelerometerRate32ms)] private RadioButton mRadioAcc32;
+        [Splice(Resource.Id.rbAccelerometerRate128ms)] private RadioButton mRadioAcc128;
 
         // Gyroscope controls
-        private Switch mSwitchGyro;
-        private TableLayout mTableGyro;
-        private RadioGroup mRadioGroupGyro;
-        private TextView mTextGyroAccX;
-        private TextView mTextGyroAccY;
-        private TextView mTextGyroAccZ;
-        private TextView mTextGyroAngX;
-        private TextView mTextGyroAngY;
-        private TextView mTextGyroAngZ;
-        private RadioButton mRadioGyro16;
-        private RadioButton mRadioGyro32;
+        [Splice(Resource.Id.switchGyro)] private Switch mSwitchGyro;
+        [Splice(Resource.Id.tableGyro)] private TableLayout mTableGyro;
+        [Splice(Resource.Id.rgGyro)] private RadioGroup mRadioGroupGyro;
+        [Splice(Resource.Id.textGyroAccX)] private TextView mTextGyroAccX;
+        [Splice(Resource.Id.textGyroAccY)] private TextView mTextGyroAccY;
+        [Splice(Resource.Id.textGyroAccZ)] private TextView mTextGyroAccZ;
+        [Splice(Resource.Id.textAngX)] private TextView mTextGyroAngX;
+        [Splice(Resource.Id.textAngY)] private TextView mTextGyroAngY;
+        [Splice(Resource.Id.textAngZ)] private TextView mTextGyroAngZ;
+        [Splice(Resource.Id.rbGyroRate16ms)] private RadioButton mRadioGyro16;
+        [Splice(Resource.Id.rbGyroRate32ms)] private RadioButton mRadioGyro32;
+        [Splice(Resource.Id.rbGyroRate128ms)] private RadioButton mRadioGyro128;
 
         // Distance sensor controls
-        private Switch mSwitchDistance;
-        private TableLayout mTableDistance;
-        private TextView mTextTotalDistance;
-        private TextView mTextSpeed;
-        private TextView mTextPace;
-        private TextView mTextPedometerMode;
+        [Splice(Resource.Id.switchDistance)] private Switch mSwitchDistance;
+        [Splice(Resource.Id.tableDistance)] private TableLayout mTableDistance;
+        [Splice(Resource.Id.textTotalDistance)] private TextView mTextTotalDistance;
+        [Splice(Resource.Id.textSpeed)] private TextView mTextSpeed;
+        [Splice(Resource.Id.textPace)] private TextView mTextPace;
+        [Splice(Resource.Id.textPedometerMode)] private TextView mTextPedometerMode;
 
         // HR sensor controls
-        private Switch mSwitchHeartRate;
-        private TableLayout mTableHeartRate;
-        private TextView mTextHeartRate;
-        private TextView mTextHeartRateQuality;
+        [Splice(Resource.Id.switchHeartRate)] private Switch mSwitchHeartRate;
+        [Splice(Resource.Id.tableHeartRate)] private TableLayout mTableHeartRate;
+        [Splice(Resource.Id.textHeartRate)] private TextView mTextHeartRate;
+        [Splice(Resource.Id.textHeartRateQuality)] private TextView mTextHeartRateQuality;
 
         // Contact sensor controls
-        private Switch mSwitchContact;
-        private TableLayout mTableContact;
-        private TextView mTextContact;
+        [Splice(Resource.Id.switchContact)] private Switch mSwitchContact;
+        [Splice(Resource.Id.tableContact)] private TableLayout mTableContact;
+        [Splice(Resource.Id.textContact)] private TextView mTextContact;
 
         // Skin temperature sensor controls
-        private Switch mSwitchSkinTemperature;
-        private TableLayout mTableSkinTemperature;
-        private TextView mTextSkinTemperature;
+        [Splice(Resource.Id.switchSkinTemperature)] private Switch mSwitchSkinTemperature;
+        [Splice(Resource.Id.tableSkinTemperature)] private TableLayout mTableSkinTemperature;
+        [Splice(Resource.Id.textSkinTemperature)] private TextView mTextSkinTemperature;
 
         // UV sensor controls
-        private Switch mSwitchUltraviolet;
-        private TableLayout mTableUltraviolet;
-        private TextView mTextUltraviolet;
+        [Splice(Resource.Id.switchUltraviolet)] private Switch mSwitchUltraviolet;
+        [Splice(Resource.Id.tableUltraviolet)] private TableLayout mTableUltraviolet;
+        [Splice(Resource.Id.textUltraviolet)] private TextView mTextUltraviolet;
 
         // Pedometer sensor controls
-        private Switch mSwitchPedometer;
-        private TableLayout mTablePedometer;
-        private TextView mTextTotalSteps;
+        [Splice(Resource.Id.switchPedometer)] private Switch mSwitchPedometer;
+        [Splice(Resource.Id.tablePedometer)] private TableLayout mTablePedometer;
+        [Splice(Resource.Id.textTotalSteps)] private TextView mTextTotalSteps;
+
+        // Altimeter sensor controls
+        [Splice(Resource.Id.switchAltimeter)] private Switch mSwitchAltimeter;
+        [Splice(Resource.Id.tableAltimeter)] private TableLayout mTableAltimeter;
+        [Splice(Resource.Id.textFlightsAscended)] private TextView mTextFlightsAscended;
+        [Splice(Resource.Id.textFlightsDescended)] private TextView mTextFlightsDescended;
+        [Splice(Resource.Id.textRate)] private TextView mTextRate;
+        [Splice(Resource.Id.textSteppingGain)] private TextView mTextSteppingGain;
+        [Splice(Resource.Id.textSteppingLoss)] private TextView mTextSteppingLoss;
+        [Splice(Resource.Id.textStepsAscended)] private TextView mTextStepsAscended;
+        [Splice(Resource.Id.textStepsDescended)] private TextView mTextStepsDescended;
+        [Splice(Resource.Id.textTotalGain)] private TextView mTextTotalGain;
+        [Splice(Resource.Id.textTotalLoss)] private TextView mTextTotalLoss;
+
+        // Ambient light sensor controls
+        [Splice(Resource.Id.switchAmbientLight)] private Switch mSwitchAmbientLight;
+        [Splice(Resource.Id.tableAmbientLight)] private TableLayout mTableAmbientLight;
+        [Splice(Resource.Id.textBrightness)] private TextView mTextBrightness;
+
+        // Barometer sensor controls
+        [Splice(Resource.Id.switchBarometer)] private Switch mSwitchBarometer;
+        [Splice(Resource.Id.tableBarometer)] private TableLayout mTableBarometer;
+        [Splice(Resource.Id.textAirPressure)] private TextView mTextAirPressure;
+        [Splice(Resource.Id.textTemperature)] private TextView mTextTemperature;
+
+        // Calories sensor controls
+        [Splice(Resource.Id.switchCalories)] private Switch mSwitchCalories;
+        [Splice(Resource.Id.tableCalories)] private TableLayout mTableCalories;
+        [Splice(Resource.Id.textCalories)] private TextView mTextCalories;
+
+        // Gsr sensor controls
+        [Splice(Resource.Id.switchGsr)] private Switch mSwitchGsr;
+        [Splice(Resource.Id.tableGsr)] private TableLayout mTableGsr;
+        [Splice(Resource.Id.textResistance)] private TextView mTextResistance;
+
+        // Rr interval sensor controls
+        [Splice(Resource.Id.switchRRInterval)] private Switch mSwitchRRInterval;
+        [Splice(Resource.Id.tableRRInterval)] private TableLayout mTableRRInterval;
+        [Splice(Resource.Id.textInterval)] private TextView mTextInterval;
 
         // Each sensor switch has an associated TableLayout containing it's display controls.
         // The TableLayout remains hidden until the corresponding sensor switch is turned on.
@@ -98,6 +142,12 @@ namespace Microsoft.Band.Sample
         private PedometerSensor pedometerSensor;
         private SkinTemperatureSensor skinTemperatureSensor;
         private UVSensor uvSensor;
+        private AltimeterSensor altimeterSensor;
+        private AmbientLightSensor ambientLightSensor;
+        private BarometerSensor barometerSensor;
+        private CaloriesSensor caloriesSensor;
+        private GsrSensor gsrSensor;
+        private RRIntervalSensor rrIntervalSensor;
 
         public virtual void OnFragmentSelected()
         {
@@ -111,112 +161,65 @@ namespace Microsoft.Band.Sample
         {
             View rootView = inflater.Inflate(Resource.Layout.fragment_sensors, container, false);
 
+            Geneticist.Splice(this, rootView);
+
             mSensorMap = new Dictionary<Switch, TableLayout>();
 
-            //
             // Accelerometer setup
-            //
-            mSwitchAccelerometer = rootView.FindViewById<Switch>(Resource.Id.switchAccelerometer);
-            mTableAccelerometer = rootView.FindViewById<TableLayout>(Resource.Id.tableAccelerometer);
-            mRadioGroupAccelerometer = rootView.FindViewById<RadioGroup>(Resource.Id.rgAccelerometer);
             mSensorMap[mSwitchAccelerometer] = mTableAccelerometer;
             mTableAccelerometer.Visibility = ViewStates.Gone;
-            mSwitchAccelerometer.CheckedChange += OnToggleSensorSection;
 
-            mTextAccX = rootView.FindViewById<TextView>(Resource.Id.textAccX);
-            mTextAccY = rootView.FindViewById<TextView>(Resource.Id.textAccY);
-            mTextAccZ = rootView.FindViewById<TextView>(Resource.Id.textAccZ);
-            mRadioAcc16 = rootView.FindViewById<RadioButton>(Resource.Id.rbAccelerometerRate16ms);
-            mRadioAcc32 = rootView.FindViewById<RadioButton>(Resource.Id.rbAccelerometerRate32ms);
-
-            //
             // Gyro setup
-            //
-            mSwitchGyro = rootView.FindViewById<Switch>(Resource.Id.switchGyro);
-            mTableGyro = rootView.FindViewById<TableLayout>(Resource.Id.tableGyro);
-            mRadioGroupGyro = rootView.FindViewById<RadioGroup>(Resource.Id.rgGyro);
             mSensorMap[mSwitchGyro] = mTableGyro;
             mTableGyro.Visibility = ViewStates.Gone;
-            mSwitchGyro.CheckedChange += OnToggleSensorSection;
 
-            mTextGyroAccX = rootView.FindViewById<TextView>(Resource.Id.textGyroAccX);
-            mTextGyroAccY = rootView.FindViewById<TextView>(Resource.Id.textGyroAccY);
-            mTextGyroAccZ = rootView.FindViewById<TextView>(Resource.Id.textGyroAccZ);
-            mTextGyroAngX = rootView.FindViewById<TextView>(Resource.Id.textAngX);
-            mTextGyroAngY = rootView.FindViewById<TextView>(Resource.Id.textAngY);
-            mTextGyroAngZ = rootView.FindViewById<TextView>(Resource.Id.textAngZ);
-            mRadioGyro16 =  rootView.FindViewById<RadioButton>(Resource.Id.rbGyroRate16ms);
-            mRadioGyro32 = rootView.FindViewById<RadioButton>(Resource.Id.rbGyroRate32ms);
-
-            //
             // Distance setup
-            //
-            mSwitchDistance = rootView.FindViewById<Switch>(Resource.Id.switchDistance);
-            mTableDistance = rootView.FindViewById<TableLayout>(Resource.Id.tableDistance);
             mSensorMap[mSwitchDistance] = mTableDistance;
             mTableDistance.Visibility = ViewStates.Gone;
-            mSwitchDistance.CheckedChange += OnToggleSensorSection;
 
-            mTextTotalDistance = rootView.FindViewById<TextView>(Resource.Id.textTotalDistance);
-            mTextSpeed = rootView.FindViewById<TextView>(Resource.Id.textSpeed);
-            mTextPace = rootView.FindViewById<TextView>(Resource.Id.textPace);
-            mTextPedometerMode = rootView.FindViewById<TextView>(Resource.Id.textPedometerMode);
-
-            //
             // Heart rate setup
-            //
-            mSwitchHeartRate = rootView.FindViewById<Switch>(Resource.Id.switchHeartRate);
-            mTableHeartRate = rootView.FindViewById<TableLayout>(Resource.Id.tableHeartRate);
             mSensorMap[mSwitchHeartRate] = mTableHeartRate;
             mTableHeartRate.Visibility = ViewStates.Gone;
-            mSwitchHeartRate.CheckedChange += OnToggleSensorSection;
 
-            mTextHeartRate = rootView.FindViewById<TextView>(Resource.Id.textHeartRate);
-            mTextHeartRateQuality = rootView.FindViewById<TextView>(Resource.Id.textHeartRateQuality);
-
-            //
             // Contact setup
-            //
-            mSwitchContact = rootView.FindViewById<Switch>(Resource.Id.switchContact);
-            mTableContact = rootView.FindViewById<TableLayout>(Resource.Id.tableContact);
             mSensorMap[mSwitchContact] = mTableContact;
             mTableContact.Visibility = ViewStates.Gone;
-            mSwitchContact.CheckedChange += OnToggleSensorSection;
 
-            mTextContact = rootView.FindViewById<TextView>(Resource.Id.textContact);
-
-            //
             // Skin temperature setup
-            //
-            mSwitchSkinTemperature = rootView.FindViewById<Switch>(Resource.Id.switchSkinTemperature);
-            mTableSkinTemperature = rootView.FindViewById<TableLayout>(Resource.Id.tableSkinTemperature);
             mSensorMap[mSwitchSkinTemperature] = mTableSkinTemperature;
             mTableSkinTemperature.Visibility = ViewStates.Gone;
-            mSwitchSkinTemperature.CheckedChange += OnToggleSensorSection;
 
-            mTextSkinTemperature = rootView.FindViewById<TextView>(Resource.Id.textSkinTemperature);
-
-            //
             // Ultraviolet setup
-            //
-            mSwitchUltraviolet = rootView.FindViewById<Switch>(Resource.Id.switchUltraviolet);
-            mTableUltraviolet = rootView.FindViewById<TableLayout>(Resource.Id.tableUltraviolet);
             mSensorMap[mSwitchUltraviolet] = mTableUltraviolet;
             mTableUltraviolet.Visibility = ViewStates.Gone;
-            mSwitchUltraviolet.CheckedChange += OnToggleSensorSection;
 
-            mTextUltraviolet = rootView.FindViewById<TextView>(Resource.Id.textUltraviolet);
-
-            //
             // Pedometer setup
-            //
-            mSwitchPedometer = rootView.FindViewById<Switch>(Resource.Id.switchPedometer);
-            mTablePedometer = rootView.FindViewById<TableLayout>(Resource.Id.tablePedometer);
             mSensorMap[mSwitchPedometer] = mTablePedometer;
             mTablePedometer.Visibility = ViewStates.Gone;
-            mSwitchPedometer.CheckedChange += OnToggleSensorSection;
 
-            mTextTotalSteps = rootView.FindViewById<TextView>(Resource.Id.textTotalSteps);
+            // Altimeter setup
+            mSensorMap[mSwitchAltimeter] = mTableAltimeter;
+            mTableAltimeter.Visibility = ViewStates.Gone;
+
+            // Ambient light rate setup
+            mSensorMap[mSwitchAmbientLight] = mTableAmbientLight;
+            mTableAmbientLight.Visibility = ViewStates.Gone;
+
+            // Barometer setup
+            mSensorMap[mSwitchBarometer] = mTableBarometer;
+            mTableBarometer.Visibility = ViewStates.Gone;
+
+            // Calories setup
+            mSensorMap[mSwitchCalories] = mTableCalories;
+            mTableCalories.Visibility = ViewStates.Gone;
+
+            // Gsr setup
+            mSensorMap[mSwitchGsr] = mTableGsr;
+            mTableGsr.Visibility = ViewStates.Gone;
+
+            // Rr interval setup
+            mSensorMap[mSwitchRRInterval] = mTableRRInterval;
+            mTableRRInterval.Visibility = ViewStates.Gone;
 
             return rootView;
         }
@@ -237,9 +240,9 @@ namespace Microsoft.Band.Sample
                     Activity.RunOnUiThread(() =>
                     {
                         var accelerometerEvent = e.SensorReading;
-                        mTextAccX.Text = string.Format("{0:F3}", accelerometerEvent.AccelerationX);
-                        mTextAccY.Text = string.Format("{0:F3}", accelerometerEvent.AccelerationY);
-                        mTextAccZ.Text = string.Format("{0:F3}", accelerometerEvent.AccelerationZ);
+                        mTextAccX.Text = string.Format("{0:F3} m/s/s", accelerometerEvent.AccelerationX);
+                        mTextAccY.Text = string.Format("{0:F3} m/s/s", accelerometerEvent.AccelerationY);
+                        mTextAccZ.Text = string.Format("{0:F3} m/s/s", accelerometerEvent.AccelerationZ);
                     });
                 };
             }
@@ -281,12 +284,12 @@ namespace Microsoft.Band.Sample
                     Activity.RunOnUiThread(() =>
                     {
                         var gyroscopeEvent = e.SensorReading;
-                        mTextGyroAccX.Text = string.Format("{0:F3}", gyroscopeEvent.AccelerationX);
-                        mTextGyroAccY.Text = string.Format("{0:F3}", gyroscopeEvent.AccelerationY);
-                        mTextGyroAccZ.Text = string.Format("{0:F3}", gyroscopeEvent.AccelerationZ);
-                        mTextGyroAngX.Text = string.Format("{0:F2}", gyroscopeEvent.AngularVelocityX);
-                        mTextGyroAngY.Text = string.Format("{0:F2}", gyroscopeEvent.AngularVelocityY);
-                        mTextGyroAngZ.Text = string.Format("{0:F2}", gyroscopeEvent.AngularVelocityZ);
+                        mTextGyroAccX.Text = string.Format("{0:F3} m/s/s", gyroscopeEvent.AccelerationX);
+                        mTextGyroAccY.Text = string.Format("{0:F3} m/s/s", gyroscopeEvent.AccelerationY);
+                        mTextGyroAccZ.Text = string.Format("{0:F3} m/s/s", gyroscopeEvent.AccelerationZ);
+                        mTextGyroAngX.Text = string.Format("{0:F2} deg/s", gyroscopeEvent.AngularVelocityX);
+                        mTextGyroAngY.Text = string.Format("{0:F2} deg/s", gyroscopeEvent.AngularVelocityY);
+                        mTextGyroAngZ.Text = string.Format("{0:F2} deg/s", gyroscopeEvent.AngularVelocityZ);
                     });
                 };
             }
@@ -299,7 +302,7 @@ namespace Microsoft.Band.Sample
                     Activity.RunOnUiThread(() =>
                     {
                         var heartRateEvent = e.SensorReading;
-                        mTextHeartRate.Text = Convert.ToString(heartRateEvent.HeartRate);
+                        mTextHeartRate.Text = string.Format("{0:D} beats/min", heartRateEvent.HeartRate);
                         mTextHeartRateQuality.Text = heartRateEvent.Quality.ToString();
                     });
                 };
@@ -313,7 +316,7 @@ namespace Microsoft.Band.Sample
                     Activity.RunOnUiThread(() =>
                     {
                         var pedometerEvent = e.SensorReading;
-                        mTextTotalSteps.Text = string.Format("{0:D}", pedometerEvent.TotalSteps);
+                        mTextTotalSteps.Text = string.Format("{0:D} steps", pedometerEvent.TotalSteps);
                     });
                 };
             }
@@ -326,7 +329,7 @@ namespace Microsoft.Band.Sample
                     Activity.RunOnUiThread(() =>
                     {
                         var skinTemperatureEvent = e.SensorReading;
-                        mTextSkinTemperature.Text = string.Format("{0:F1}", skinTemperatureEvent.Temperature);
+                        mTextSkinTemperature.Text = string.Format("{0:F1} (C)", skinTemperatureEvent.Temperature);
                     });
                 };
             }
@@ -340,6 +343,93 @@ namespace Microsoft.Band.Sample
                     {
                         var uvEvent = e.SensorReading;
                         mTextUltraviolet.Text = uvEvent.UVIndexLevel.ToString();
+                    });
+                };
+            }
+            
+            if (altimeterSensor == null)
+            {
+                altimeterSensor = sensorMgr.CreateAltimeterSensor();
+                altimeterSensor.ReadingChanged += (sender, e) =>
+                {
+                    Activity.RunOnUiThread(() =>
+                    {
+                        var altimeterEvent = e.SensorReading;
+                        mTextFlightsAscended.Text = string.Format("{0:D} floors", altimeterEvent.FlightsAscended);
+                        mTextFlightsDescended.Text = string.Format("{0:D} floors", altimeterEvent.FlightsDescended);
+                        mTextRate.Text = string.Format("{0:F2} cm/s", altimeterEvent.Rate);
+                        mTextSteppingGain.Text = string.Format("{0:D} cm", altimeterEvent.SteppingGain);
+                        mTextSteppingLoss.Text = string.Format("{0:D} cm", altimeterEvent.SteppingLoss);
+                        mTextStepsAscended.Text = string.Format("{0:D} steps", altimeterEvent.StepsAscended);
+                        mTextStepsDescended.Text = string.Format("{0:D} steps", altimeterEvent.StepsDescended);
+                        mTextTotalGain.Text = string.Format("{0:D} cm", altimeterEvent.TotalGain);
+                        mTextTotalLoss.Text = string.Format("{0:D} cm", altimeterEvent.TotalLoss);
+                    });
+                };
+            }
+
+            if (ambientLightSensor == null)
+            {
+                ambientLightSensor = sensorMgr.CreateAmbientLightSensor();
+                ambientLightSensor.ReadingChanged += (sender, e) =>
+                {
+                    Activity.RunOnUiThread(() =>
+                    {
+                        var ambientLightEvent = e.SensorReading;
+                        mTextBrightness.Text = string.Format("{0:D} lux", ambientLightEvent.Brightness);
+                    });
+                };
+            }
+            
+            if (barometerSensor == null)
+            {
+                barometerSensor = sensorMgr.CreateBarometerSensor();
+                barometerSensor.ReadingChanged += (sender, e) =>
+                {
+                    Activity.RunOnUiThread(() =>
+                    {
+                        var barometerEvent = e.SensorReading;
+                        mTextAirPressure.Text = string.Format("{0:D} hPa", barometerEvent.AirPressure);
+                        mTextTemperature.Text = string.Format("{0:D} (C)", barometerEvent.Temperature);
+                    });
+                };
+            }
+            
+            if (caloriesSensor == null)
+            {
+                caloriesSensor = sensorMgr.CreateCaloriesSensor();
+                caloriesSensor.ReadingChanged += (sender, e) =>
+                {
+                    Activity.RunOnUiThread(() =>
+                    {
+                        var caloriesEvent = e.SensorReading;
+                        mTextCalories.Text = string.Format("{0:D} kcals", caloriesEvent.Calories);
+                    });
+                };
+            }
+            
+            if (gsrSensor == null)
+            {
+                gsrSensor = sensorMgr.CreateGsrSensor();
+                gsrSensor.ReadingChanged += (sender, e) =>
+                {
+                    Activity.RunOnUiThread(() =>
+                    {
+                        var gsrEvent = e.SensorReading;
+                        mTextResistance.Text = string.Format("{0:D} kohms", gsrEvent.Resistance);
+                    });
+                };
+            }
+            
+            if (rrIntervalSensor == null)
+            {
+                rrIntervalSensor = sensorMgr.CreateRRIntervalSensor();
+                rrIntervalSensor.ReadingChanged += (sender, e) =>
+                {
+                    Activity.RunOnUiThread(() =>
+                    {
+                        var rrIntervalEvent = e.SensorReading;
+                        mTextInterval.Text = string.Format("{0:2F} s", rrIntervalEvent.Interval);
                     });
                 };
             }
@@ -363,6 +453,20 @@ namespace Microsoft.Band.Sample
             base.OnPause();
         }
 
+        [SpliceCheckedChange(Resource.Id.switchAccelerometer)]
+        [SpliceCheckedChange(Resource.Id.switchContact)]
+        [SpliceCheckedChange(Resource.Id.switchDistance)]
+        [SpliceCheckedChange(Resource.Id.switchGyro)]
+        [SpliceCheckedChange(Resource.Id.switchHeartRate)]
+        [SpliceCheckedChange(Resource.Id.switchPedometer)]
+        [SpliceCheckedChange(Resource.Id.switchSkinTemperature)]
+        [SpliceCheckedChange(Resource.Id.switchUltraviolet)]
+        [SpliceCheckedChange(Resource.Id.switchAltimeter)]
+        [SpliceCheckedChange(Resource.Id.switchAmbientLight)]
+        [SpliceCheckedChange(Resource.Id.switchBarometer)]
+        [SpliceCheckedChange(Resource.Id.switchCalories)]
+        [SpliceCheckedChange(Resource.Id.switchGsr)]
+        [SpliceCheckedChange(Resource.Id.switchRRInterval)]
         private async void OnToggleSensorSection(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             if (!Model.Instance.Connected)
@@ -459,6 +563,7 @@ namespace Microsoft.Band.Sample
 						else
 						{
 							Util.ShowExceptionAlert(Activity, "Start heart rate sensor", new Exception("User declined permission."));
+                            mSwitchHeartRate.Checked = false;
 						}
                     }
                     else if (sw == mSwitchContact)
@@ -480,6 +585,54 @@ namespace Microsoft.Band.Sample
                     {
                         mTextTotalSteps.Text = "";
 						pedometerSensor.StartReadings();
+                    }
+                    else if (sw == mSwitchAltimeter)
+                    {
+                        mTextFlightsAscended.Text = "";
+                        mTextFlightsDescended.Text = "";
+                        mTextRate.Text = "";
+                        mTextSteppingGain.Text = "";
+                        mTextSteppingLoss.Text = "";
+                        mTextStepsAscended.Text = "";
+                        mTextStepsDescended.Text = "";
+                        mTextTotalGain.Text = "";
+                        mTextTotalLoss.Text = "";
+                        altimeterSensor.StartReadings();
+                    }
+                    else if (sw == mSwitchAmbientLight)
+                    {
+                        mTextBrightness.Text = "";
+                        ambientLightSensor.StartReadings();
+                    }
+                    else if (sw == mSwitchBarometer)
+                    {
+                        mTextAirPressure.Text = "";
+                        mTextTemperature.Text = "";
+                        barometerSensor.StartReadings();
+                    }
+                    else if (sw == mSwitchCalories)
+                    {
+                        mTextCalories.Text = "";
+                        caloriesSensor.StartReadings();
+                    }
+                    else if (sw == mSwitchGsr)
+                    {
+                        mTextResistance.Text = "";
+                        gsrSensor.StartReadings();
+                    }
+                    else if (sw == mSwitchRRInterval)
+                    {
+                        var sensorMngr = Model.Instance.Client.SensorManager;
+                        if (await sensorMngr.RequestHeartRateConsentTaskAsync(Activity)) 
+                        {
+                            mTextInterval.Text = "";
+                            rrIntervalSensor.StartReadings();
+                        }
+                        else
+                        {
+                            Util.ShowExceptionAlert(Activity, "Start rr interval sensor", new Exception("User declined permission."));
+                            mSwitchRRInterval.Checked = false;
+                        }
                     }
                 }
                 catch (BandException ex)
@@ -537,6 +690,30 @@ namespace Microsoft.Band.Sample
                     else if (sw == mSwitchPedometer)
                     {
 						pedometerSensor.StopReadings();
+                    }
+                    else if (sw == mSwitchAltimeter)
+                    {
+                        altimeterSensor.StopReadings();
+                    }
+                    else if (sw == mSwitchAmbientLight)
+                    {
+                        ambientLightSensor.StopReadings();
+                    }
+                    else if (sw == mSwitchBarometer)
+                    {
+                        barometerSensor.StopReadings();
+                    }
+                    else if (sw == mSwitchCalories)
+                    {
+                        caloriesSensor.StopReadings();
+                    }
+                    else if (sw == mSwitchGsr)
+                    {
+                        gsrSensor.StopReadings();
+                    }
+                    else if (sw == mSwitchRRInterval)
+                    {
+                        rrIntervalSensor.StopReadings();
                     }
                 }
                 catch (BandException ex)

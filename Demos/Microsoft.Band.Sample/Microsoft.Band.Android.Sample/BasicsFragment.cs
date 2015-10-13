@@ -17,31 +17,33 @@
 //IN THE SOFTWARE.
 
 using System;
-using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using Java.Util.Concurrent;
-using Microsoft.Band.Notifications;
+using Genetics;
+using Genetics.Attributes;
 using Fragment = Android.Support.V4.App.Fragment;
+
+using Microsoft.Band.Notifications;
 
 namespace Microsoft.Band.Sample
 {
     public class BasicsFragment : Fragment, FragmentListener
     {
-        private Button mButtonConnect;
-        private Button mButtonChooseBand;
+        [Splice(Resource.Id.buttonConnect)] private Button mButtonConnect;
+        [Splice(Resource.Id.buttonChooseBand)] private Button mButtonChooseBand;
 
-        private Button mButtonGetHwVersion;
-        private Button mButtonGetFwVersion;
+        [Splice(Resource.Id.buttonGetHardwareVersion)] private Button mButtonGetHwVersion;
+        [Splice(Resource.Id.buttonGetFirmwareVersion)] private Button mButtonGetFwVersion;
 
-        private TextView mTextHwVersion;
-        private TextView mTextFwVersion;
+        [Splice(Resource.Id.textHardwareVersion)] private TextView mTextHwVersion;
+        [Splice(Resource.Id.textFirmwareVersion)] private TextView mTextFwVersion;
 
-        private Button mButtonVibrate;
-        private Button mButtonVibratePattern;
+        [Splice(Resource.Id.buttonVibrate)] private Button mButtonVibrate;
+        [Splice(Resource.Id.buttonVibrationPattern)] private Button mButtonVibratePattern;
 
+        private IBandConnectionCallback mCallback;
         private IBandInfo[] mPairedBands;
         private int mSelectedBandIndex = 0;
 
@@ -59,32 +61,15 @@ namespace Microsoft.Band.Sample
         {
             View rootView = inflater.Inflate(Resource.Layout.fragment_basics, container, false);
 
-            mButtonConnect =  rootView.FindViewById<Button>(Resource.Id.buttonConnect);
-            mButtonConnect.Click += OnConnectClick;
+            Geneticist.Splice(this, rootView);
 
-            mButtonChooseBand =  rootView.FindViewById<Button>(Resource.Id.buttonChooseBand);
-            mButtonChooseBand.Click += OnChooseBandClick;
-
-            mButtonGetHwVersion =  rootView.FindViewById<Button>(Resource.Id.buttonGetHardwareVersion);
-            mButtonGetHwVersion.Click += OnGetHwVersionClick;
-
-            mButtonGetFwVersion =  rootView.FindViewById<Button>(Resource.Id.buttonGetFirmwareVersion);
-            mButtonGetFwVersion.Click += OnGetFwVersionClick;
-
-            mTextHwVersion =  rootView.FindViewById<TextView>(Resource.Id.textHardwareVersion);
-            mTextFwVersion =  rootView.FindViewById<TextView>(Resource.Id.textFirmwareVersion);
-
-            mButtonVibrate =  rootView.FindViewById<Button>(Resource.Id.buttonVibrate);
-            mButtonVibrate.Click += OnVibrateClick;
-
-            mButtonVibratePattern = rootView.FindViewById<Button>(Resource.Id.buttonVibrationPattern);
             mButtonVibratePattern.Text = mSelectedVibrationType.ToString();
-            mButtonVibratePattern.Click += OnVibratePatternClick;
 
             return rootView;
         }
 
         // Handle connect/disconnect requests.
+        [SpliceClick(Resource.Id.buttonConnect)]
         private async void OnConnectClick(object sender, EventArgs args)
         {
             if (Model.Instance.Connected)
@@ -108,6 +93,15 @@ namespace Microsoft.Band.Sample
 
                 mButtonConnect.Enabled = false;
 
+                if (mCallback != null)
+                {
+                    Model.Instance.Client.UnregisterConnectionCallback();
+                }
+                mCallback = Model.Instance.Client.RegisterConnectionCallback(connectionState =>
+                {
+                    Toast.MakeText(Activity, "Connection state: " + connectionState, ToastLength.Short).Show();
+                });
+                
 				try
 				{
 					// Connect must be called on a background thread.
@@ -145,6 +139,7 @@ namespace Microsoft.Band.Sample
 
         // If there are multiple bands, the "choose band" button is enabled and
         // launches a dialog where we can select the band to use.
+        [SpliceClick(Resource.Id.buttonChooseBand)]
         private void OnChooseBandClick(object sender, EventArgs e)
         {
             using (var builder = new AlertDialog.Builder(Activity))
@@ -167,6 +162,7 @@ namespace Microsoft.Band.Sample
             }
         }
 
+        [SpliceClick(Resource.Id.buttonGetFirmwareVersion)]
         private async void OnGetFwVersionClick(object sender, EventArgs e)
         {
             try
@@ -185,6 +181,7 @@ namespace Microsoft.Band.Sample
             }
         }
 
+        [SpliceClick(Resource.Id.buttonGetHardwareVersion)]
         private async void OnGetHwVersionClick(object sender, EventArgs e)
         {
             try
@@ -203,6 +200,7 @@ namespace Microsoft.Band.Sample
             }
         }
 
+        [SpliceClick(Resource.Id.buttonVibrate)]
         private async void OnVibrateClick(object sender, EventArgs e)
         {
             try
@@ -215,6 +213,7 @@ namespace Microsoft.Band.Sample
             }
         }
 
+        [SpliceClick(Resource.Id.buttonVibrationPattern)]
         private void OnVibratePatternClick(object sender, EventArgs e)
         {
             using (var builder = new AlertDialog.Builder(Activity))

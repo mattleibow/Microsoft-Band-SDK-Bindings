@@ -23,8 +23,10 @@ using Android.Graphics.Drawables;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Genetics;
+using Genetics.Attributes;
+
 using Microsoft.Band.Sample.ColorPicker;
-using Microsoft.Band.Tiles;
 
 namespace Microsoft.Band.Sample
 {
@@ -37,50 +39,34 @@ namespace Microsoft.Band.Sample
         private const string HIGH_CONTRAST_COLOR_NAME = "HighContrast";
         private const string MUTED_COLOR_NAME = "Muted";
 
-        private Button mButtonChangeBase;
-        private Button mButtonChangeHighlight;
-        private Button mButtonChangeLowlight;
-        private Button mButtonChangeSecondaryText;
-        private Button mButtonChangeHighContrast;
-        private Button mButtonChangeMuted;
-
         private BandTheme mTheme;
 
         public BandThemeView(Context context) 
             : base(context)
         {
-            LoadViews();
+            Init();
         }
 
         public BandThemeView(Context context, IAttributeSet attrs) 
             : base(context, attrs)
         {
-            var inflater = LayoutInflater.From(context);
-            inflater.Inflate(Resource.Layout.view_bandtheme, this);
-            LoadViews();
+            Init();
         }
 
-        private void LoadViews()
+        private void Init()
         {
-            mButtonChangeBase = FindViewById<Button>(Resource.Id.buttonChangeBase);
-            mButtonChangeBase.Click += OnButtonClick;
+            var inflater = LayoutInflater.From(Context);
+            inflater.Inflate(Resource.Layout.view_bandtheme, this);
 
-            mButtonChangeHighlight = FindViewById<Button>(Resource.Id.buttonChangeHighlight);
-            mButtonChangeHighlight.Click += OnButtonClick;
-
-            mButtonChangeLowlight = FindViewById<Button>(Resource.Id.buttonChangeLowlight);
-            mButtonChangeLowlight.Click += OnButtonClick;
-
-            mButtonChangeSecondaryText = FindViewById<Button>(Resource.Id.buttonChangeSecondaryText);
-            mButtonChangeSecondaryText.Click += OnButtonClick;
-
-            mButtonChangeHighContrast = FindViewById<Button>(Resource.Id.buttonChangeHighContrast);
-            mButtonChangeHighContrast.Click += OnButtonClick;
-
-            mButtonChangeMuted = FindViewById<Button>(Resource.Id.buttonChangeMuted);
-            mButtonChangeMuted.Click += OnButtonClick;
+            Geneticist.Splice(this);
         }
 
+        [SpliceClick(Resource.Id.buttonChangeBase)]
+        [SpliceClick(Resource.Id.buttonChangeHighlight)]
+        [SpliceClick(Resource.Id.buttonChangeLowlight)]
+        [SpliceClick(Resource.Id.buttonChangeSecondaryText)]
+        [SpliceClick(Resource.Id.buttonChangeHighContrast)]
+        [SpliceClick(Resource.Id.buttonChangeMuted)]
         private void OnButtonClick(object sender, EventArgs e)
         {
             var button = (Button)sender;

@@ -17,20 +17,19 @@
 //IN THE SOFTWARE.
 
 using System;
-using System.Linq;
-using System.Reflection;
 using Android.App;
 using Android.Content;
 using Android.Database;
 using Android.Graphics;
-using Android.Locations;
 using Android.OS;
 using Android.Provider;
 using Android.Views;
 using Android.Widget;
-using Microsoft.Band.Personalization;
-using Microsoft.Band.Tiles;
+using Genetics;
+using Genetics.Attributes;
 using Fragment = Android.Support.V4.App.Fragment;
+
+using Microsoft.Band.Personalization;
 
 namespace Microsoft.Band.Sample
 {
@@ -38,18 +37,17 @@ namespace Microsoft.Band.Sample
     {
         protected internal const int SELECT_IMAGE = 0;
 
-        private View mRootView;
-        private BandThemeView mViewTheme;
+        [Splice(Resource.Id.viewTheme)] private BandThemeView mViewTheme;
 
-        private Button mButtonSelectBackground;
+        [Splice(Resource.Id.buttonSelectBackground)] private Button mButtonSelectBackground;
 
-        private Button mButtonGetTheme;
-        private Button mButtonSetTheme;
+        [Splice(Resource.Id.buttonGetTheme)] private Button mButtonGetTheme;
+        [Splice(Resource.Id.buttonSetTheme)] private Button mButtonSetTheme;
 
-        private ImageView mImageBackground;
+        [Splice(Resource.Id.imageBackground)] private ImageView mImageBackground;
 
-        private Button mButtonGetBackground;
-        private Button mButtonSetBackground;
+        [Splice(Resource.Id.buttonGetBackground)] private Button mButtonGetBackground;
+        [Splice(Resource.Id.buttonSetBackground)] private Button mButtonSetBackground;
 
         private Bitmap mSelectedImage;
 
@@ -63,30 +61,14 @@ namespace Microsoft.Band.Sample
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            mRootView = inflater.Inflate(Resource.Layout.fragment_theme, container, false);
+            var rootView = inflater.Inflate(Resource.Layout.fragment_theme, container, false);
 
-            mViewTheme = mRootView.FindViewById<BandThemeView>(Resource.Id.viewTheme);
+            Geneticist.Splice(this, rootView);
 
-            mButtonGetTheme = mRootView.FindViewById<Button>(Resource.Id.buttonGetTheme);
-            mButtonGetTheme.Click += OnGetThemeClick;
-
-            mButtonSetTheme = mRootView.FindViewById<Button>(Resource.Id.buttonSetTheme);
-            mButtonSetTheme.Click += OnSetThemeClick;
-
-            mButtonSelectBackground = mRootView.FindViewById<Button>(Resource.Id.buttonSelectBackground);
-            mButtonSelectBackground.Click += OnSelectBackgroundClick;
-
-            mImageBackground = mRootView.FindViewById<ImageView>(Resource.Id.imageBackground);
-
-            mButtonGetBackground = mRootView.FindViewById<Button>(Resource.Id.buttonGetBackground);
-            mButtonGetBackground.Click += OnGetBackgroundClick;
-
-            mButtonSetBackground = mRootView.FindViewById<Button>(Resource.Id.buttonSetBackground);
-            mButtonSetBackground.Click += OnSetBackgroundClick;
-
-            return mRootView;
+            return rootView;
         }
 
+        [SpliceClick(Resource.Id.buttonGetBackground)]
         private async void OnGetBackgroundClick(object sender, EventArgs e)
         {
             try
@@ -102,6 +84,7 @@ namespace Microsoft.Band.Sample
             }
         }
 
+        [SpliceClick(Resource.Id.buttonSetBackground)]
         private async void OnSetBackgroundClick(object sender, EventArgs e)
         {
             try
@@ -114,6 +97,7 @@ namespace Microsoft.Band.Sample
             }
         }
 
+        [SpliceClick(Resource.Id.buttonSelectBackground)]
         private void OnSelectBackgroundClick(object sender, EventArgs e)
         {
             StartActivityForResult(new Intent(Intent.ActionPick, MediaStore.Images.Media.InternalContentUri), SELECT_IMAGE);
@@ -150,6 +134,7 @@ namespace Microsoft.Band.Sample
             return cursor.GetString(column_index);
         }
 
+        [SpliceClick(Resource.Id.buttonGetTheme)]
         private async void OnGetThemeClick(object sender, EventArgs e)
         {
             try
@@ -165,6 +150,7 @@ namespace Microsoft.Band.Sample
             }
         }
 
+        [SpliceClick(Resource.Id.buttonSetTheme)]
         private async void OnSetThemeClick(object sender, EventArgs e)
         {
             try
