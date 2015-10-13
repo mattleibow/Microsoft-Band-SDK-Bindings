@@ -36,6 +36,16 @@ namespace Microsoft.Band.iOS.Sample
 			// Do any additional setup after loading the view, typically from a nib.
 
 			manager = BandClientManager.Instance;
+
+			manager.Connected += (sender, e) => {
+				Output ("Band connected.");
+			};
+			manager.ConnectionFailed += (sender, e) => {
+				Output ("Band connection failed.");
+			};
+			manager.Disconnected += (sender, e) => {
+				Output ("Band disconnected.");
+			};
 		}
 
 		async partial void ConnectToBandClick (UIButton sender)
@@ -44,24 +54,24 @@ namespace Microsoft.Band.iOS.Sample
 				// get the client
 				client = manager.AttachedClients.FirstOrDefault ();
 
-				// attach event handlers
-				client.ButtonPressed += (_, e) => {
-					Output (string.Format ("Button {0} Pressed: {1}", e.TileButtonEvent.ElementId, e.TileButtonEvent.TileName));
-				};
-				client.TileOpened += (_, e) => {
-					Output (string.Format ("Tile Opened: {0}", e.TileEvent.TileName));
-				};
-				client.TileClosed += (_, e) => {
-					Output (string.Format ("Tile Closed: {0}", e.TileEvent.TileName));
-				};
-
 				if (client == null) {
 					Output ("Failed! No Bands attached.");
 				} else {
+
+					// attach event handlers
+					client.ButtonPressed += (_, e) => {
+						Output (string.Format ("Button {0} Pressed: {1}", e.TileButtonEvent.ElementId, e.TileButtonEvent.TileName));
+					};
+					client.TileOpened += (_, e) => {
+						Output (string.Format ("Tile Opened: {0}", e.TileEvent.TileName));
+					};
+					client.TileClosed += (_, e) => {
+						Output (string.Format ("Tile Closed: {0}", e.TileEvent.TileName));
+					};
+
 					try {
 						Output ("Please wait. Connecting to Band...");
 						await manager.ConnectTaskAsync (client);
-						Output ("Band connected.");
 					} catch (BandException ex) {
 						Output ("Failed to connect to Band:");
 						Output (ex.Message);
@@ -70,7 +80,7 @@ namespace Microsoft.Band.iOS.Sample
 			} else {
 				Output ("Please wait. Disconnecting from Band...");
 				await manager.DisconnectTaskAsync (client);
-				Output ("Band disconnected.");
+				client = null;
 			}
 		}
 
@@ -83,7 +93,7 @@ namespace Microsoft.Band.iOS.Sample
 					accelerometer.ReadingChanged += (_, e) => {
 						var data = e.SensorReading;
 						AccelerometerDataText.Text = string.Format (
-							"Accel Data: X={0:+0.00} Y={1:+0.00} Z={2:+0.00}", 
+							"Accel Data: X={0:0.00} Y={1:0.00} Z={2:0.00}", 
 							data.AccelerationX, data.AccelerationY, data.AccelerationZ);
 					};
 				}

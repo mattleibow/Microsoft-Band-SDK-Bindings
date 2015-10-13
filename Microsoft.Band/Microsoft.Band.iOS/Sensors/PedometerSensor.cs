@@ -9,12 +9,7 @@ namespace Microsoft.Band.Sensors
 		{
 		}
 
-		public void StartReadings ()
-		{
-			StartReadings (null);
-		}
-
-		public void StartReadings (NSOperationQueue queue)
+		public override void StartReadings (NSOperationQueue queue)
 		{
 			NSError operationError;
 			SensorManager.StartPedometerUpdates (queue, out operationError, (data, callbackError) => {
@@ -25,7 +20,7 @@ namespace Microsoft.Band.Sensors
 			}
 		}
 
-		public void StopReadings ()
+		public override void StopReadings ()
 		{
 			NSError operationError;
 			SensorManager.StopPedometerUpdates (out operationError);

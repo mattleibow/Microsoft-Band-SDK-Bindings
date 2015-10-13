@@ -12,10 +12,10 @@ namespace Microsoft.Band
 			return tcs.Task;
 		}
 
-		public static Task<string> GetHardwareVersionTaskAsyc (this BandClient client)
+		public static Task<string> GetHardwareVersionTaskAsync (this BandClient client)
 		{
 			var tcs = new TaskCompletionSource<string> ();
-			client.GetHardwareVersionAsyc (tcs.AttachCompletionHandler ());
+			client.GetHardwareVersionAsync (tcs.AttachCompletionHandler ());
 			return tcs.Task;
 		}
 	}

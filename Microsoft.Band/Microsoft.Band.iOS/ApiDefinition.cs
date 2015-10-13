@@ -16,18 +16,19 @@ using Microsoft.Band.Tiles.Pages;
 
 namespace Microsoft.Band
 {
+    [Static]
 	partial interface BandClientManagerConstants
 	{
 		// extern NSString *const MSBClientManagerBluetoothPowerNotification;
-		[Field ("MSBClientManagerBluetoothPowerNotification")]
+        [Field ("MSBClientManagerBluetoothPowerNotification", "__Internal")]
 		NSString BluetoothPowerNotification { get; }
 
 		// extern NSString *const MSBClientManagerBluetoothPowerKey;
-		[Field ("MSBClientManagerBluetoothPowerKey")]
+        [Field ("MSBClientManagerBluetoothPowerKey", "__Internal")]
 		NSString BluetoothPowerKey { get; }
 	
 		// extern NSString *const MSBErrorTypeDomain;
-		[Field ("MSBErrorTypeDomain")]
+        [Field ("MSBErrorTypeDomain", "__Internal")]
 		NSString BandErrorTypeDomain { get; }
 	}
 
@@ -128,12 +129,12 @@ namespace Microsoft.Band
 		IBandSensorManager SensorManager { get; }
 
 		// -(void)firmwareVersionWithCompletionHandler:(void (^)(NSString *, NSError *))completionHandler;
-		[Export ("firmwareVersionWithCompletionHandler:"), Async]
+		[Export ("firmwareVersionWithCompletionHandler:")]
 		void GetFirmwareVersionAsync (Action<NSString, NSError> completionHandler);
 
 		// -(void)hardwareVersionWithCompletionHandler:(void (^)(NSString *, NSError *))completionHandler;
-		[Export ("hardwareVersionWithCompletionHandler:"), Async]
-		void GetHardwareVersionAsyc (Action<NSString, NSError> completionHandler);
+		[Export ("hardwareVersionWithCompletionHandler:")]
+		void GetHardwareVersionAsync (Action<NSString, NSError> completionHandler);
 	}
 }
 
@@ -335,7 +336,7 @@ namespace Microsoft.Band.Tiles.Pages
 		BandColor PressedColor { get; set; }
 
 		// @property (nonatomic, strong) MSBPageElementColorSource * pressedColorSource;
-		[Export ("pressedColorSource", ArgumentSemantic.Strong)]
+        [Export ("pressedColorSource", ArgumentSemantic.Assign)]
 		ElementColorSource PressedColorSource { get; set; }
 
 		// +(MSBPageFilledButtonData *)pageFilledButtonDataWithElementId:(MSBPageElementIdentifier)elementId;
@@ -762,6 +763,87 @@ namespace Microsoft.Band.Sensors
 		BandContactStatus WornState { get; }
 	}
 
+    // @interface MSBSensorGSRData : MSBSensorData
+    [BaseType (typeof(BandSensorData), Name = "MSBSensorGSRData")]
+    interface BandSensorGsrData
+    {
+        // @property (readonly, nonatomic) NSUInteger resistance;
+        [Export ("resistance")]
+        nuint Resistance { get; }
+    }
+
+    // @interface MSBSensorRRIntervalData : MSBSensorData
+    [BaseType (typeof(BandSensorData), Name = "MSBSensorRRIntervalData")]
+    interface BandSensorRRIntervalData
+    {
+        // @property (readonly, nonatomic) double interval;
+        [Export ("interval")]
+        double Interval { get; }
+    }
+
+    // @interface MSBSensorAmbientLightData : MSBSensorData
+    [BaseType (typeof(BandSensorData), Name = "MSBSensorAmbientLightData")]
+    interface BandSensorAmbientLightData
+    {
+        // @property (readonly, nonatomic) int brightness;
+        [Export ("brightness")]
+        int Brightness { get; }
+    }
+
+    // @interface MSBSensorBarometerData : MSBSensorData
+    [BaseType (typeof(BandSensorData), Name = "MSBSensorBarometerData")]
+    interface BandSensorBarometerData
+    {
+        // @property (readonly, nonatomic) double airPressure;
+        [Export ("airPressure")]
+        double AirPressure { get; }
+
+        // @property (readonly, nonatomic) double temperature;
+        [Export ("temperature")]
+        double Temperature { get; }
+    }
+
+    // @interface MSBSensorAltimeterData : MSBSensorData
+    [BaseType (typeof(BandSensorData), Name = "MSBSensorAltimeterData")]
+    interface BandSensorAltimeterData
+    {
+        // @property (readonly, nonatomic) NSUInteger totalGain;
+        [Export ("totalGain")]
+        nuint TotalGain { get; }
+
+        // @property (readonly, nonatomic) NSUInteger totalLoss;
+        [Export ("totalLoss")]
+        nuint TotalLoss { get; }
+
+        // @property (readonly, nonatomic) NSUInteger steppingGain;
+        [Export ("steppingGain")]
+        nuint SteppingGain { get; }
+
+        // @property (readonly, nonatomic) NSUInteger steppingLoss;
+        [Export ("steppingLoss")]
+        nuint SteppingLoss { get; }
+
+        // @property (readonly, nonatomic) NSUInteger stepsAscended;
+        [Export ("stepsAscended")]
+        nuint StepsAscended { get; }
+
+        // @property (readonly, nonatomic) NSUInteger stepsDescended;
+        [Export ("stepsDescended")]
+        nuint StepsDescended { get; }
+
+        // @property (readonly, nonatomic) float rate;
+        [Export ("rate")]
+        float Rate { get; }
+
+        // @property (readonly, nonatomic) NSUInteger flightsAscended;
+        [Export ("flightsAscended")]
+        nuint FlightsAscended { get; }
+
+        // @property (readonly, nonatomic) NSUInteger flightsDescended;
+        [Export ("flightsDescended")]
+        nuint FlightsDescended { get; }
+    }
+
 	interface IBandSensorManager
 	{
 
@@ -862,6 +944,56 @@ namespace Microsoft.Band.Sensors
 		[Export ("stopBandContactUpdatesErrorRef:")]
 		bool StopBandContactUpdates (out NSError pError);
 
+        // @required -(BOOL)startGSRUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorGSRData *, NSError *))handler;
+        [Abstract]
+        [Export ("startGSRUpdatesToQueue:errorRef:withHandler:")]
+        bool StartGsrUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorGsrData, NSError> handler);
+
+        // @required -(BOOL)stopGSRUpdatesErrorRef:(NSError **)pError;
+        [Abstract]
+        [Export ("stopGSRUpdatesErrorRef:")]
+        bool StopGsrUpdates (out NSError pError);
+
+        // @required -(BOOL)startRRIntervalUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorRRIntervalData *, NSError *))handler;
+        [Abstract]
+        [Export ("startRRIntervalUpdatesToQueue:errorRef:withHandler:")]
+        bool StartRRIntervalUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorRRIntervalData, NSError> handler);
+
+        // @required -(BOOL)stopRRIntervalUpdatesErrorRef:(NSError **)pError;
+        [Abstract]
+        [Export ("stopRRIntervalUpdatesErrorRef:")]
+        bool StopRRIntervalUpdates (out NSError pError);
+
+        // @required -(BOOL)startAmbientLightUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorAmbientLightData *, NSError *))handler;
+        [Abstract]
+        [Export ("startAmbientLightUpdatesToQueue:errorRef:withHandler:")]
+        bool StartAmbientLightUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorAmbientLightData, NSError> handler);
+
+        // @required -(BOOL)stopAmbientLightUpdatesErrorRef:(NSError **)pError;
+        [Abstract]
+        [Export ("stopAmbientLightUpdatesErrorRef:")]
+        bool StopAmbientLightUpdates (out NSError pError);
+
+        // @required -(BOOL)startBarometerUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorBarometerData *, NSError *))handler;
+        [Abstract]
+        [Export ("startBarometerUpdatesToQueue:errorRef:withHandler:")]
+        bool StartBarometerUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorBarometerData, NSError> handler);
+
+        // @required -(BOOL)stopBarometerUpdatesErrorRef:(NSError **)pError;
+        [Abstract]
+        [Export ("stopBarometerUpdatesErrorRef:")]
+        bool StopBarometerUpdates (out NSError pError);
+
+        // @required -(BOOL)startAltimeterUpdatesToQueue:(NSOperationQueue *)queue errorRef:(NSError **)pError withHandler:(void (^)(MSBSensorAltimeterData *, NSError *))handler;
+        [Abstract]
+        [Export ("startAltimeterUpdatesToQueue:errorRef:withHandler:")]
+        bool StartAltimeterUpdates ([NullAllowed] NSOperationQueue queue, out NSError pError, Action<BandSensorAltimeterData, NSError> handler);
+
+        // @required -(BOOL)stopAltimeterUpdatesErrorRef:(NSError **)pError;
+        [Abstract]
+        [Export ("stopAltimeterUpdatesErrorRef:")]
+        bool StopAltimeterUpdates (out NSError pError);
+
 		// @required -(MSBUserConsent)heartRateUserConsent;
 		[Abstract]
 		[Export ("heartRateUserConsent")]
@@ -897,7 +1029,7 @@ namespace Microsoft.Band.Tiles
 		BandIcon TileIcon { get; }
 
 		// @property (nonatomic, strong) MSBTheme * theme;
-		[Export ("theme", ArgumentSemantic.Retain)]
+		[Export ("theme", ArgumentSemantic.Strong)]
 		BandTheme Theme { get; set; }
 
 		// @property (getter = isBadgingEnabled, assign, nonatomic) BOOL badgingEnabled;
@@ -1143,27 +1275,27 @@ namespace Microsoft.Band
 	interface BandTheme : INSCopying
 	{
 		// @property (nonatomic, strong) MSBColor * baseColor;
-		[Export ("baseColor", ArgumentSemantic.Retain)]
+        [Export ("baseColor", ArgumentSemantic.Strong)]
 		BandColor Base { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * highLightColor;
-		[Export ("highlightColor", ArgumentSemantic.Retain)]
+        [Export ("highlightColor", ArgumentSemantic.Strong)]
 		BandColor Highlight { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * lowLightColor;
-		[Export ("lowlightColor", ArgumentSemantic.Retain)]
+        [Export ("lowlightColor", ArgumentSemantic.Strong)]
 		BandColor Lowlight { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * secondaryTextColor;
-		[Export ("secondaryTextColor", ArgumentSemantic.Retain)]
+        [Export ("secondaryTextColor", ArgumentSemantic.Strong)]
 		BandColor SecondaryText { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * highContrastColor;
-		[Export ("highContrastColor", ArgumentSemantic.Retain)]
+        [Export ("highContrastColor", ArgumentSemantic.Strong)]
 		BandColor HighContrast { get; set; }
 
 		// @property (nonatomic, strong) MSBColor * mutedColor;
-		[Export ("mutedColor", ArgumentSemantic.Retain)]
+        [Export ("mutedColor", ArgumentSemantic.Strong)]
 		BandColor Muted { get; set; }
 
 		// + (MSBTheme *)themeWithDictionary:(NSDictionary *)dictionary error:(NSError **)pError;

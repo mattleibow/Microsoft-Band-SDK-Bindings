@@ -20,6 +20,8 @@ namespace Microsoft.Band
 		InvalidArgument,
 		UserDeclinedHR,
 		UserConsentRequiredHR,
+        SensorUnavailable,
+        BarcodeInvalidLength,
 
 		// Tile errors
 		InvalidTile = 300L,
@@ -29,6 +31,7 @@ namespace Microsoft.Band
 		TileAlreadyExist,
 		TileNotFound,
 		PageElementAlreadyExist,
+        PageElementIllegalIdentifier,
 
 		// Unknown
 		Unknown = 900L

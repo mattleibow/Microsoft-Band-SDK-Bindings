@@ -52,6 +52,31 @@ namespace Microsoft.Band.Sensors
 			return new CaloriesSensor(sensorManager);
 		}
 
+		public static AltimeterSensor CreateAltimeterSensor(this IBandSensorManager sensorManager)
+		{
+			return new AltimeterSensor(sensorManager);
+		}
+
+		public static AmbientLightSensor CreateAmbientLightSensor(this IBandSensorManager sensorManager)
+		{
+			return new AmbientLightSensor(sensorManager);
+		}
+
+		public static BarometerSensor CreateBarometerSensor(this IBandSensorManager sensorManager)
+		{
+			return new BarometerSensor(sensorManager);
+		}
+
+		public static GsrSensor CreateGsrSensor(this IBandSensorManager sensorManager)
+		{
+			return new GsrSensor(sensorManager);
+		}
+
+		public static RRIntervalSensor CreateRRIntervalSensor(this IBandSensorManager sensorManager)
+		{
+			return new RRIntervalSensor(sensorManager);
+		}
+
 		public static Task<bool> RequestHeartRateUserConsentTaskAsync(this IBandSensorManager sensorManager)
 		{
 			var tcs = new TaskCompletionSource<bool> ();

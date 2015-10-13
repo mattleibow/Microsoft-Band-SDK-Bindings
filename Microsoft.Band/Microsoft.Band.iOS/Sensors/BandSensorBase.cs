@@ -25,6 +25,15 @@ namespace Microsoft.Band.Sensors
 				handler (this, e);
 			}
 		}
+
+		public virtual void StartReadings ()
+		{
+			StartReadings (null);
+		}
+
+		public abstract void StartReadings (NSOperationQueue queue);
+
+		public abstract void StopReadings ();
 	}
 
 	// base type for sensor events
