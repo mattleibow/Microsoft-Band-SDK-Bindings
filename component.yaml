@@ -53,17 +53,3 @@ samples:
       - project: Microsoft.Band.iOS.Sample
         packages:
           - Xamarin.Microsoft.Band.Native
-  - name: Android Native Demo
-    path: Demos/RotatingHand/RotatingHandAndroid.sln
-    removeProjects:
-      - Microsoft.Band.Android
-    installNuGets:
-      - project: RotatingHandAndroid
-        packages:
-          - Xamarin.Microsoft.Band.Native
-  - name: Windows Phone Native Demo
-    path: Demos/RotatingHand/RotatingHandWPA.sln
-    installNuGets:
-      - project: RotatingHandWPA
-        packages:
-          - Xamarin.Microsoft.Band.Native
