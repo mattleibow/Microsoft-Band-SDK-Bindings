@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 using Microsoft.Band.Portable.Sensors;
@@ -9,10 +10,10 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         where T : IBandSensorReading
     {
         private IBandSensorReading reading;
-        private IBandSensor<T> sensor;
+        private BandSensorBase<T> sensor;
         private bool isSensorEnabled;
 
-        public SensorViewModel(string type, IBandSensor<T> sensor)
+        public SensorViewModel(string type, BandSensorBase<T> sensor)
         {
             this.sensor = sensor;
             this.reading = null;
@@ -38,7 +39,7 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             await Sensor.StopReadingsAsync();
         }
 
-        public IBandSensor<T> Sensor { get { return sensor; } }
+        public BandSensorBase<T> Sensor { get { return sensor; } }
 
         public string Type { get; private set; }
 
@@ -84,8 +85,18 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
                     userConsenting.UserConsented == UserConsent.Granted ||
                     await userConsenting.RequestUserConsent())
                 {
-                    // specify the minimum available
-                    await Sensor.StartReadingsAsync(BandSensorSampleRate.Ms16);
+                    try
+                    {
+                        await Sensor.StartReadingsAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Problem starting sensor: " + ex);
+                    }
+                }
+                else
+                {
+                    IsSensorEnabled = false;
                 }
             }
             else
