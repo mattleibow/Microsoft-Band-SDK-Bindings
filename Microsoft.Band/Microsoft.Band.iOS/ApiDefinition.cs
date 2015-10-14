@@ -1036,9 +1036,9 @@ namespace Microsoft.Band.Tiles
 		[Export ("badgingEnabled")]
 		bool BadgingEnabled { [Bind ("isBadgingEnabled")] get; set; }
 
-		// @property (nonatomic, assign, getter=isScreenTimeoutEnabled) BOOL screenTimeoutEnabled;
-		[Export ("screenTimeoutEnabled")]
-		bool ScreenTimeoutEnabled { [Bind ("isScreenTimeoutEnabled")] get; set; }
+		// @property (nonatomic, assign, getter=isScreenTimeoutDisabled) BOOL screenTimeoutDisabled;
+		[Export ("screenTimeoutDisabled")]
+		bool ScreenTimeoutDisabled { [Bind ("isScreenTimeoutDisabled")] get; set; }
 
 		// @property (readonly, nonatomic) NSMutableArray * pageIcons;
 		[Internal]

@@ -62,7 +62,7 @@ namespace Microsoft.Band.Portable
             {
                 bandTile.Theme = tile.Theme.ToNative();
             }
-            bandTile.ScreenTimeoutEnabled = !tile.IsScreenTimeoutDisabled;
+            bandTile.ScreenTimeoutDisabled = tile.IsScreenTimeoutDisabled;
             return bandTile;
 #elif WINDOWS_PHONE_APP
             var bandTile = new NativeBandTile(tile.Id.ToNative())
@@ -137,7 +137,7 @@ namespace Microsoft.Band.Portable
             {
                 bandTile.Theme = tile.Theme.FromNative();
             }
-            bandTile.IsScreenTimeoutDisabled = !tile.ScreenTimeoutEnabled;
+            bandTile.IsScreenTimeoutDisabled = tile.ScreenTimeoutDisabled;
             return bandTile;
 #elif WINDOWS_PHONE_APP
             var bandTile = new BandTile(tile.TileId.FromNative())
