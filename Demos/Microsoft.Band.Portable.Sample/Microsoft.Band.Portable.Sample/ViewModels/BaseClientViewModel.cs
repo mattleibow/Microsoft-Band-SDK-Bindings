@@ -4,6 +4,8 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
 {
     public abstract class BaseClientViewModel : BaseViewModel
     {
+        private bool isLoading;
+
         public BaseClientViewModel(BandDeviceInfo info, BandClient bandClient)
         {
             BandClient = bandClient;
@@ -25,5 +27,18 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         public string BandName { get; private set; }
 
         public bool IsConnected { get; private set; }
+
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set
+            {
+                if (isLoading != value)
+                {
+                    isLoading = value;
+                    OnPropertyChanged("IsLoading");
+                }
+            }
+        }
     }
 }

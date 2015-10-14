@@ -47,7 +47,7 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
 
         public string Title
         {
-            get { return title; }
+            get { return title ?? "<title>"; }
             set
             {
                 if (title != value)
@@ -60,7 +60,7 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
 
         public string Body
         {
-            get { return body; }
+            get { return body ?? "<body>"; }
             set
             {
                 if (body != value)

@@ -7,8 +7,6 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
 {
     public class ClientViewModel : BaseClientViewModel
     {
-        private bool isConnecting;
-
         public ClientViewModel(BandDeviceInfo info)
             : base(info, null)
         {
@@ -22,7 +20,11 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         {
             if (BandClient == null)
             {
+                IsLoading = true;
+
                 BandClient = await BandClientManager.Instance.ConnectAsync(BandInfo);
+
+                IsLoading = false;
 
                 BandClient.TileManager.TileButtonPressed += (sender, e) =>
                 {

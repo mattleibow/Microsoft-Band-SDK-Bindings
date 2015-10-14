@@ -21,6 +21,8 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
         {
             await base.Prepare();
 
+            IsLoading = true;
+
             RemainingCapacity = await tileManager.GetRemainingTileCapacityAsync();
             OnPropertyChanged("RemainingCapacity");
 
@@ -35,6 +37,8 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
             {
                 Tiles.Remove(tile);
             }
+
+            IsLoading = false;
         }
 
         public int RemainingCapacity { get; private set; }

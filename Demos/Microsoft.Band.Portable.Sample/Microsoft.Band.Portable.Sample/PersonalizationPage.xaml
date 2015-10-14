@@ -55,6 +55,21 @@
 
       </StackLayout>
     </ScrollView>
+
+    <!-- Loading -->
+    <ContentView BackgroundColor="Black" Opacity="0.66" IsVisible="{Binding IsLoading}"
+                 VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+    <Grid IsVisible="{Binding IsLoading}"
+          VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+      <ContentView BackgroundColor="White" Opacity="0.66"
+                   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+      <StackLayout Orientation="Vertical" Padding="12, 12, 12, 12"
+                   VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+          <ActivityIndicator IsVisible="True" IsRunning="True" Color="Black" />
+          <Label Text="Connecting. Please wait..." FontSize="Medium"
+                 VerticalOptions="Center" HorizontalOptions="Center" />
+      </StackLayout>
+    </Grid>
   </Grid>
 
 </BaseClientContentPage>
