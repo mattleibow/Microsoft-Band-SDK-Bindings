@@ -17,6 +17,11 @@ namespace Microsoft.Band.Portable.Sensors
             }
         }
 
+        public virtual Task StartReadingsAsync()
+        {
+            return StartReadingsAsync(BandSensorSampleRate.Ms16);
+        }
+
         public abstract Task StartReadingsAsync(BandSensorSampleRate sampleRate);
 
         public abstract Task StopReadingsAsync();
