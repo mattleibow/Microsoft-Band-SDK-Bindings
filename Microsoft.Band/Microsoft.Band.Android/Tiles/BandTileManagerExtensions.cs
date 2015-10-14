@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
-using Android.Graphics;
+using Android.Runtime;
 using Microsoft.Band.Tiles.Pages;
 
 namespace Microsoft.Band.Tiles
@@ -12,7 +12,7 @@ namespace Microsoft.Band.Tiles
         public static async Task<IEnumerable<BandTile>> GetTilesTaskAsync(this IBandTileManager manager)
         {
             var result = await manager.GetTilesAsync().AsTask();
-            var tiles = (Java.Util.ICollection)result;
+            var tiles = result.JavaCast<Java.Util.ICollection>();
             var enumerable = tiles.ToEnumerable<BandTile>();
             return enumerable;
         }
