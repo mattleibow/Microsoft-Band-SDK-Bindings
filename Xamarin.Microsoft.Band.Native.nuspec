@@ -7,10 +7,10 @@
         <authors>Xamarin Inc.</authors>
         <licenseUrl>https://raw.githubusercontent.com/mattleibow/Microsoft-Band-SDK-Bindings/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/mattleibow/Microsoft-Band-SDK-Bindings</projectUrl>
-        <iconUrl>https://raw.githubusercontent.com/mattleibow/Microsoft-Band-SDK-Bindings/master/Icons/microsoft-band-sdk_256x256.png</iconUrl>
+        <iconUrl>https://cdn.rawgit.com/mattleibow/Microsoft-Band-SDK-Bindings/v1.3.6/Icons/microsoft-band-sdk_256x256.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Extend the experience of your application to your users' wrists via a new dimension of interaction.</description>
-        <summary>The Microsoft Band SDK Preview gives developers access to the sensors available on the band, as well as the ability to create and send notifications to tiles. Enhance and extend the experience of your</summary>
+        <description>The Microsoft Band SDK gives developers access to the sensors available on the band, as well as the ability to create and send notifications to tiles. Enhance and extend the experience of your applications to your customers' wrists.</description>
+        <summary>Extend the experience of your application to your users' wrists via a new dimension of interaction.</summary>
         <releaseNotes></releaseNotes>
         <copyright>Microsoft and Xamarin Inc.</copyright>
         <tags>Microsoft Band,Fitness,Health,Xamarin,Android,iOS,windows phone,wp8,monodroid,monoandroid,monotouch</tags>
@@ -31,7 +31,7 @@
     </metadata>
     <files>
         <file src="README.md" target="README.md" />
-        <file src="LICENSE" target="LICENSE" />
+        <file src="LICENSE.md" target="LICENSE.md" />
 		
         <file src="README.md" target="lib\netcore451\README.md" />
         <file src="README.md" target="lib\portable-net45+win+wpa81\README.md" />

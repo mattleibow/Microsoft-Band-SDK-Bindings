@@ -9,11 +9,18 @@ version: 1.3.6
 src-url: https://github.com/mattleibow/Microsoft-Band-SDK-Bindings
 
 details: README.md
-license: LICENSE
+license: LICENSE.md
 getting-started: GettingStarted.md
 
 is_shell: true
 no_build: true
+libraries:
+  android:
+    - Microsoft.Band\Microsoft.Band.Android\bin\Release\Microsoft.Band.Android.dll
+    - Microsoft.Band.Portable\Microsoft.Band.Portable.Android\bin\Release\Microsoft.Band.Portable.dll
+  ios-unified:
+    - Microsoft.Band\Microsoft.Band.iOS\bin\Release\Microsoft.Band.iOS.dll
+    - Microsoft.Band.Portable\Microsoft.Band.Portable.iOS\bin\Release\Microsoft.Band.Portable.dll
 packages:
   winphone-8.1: Xamarin.Microsoft.Band, Version=1.3.6
   android: Xamarin.Microsoft.Band, Version=1.3.6
