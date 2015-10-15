@@ -20,20 +20,20 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
 
         public void Init()
         {
-            Sensors.Add(CreateSensorItem("Accelerometer", sensorManager.Accelerometer));
-            Sensors.Add(CreateSensorItem("Altimeter", sensorManager.Altimeter));
-            Sensors.Add(CreateSensorItem("Ambient Light", sensorManager.AmbientLight));
-            Sensors.Add(CreateSensorItem("Barometer", sensorManager.Barometer));
-            Sensors.Add(CreateSensorItem("Calories", sensorManager.Calories));
-            Sensors.Add(CreateSensorItem("Contact", sensorManager.Contact));
-            Sensors.Add(CreateSensorItem("Distance", sensorManager.Distance));
-            Sensors.Add(CreateSensorItem("Gyroscope", sensorManager.Gyroscope));
-            Sensors.Add(CreateSensorItem("Gsr", sensorManager.Gsr));
-            Sensors.Add(CreateSensorItem("Heart Rate", sensorManager.HeartRate));
-            Sensors.Add(CreateSensorItem("Pedometer", sensorManager.Pedometer));
-            Sensors.Add(CreateSensorItem("RR Interval", sensorManager.RRInterval));
-            Sensors.Add(CreateSensorItem("Skin Temperature", sensorManager.SkinTemperature));
-            Sensors.Add(CreateSensorItem("Ultraviolet Light", sensorManager.UltravioletLight));
+            Sensors.Add(CreateSensorItem("Accelerometer", sensorManager.Accelerometer, 3));
+            Sensors.Add(CreateSensorItem("Altimeter", sensorManager.Altimeter, 9));
+            Sensors.Add(CreateSensorItem("Ambient Light", sensorManager.AmbientLight, 1));
+            Sensors.Add(CreateSensorItem("Barometer", sensorManager.Barometer, 2));
+            Sensors.Add(CreateSensorItem("Calories", sensorManager.Calories, 1));
+            Sensors.Add(CreateSensorItem("Contact", sensorManager.Contact, 1));
+            Sensors.Add(CreateSensorItem("Distance", sensorManager.Distance, 4));
+            Sensors.Add(CreateSensorItem("Gyroscope", sensorManager.Gyroscope, 3));
+            Sensors.Add(CreateSensorItem("Gsr", sensorManager.Gsr, 1));
+            Sensors.Add(CreateSensorItem("Heart Rate", sensorManager.HeartRate, 2));
+            Sensors.Add(CreateSensorItem("Pedometer", sensorManager.Pedometer, 1));
+            Sensors.Add(CreateSensorItem("RR Interval", sensorManager.RRInterval, 1));
+            Sensors.Add(CreateSensorItem("Skin Temperature", sensorManager.SkinTemperature, 1));
+            Sensors.Add(CreateSensorItem("Ultraviolet Light", sensorManager.UltravioletLight, 1));
         }
 
         public override async Task CleanUp()
@@ -48,10 +48,10 @@ namespace Microsoft.Band.Portable.Sample.ViewModels
 
         public ObservableCollection<BaseViewModel> Sensors { get; private set; }
 
-        private SensorViewModel<T> CreateSensorItem<T>(string type, BandSensorBase<T> sensor)
+        private SensorViewModel<T> CreateSensorItem<T>(string type, BandSensorBase<T> sensor, int lines)
             where T : IBandSensorReading
         {
-            return new SensorViewModel<T>(type, sensor);
+            return new SensorViewModel<T>(type, sensor, Sensors, lines);
         }
     }
 }
