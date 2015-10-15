@@ -57,7 +57,7 @@
       <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.23.0.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
     </Reference>
     <Reference Include="Genetics">
-      <HintPath>..\packages\Genetics.1.0.0.47\lib\MonoAndroid\Genetics.dll</HintPath>
+      <HintPath>..\packages\Genetics.1.1.0.50\lib\MonoAndroid\Genetics.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
