@@ -37,7 +37,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MicrosoftBandKit_iOS.linkwith.cs">
-      <DependentUpon>MicrosoftBandKit_iOS-1.3.10929.1.a</DependentUpon>
+      <DependentUpon>MicrosoftBandKit_iOS-1.3.11222.1.a</DependentUpon>
     </Compile>
     <Compile Include="BandClientManagerExtensions.cs" />
     <Compile Include="BandException.cs" />
@@ -75,6 +75,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
   <ItemGroup>
-    <ObjcBindingNativeLibrary Include="MicrosoftBandKit_iOS-1.3.10929.1.a" />
+    <ObjcBindingNativeLibrary Include="MicrosoftBandKit_iOS-1.3.11222.1.a" />
   </ItemGroup>
 </Project>

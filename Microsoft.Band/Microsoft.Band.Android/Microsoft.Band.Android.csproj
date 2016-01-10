@@ -83,7 +83,7 @@
     <TransformFile Include="Transforms\Metadata.generated.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedJar Include="Jars\microsoft-band-1.3.10929.1.jar" />
+    <EmbeddedJar Include="Jars\microsoft-band-1.3.20105.2.jar" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.Bindings.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

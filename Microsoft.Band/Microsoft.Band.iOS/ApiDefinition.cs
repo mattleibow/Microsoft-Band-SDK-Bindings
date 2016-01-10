@@ -573,19 +573,19 @@ namespace Microsoft.Band.Notifications
 		void SendMessageAsync (NSUuid tileID, string title, string body, NSDate timeStamp, MessageFlags flags, Action<NSError> completionHandler);
 
 		// @required -(void)registerNotificationWithTileID:(NSUUID *)tileID completionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
-		[iOS (7, 0)]
+		[Introduced (PlatformName.iOS, 7, 0)]
 		[Abstract]
 		[Export ("registerNotificationWithTileID:completionHandler:")]
 		void RegisterNotificationAsync (NSUuid tileID, Action<NSError> completionHandler);
 
 		// @required -(void)registerNotificationWithCompletionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
-		[iOS (7, 0)]
+		[Introduced (PlatformName.iOS, 7, 0)]
 		[Abstract]
 		[Export ("registerNotificationWithCompletionHandler:")]
 		void RegisterNotificationAsync (Action<NSError> completionHandler);
 
 		// @required -(void)unregisterNotificationWithCompletionHandler:(void (^)(NSError *))completionHandler __attribute__((availability(ios, introduced=7.0)));
-		[iOS (7, 0)]
+		[Introduced (PlatformName.iOS, 7, 0)]
 		[Abstract]
 		[Export ("unregisterNotificationWithCompletionHandler:")]
 		void UnregisterNotificationAsync (Action<NSError> completionHandler);
@@ -688,6 +688,10 @@ namespace Microsoft.Band.Sensors
 		// @property (readonly, nonatomic) NSUInteger calories;
 		[Export ("calories")]
 		nuint Calories { get; }
+
+		// @property (readonly, nonatomic) NSUInteger caloriesToday;
+		[Export ("caloriesToday")]
+		nuint CaloriesToday { get; }
 	}
 
 	// @interface MSBSensorDistanceData : MSBSensorData
@@ -697,6 +701,10 @@ namespace Microsoft.Band.Sensors
 		// @property (readonly, nonatomic) NSUInteger totalDistance;
 		[Export ("totalDistance")]
 		nuint TotalDistance { get; }
+
+		// @property (readonly, nonatomic) NSUInteger distanceToday;
+		[Export ("distanceToday")]
+		nuint DistanceToday { get; }
 
 		// @property (readonly, nonatomic) double speed;
 		[Export ("speed")]
@@ -715,23 +723,31 @@ namespace Microsoft.Band.Sensors
 	[BaseType (typeof(BandSensorData), Name = "MSBSensorPedometerData")]
 	interface BandSensorPedometerData
 	{
-		// @property (readonly, nonatomic) int totalSteps;
+		// @property (readonly, nonatomic) NSUInteger totalSteps;
 		[Export ("totalSteps")]
-		int TotalSteps { get; }
+		nuint TotalSteps { get; }
+
+		// @property (readonly, nonatomic) NSUInteger stepsToday;
+		[Export ("stepsToday")]
+		nuint StepsToday { get; }
 
 		// @property (readonly, nonatomic) int stepRate;
+		[Obsolete]
 		[Export ("stepRate")]
 		int StepRate { get; }
 
 		// @property (readonly, nonatomic) int movementRate;
+		[Obsolete]
 		[Export ("movementRate")]
 		int MovementRate { get; }
 
 		// @property (readonly, nonatomic) int totalMovements;
+		[Obsolete]
 		[Export ("totalMovements")]
 		int TotalMovements { get; }
 
 		// @property (readonly, nonatomic) int movementMode;
+		[Obsolete]
 		[Export ("movementMode")]
 		int MovementMode { get; }
 	}
@@ -752,6 +768,10 @@ namespace Microsoft.Band.Sensors
 		// @property (readonly, nonatomic) MSBUVIndexLevel uvIndexLevel;
 		[Export ("uvIndexLevel")]
 		UVIndexLevel UVIndexLevel { get; }
+
+		// @property (nonatomic, readonly) NSUInteger exposureToday;
+		[Export ("exposureToday")]
+		nuint ExposureToday { get; }
 	}
 
 	// @interface MSBSensorBandContactData : MSBSensorData
@@ -806,10 +826,14 @@ namespace Microsoft.Band.Sensors
     // @interface MSBSensorAltimeterData : MSBSensorData
     [BaseType (typeof(BandSensorData), Name = "MSBSensorAltimeterData")]
     interface BandSensorAltimeterData
-    {
-        // @property (readonly, nonatomic) NSUInteger totalGain;
-        [Export ("totalGain")]
-        nuint TotalGain { get; }
+	{
+		// @property (readonly, nonatomic) NSUInteger totalGain;
+		[Export ("totalGain")]
+		nuint TotalGain { get; }
+
+		// @property (readonly, nonatomic) NSUInteger totalGainToday;
+		[Export ("totalGainToday")]
+		nuint TotalGainToday { get; }
 
         // @property (readonly, nonatomic) NSUInteger totalLoss;
         [Export ("totalLoss")]
@@ -838,6 +862,10 @@ namespace Microsoft.Band.Sensors
         // @property (readonly, nonatomic) NSUInteger flightsAscended;
         [Export ("flightsAscended")]
         nuint FlightsAscended { get; }
+
+		// @property (readonly, nonatomic) NSUInteger flightsAscendedToday;
+		[Export ("flightsAscendedToday")]
+		nuint FlightsAscendedToday { get; }
 
         // @property (readonly, nonatomic) NSUInteger flightsDescended;
         [Export ("flightsDescended")]
@@ -1297,11 +1325,6 @@ namespace Microsoft.Band
 		// @property (nonatomic, strong) MSBColor * mutedColor;
         [Export ("mutedColor", ArgumentSemantic.Strong)]
 		BandColor Muted { get; set; }
-
-		// + (MSBTheme *)themeWithDictionary:(NSDictionary *)dictionary error:(NSError **)pError;
-		[Static]
-		[Export ("themeWithDictionary:error:")]
-		BandTheme Create (NSDictionary dictionary, out NSError pError);
 
 		// +(MSBTheme *)themeWithBaseColor:(MSBColor *)baseColor highlightColor:(MSBColor *)highlightColor lowlightColor:(MSBColor *)lowlightColor secondaryTextColor:(MSBColor *)secondaryTextColor highContrastColor:(MSBColor *)highContrastColor mutedColor:(MSBColor *)mutedColor;
 		[Static]
