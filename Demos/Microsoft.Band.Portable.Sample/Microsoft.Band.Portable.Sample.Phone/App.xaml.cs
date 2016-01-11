@@ -39,7 +39,7 @@ namespace Microsoft.Band.Portable.Sample.Phone
 
         protected override void OnActivated(IActivatedEventArgs args)
         {
-            Media.Plugin.MediaImplementation.OnFilesPicked(args);
+            Plugin.Media.MediaImplementation.OnFilesPicked(args);
 
             base.OnActivated(args);
         }

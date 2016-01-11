@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Microsoft.Band.Portable.Sample.MainPage"
-             Title="Microsoft Band Sample">
+<app:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:app="clr-namespace:Microsoft.Band.Portable.Sample;assembly=Microsoft.Band.Portable.Sample"
+                     x:Class="Microsoft.Band.Portable.Sample.MainPage"
+                     Title="Microsoft Band Sample">
 
   <StackLayout Orientation="Vertical">
     <Label Text="Paired Bands:" FontSize="Medium"
@@ -19,4 +20,4 @@
 
   </StackLayout>
   
-</BaseContentPage>
+</app:BaseContentPage>

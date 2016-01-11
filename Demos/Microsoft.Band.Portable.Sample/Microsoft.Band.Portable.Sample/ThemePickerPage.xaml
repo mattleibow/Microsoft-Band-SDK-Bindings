@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<BasePickerPage xmlns="http://xamarin.com/schemas/2014/forms"
-                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
-                x:Class="Microsoft.Band.Portable.Sample.ThemePickerPage"
-                Title="Pick Color">
+<app:BasePickerPage xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:app="clr-namespace:Microsoft.Band.Portable.Sample;assembly=Microsoft.Band.Portable.Sample"
+                    xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
+                    x:Class="Microsoft.Band.Portable.Sample.ThemePickerPage"
+                    Title="Pick Color">
 
-  <BasePickerPage.Resources>
+  <app:BasePickerPage.Resources>
     <ResourceDictionary>
       <converters:BandColorToColorConverter x:Key="BandColorConverter" />
       <converters:BandThemeToItemsConverter x:Key="BandThemeConverter" />
     </ResourceDictionary>
-  </BasePickerPage.Resources>
+  </app:BasePickerPage.Resources>
 
   <Grid>
     <ListView ItemsSource="{Binding ThemeItems}" HasUnevenRows="true">
@@ -33,4 +34,4 @@
     </ListView>
   </Grid>
 
-</BasePickerPage>
+</app:BasePickerPage>

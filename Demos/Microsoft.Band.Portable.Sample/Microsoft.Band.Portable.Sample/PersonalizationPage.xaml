@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<BaseClientContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                       xmlns:app="clr-namespace:Microsoft.Band.Portable.Sample;assembly=Microsoft.Band.Portable.Sample"
-                       xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
-                       x:Class="Microsoft.Band.Portable.Sample.PersonalizationPage"
-                       Title="Personalization">
+<app:BaseClientContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                           xmlns:app="clr-namespace:Microsoft.Band.Portable.Sample;assembly=Microsoft.Band.Portable.Sample"
+                           xmlns:converters="clr-namespace:Microsoft.Band.Portable.Sample.ValueConverters;assembly=Microsoft.Band.Portable.Sample"
+                           x:Class="Microsoft.Band.Portable.Sample.PersonalizationPage"
+                           Title="Personalization">
 
-  <BaseClientContentPage.Resources>
+  <app:BaseClientContentPage.Resources>
     <ResourceDictionary>
       <converters:BandImageToImageSourceConverter x:Key="BandImageConverter" />
       <converters:BandColorToColorConverter x:Key="BandColorConverter" />
     </ResourceDictionary>
-  </BaseClientContentPage.Resources>
+  </app:BaseClientContentPage.Resources>
 
   <Grid>
     <ScrollView>
@@ -72,4 +72,4 @@
     </Grid>
   </Grid>
 
-</BaseClientContentPage>
+</app:BaseClientContentPage>

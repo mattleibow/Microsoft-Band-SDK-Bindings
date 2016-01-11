@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<BaseClientContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Microsoft.Band.Portable.Sample.SensorsPage"
-             Title="Sensors">
+<app:BaseClientContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                           xmlns:app="clr-namespace:Microsoft.Band.Portable.Sample;assembly=Microsoft.Band.Portable.Sample"
+                           x:Class="Microsoft.Band.Portable.Sample.SensorsPage"
+                           Title="Sensors">
 
   <Grid>
 
@@ -35,4 +36,4 @@
 
   </Grid>
 
-</BaseClientContentPage>
+</app:BaseClientContentPage>

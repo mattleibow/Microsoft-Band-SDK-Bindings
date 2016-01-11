@@ -1,7 +1,8 @@
-﻿<BaseClientContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                       x:Class="Microsoft.Band.Portable.Sample.NotificationsPage"
-                       Title="Notifications">
+﻿<app:BaseClientContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                           xmlns:app="clr-namespace:Microsoft.Band.Portable.Sample;assembly=Microsoft.Band.Portable.Sample"
+                           x:Class="Microsoft.Band.Portable.Sample.NotificationsPage"
+                           Title="Notifications">
 
   <Grid>
     <ScrollView>
@@ -28,4 +29,4 @@
     </ScrollView>
   </Grid>
 
-</BaseClientContentPage>
+</app:BaseClientContentPage>

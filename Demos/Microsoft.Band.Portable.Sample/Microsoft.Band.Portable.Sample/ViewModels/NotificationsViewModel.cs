@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using Media.Plugin;
+using Plugin.Media;
 using Xamarin.Forms;
 
 using Microsoft.Band.Portable.Notifications;
