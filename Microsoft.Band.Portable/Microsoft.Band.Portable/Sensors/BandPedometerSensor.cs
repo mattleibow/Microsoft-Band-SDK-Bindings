@@ -40,7 +40,7 @@ namespace Microsoft.Band.Portable.Sensors
 #if __ANDROID__
                 reading.TotalSteps
 #elif __IOS__
-                reading.TotalSteps
+                (long)reading.TotalSteps
 #elif WINDOWS_PHONE_APP
                 reading.TotalSteps
 #endif
