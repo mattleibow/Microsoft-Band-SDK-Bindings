@@ -10,7 +10,8 @@
   <remove-node path="/api/package[@name='com.microsoft.band']/class[@visibility='']" />
   <remove-node path="/api/package[@name='com.microsoft.band']/interface[@visibility='']" />
   <remove-node path="/api/package[@name='com.microsoft.band.internal']" />
-  <remove-node path="/api/package[@name='com.microsoft.band.internal.device']/class/method[string-length(@name)=1]" />
+  <attr path="/api/package[@name='com.microsoft.band.internal.device']/class[@name='a']" name="obfuscated"></attr>
+  <attr path="/api/package[@name='com.microsoft.band.internal.device']/class[@name='a']" name="managedName">DeviceDataModel</attr>
   <remove-node path="/api/package[@name='com.microsoft.band.internal.device.subscription']" />
 
   <attr path="/api/package[@name='com.microsoft.band']" name="managedName">Microsoft.Band</attr>
@@ -22,7 +23,7 @@
   <attr path="/api/package[@name='com.microsoft.band.internal.device']" name="managedName">Microsoft.Band.Internal.Device</attr>
 
   <!-- Microsoft.Band.Sensors listeners -->
-  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[substring(@name, string-length(@name)-12)='EventListener']/method[starts-with(@name, 'on') and substring(@name, string-length(@name)-6)='Changed']/parameter[1]" name="name">sensorReading</attr>
+  <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[substring(@name, string-length(@name)-12)='EventListener']/method[starts-with(@name, 'on') and substring(@name, string-length(@name)-6)='Changed']/parameter[1]" name="managedName">sensorReading</attr>
   <attr path="/api/package[@name='com.microsoft.band.sensors']/interface[@name='HeartRateConsentListener']/method[@name='userAccepted']/parameter[1]" name="managedName">userAccepted</attr>
   
   <!-- Microsoft.Band.Sensors.BandSensorManager -->
