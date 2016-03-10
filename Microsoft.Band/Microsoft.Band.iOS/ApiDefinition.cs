@@ -163,10 +163,6 @@ namespace Microsoft.Band.Tiles.Pages
 		// @property (assign, nonatomic) MSBPageVerticalAlignment verticalAlignment;
 		[Export ("verticalAlignment", ArgumentSemantic.Assign)]
 		VerticalAlignment VerticalAlignment { get; set; }
-
-		// @property (assign, nonatomic) BOOL visible;
-		[Export ("visible")]
-		bool Visible { get; set; }
 	}
 
 	// @interface MSBPageElementData : NSObject

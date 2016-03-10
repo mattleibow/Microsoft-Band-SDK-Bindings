@@ -22,6 +22,7 @@ namespace Microsoft.Band
 		UserConsentRequiredHR,
         SensorUnavailable,
         BarcodeInvalidLength,
+		UnsupportedPageElement,
 
 		// Tile errors
 		InvalidTile = 300L,
