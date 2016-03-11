@@ -38,11 +38,11 @@ namespace Microsoft.Band.Portable.Sensors
             var reading = e.SensorReading;
             var newReading = new BandUltravioletLightReading(
 #if __ANDROID__
-                reading.UVIndexLevel.FromNative()
+                reading.UVIndexLevel.FromNative(), reading.UVExposureToday
 #elif __IOS__
-                reading.UVIndexLevel.FromNative()
+                reading.UVIndexLevel.FromNative(), (long)reading.ExposureToday
 #elif WINDOWS_PHONE_APP
-                reading.IndexLevel.FromNative()
+                reading.IndexLevel.FromNative(), reading.ExposureToday
 #endif
                 );
             OnReadingChanged(newReading);

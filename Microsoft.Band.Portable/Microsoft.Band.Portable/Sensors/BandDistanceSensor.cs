@@ -37,12 +37,10 @@ namespace Microsoft.Band.Portable.Sensors
         {
             var reading = e.SensorReading;
             var newReading = new BandDistanceReading(
-#if __ANDROID__
-                reading.MotionType.FromNative(), reading.Pace, reading.Speed, reading.TotalDistance
-#elif __IOS__
-                reading.MotionType.FromNative(), reading.Pace, reading.Speed, (long)reading.TotalDistance
+#if __ANDROID__ || __IOS__
+                reading.MotionType.FromNative(), reading.Pace, reading.Speed, (long)reading.TotalDistance, (long)reading.DistanceToday
 #elif WINDOWS_PHONE_APP
-                reading.CurrentMotion.FromNative(), reading.Pace, reading.Speed, reading.TotalDistance
+                reading.CurrentMotion.FromNative(), reading.Pace, reading.Speed, reading.TotalDistance, reading.DistanceToday
 #endif
                 );
             OnReadingChanged(newReading);

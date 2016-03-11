@@ -15,7 +15,6 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             ElementId = -1;
             HorizontalAlignment = HorizontalAlignment.Left;
             VerticalAlignment = VerticalAlignment.Top;
-            Visible = true;
             Margins = Margins.Empty;
             Rect = PageRect.Empty;
         }
@@ -23,7 +22,6 @@ namespace Microsoft.Band.Portable.Tiles.Pages
         public short ElementId { get; set; }
         public HorizontalAlignment HorizontalAlignment { get; set; }
         public VerticalAlignment VerticalAlignment { get; set; }
-        public bool Visible { get; set; }
         public Margins Margins { get; set; }
         public PageRect Rect
         {
@@ -50,7 +48,6 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             HorizontalAlignment = native.HorizontalAlignment.FromNative();
             Margins = native.Margins.FromNative();
             VerticalAlignment = native.VerticalAlignment.FromNative();
-            Visible = native.Visible;
         }
 
         internal NativeElement ToNative()
@@ -78,7 +75,6 @@ namespace Microsoft.Band.Portable.Tiles.Pages
                 native.Margins = Margins.ToNative();
             }
             native.VerticalAlignment = VerticalAlignment.ToNative();
-            native.Visible = Visible;
             return native;
         }
 
@@ -111,5 +107,5 @@ namespace Microsoft.Band.Portable.Tiles.Pages
             return specific;
         }
 #endif
-    }
+        }
 }

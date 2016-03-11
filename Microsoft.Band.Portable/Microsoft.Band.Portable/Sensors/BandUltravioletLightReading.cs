@@ -2,18 +2,18 @@
 {
     public class BandUltravioletLightReading : IBandSensorReading
     {
-        internal BandUltravioletLightReading(UVIndexLevel level)
+        internal BandUltravioletLightReading(UVIndexLevel level, long exposureToday)
         {
             Level = level;
+            ExposureToday = exposureToday;
         }
 
         public UVIndexLevel Level { get; private set; }
+        public long ExposureToday { get; private set; }
 
         public override string ToString()
         {
-            return string.Format(
-                "Level={0}",
-                Level);
+            return $"Level={Level}, ExposureToday={ExposureToday}";
         }
     }
 }

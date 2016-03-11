@@ -1,0 +1,22 @@
+version: '{build}'
+os: Visual Studio 2015
+configuration: Release
+platform: Any CPU
+
+environment:
+  ANDROID_HOME: C:\Program Files (x86)\Android\android-sdk
+   
+xamarin:
+  email: matthew.leibowitz@xamarin.com
+  password:
+    secure: Tvdf5rZl6IOCwZbvyj9B2w==
+  android: true
+  ios: true
+
+build_script:
+ - ps: .\build.ps1 -Configuration $Env:Configuration
+  
+artifacts:
+ - path: output
+ - path: output\*.nupkg
+ - path: output\*.xam

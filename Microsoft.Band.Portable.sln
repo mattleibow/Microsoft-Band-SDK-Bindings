@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.Portable", "Microsoft.Band.Portable\Microsoft.Band.Portable\Microsoft.Band.Portable.csproj", "{9D7936CA-FE7F-4306-912D-809AC6C1E6A1}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.iOS", "Microsoft.Band\Microsoft.Band.iOS\Microsoft.Band.iOS.csproj", "{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.Portable.Windows", "Microsoft.Band.Portable\Microsoft.Band.Portable.Windows\Microsoft.Band.Portable.Windows.csproj", "{E207466A-B533-4808-94A2-6B3D91BC32CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.Portable.UWP", "Microsoft.Band.Portable\Microsoft.Band.Portable.UWP\Microsoft.Band.Portable.UWP.csproj", "{7D4BFF7D-B171-49A8-A126-F067FE432822}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{E207466A-B533-4808-94A2-6B3D91BC32CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E207466A-B533-4808-94A2-6B3D91BC32CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E207466A-B533-4808-94A2-6B3D91BC32CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D4BFF7D-B171-49A8-A126-F067FE432822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D4BFF7D-B171-49A8-A126-F067FE432822}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D4BFF7D-B171-49A8-A126-F067FE432822}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D4BFF7D-B171-49A8-A126-F067FE432822}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

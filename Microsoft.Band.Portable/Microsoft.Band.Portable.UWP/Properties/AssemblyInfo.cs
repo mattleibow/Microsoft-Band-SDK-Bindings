@@ -1,20 +1,18 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Android.App;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Band.Portable.Android")]
+[assembly: AssemblyTitle("Microsoft.Band.Portable.UWP")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Microsoft.Band.Portable.Android")]
+[assembly: AssemblyProduct("Microsoft.Band.Portable.UWP")]
 [assembly: AssemblyCopyright("Copyright © Xamarin and Microsoft")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: ComVisible(false)]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -28,3 +26,4 @@ using Android.App;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.3.8.0")]
 [assembly: AssemblyFileVersion("1.3.8.0")]
+[assembly: ComVisible(false)]

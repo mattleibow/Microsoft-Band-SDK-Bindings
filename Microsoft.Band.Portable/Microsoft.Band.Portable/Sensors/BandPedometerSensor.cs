@@ -37,12 +37,8 @@ namespace Microsoft.Band.Portable.Sensors
         {
             var reading = e.SensorReading;
             var newReading = new BandPedometerReading(
-#if __ANDROID__
-                reading.TotalSteps
-#elif __IOS__
-                (long)reading.TotalSteps
-#elif WINDOWS_PHONE_APP
-                reading.TotalSteps
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
+                (long)reading.TotalSteps, (long)reading.StepsToday
 #endif
                 );
             OnReadingChanged(newReading);

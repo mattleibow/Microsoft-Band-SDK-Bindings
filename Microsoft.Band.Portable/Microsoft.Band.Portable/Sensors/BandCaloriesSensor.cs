@@ -37,12 +37,8 @@ namespace Microsoft.Band.Portable.Sensors
         {
             var reading = e.SensorReading;
             var newReading = new BandCaloriesReading(
-#if __ANDROID__
-                reading.Calories
-#elif __IOS__
-                (long)reading.Calories
-#elif WINDOWS_PHONE_APP
-                reading.Calories
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP
+                (long)reading.Calories, (long)reading.CaloriesToday
 #endif
                 );
             OnReadingChanged(newReading);
