@@ -14,7 +14,7 @@ xamarin:
   ios: true
 
 build_script:
- - ps: .\build.ps1 -Configuration $Env:Configuration
+ - ps: .\build.ps1 -Target Default-Windows -Configuration $Env:Configuration
   
 artifacts:
  - path: output

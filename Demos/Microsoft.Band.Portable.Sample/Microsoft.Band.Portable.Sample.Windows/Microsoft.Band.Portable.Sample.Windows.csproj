@@ -50,7 +50,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Microsoft.Band.Portable.Sample.Windows_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -14,4 +14,4 @@ install:
   - sudo installer -pkg "monotouch-${MONOTOUCH_VERSION}.pkg" -target / 
  
 script: 
-  - ./build.sh --target Default --configuration ${Configuration} 
+  - ./build.sh --target Default-Mac --configuration ${Configuration} 
