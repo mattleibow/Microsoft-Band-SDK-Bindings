@@ -83,7 +83,8 @@ Task("RestorePackages")
     foreach (var solution in solutions) {
         Information("Restoring {0}...", solution);
         NuGetRestore(solution, new NuGetRestoreSettings {
-            Source = new [] { "https://api.nuget.org/v3/index.json" }
+            Source = new [] { "https://api.nuget.org/v3/index.json" },
+            Verbosity = NuGetVerbosity.Detailed
         });
     }
 });
@@ -168,7 +169,8 @@ Task("PackageNuGet")
     foreach (var nuget in nugets) {
         Information("Packing (NuGet) {0}...", nuget);
         NuGetPack(nuget, new NuGetPackSettings {
-            OutputDirectory = outDir
+            OutputDirectory = outDir,
+            Verbosity = NuGetVerbosity.Detailed
         });
     }
 });
