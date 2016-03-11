@@ -4,11 +4,14 @@ osx_image: xcode7.2
 env: 
   global: 
     - MONO_VERSION=4.3.2
+    - MONOTOUCH_VERSION=9.4.2.27
     - Configuration=Release
  
 install: 
   - wget "http://download.mono-project.com/archive/${MONO_VERSION}/macos-10-universal/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.universal.pkg"  
   - sudo installer -pkg "MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.universal.pkg" -target / 
+  - wget "http://download.xamarin.com/MonoTouch/Mac/monotouch-${MONOTOUCH_VERSION}.pkg"
+  - sudo installer -pkg "monotouch-${MONOTOUCH_VERSION}.pkg" -target / 
  
 script: 
   - ./build.sh --target Default --configuration ${Configuration} 
