@@ -21,14 +21,14 @@ if (!DirectoryExists(outDir)) {
     CreateDirectory(outDir);
 }
 
-void Build(string solution)
+var Build = new Action<string>((solution) =>
 {
     if (IsRunningOnWindows()) {
         MSBuild(solution, s => s.SetConfiguration(configuration).SetMSBuildPlatform(MSBuildPlatform.x86));
     } else {
         XBuild(solution, s => s.SetConfiguration(configuration));
     }
-}
+});
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
