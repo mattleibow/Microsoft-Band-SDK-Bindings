@@ -1,0 +1,13 @@
+language: objective-c  
+ 
+env: 
+  global: 
+    - MONO_VERSION=4.3.2 
+    - Configuration=Release
+ 
+install: 
+  - wget "http://download.mono-project.com/archive/${MONO_VERSION}/macos-10-universal/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.universal.pkg" 
+  - sudo installer -pkg "MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.universal.pkg" -target / 
+ 
+script: 
+  - ./build.sh --target Default --configuration ${Configuration} 
