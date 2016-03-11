@@ -87,7 +87,7 @@ Task("Build")
         "./Microsoft.Band.Portable.sln",
     };
     foreach (var solution in solutions) {
-        // Build(solution);
+        Build(solution);
     }
     
     var outputs = new Dictionary<string, string> { 
@@ -132,7 +132,7 @@ Task("BuildSamples")
         "./Demos/RotatingHand/RotatingHand.sln",
     };
     foreach (var solution in solutions) {
-        // Build(solution);
+        Build(solution);
     }
 });
 
