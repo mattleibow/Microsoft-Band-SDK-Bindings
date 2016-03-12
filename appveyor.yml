@@ -20,8 +20,7 @@ xamarin:
 
 build_script:
  - cmd: echo y | "%ANDROID_HOME%\tools\android.bat" update sdk --no-ui --all --filter platform-tools,tools
- - cmd: dir "C:\Program Files (x86)\Android\android-sdk\tools\"
-# - ps: .\build.ps1 -Target Default-Windows -Configuration $Env:Configuration
+ - ps: .\build.ps1 -Target Default-Windows -Configuration $Env:Configuration
   
 artifacts:
  - path: output
