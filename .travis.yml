@@ -11,7 +11,7 @@ env:
  
 cache:
   directories:
-  - downloads
+    - downloads
   
 install: 
   - if [ ! -f "downloads/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.universal.pkg" ]; then wget -P downloads "http://download.mono-project.com/archive/${MONO_VERSION}/macos-10-universal/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.universal.pkg"; fi
