@@ -20,10 +20,8 @@ xamarin:
 
 build_script:
  - cmd: dir "C:\Program Files (x86)\Android\android-sdk\tools\"
- - cmd: dir "C:\ProgramData\Mono for Android\"
- - cmd: dir "%USERPROFILE%\AppData\Local\"
- - cmd: dir "%USERPROFILE%\AppData\Local\Android\"
- - cmd: dir "C:\Users\appveyor\AppData\Local\Android\android-sdk\tools\"
+ - cmd: dir "%USERPROFILE%\AppData\Local\Microsoft\"
+ - cmd: dir "%USERPROFILE%\AppData\Local\Xamarin\"
 # - ps: .\build.ps1 -Target Default-Windows -Configuration $Env:Configuration
   
 artifacts:
