@@ -4,6 +4,8 @@ configuration: Release
 platform: Any CPU
 
 environment:
+  ANDROID_HOME: C:\Users\appveyor\AppData\Local\Android\android-sdk
+  PROGUARD_HOME: C:\Users\appveyor\AppData\Local\Android\android-sdk\tools\proguard
   GitHubToken:
     secure: ++Q00Aa+yzbi4oEn+fOuO2D2pb4NrFtQ12Hiq69arY1OgOIIUbth7nlImS9/wQRd
   AppVeyorToken:
@@ -16,10 +18,6 @@ xamarin:
     secure: Tvdf5rZl6IOCwZbvyj9B2w==
   android: true
   ios: true
-
-before_build: 
- - cmd: set ANDROID_HOME=%USERPROFILE%\AppData\Local\Android\android-sdk
- - cmd: set PROGUARD_HOME=%USERPROFILE%\AppData\Local\Android\android-sdk\tools\proguard
 
 build_script:
  - ps: .\build.ps1 -Target Default-Windows -Configuration $Env:Configuration
