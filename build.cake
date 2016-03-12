@@ -83,7 +83,7 @@ Task("RestorePackages")
     foreach (var solution in solutions) {
         Information("Restoring {0}...", solution);
         NuGetRestore(solution, new NuGetRestoreSettings {
-            Source = new [] { "https://api.nuget.org/v3/index.json" },
+            Source = new [] { ForWindows ? "https://api.nuget.org/v3/index.json" : "https://www.nuget.org/api/v2/" },
             Verbosity = NuGetVerbosity.Detailed
         });
     }
