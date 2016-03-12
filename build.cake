@@ -1,7 +1,14 @@
 #tool nuget:?package=XamarinComponent
 
+#addin nuget:?package=Octokit
+#addin nuget:?package=Cake.AppVeyor
 #addin nuget:?package=Cake.Xamarin
 #addin nuget:?package=Cake.FileHelpers
+
+#reference "tools/Addins/Octokit/lib/net45/Octokit.dll"
+
+using System.Net;
+using Octokit;
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -30,9 +37,18 @@ Information("Building target '{0}' for {1}.", target, ForEverywhere ? "everywher
 FilePath XamarinComponentPath = "./tools/XamarinComponent/tools/xamarin-component.exe";
 
 DirectoryPath outDir = "./output/";
+FilePath outputZip = "output.zip";
 if (!DirectoryExists(outDir)) {
     CreateDirectory(outDir);
 }
+
+var sha = EnvironmentVariable("APPVEYOR_GitHubRepository_COMMIT") ?? EnvironmentVariable("TRAVIS_COMMIT");
+
+var GitHubToken = "304a43e19f8d17646b4eb01981732f32731ce279";
+var GitHubUser = "mattleibow";
+var GitHubRepository = "Microsoft-Band-SDK-Bindings";
+var GitHubBuildTag = "CI";
+var GitHubUploadFilename = sha + ".zip";
 
 var Build = new Action<string>((solution) =>
 {
@@ -197,10 +213,81 @@ Task("PackageComponent")
 });
 
 Task("Package")
+    .IsDependentOn("Download")
     .IsDependentOn("PackageNuGet")
     .IsDependentOn("PackageComponent")
     .Does(() =>
 {
+});
+
+Task("Download")
+    .WithCriteria(!string.IsNullOrEmpty(sha))
+    .WithCriteria(ForWindowsOnly)
+    .Does(() =>
+{
+    // connect
+    var client = new GitHubClient(new ProductHeaderValue("msband-sdk-ci"));
+    client.Credentials = new Credentials(GitHubToken);
+    
+    // get release
+    var releases = client.Release.GetAll(GitHubUser, GitHubRepository).Result;
+    var releaseId = releases.Single(r => r.TagName == GitHubBuildTag).Id;
+    var release = client.Release.Get(GitHubUser, GitHubRepository, releaseId).Result;
+    
+    // get asset
+    var asset = release.Assets.SingleOrDefault(a => a.Name == GitHubUploadFilename);
+    Information("Found asset: {0}", asset.Id);
+    Information("Url: {0}", asset.BrowserDownloadUrl);
+    
+    // download and extract
+    if (FileExists(outputZip)) {
+        DeleteFile(outputZip);
+    }
+    var url = string.Format("https://api.github.com/repos/{0}/{1}/releases/assets/{2}?access_token={3}", GitHubUser, GitHubRepository, asset.Id, GitHubToken);
+    var wc = new WebClient();
+    wc.Headers.Add("Accept", "application/octet-stream");
+    wc.Headers.Add("User-Agent", "msband-sdk-ci");
+    wc.DownloadFile(url, outputZip.FullPath);
+    Unzip(outputZip, outDir);
+    
+    // delete the asset
+    client.Release.DeleteAsset(GitHubUser, GitHubRepository, asset.Id).Wait();
+});
+
+Task("Upload")
+    .WithCriteria(!string.IsNullOrEmpty(sha))
+    .WithCriteria(ForMacOnly)
+    .IsDependentOn("Build")
+    .IsDependentOn("Package")
+    .Does(() =>
+{
+    // compress
+    if (FileExists(outputZip)) {
+        DeleteFile(outputZip);
+    }
+    Zip(outDir, outputZip);
+
+    // connect
+    var client = new GitHubClient(new ProductHeaderValue("msband-sdk"));
+    client.Credentials = new Credentials(GitHubToken);
+
+    // get release
+    var releases = client.Release.GetAll(GitHubUser, GitHubRepository).Result;
+    var releaseId = releases.Single(r => r.TagName == GitHubBuildTag).Id;
+    var release = client.Release.Get(GitHubUser, GitHubRepository, releaseId).Result;
+    
+    // create asset
+    var archiveContents = System.IO.File.OpenRead(outputZip.FullPath);
+    var assetUpload = new ReleaseAssetUpload {
+        FileName = GitHubUploadFilename,
+        ContentType = "application/zip",
+        RawData = archiveContents
+    };
+    
+    // upload
+    var asset = client.Release.UploadAsset(release, assetUpload).Result;
+    Information("Uploaded asset: {0}", asset.Id);
+    Information("Url: {0}", asset.BrowserDownloadUrl);
 });
 
 //////////////////////////////////////////////////////////////////////
@@ -208,8 +295,10 @@ Task("Package")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
+    .IsDependentOn("Download")
     .IsDependentOn("Build")
-    .IsDependentOn("Package");
+    .IsDependentOn("Package")
+    .IsDependentOn("Upload");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
