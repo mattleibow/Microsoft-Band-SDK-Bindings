@@ -42,7 +42,7 @@ if (!DirectoryExists(outDir)) {
     CreateDirectory(outDir);
 }
 
-var sha = EnvironmentVariable("APPVEYOR_GitHubRepository_COMMIT") ?? EnvironmentVariable("TRAVIS_COMMIT");
+var sha = EnvironmentVariable("APPVEYOR_REPO_COMMIT") ?? EnvironmentVariable("TRAVIS_COMMIT");
 
 var GitHubToken = "304a43e19f8d17646b4eb01981732f32731ce279";
 var GitHubUser = "mattleibow";
@@ -225,21 +225,22 @@ Task("Download")
     .WithCriteria(ForWindowsOnly)
     .Does(() =>
 {
-    // connect
+    Information("Connecting to GitHub...");
     var client = new GitHubClient(new ProductHeaderValue("msband-sdk-ci"));
     client.Credentials = new Credentials(GitHubToken);
     
-    // get release
+    Information("Loading releases...");
     var releases = client.Release.GetAll(GitHubUser, GitHubRepository).Result;
     var releaseId = releases.Single(r => r.TagName == GitHubBuildTag).Id;
+    Information("Loading CI release...");
     var release = client.Release.Get(GitHubUser, GitHubRepository, releaseId).Result;
     
-    // get asset
+    Information("Loading asset...");
     var asset = release.Assets.SingleOrDefault(a => a.Name == GitHubUploadFilename);
     Information("Found asset: {0}", asset.Id);
     Information("Url: {0}", asset.BrowserDownloadUrl);
     
-    // download and extract
+    Information("Downloading asset...");
     if (FileExists(outputZip)) {
         DeleteFile(outputZip);
     }
@@ -248,9 +249,10 @@ Task("Download")
     wc.Headers.Add("Accept", "application/octet-stream");
     wc.Headers.Add("User-Agent", "msband-sdk-ci");
     wc.DownloadFile(url, outputZip.FullPath);
+    Information("Extracting output...");
     Unzip(outputZip, outDir);
     
-    // delete the asset
+    Information("Deleting asset...");
     client.Release.DeleteAsset(GitHubUser, GitHubRepository, asset.Id).Wait();
 });
 
@@ -261,22 +263,23 @@ Task("Upload")
     .IsDependentOn("Package")
     .Does(() =>
 {
-    // compress
+    Information("Compressing output...");
     if (FileExists(outputZip)) {
         DeleteFile(outputZip);
     }
     Zip(outDir, outputZip);
 
-    // connect
+    Information("Connecting to GitHub...");
     var client = new GitHubClient(new ProductHeaderValue("msband-sdk"));
     client.Credentials = new Credentials(GitHubToken);
 
-    // get release
+    Information("Loading releases...");
     var releases = client.Release.GetAll(GitHubUser, GitHubRepository).Result;
     var releaseId = releases.Single(r => r.TagName == GitHubBuildTag).Id;
+    Information("Loading CI release...");
     var release = client.Release.Get(GitHubUser, GitHubRepository, releaseId).Result;
     
-    // create asset
+    Information("Creating asset...");
     var archiveContents = System.IO.File.OpenRead(outputZip.FullPath);
     var assetUpload = new ReleaseAssetUpload {
         FileName = GitHubUploadFilename,
@@ -284,7 +287,7 @@ Task("Upload")
         RawData = archiveContents
     };
     
-    // upload
+    Information("Uploading asset...");
     var asset = client.Release.UploadAsset(release, assetUpload).Result;
     Information("Uploaded asset: {0}", asset.Id);
     Information("Url: {0}", asset.BrowserDownloadUrl);
