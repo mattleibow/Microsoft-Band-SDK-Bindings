@@ -6,6 +6,7 @@ platform: Any CPU
 environment:
   ANDROID_HOME: C:\Users\appveyor\AppData\Local\Android\android-sdk
   PROGUARD_HOME: C:\Users\appveyor\AppData\Local\Android\android-sdk\tools\proguard
+  AndroidSdkDirectory: C:\Users\appveyor\AppData\Local\Android\android-sdk
   GitHubToken:
     secure: ++Q00Aa+yzbi4oEn+fOuO2D2pb4NrFtQ12Hiq69arY1OgOIIUbth7nlImS9/wQRd
   AppVeyorToken:
