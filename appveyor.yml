@@ -4,9 +4,7 @@ configuration: Release
 platform: Any CPU
 
 environment:
-  ANDROID_HOME: C:\Users\appveyor\AppData\Local\Android\android-sdk
-  PROGUARD_HOME: C:\Users\appveyor\AppData\Local\Android\android-sdk\tools\proguard
-  AndroidSdkDirectory: C:\Users\appveyor\AppData\Local\Android\android-sdk
+  ANDROID_HOME: C:\Program Files (x86)\Android\android-sdk
   GitHubToken:
     secure: ++Q00Aa+yzbi4oEn+fOuO2D2pb4NrFtQ12Hiq69arY1OgOIIUbth7nlImS9/wQRd
   AppVeyorToken:
@@ -21,7 +19,11 @@ xamarin:
   ios: true
 
 build_script:
- - ps: .\build.ps1 -Target Default-Windows -Configuration $Env:Configuration
+ - cmd: dir "C:\Program Files (x86)\Android\android-sdk\tools\"
+ - cmd: dir "C:\ProgramData\Android\android-sdk\tools\"
+ - cmd: dir "%USERPROFILE%\AppData\Local\Android\android-sdk\tools\"
+ - cmd: dir "C:\Users\appveyor\AppData\Local\Android\android-sdk\tools\"
+# - ps: .\build.ps1 -Target Default-Windows -Configuration $Env:Configuration
   
 artifacts:
  - path: output
