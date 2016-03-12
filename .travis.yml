@@ -6,6 +6,7 @@ env:
     - MONO_VERSION=4.3.2
     - MONOTOUCH_VERSION=9.4.2.27
     - Configuration=Release
+    - secure: fCyvfZmViwvhm0SxyrZIZ3B06CeWHQ+GfqPfl2jN2jCEjWLRZuC785MaMrCZznIgh5sSh59oD0vGdOTiQPyUYh33EfaICSnjbkGPU++DicY1eqYxkpOYLRB4QjN2lBpUWaCufPniZlKWhj18403w2WD9W1bRrAGaUbHIYcvxiTNZRIWYTG80eCoxzKOXtIgxiC8nRrq9Qu4B6SzIMS4ceWUuwVxAdXWKrHfemyXyHhXCMlPsOUfm17PTujUdRb/XEULqk3Y0VL88YemI8j7bXkq+G1o+6+SlUibRv4b/7DrrXpJ9WU/jeUhURCUt6dFZQ7yvoErcmvP0xYTY8h2fmTN85CxBhHAkYFMChMl+QEHL+yr3vwv3FRl43gPvWVu0Ft2EJB8DTgQWEHoGtLC3Q68kJVcxn1AhWE4pVQY7x/8+hyNDoSABy8JaqzeSK7pVNJny7xK1TW+DEVuFpvfNdXM+IWhLde2Du4BRX728jrdsF06NGI+hVj1bipSAAWwM/Sdij5lV7DC0YdPCQqfrB1yUQDJSbCrlC3IqjG/BvZ1ABZ7O1yzI7D7BLFxD5i/bft1dLEKq77g1WXtA0Jz6ttMrC/Xy+bfKduVPM3YRcSiW92bswKXKuOx/XS3v+V7vfii5V0EJsVEs8a0ghXs5Vry/dPk5os/PrvHSLulp0HA=
  
 install: 
   - wget "http://download.mono-project.com/archive/${MONO_VERSION}/macos-10-universal/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.universal.pkg"  
