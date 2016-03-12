@@ -44,7 +44,7 @@ if (!DirectoryExists(outDir)) {
 
 var sha = EnvironmentVariable("APPVEYOR_REPO_COMMIT") ?? EnvironmentVariable("TRAVIS_COMMIT");
 
-var GitHubToken = "43587319179acd64d4083f9db719bac80370cb2d"; // Public-CI-Token
+var GitHubToken = "f0d4286fd0d7c21104240d6e0b9038d79ce8e704"; // Public-CI-Token
 var GitHubUser = "mattleibow";
 var GitHubRepository = "Microsoft-Band-SDK-Bindings";
 var GitHubBuildTag = "CI";
