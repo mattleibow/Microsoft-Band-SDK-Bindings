@@ -20,7 +20,6 @@ xamarin:
 
 build_script:
  - cmd: dir "C:\Program Files (x86)\Android\android-sdk\tools\"
- - cmd: dir "C:\ProgramData\Android\android-sdk\tools\"
  - cmd: dir "%USERPROFILE%\AppData\Local\Android\android-sdk\tools\"
  - cmd: dir "C:\Users\appveyor\AppData\Local\Android\android-sdk\tools\"
 # - ps: .\build.ps1 -Target Default-Windows -Configuration $Env:Configuration
