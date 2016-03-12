@@ -43,12 +43,15 @@ if (!DirectoryExists(outDir)) {
 }
 
 var sha = EnvironmentVariable("APPVEYOR_REPO_COMMIT") ?? EnvironmentVariable("TRAVIS_COMMIT");
+var branch = EnvironmentVariable("APPVEYOR_REPO_BRANCH") ?? EnvironmentVariable("TRAVIS_BRANCH");
 
 var GitHubToken = EnvironmentVariable("GitHubToken");
 var GitHubUser = "mattleibow";
 var GitHubRepository = "Microsoft-Band-SDK-Bindings";
 var GitHubBuildTag = "CI";
 var GitHubUploadFilename = sha + ".zip";
+
+var AppVeyorToken = EnvironmentVariable("AppVeyorToken");
 
 var Build = new Action<string>((solution) =>
 {
@@ -222,53 +225,62 @@ Task("Package")
 
 Task("Download")
     .WithCriteria(!string.IsNullOrEmpty(sha))
-    .WithCriteria(ForWindowsOnly)
+    .WithCriteria(!ForEverywhere)
     .Does(() =>
 {
-    Information("Connecting to GitHub...");
-    var client = new GitHubClient(new ProductHeaderValue("msband-sdk-ci"));
-    client.Credentials = new Credentials(GitHubToken);
-    
-    Information("Loading releases...");
-    var releases = client.Release.GetAll(GitHubUser, GitHubRepository).Result;
-    var releaseId = releases.Single(r => r.TagName == GitHubBuildTag).Id;
-    Information("Loading CI release...");
-    var release = client.Release.Get(GitHubUser, GitHubRepository, releaseId).Result;
-    
-    Information("Loading asset...");
-    var asset = release.Assets.SingleOrDefault(a => a.Name == GitHubUploadFilename);
-    Information("Found asset: {0}", asset.Id);
-    Information("Url: {0}", asset.BrowserDownloadUrl);
-    
-    Information("Downloading asset...");
-    if (FileExists(outputZip)) {
-        DeleteFile(outputZip);
+    if (ForWindowsOnly) {
+        Information("Connecting to GitHub...");
+        var client = new GitHubClient(new ProductHeaderValue("msband-sdk-ci"));
+        client.Credentials = new Credentials(GitHubToken);
+        
+        Information("Loading releases...");
+        var releases = client.Release.GetAll(GitHubUser, GitHubRepository).Result;
+        var releaseId = releases.Single(r => r.TagName == GitHubBuildTag).Id;
+        
+        Information("Loading CI release...");
+        Release release = null;
+        ReleaseAsset asset = null;
+        var waitSeconds = 0;
+        while (asset == null) {
+            release = client.Release.Get(GitHubUser, GitHubRepository, releaseId).Result;
+            Information("Loading asset...");
+            asset = release.Assets.SingleOrDefault(a => a.Name == GitHubUploadFilename);
+            if (asset == null) {
+                // only try for 15 minutes
+                if (waitSeconds > 15 * 60) {
+                    throw new Exception("Unable to download assets, maybe the build has failed.");
+                }
+                Information("Asset not found, waiting another 30 seconds.");
+                waitSeconds += 30;
+                System.Threading.Thread.Sleep(1000 * 30);
+            }
+        }
+        Information("Found asset: {0}", asset.Id);
+        Information("Url: {0}", asset.BrowserDownloadUrl);
+        
+        Information("Downloading asset...");
+        if (FileExists(outputZip)) {
+            DeleteFile(outputZip);
+        }
+        var url = string.Format("https://api.github.com/repos/{0}/{1}/releases/assets/{2}?access_token={3}", GitHubUser, GitHubRepository, asset.Id, GitHubToken);
+        var wc = new WebClient();
+        wc.Headers.Add("Accept", "application/octet-stream");
+        wc.Headers.Add("User-Agent", "msband-sdk-ci");
+        wc.DownloadFile(url, outputZip.FullPath);
+        
+        Information("Extracting output...");
+        CleanDirectory(outDir);
+        Unzip(outputZip, outDir);
     }
-    var url = string.Format("https://api.github.com/repos/{0}/{1}/releases/assets/{2}?access_token={3}", GitHubUser, GitHubRepository, asset.Id, GitHubToken);
-    var wc = new WebClient();
-    wc.Headers.Add("Accept", "application/octet-stream");
-    wc.Headers.Add("User-Agent", "msband-sdk-ci");
-    wc.DownloadFile(url, outputZip.FullPath);
-    Information("Extracting output...");
-    Unzip(outputZip, outDir);
-    
-    Information("Deleting asset...");
-    client.Release.DeleteAsset(GitHubUser, GitHubRepository, asset.Id).Wait();
 });
 
 Task("Upload")
     .WithCriteria(!string.IsNullOrEmpty(sha))
-    .WithCriteria(ForMacOnly)
+    .WithCriteria(!ForEverywhere)
     .IsDependentOn("Build")
     .IsDependentOn("Package")
     .Does(() =>
 {
-    Information("Compressing output...");
-    if (FileExists(outputZip)) {
-        DeleteFile(outputZip);
-    }
-    Zip(outDir, outputZip);
-
     Information("Connecting to GitHub...");
     var client = new GitHubClient(new ProductHeaderValue("msband-sdk"));
     client.Credentials = new Credentials(GitHubToken);
@@ -276,21 +288,43 @@ Task("Upload")
     Information("Loading releases...");
     var releases = client.Release.GetAll(GitHubUser, GitHubRepository).Result;
     var releaseId = releases.Single(r => r.TagName == GitHubBuildTag).Id;
+
     Information("Loading CI release...");
     var release = client.Release.Get(GitHubUser, GitHubRepository, releaseId).Result;
+
+    Information("Loading asset...");
+    var asset = release.Assets.SingleOrDefault(a => a.Name == GitHubUploadFilename);
     
-    Information("Creating asset...");
-    var archiveContents = System.IO.File.OpenRead(outputZip.FullPath);
-    var assetUpload = new ReleaseAssetUpload {
-        FileName = GitHubUploadFilename,
-        ContentType = "application/zip",
-        RawData = archiveContents
-    };
-    
-    Information("Uploading asset...");
-    var asset = client.Release.UploadAsset(release, assetUpload).Result;
-    Information("Uploaded asset: {0}", asset.Id);
-    Information("Url: {0}", asset.BrowserDownloadUrl);
+    if (asset != null) {
+        Information("Deleting asset...");
+        client.Release.DeleteAsset(GitHubUser, GitHubRepository, asset.Id).Wait();
+    } else {
+        Information("Asset not found.");
+    }
+
+    if (ForMacOnly) {
+        Information("Compressing output...");
+        if (FileExists(outputZip)) {
+            DeleteFile(outputZip);
+        }
+        Zip(outDir, outputZip);
+
+        Information("Creating asset...");
+        var archiveContents = System.IO.File.OpenRead(outputZip.FullPath);
+        var assetUpload = new ReleaseAssetUpload {
+            FileName = GitHubUploadFilename,
+            ContentType = "application/zip",
+            RawData = archiveContents
+        };
+        
+        Information("Uploading asset...");
+        asset = client.Release.UploadAsset(release, assetUpload).Result;
+        Information("Uploaded asset: {0}", asset.Id);
+        Information("Url: {0}", asset.BrowserDownloadUrl);
+        
+        // Information("Triggering AppVeyor build...");
+        // AppVeyorStartBuildSpecificCommit(AppVeyorToken, GitHubUser, GitHubRepository, sha, branch);
+    }
 });
 
 //////////////////////////////////////////////////////////////////////
