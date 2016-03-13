@@ -23,9 +23,9 @@ openssl aes-256-cbc -k "${CertificatePassword}" -in build-scripts/iOSDeveloper.c
 openssl aes-256-cbc -k "${CertificatePassword}" -in build-scripts/iOSDeveloper.p12.enc -d -a -out build-scripts/iOSDeveloper.p12
 
 #
-# Add the key to the keychain
+# Add the certificates to the keychain
 #
-echo Add the key to the keychain
+echo Add the certificates to the keychain
 # # Create a custom keychain
 # security create-keychain -p "${CertificatePassword}" ios-build.keychain
 # # Make the custom keychain default, so xcodebuild will use it for signing
@@ -33,11 +33,11 @@ echo Add the key to the keychain
 # # Unlock the keychain
 # security unlock-keychain -p "${CertificatePassword}" ios-build.keychain
 # Set keychain timeout to 1 hour for long builds
-security set-keychain-settings -t 3600 -l
+security set-keychain-settings -t 3600 -l ~/Library/Keychains/login.keychain
 # Add certificates to keychain and allow codesign to access them
 #security import ./apple.cer -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
-security import ./build-scripts/iOSDeveloper.cer -T /usr/bin/codesign
-security import ./build-scripts/iOSDeveloper.p12 -P "${CertificatePassword}" -T /usr/bin/codesign
+security import ./build-scripts/iOSDeveloper.cer -k ~/Library/Keychains/login.keychain -T /usr/bin/codesign
+security import ./build-scripts/iOSDeveloper.p12 -k ~/Library/Keychains/login.keychain -T /usr/bin/codesign -P "${CertificatePassword}"
 
 #
 # Put the provisioning profile in place

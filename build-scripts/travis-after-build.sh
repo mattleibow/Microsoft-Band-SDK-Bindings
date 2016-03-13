@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# #
-# # Remove the custom keychain
-# #
-# echo Remove the custom keychain
-# security delete-keychain ios-build.keychain
+#
+# Remove the certificates
+#
+echo Remove the certificates
+security delete-certificate -c "iPhone Developer" ~/Library/Keychains/login.keychain
 
 #
 # Remove the provisioning profile

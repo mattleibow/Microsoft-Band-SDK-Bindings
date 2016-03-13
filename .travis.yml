@@ -20,7 +20,6 @@ install:
   - ./build-scripts/travis-before-build.sh
 
 script: 
-  - echo Hello World! 
   - ./build.sh --target Default-Mac --configuration ${Configuration} 
 
 after_script:
