@@ -20,12 +20,14 @@ cache:
 install: 
   - wget -nc -P downloads "http://download.mono-project.com/archive/${MONO_VERSION}/macos-10-universal/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.universal.pkg"
   - sudo installer -pkg "downloads/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.universal.pkg" -target / 
-  - # wget -nc -P downloads "http://download.xamarin.com/MonoTouch/Mac/monotouch-${MONOTOUCH_VERSION}.pkg"
-  - # sudo installer -pkg "downloads/monotouch-${MONOTOUCH_VERSION}.pkg" -target / 
+  - wget -nc -P downloads "http://download.xamarin.com/MonoTouch/Mac/monotouch-${MONOTOUCH_VERSION}.pkg"
+  - sudo installer -pkg "downloads/monotouch-${MONOTOUCH_VERSION}.pkg" -target / 
   - wget -nc -O downloads/XamarinActivator.nupkg "https://www.nuget.org/api/v2/package/XamarinActivator/1.0.0"
   - unzip -o -d downloads/XamarinActivator downloads/XamarinActivator.nupkg
   - mono downloads/XamarinActivator/tools/XamarinActivator.exe activate -x ios -e ${XamarinEmail} -p ${XamarinPassword} -k ${XamarinApiKey} -u TravisCI 
 
- 
 script: 
-  - echo hello # ./build.sh --target Default-Mac --configuration ${Configuration} 
+  - ./build.sh --target Default-Mac --configuration ${Configuration} 
+
+after_script:
+  - mono downloads/XamarinActivator/tools/XamarinActivator.exe deactivate -x ios -e ${XamarinEmail} -p ${XamarinPassword} -k ${XamarinApiKey} -u TravisCI
