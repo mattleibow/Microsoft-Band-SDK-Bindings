@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RotatingHandAndroid", "Rota
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bindings", "Bindings", "{6994AD17-F134-4A97-8AD7-8945DF775604}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.iOS", "..\..\Microsoft.Band\Microsoft.Band.iOS\Microsoft.Band.iOS.csproj", "{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Band.Android", "..\..\Microsoft.Band\Microsoft.Band.Android\Microsoft.Band.Android.csproj", "{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}"
 EndProject
 Global
@@ -51,18 +49,6 @@ Global
 		{C89CA2D8-87E3-4315-8432-5EA7141A071A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{C89CA2D8-87E3-4315-8432-5EA7141A071A}.Release|ARM.ActiveCfg = Release|Any CPU
 		{C89CA2D8-87E3-4315-8432-5EA7141A071A}.Release|x86.ActiveCfg = Release|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Debug|ARM.Build.0 = Debug|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Debug|x86.Build.0 = Debug|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Release|ARM.ActiveCfg = Release|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Release|ARM.Build.0 = Release|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Release|x86.ActiveCfg = Release|Any CPU
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49}.Release|x86.Build.0 = Release|Any CPU
 		{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -80,7 +66,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A5D3F484-DFD7-4C75-9FF6-ACF3BDE02B49} = {6994AD17-F134-4A97-8AD7-8945DF775604}
 		{D06A37DB-36DE-4D8C-9CB8-0763F485B1C7} = {6994AD17-F134-4A97-8AD7-8945DF775604}
 	EndGlobalSection
 EndGlobal
