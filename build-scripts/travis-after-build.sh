@@ -10,7 +10,7 @@ security delete-certificate -c "iPhone Developer" ~/Library/Keychains/login.keyc
 # Remove the provisioning profile
 #
 echo Remove the provisioning profile
-rm -f "~/Library/MobileDevice/Provisioning Profiles/iOSDeveloper.mobileprovision"
+rm -f ~/Library/MobileDevice/Provisioning\ Profiles/iOSDeveloper.mobileprovision
 
 #
 # Deactivate the Xamarin license

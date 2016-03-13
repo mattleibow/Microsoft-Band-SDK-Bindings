@@ -43,8 +43,9 @@ security import ./build-scripts/iOSDeveloper.p12 -k ~/Library/Keychains/login.ke
 # Put the provisioning profile in place
 #
 echo Put the provisioning profile in place
-mkdir -p "~/Library/MobileDevice/Provisioning Profiles"
-cp ./build-scripts/iOSDeveloper.mobileprovision "~/Library/MobileDevice/Provisioning Profiles/"
+mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+cp ./build-scripts/iOSDeveloper.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+[ -f ~/Library/MobileDevice/Provisioning\ Profiles/iOSDeveloper.mobileprovision ] && echo "Added provisioning profile" || echo "Error adding provisioning profile"
 
 #
 # Download and install Mono and Xamarin.iOS
