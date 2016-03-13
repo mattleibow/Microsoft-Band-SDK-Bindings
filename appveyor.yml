@@ -4,7 +4,8 @@ configuration: Release
 platform: Any CPU
 
 environment:
-  ANDROID_HOME: C:\Program Files (x86)\Android\android-sdk
+  ANDROID_HOME: C:\android-sdk
+  AndroidSdkDirectory: C:\android-sdk
   GitHubToken:
     secure: ++Q00Aa+yzbi4oEn+fOuO2D2pb4NrFtQ12Hiq69arY1OgOIIUbth7nlImS9/wQRd
   AppVeyorToken:
@@ -19,6 +20,7 @@ xamarin:
   ios: true
 
 build_script:
+ - cmd: mklink /j %ANDROID_HOME% "C:\Program Files (x86)\Android\android-sdk"
  - cmd: echo y | "%ANDROID_HOME%\tools\android.bat" update sdk --no-ui --all --filter platform-tools,tools
  - ps: .\build.ps1 -Target Default-Windows -Configuration $Env:Configuration
   
