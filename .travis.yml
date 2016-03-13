@@ -21,7 +21,7 @@ install:
 
 script: 
   - echo Hello World! 
-  - #./build.sh --target Default-Mac --configuration ${Configuration} 
+  - ./build.sh --target Default-Mac --configuration ${Configuration} 
 
 after_script:
-  - ./travis-after-build.sh
+  - ./build-scripts/travis-after-build.sh

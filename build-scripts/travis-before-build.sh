@@ -46,19 +46,19 @@ echo Put the provisioning profile in place
 mkdir -p "~/Library/MobileDevice/Provisioning Profiles"
 cp ./build-scripts/iOSDeveloper.mobileprovision "~/Library/MobileDevice/Provisioning Profiles/"
 
-# #
-# # Download and install Mono and Xamarin.iOS
-# #
-# echo Download and install Mono and Xamarin.iOS
-# wget -nc -P downloads "http://download.mono-project.com/archive/${MonoVersion}/macos-10-universal/MonoFramework-MDK-${MonoVersion}.macos10.xamarin.universal.pkg"
-# sudo installer -pkg "downloads/MonoFramework-MDK-${MonoVersion}.macos10.xamarin.universal.pkg" -target / 
-# wget -nc -P downloads "http://download.xamarin.com/MonoTouch/Mac/monotouch-${MonoTouchVersion}.pkg"
-# sudo installer -pkg "downloads/monotouch-${MonoTouchVersion}.pkg" -target /
+#
+# Download and install Mono and Xamarin.iOS
+#
+echo Download and install Mono and Xamarin.iOS
+wget -nc -P downloads "http://download.mono-project.com/archive/${MonoVersion}/macos-10-universal/MonoFramework-MDK-${MonoVersion}.macos10.xamarin.universal.pkg"
+sudo installer -pkg "downloads/MonoFramework-MDK-${MonoVersion}.macos10.xamarin.universal.pkg" -target / 
+wget -nc -P downloads "http://download.xamarin.com/MonoTouch/Mac/monotouch-${MonoTouchVersion}.pkg"
+sudo installer -pkg "downloads/monotouch-${MonoTouchVersion}.pkg" -target /
 
-# #
-# # Activate the Xamarin license
-# #
-# echo Activate the Xamarin license
-# wget -nc -O downloads/XamarinActivator.nupkg "https://www.nuget.org/api/v2/package/XamarinActivator/${ActivatorVersion}"
-# unzip -o -d downloads/XamarinActivator downloads/XamarinActivator.nupkg
-# mono downloads/XamarinActivator/tools/XamarinActivator.exe activate -x ios -e "${XamarinEmail}" -p "${XamarinPassword}" -k "${XamarinApiKey}" -u "TravisCI" 
+#
+# Activate the Xamarin license
+#
+echo Activate the Xamarin license
+wget -nc -O "downloads/XamarinActivator-${ActivatorVersion}.nupkg" "https://www.nuget.org/api/v2/package/XamarinActivator/${ActivatorVersion}"
+unzip -o -d downloads/XamarinActivator "downloads/XamarinActivator-${ActivatorVersion}.nupkg"
+mono downloads/XamarinActivator/tools/XamarinActivator.exe activate -x ios -e "${XamarinEmail}" -p "${XamarinPassword}" -k "${XamarinApiKey}" -u "TravisCI" 
