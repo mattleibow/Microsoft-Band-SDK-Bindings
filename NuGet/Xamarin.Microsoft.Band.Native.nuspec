@@ -37,16 +37,16 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="Component/Readme.md" target="Readme.md" />
+        <file src="Component/Details.md" target="Readme.md" />
         <file src="Component/License.md" target="License.md" />
 		
-        <file src="Component/Readme.md" target="lib\netcore451\Readme.md" />
-        <file src="Component/Readme.md" target="lib\portable-net45+win+wpa81\Readme.md" />
-        <file src="Component/Readme.md" target="lib\portable-win81+wpa81\Readme.md" />
-        <file src="Component/Readme.md" target="lib\uap10.0\Readme.md" />
-        <file src="Component/Readme.md" target="lib\wpa81\Readme.md" />
-        <file src="Component/Readme.md" target="lib\MonoAndroid\Readme.md" />
-        <file src="Component/Readme.md" target="lib\XamariniOS\Readme.md" />
+        <file src="Component/Details.md" target="lib\netcore451\Readme.md" />
+        <file src="Component/Details.md" target="lib\portable-net45+win+wpa81\Readme.md" />
+        <file src="Component/Details.md" target="lib\portable-win81+wpa81\Readme.md" />
+        <file src="Component/Details.md" target="lib\uap10.0\Readme.md" />
+        <file src="Component/Details.md" target="lib\wpa81\Readme.md" />
+        <file src="Component/Details.md" target="lib\MonoAndroid\Readme.md" />
+        <file src="Component/Details.md" target="lib\XamariniOS\Readme.md" />
         
         <file src="output/android/Microsoft.Band.Android.dll" target="lib\MonoAndroid\Microsoft.Band.Android.dll" />
         <file src="output/ios/Microsoft.Band.iOS.dll" target="lib\XamariniOS\Microsoft.Band.iOS.dll" />
