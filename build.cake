@@ -50,7 +50,7 @@ var pull = EnvironmentVariable("APPVEYOR_PULL_REQUEST_NUMBER") ?? EnvironmentVar
 var buildType = "COMMIT";
 if (!string.IsNullOrEmpty(pull) && !string.Equals(pull, "false", StringComparison.OrdinalIgnoreCase)) {
     buildType = "PULL" + pull;
-} else if (string.IsNullOrEmpty(tag)) {
+} else if (!string.IsNullOrEmpty(tag)) {
     buildType = "TAG";
 }
 var tagOrBranch = branch;
