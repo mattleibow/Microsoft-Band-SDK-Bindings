@@ -121,12 +121,7 @@ Task("Build")
         Build(solution);
     }
     
-    var outputs = new Dictionary<string, string> { 
-        // docs
-        { "./README.md", "README.md" },
-        { "./LICENSE.md", "LICENSE.md" },
-        { "./GettingStarted.md", "GettingStarted.md" },
-    };
+    var outputs = new Dictionary<string, string>();
     if (ForWindows) {
         // native
         outputs.Add("./Microsoft.Band/Microsoft.Band.Android/bin/{0}/Microsoft.Band.Android.dll", "android/Microsoft.Band.Android.dll");
@@ -182,14 +177,15 @@ Task("PackageNuGet")
     .Does(() =>
 {
     var nugets = new [] {
-        "./Xamarin.Microsoft.Band.Native.nuspec",
-        "./Xamarin.Microsoft.Band.nuspec",
+        "./NuGet/Xamarin.Microsoft.Band.Native.nuspec",
+        "./NuGet/Xamarin.Microsoft.Band.nuspec",
     };
     foreach (var nuget in nugets) {
         Information("Packing (NuGet) {0}...", nuget);
         NuGetPack(nuget, new NuGetPackSettings {
             OutputDirectory = outDir,
-            Verbosity = NuGetVerbosity.Detailed
+            Verbosity = NuGetVerbosity.Detailed,
+            BasePath = IsRunningOnUnix() ? "././" : "./",
         });
     }
 });
@@ -203,11 +199,11 @@ Task("PackageComponent")
 {
     Information("Packing Component...");
         
-    DeleteFiles("./*.xam");
-    PackageComponent("./", new XamarinComponentSettings { ToolPath = XamarinComponentPath });
+    DeleteFiles("./Component/*.xam");
+    PackageComponent("./Component/", new XamarinComponentSettings { ToolPath = XamarinComponentPath });
     
     DeleteFiles("./output/*.xam");
-    MoveFiles("./*.xam", outDir);
+    MoveFiles("./Component/*.xam", outDir);
 });
 
 Task("Package")
