@@ -49,7 +49,7 @@
         <file src="output/ios/Microsoft.Band.Portable.xml" target="lib\XamariniOS\Microsoft.Band.Portable.xml" />
         <file src="output/netcore451/Microsoft.Band.Portable.dll" target="lib\netcore451\Microsoft.Band.Portable.dll" />
         <file src="output/netcore451/Microsoft.Band.Portable.xml" target="lib\netcore451\Microsoft.Band.Portable.xml" />
-        <file src="output/android/Microsoft.Band.Portable.dll" target="lib\uap10\Microsoft.Band.Portable.dll" />
-        <file src="output/android/Microsoft.Band.Portable.xml" target="lib\uap10\Microsoft.Band.Portable.xml" />
+        <file src="output/uap10/Microsoft.Band.Portable.dll" target="lib\uap10\Microsoft.Band.Portable.dll" />
+        <file src="output/uap10/Microsoft.Band.Portable.xml" target="lib\uap10\Microsoft.Band.Portable.xml" />
     </files>
 </package>
