@@ -235,6 +235,7 @@ Task("Download")
     if (ForWindowsOnly) {
         Information("Connecting to GitHub...");
         var client = new GitHubClient(new ProductHeaderValue("msband-sdk-ci"));
+        Information("GitHubToken: {0}", string.IsNullOrEmpty(GitHubToken));
         client.Credentials = new Credentials(GitHubToken);
         
         Information("Loading releases...");

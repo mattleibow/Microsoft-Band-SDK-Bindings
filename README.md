@@ -44,7 +44,7 @@ as Xamarin.Forms.
 [nuget]: https://www.nuget.org/packages/Xamarin.Microsoft.Band.Native
 [nuget-pcl]: https://www.nuget.org/packages/Xamarin.Microsoft.Band
 [store-pcl]: https://components.xamarin.com/view/microsoft-band-sdk
-[t-img]: https://travis-ci.org/mattleibow/Microsoft-Band-SDK-Bindings.svg?branch=travis-ci
+[t-img]: https://travis-ci.org/mattleibow/Microsoft-Band-SDK-Bindings.svg?branch=master
 [t-link]: https://travis-ci.org/mattleibow/Microsoft-Band-SDK-Bindings
-[a-img]: https://ci.appveyor.com/api/projects/status/d35thffd9htg4wke/branch/travis-ci?svg=true
+[a-img]: https://ci.appveyor.com/api/projects/status/d35thffd9htg4wke/branch/master?svg=true
 [a-link]: https://ci.appveyor.com/project/mattleibow/microsoft-band-sdk-bindings
