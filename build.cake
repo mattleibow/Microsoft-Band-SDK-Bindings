@@ -44,12 +44,25 @@ if (!DirectoryExists(outDir)) {
 
 var sha = EnvironmentVariable("APPVEYOR_REPO_COMMIT") ?? EnvironmentVariable("TRAVIS_COMMIT");
 var branch = EnvironmentVariable("APPVEYOR_REPO_BRANCH") ?? EnvironmentVariable("TRAVIS_BRANCH");
+var tag = EnvironmentVariable("APPVEYOR_REPO_TAG_NAME") ?? EnvironmentVariable("TRAVIS_TAG");
+var pull = EnvironmentVariable("APPVEYOR_PULL_REQUEST_NUMBER") ?? EnvironmentVariable("TRAVIS_PULL_REQUEST");
+
+var buildType = "COMMIT";
+if (!string.IsNullOrEmpty(pull) && !string.Equals(pull, "false", StringComparison.OrdinalIgnoreCase)) {
+    buildType = "PULL" + pull;
+} else if (string.IsNullOrEmpty(tag)) {
+    buildType = "TAG";
+}
+var tagOrBranch = branch;
+if (!string.IsNullOrEmpty(tag)) {
+    tagOrBranch = tag;
+}
 
 var GitHubToken = EnvironmentVariable("GitHubToken");
 var GitHubUser = "mattleibow";
 var GitHubRepository = "Microsoft-Band-SDK-Bindings";
 var GitHubBuildTag = "CI";
-var GitHubUploadFilename = sha + ".zip";
+var GitHubUploadFilename = string.Format("{0}_{1}_{2}.zip", buildType, tagOrBranch, sha);
 
 var AppVeyorToken = EnvironmentVariable("AppVeyorToken");
 
