@@ -6,7 +6,7 @@ The Microsoft Band SDK gives developers access to the sensors available on the
 band, as well as the ability to create and send notifications to tiles. Enhance 
 and extend the experience of your applications to your customers' wrists.
 
-More infoemation can be found on the [Microsoft website][dev].
+More information can be found on the [Microsoft website][dev].
 
 ## Downloading
 
