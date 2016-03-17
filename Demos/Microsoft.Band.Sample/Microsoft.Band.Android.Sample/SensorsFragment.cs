@@ -389,8 +389,8 @@ namespace Microsoft.Band.Sample
                     Activity.RunOnUiThread(() =>
                     {
                         var barometerEvent = e.SensorReading;
-                        mTextAirPressure.Text = string.Format("{0:D} hPa", barometerEvent.AirPressure);
-                        mTextTemperature.Text = string.Format("{0:D} (C)", barometerEvent.Temperature);
+                        mTextAirPressure.Text = string.Format("{0:F2} hPa", barometerEvent.AirPressure);
+                        mTextTemperature.Text = string.Format("{0:F2} (C)", barometerEvent.Temperature);
                     });
                 };
             }
