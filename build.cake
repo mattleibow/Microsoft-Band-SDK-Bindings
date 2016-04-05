@@ -145,8 +145,9 @@ Task("Build")
         outputs.Add("./Microsoft.Band.Portable/Microsoft.Band.Portable.Phone/bin/{0}/Microsoft.Band.Portable.xml", "wpa81/Microsoft.Band.Portable.xml");
         outputs.Add("./Microsoft.Band.Portable/Microsoft.Band.Portable.Windows/bin/{0}/Microsoft.Band.Portable.dll", "netcore451/Microsoft.Band.Portable.dll");
         outputs.Add("./Microsoft.Band.Portable/Microsoft.Band.Portable.Windows/bin/{0}/Microsoft.Band.Portable.xml", "netcore451/Microsoft.Band.Portable.xml");
-        outputs.Add("./Microsoft.Band.Portable/Microsoft.Band.Portable.UWP/bin/{0}/Microsoft.Band.Portable.dll", "uap10/Microsoft.Band.Portable.dll");
-        outputs.Add("./Microsoft.Band.Portable/Microsoft.Band.Portable.UWP/bin/{0}/Microsoft.Band.Portable.xml", "uap10/Microsoft.Band.Portable.xml");
+        outputs.Add("./Microsoft.Band.Portable/Microsoft.Band.Portable.UWP/bin/{0}/Microsoft.Band.Portable.dll", "uap10.0/Microsoft.Band.Portable.dll");
+        outputs.Add("./Microsoft.Band.Portable/Microsoft.Band.Portable.UWP/bin/{0}/Microsoft.Band.Portable.xml", "uap10.0/Microsoft.Band.Portable.xml");
+        outputs.Add("./Microsoft.Band.Portable/Microsoft.Band.Portable.UWP/bin/{0}/Microsoft.Band.Portable.pri", "uap10.0/Microsoft.Band.Portable.pri");
         outputs.Add("./Microsoft.Band.Portable/Microsoft.Band.Portable/bin/{0}/Microsoft.Band.Portable.dll", "pcl/Microsoft.Band.Portable.dll");
         outputs.Add("./Microsoft.Band.Portable/Microsoft.Band.Portable/bin/{0}/Microsoft.Band.Portable.xml", "pcl/Microsoft.Band.Portable.xml");
     }
