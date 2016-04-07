@@ -5,6 +5,8 @@ namespace Microsoft.Band.Notifications
 {
     public static class BandNotificationManagerExtensions
     {
+        private static readonly DateTime JavaEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
         public static Task SendMessageTaskAsync(this IBandNotificationManager manager, Java.Util.UUID tileId, string title, string body, Java.Util.Date date, MessageFlags flags)
         {
             return manager.SendMessageAsync(tileId, title, body, date, flags).AsTask();
@@ -12,8 +14,8 @@ namespace Microsoft.Band.Notifications
 
         public static Task SendMessageTaskAsync(this IBandNotificationManager manager, Java.Util.UUID tileId, string title, string body, DateTime date, MessageFlags flags)
         {
-			var javaDate = new Java.Util.Date(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
-			return manager.SendMessageTaskAsync(tileId, title, body, javaDate, flags);
+            var javaDate = new Java.Util.Date((long)(date.ToUniversalTime() - JavaEpoch).TotalMilliseconds);
+            return manager.SendMessageTaskAsync(tileId, title, body, javaDate, flags);
         }
 
         public static Task SendMessageTaskAsync(this IBandNotificationManager manager, Java.Util.UUID tileId, string title, string body, DateTime date, bool showDialog)
