@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>Xamarin.Microsoft.Band.Native</id>
-        <version>1.3.8.3-beta1</version>
+        <version>1.3.8.3</version>
         <title>Microsoft Band Native SDK for Xamarin and Windows</title>
         <authors>Xamarin Inc.</authors>
         <licenseUrl>https://components.xamarin.com/license/microsoft-band-sdk</licenseUrl>
