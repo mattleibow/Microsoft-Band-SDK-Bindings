@@ -7,6 +7,12 @@ namespace Microsoft.Band
 	{
 		public static Task ConnectTaskAsync (this BandClientManager manager, BandClient client)
 		{
+			// short circuit becuase if we are already connected
+			// then the delegate won't get fired
+			if (client.IsConnected) {
+				return Task.FromResult<object> (null);
+			}
+
 			var tcs = new TaskCompletionSource<object> ();
 
 			EventHandler<ClientManagerConnectedEventArgs> onConnected = null;
@@ -60,6 +66,12 @@ namespace Microsoft.Band
 
 		public static Task DisconnectTaskAsync (this BandClientManager manager, BandClient client)
 		{
+			// short circuit becuase if we are already disconnected
+			// then the delegate won't get fired
+			if (!client.IsConnected) {
+				return Task.FromResult<object> (null);
+			}
+
 			var tcs = new TaskCompletionSource<object> ();
 
 			EventHandler<ClientManagerDisconnectedEventArgs> onDisconnect = null;
