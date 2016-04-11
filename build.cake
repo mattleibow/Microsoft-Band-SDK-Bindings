@@ -208,7 +208,6 @@ Task("PackageComponent")
     .WithCriteria(ForWindows)
     .IsDependentOn("Build")
     .IsDependentOn("PackageNuGet")
-    .IsDependentOn("BuildSamples")
     .Does(() =>
 {
     Information("Packing Component...");
@@ -340,6 +339,7 @@ Task("Default")
     .IsDependentOn("Download")
     .IsDependentOn("Build")
     .IsDependentOn("Package")
+    .IsDependentOn("BuildSamples")
     .IsDependentOn("Upload");
 
 //////////////////////////////////////////////////////////////////////
