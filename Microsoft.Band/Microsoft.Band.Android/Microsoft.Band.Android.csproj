@@ -85,7 +85,7 @@
     <Folder Include="Jars\" />
   </ItemGroup>
   <ItemGroup>
-    <LibraryProjectZip Include="Jars\microsoft-band-1.3.20217.2.aar" />
+    <LibraryProjectZip Include="Jars\microsoft-band-1.3.20307.2.aar" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
