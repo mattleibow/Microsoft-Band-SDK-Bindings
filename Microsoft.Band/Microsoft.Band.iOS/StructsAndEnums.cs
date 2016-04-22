@@ -33,6 +33,7 @@ namespace Microsoft.Band
 		TileNotFound,
 		PageElementAlreadyExist,
         PageElementIllegalIdentifier,
+        PageDataTooLarge,
 
 		// Unknown
 		Unknown = 900L
